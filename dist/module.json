@@ -1,26 +1,25 @@
 {
-  "name": "Health Estimate",
-  "title": "healthEstimate",
-  "description": "",
-  "systems": [],
+  "name": "healthEstimate",
+  "title": "Health Estimate",
+  "description": "Gives players ability to see approximate health status of a token",
   "version": "0.1.0",
-  "author": "",
-  "authors": [
-    {
-      "name": "",
-      "email": "",
-      "url": ""
-    }
+  "author": "Shylight",
+  "scripts": [
   ],
-  "scripts": [],
   "esmodules": [
     "healthEstimate.js"
   ],
   "styles": ["healthEstimate.css"],
   "packs": [],
-  "languages": [],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
   "minimumCoreVersion": "0.5.0",
-  "compatibleCoreVersion": "0.5.0",
+  "compatibleCoreVersion": "0.5.5",
   "url": "",
   "manifest": "",
   "download": "",

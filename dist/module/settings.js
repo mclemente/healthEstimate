@@ -6,10 +6,9 @@ export const registerSettings = function() {
         name:     t("stateNames.name"),
         hint:     t("stateNames.hint"),
         scope:    "world",
-        type:     Array,
-        default:  t("stateNames.default"),
-        config:   true,
-        onChange: s => HealthEstimate.config.stateNames = s
+        type:     String,
+        default:  t("stateNames.default").join(", "),
+        config:   true
     });
     game.settings.register("healthEstimate", "deathState", {
         name:     t("deathState.name"),
@@ -17,8 +16,7 @@ export const registerSettings = function() {
         scope:    "world",
         type:     Boolean,
         default:  true,
-        config:   true,
-        onChange: s => HealthEstimate.config.deathState = s
+        config:   true
     });
     game.settings.register("healthEstimate", "deathStateName", {
         name:     t("deathStateName.name"),
@@ -26,17 +24,23 @@ export const registerSettings = function() {
         scope:    "world",
         type:     String,
         default:  t("deathStateName.default"),
-        config:   true,
-        onChange: s => HealthEstimate.config.deathStateName = s
+        config:   true
     });
+    game.settings.register("healthEstimate", "deathMarker", {
+        name:     t("deathMarker.name"),
+        hint:     t("deathMarker.hint"),
+        scope:    "world",
+        type:     String,
+        default:  "icons/svg/skull.svg",
+        config:   "true"
+    })
     game.settings.register("healthEstimate", "color", {
         name:     t("color.name"),
         hint:     t("color.hint"),
         scope:    "world",
         type:     Boolean,
         default:  true,
-        config:   true,
-        onChange: s => HealthEstimate.config.color = s
+        config:   true
     });
     // game.settings.register("healthEstimate", "colorArray", {
     // 	name:     t("colorArray.name"),
@@ -53,7 +57,6 @@ export const registerSettings = function() {
         scope:    "world",
         type:     Boolean,
         default:  true,
-        config:   true,
-        onChange: s => HealthEstimate.config.smoothGradient = s
+        config:   true
     })
-}
+};

@@ -1,5 +1,16 @@
-/* ------------------------------------ */
-/*					CSS					*/
-/*  	  Add your styles here			*/
-/* ------------------------------------ */
-
+#healthEstimate {
+    font-size: 15px;
+    display: grid;
+    grid-template-columns: 95%;
+    grid-auto-rows: auto;
+    align-content: start;
+    justify-content: unsafe center;
+    /* padding: 3px 0; */
+    /* margin-left: -3px; */
+    margin-top:-1.1em;
+    /* white-space: nowrap; */
+    width: 100%;
+}
+#healthEstimate span {
+    /* height: 14px; */
+}
