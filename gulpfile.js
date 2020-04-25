@@ -83,7 +83,7 @@ function createTransformer() {
 	 * @param {typescript.TransformationContext} context
 	 */
 	function importTransformer(context) {
-		return node => {
+		return (node) => {
 			/**
 			 * @param {typescript.Node} node
 			 */
@@ -124,7 +124,7 @@ function createTransformer() {
 }
 
 const tsConfig = ts.createProject('tsconfig.json', {
-	getCustomTransformers: prgram => ({
+	getCustomTransformers: (_program) => ({
 		after: [createTransformer()],
 	}),
 });
@@ -137,20 +137,14 @@ const tsConfig = ts.createProject('tsconfig.json', {
  * Build TypeScript
  */
 function buildTS() {
-	return gulp
-		.src('src/**/*.ts')
-		.pipe(tsConfig())
-		.pipe(gulp.dest('dist'));
+	return gulp.src('src/**/*.ts').pipe(tsConfig()).pipe(gulp.dest('dist'));
 }
 
 /**
  * Build Less
  */
 function buildLess() {
-	return gulp
-		.src('src/*.less')
-		.pipe(less())
-		.pipe(gulp.dest('dist'));
+	return gulp.src('src/*.less').pipe(less()).pipe(gulp.dest('dist'));
 }
 
 /**
@@ -330,41 +324,45 @@ async function linkUserData() {
 async function packageBuild() {
 	const manifest = getManifest();
 
-	try {
-		// Remove the package dir without doing anything else
-		if (argv.clean || argv.c) {
-			console.log(chalk.yellow('Removing all packaged files'));
-			await fs.remove('package');
-			return;
+	return new Promise((resolve, reject) => {
+		try {
+			// Remove the package dir without doing anything else
+			if (argv.clean || argv.c) {
+				console.log(chalk.yellow('Removing all packaged files'));
+				fs.removeSync('package');
+				return;
+			}
+
+			// Ensure there is a directory to hold all the packaged versions
+			fs.ensureDirSync('package');
+
+			// Initialize the zip file
+			const zipName = `${manifest.file.name}-v${manifest.file.version}.zip`;
+			const zipFile = fs.createWriteStream(path.join('package', zipName));
+			const zip = archiver('zip', { zlib: { level: 9 } });
+
+			zipFile.on('close', () => {
+				console.log(chalk.green(zip.pointer() + ' total bytes'));
+				console.log(
+					chalk.green(`Zip file ${zipName} has been written`)
+				);
+				return resolve();
+			});
+
+			zip.on('error', (err) => {
+				throw err;
+			});
+
+			zip.pipe(zipFile);
+
+			// Add the directory with the final code
+			zip.directory('dist/', manifest.file.name);
+
+			zip.finalize();
+		} catch (err) {
+			return reject(err);
 		}
-
-		// Ensure there is a directory to hold all the packaged versions
-		await fs.ensureDir('package');
-
-		// Initialize the zip file
-		const zipName = `${manifest.file.name}-v${manifest.file.version}.zip`;
-		const zipFile = fs.createWriteStream(path.join('package', zipName));
-		const zip = archiver('zip', { zlib: { level: 9 } });
-
-		zipFile.on('close', () => {
-			console.log(chalk.green(zip.pointer() + ' total bytes'));
-			console.log(chalk.green(`Zip file ${zipName} has been written`));
-			return Promise.resolve();
-		});
-
-		zip.on('error', err => {
-			throw err;
-		});
-
-		zip.pipe(zipFile);
-
-		// Add the directory with the final code
-		zip.directory('dist/', manifest.file.name);
-
-		zip.finalize();
-	} catch (err) {
-		Promise.reject(err);
-	}
+	});
 }
 
 /*********************/
@@ -412,12 +410,18 @@ function updateManifest(cb) {
 			targetVersion = currentVersion.replace(
 				versionMatch,
 				(substring, major, minor, patch) => {
+					console.log(
+						substring,
+						Number(major) + 1,
+						Number(minor) + 1,
+						Number(patch) + 1
+					);
 					if (version === 'major') {
 						return `${Number(major) + 1}.0.0`;
 					} else if (version === 'minor') {
 						return `${major}.${Number(minor) + 1}.0`;
 					} else if (version === 'patch') {
-						return `${major}.${minor}.${Number(minor) + 1}`;
+						return `${major}.${minor}.${Number(patch) + 1}`;
 					} else {
 						return '';
 					}
@@ -451,9 +455,12 @@ function updateManifest(cb) {
 		manifest.file.manifest = `${rawURL}/master/${manifestRoot}/${manifest.name}`;
 		manifest.file.download = result;
 
-		const prettyProjectJson = stringify(manifest.file, { maxLength: 35 });
+		const prettyProjectJson = stringify(manifest.file, {
+			maxLength: 35,
+			indent: '\t',
+		});
 
-		fs.writeJSONSync('package.json', packageJson, { spaces: 2 });
+		fs.writeJSONSync('package.json', packageJson, { spaces: '\t' });
 		fs.writeFileSync(
 			path.join(manifest.root, manifest.name),
 			prettyProjectJson,
@@ -484,7 +491,7 @@ function gitTag() {
 	return git.tag(
 		`v${manifest.file.version}`,
 		`Updated to ${manifest.file.version}`,
-		err => {
+		(err) => {
 			if (err) throw err;
 		}
 	);
@@ -499,6 +506,7 @@ exports.watch = buildWatch;
 exports.clean = clean;
 exports.link = linkUserData;
 exports.package = packageBuild;
+exports.update = updateManifest;
 exports.publish = gulp.series(
 	clean,
 	updateManifest,

@@ -54,9 +54,9 @@ Hooks.once('ready', function() {
 			return options;
 		}
 		
-		static setPostition() {
-			return super.setPostition();
-		}
+		// static setPostition() {
+		// 	return super.setPostition();
+		// }
 		
 		getData() {
 			const data = super.getData();
@@ -68,7 +68,6 @@ Hooks.once('ready', function() {
 	
 	class HealthEstimate {
 		constructor() {
-			this.descriptions = [ 'Unconcious', 'Near Death', 'Badly Injured', 'Injured', 'Barely Injured', 'Uninjured', 'Dead' ];
 			this.initHooks();
 		}
 		initHooks() {
@@ -84,17 +83,7 @@ Hooks.once('ready', function() {
 			Hooks.on('deleteToken', (...args) => {
 				canvas.hud.HealthEstimate.clear();
 			})
-			// Hooks.on('preUpdateToken', (...args) => {
-			// 	canvas.hud.HealthEstimate.clear();
-			// })
-            Hooks.on('updateToken', (scene, token, change, ... args) => {
-            	// canvas.hud.HealthEstimate.setPosition(
-            	// 	change.hasOwnProperty("x") ? change.x : token.x,
-		        //     change.hasOwnProperty("y") ? change.y : token.y,
-                //     scene.data.grid * token.width,
-		        //     scene.data.grid * token.height,
-				// 	token.scale
-	            // )
+            Hooks.on('updateToken', (scene, token, ...args) => {
                 if (token._id === canvas.hud.HealthEstimate.object.id) {
                 	canvas.hud.HealthEstimate.clear();
                 }
@@ -102,10 +91,7 @@ Hooks.once('ready', function() {
 		}
 		_handleOverlay(token, hovered) {
 			if (canvas.hud.HealthEstimate === undefined) return;
-			if (hovered /*&& !token.owner*/) {
-				let hp = token.actor.data.data.attributes.hp;
-				let isDead = token.data.overlayEffect === game.settings.get("healthEstimate", "deathStateName");
-				// canvas.hud.HealthEstimate.estimation = this._getEstimatedHealth(hp,isDead);
+			if (hovered) {
                 this._getEstimation(token);
 				canvas.hud.HealthEstimate.owner = token.owner;
 				canvas.hud.HealthEstimate.bind(token);
@@ -137,22 +123,8 @@ Hooks.once('ready', function() {
 			}
 			canvas.hud.HealthEstimate.estimation = {desc, color, colorShadow, showColor};
 		}
-		_getEstimatedHealth(hp,dead) {
-			const fraction = Math.min((hp.value + hp.temp) / hp.max, 1);
-			let desc, color, colorShadow;
-			if (dead) {
-				desc = this.descriptions[6];
-				color = "rgb(0,0,0)";
-				colorShadow = "rgb(255,0,0)"
-			} else {
-				desc = this.descriptions[Math.max(0,Math.ceil(fraction * 5))];
-				color = `rgb(${255*(1-fraction)},${255*fraction},0)`;
-				colorShadow = color;
-			}
-			return {desc, color, colorShadow}
-		}
 	}
-		new HealthEstimate();
+	new HealthEstimate();
 });
 
 // Add any additional hooks if necessary
