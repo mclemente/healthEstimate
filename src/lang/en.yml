@@ -11,7 +11,7 @@ healthEstimate:
       - Uninjured
   deathState:
     name: Separate Death State
-    hint: Show a separate description for dead tokens (currently denoted with full-token skull mark).
+    hint: Show a separate description for dead tokens.
   deathStateName:
     name: Death State Name
     hint: The description shown to players when the token is dead.
