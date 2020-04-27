@@ -32,8 +32,28 @@ export const registerSettings = function() {
         scope:    "world",
         type:     String,
         default:  "icons/svg/skull.svg",
-        config:   "true"
-    })
+        config:   true
+    });
+    if (["starfinder","pf1","pf2e","archmage","dnd5e"].includes(game.system.id)){
+        game.settings.register("healthEstimate", "addTemp", {
+            name:    t("addTemp.name"),
+            hint:    t("addTemp.hint"),
+            scope:   "world",
+            type:    Boolean,
+            default: false,
+            config:  true
+        })
+    }
+    if (game.system.id === "numenera") {
+        game.settings.register("healthEstimate", "countPools", {
+            name:    t("countPools.name"),
+            hint:    t("countPools.hint"),
+            scope:   "world",
+            type:    Boolean,
+            default: false,
+            config: true
+        })
+    }
     game.settings.register("healthEstimate", "color", {
         name:     t("color.name"),
         hint:     t("color.hint"),

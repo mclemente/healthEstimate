@@ -16,6 +16,14 @@ healthEstimate:
     name: Death State Name
     hint: The description shown to players when the token is dead.
     default: Dead
+  addTemp:
+    name: Add Temporary Health
+    hint: |-
+      Include temporary health points in calculating what description to show.
+      E.g. with the setting turned on the token receiving temp HP will look "healthier" unless it's already at max health.
+  countPools:
+    name: Count Empty Pools
+    hint: Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted/replenished
   color:
     name: Color
     hint: Should the descriptions be highlighted with a gradient from green to red corresponding to current health?
