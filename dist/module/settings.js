@@ -51,8 +51,52 @@ export const registerSettings = function() {
             scope:   "world",
             type:    Boolean,
             default: false,
+            config:  true
+        })
+    }
+    if (game.system.id === "starfinder") {
+        game.settings.register("healthEstimate", "addStamina", {
+            name:    t("addStamina.name"),
+            hint:    t("countPools.hint"),
+            scope:   "world",
+            type:    Boolean,
+            default: true,
+            config:  true
+        });
+        game.settings.register("healthEstimate", "useThreshold", {
+            name:    t("useThreshold.name"),
+            hint:    t("useThreshold.hint"),
+            scope:   "world",
+            type:    Boolean,
+            default: false,
+            config:  true
+        });
+        game.settings.register("healthEstimate", "thresholdNames", {
+            name:    t("thresholdNames.name"),
+            hint:    t("thresholdNames.hint"),
+            scope:   "world",
+            type:    String,
+            default: t("thresholdNames.default").join(", "),
+            config: true
+        });
+        game.settings.register("healthEstimate", "vehicleNames", {
+            name:    t("vehicleNames.name"),
+            hint:    t("vehicleNames.hint"),
+            scope:   "world",
+            type:    String,
+            default: t("vehicleNames.default").join(", "),
             config: true
         })
+    }
+    if (game.system.id === "worldbuilding") {
+        game.settings.register("healthEstimate", "simpleRule", {
+            name: t("simpleRule.name"),
+            hint: t("simpleRule.hint"),
+            scope: "world",
+            type: String,
+            default: t("simpleRule.default"),
+            config: true
+        });
     }
     game.settings.register("healthEstimate", "color", {
         name:     t("color.name"),
