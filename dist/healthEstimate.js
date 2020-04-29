@@ -109,19 +109,19 @@ Hooks.once('ready', function() {
 			const smooth = game.settings.get("healthEstimate","smoothGradient");
 			const stage = Math.max(0,Math.ceil((descriptions.length- 1) * fraction));
 			const step = smooth ? fraction : stage / (descriptions.length - 1);
-			let desc, color, colorShadow;
+			const fontSize = game.settings.get("healthEstimate", "fontSize");
+			let desc, color;
 			
 			if (showDead && isDead) {
 				desc = game.settings.get("healthEstimate", "deathStateName");
-				color = "#000";
-				colorShadow = "#F00";
+				color = "#900";
 			} else {
 				desc = descriptions[stage];
 				console.log(desc);
 				color = `rgb(${255*(1-step)},${255*step},0)`;
-				colorShadow = color;
 			}
-			canvas.hud.HealthEstimate.estimation = {desc, color, colorShadow, showColor};
+			if (!showColor) color = "#FFF";
+			canvas.hud.HealthEstimate.estimation = {desc, color, fontSize};
 		}
 	}
 	new HealthEstimate();

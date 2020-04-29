@@ -1,16 +1,20 @@
 #healthEstimate {
-    font-size: 15px;
     display: grid;
-    grid-template-columns: 95%;
+    grid-template-columns: 10em;
     grid-auto-rows: auto;
     align-content: start;
     justify-content: unsafe center;
-    /* padding: 3px 0; */
-    /* margin-left: -3px; */
-    margin-top:-1.1em;
-    /* white-space: nowrap; */
+    margin-top:-0.8em;
     width: 100%;
 }
 #healthEstimate span {
-    /* height: 14px; */
+    text-shadow:
+        -1px -1px 1px #000,
+        0    -1px 1px #000,
+        1px  -1px 1px #000,
+        1px   0   1px #000,
+        1px   1px 1px #000,
+        0     1px 1px #000,
+        -1px  1px 1px #000,
+        -1px  0   1px #000;
 }

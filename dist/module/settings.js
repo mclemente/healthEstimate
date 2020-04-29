@@ -98,6 +98,14 @@ export const registerSettings = function() {
             config: true
         });
     }
+    game.settings.register("healthEstimate", "fontSize", {
+        name:    t("fontSize.name"),
+        hint:    t("fontSize.hint"),
+        scope:   "client",
+        type:    String,
+        default: "x-large",
+        config:   true
+    });
     game.settings.register("healthEstimate", "color", {
         name:     t("color.name"),
         hint:     t("color.hint"),
