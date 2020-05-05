@@ -67,17 +67,16 @@ export function getHealthFraction(token) {
 		case "starfinder": {
 			const type = token.actor.data.type;
 			return () => { //wrapping inner switch so it doesn't cause problems
+				const hp = token.actor.data.data.attributes.hp;
 				switch (type) {
 					case "npc":
 					case "character": {
-						const hp = token.actor.data.data.attributes.hp;
 						const sp = token.actor.data.data.attributes.sp;
 						const addStamina = game.settings.get("healthEstimate", "addStamina") ? 1 : 0;
 						const temp = game.settings.get("healthEstimate", "addTemp") && (type === "character") ? hp.temp : 0;
 						return Math.min((hp.value + (sp.value * addStamina) + temp) / (hp.max + (sp.max * addStamina)), 1);
 					}
 					case "vehicle": {
-						const hp = token.actor.data.data.attributes.hp;
 						if (game.settings.get("healthEstimate", "useThreshold")) {
 							if (hp.value > hp.threshold) {
 								return 1
@@ -91,7 +90,6 @@ export function getHealthFraction(token) {
 						}
 					}
 					case "starship": {
-						const hp = token.actor.data.data.attributes.hp;
 						return hp.value / hp.max
 					}
 				}

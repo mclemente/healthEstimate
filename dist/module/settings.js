@@ -2,6 +2,16 @@ export const registerSettings = function() {
     function t(key) {
         return game.i18n.localize(`healthEstimate.${key}`);
     }
+    function addSetting(key, data, scope = "world", config = true){
+        const commonData = {
+            name:   t(`${key}.name`),
+            hint:   t(`${key}.hint`),
+	        scope:  scope,
+            config: config
+        }
+        game.settings.register("healthEstimate", key, Object.assign(commonData,data))
+    }
+    
     game.settings.register("healthEstimate", "stateNames", {
         name:     t("stateNames.name"),
         hint:     t("stateNames.hint"),
@@ -41,6 +51,16 @@ export const registerSettings = function() {
             scope:   "world",
             type:    Boolean,
             default: false,
+            config:  true
+        })
+    }
+    if (game.system.id === "pf1") {
+        game.settings.register("healthEstimate", "PF1.showExtra", {
+            name:    t("PF1.showExtra.name"),
+            hint:    t("PF1.showExtra.hint"),
+            scope:   "world",
+            type:    Boolean,
+            default: true,
             config:  true
         })
     }

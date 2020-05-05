@@ -19,7 +19,6 @@ import { preloadTemplates } from './module/preloadTemplates.js';
 /* ------------------------------------ */
 Hooks.once('init', async function() {
 	console.log('healthEstimate | Initializing healthEstimate');
-	console.log("%c constructing", "color:orange")
 
 	// Assign custom classes and constants here
 	
@@ -117,8 +116,7 @@ Hooks.once('ready', function() {
 				color = "#900";
 			} else {
 				desc = descriptions[stage];
-				console.log(desc);
-				color = `rgb(${255*(1-step)},${255*step},0)`;
+				color = (chroma.bezier(['#F00','#0F0']).scale())(step).hex();
 			}
 			if (!showColor) color = "#FFF";
 			canvas.hud.HealthEstimate.estimation = {desc, color, fontSize};
