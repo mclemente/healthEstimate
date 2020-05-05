@@ -1,4 +1,6 @@
 export const registerSettings = function() {
+	const isNotPF2 = !(game.system.id === "pf2e");
+    
     function t(key) {
         return game.i18n.localize(`healthEstimate.${key}`);
     }
@@ -16,21 +18,18 @@ export const registerSettings = function() {
         type:     String,
         default:  t("stateNames.default").join(", "),
     });
-    if (game.system.id !== "pf2e") {
-        addSetting("deathState", {
-            type: Boolean,
-            default: true,
-            
-        });
-        addSetting("deathStateName", {
-            type: String,
-            default: t("deathStateName.default"),
-        });
-        addSetting("deathMarker", {
-            type: String,
-            default: "icons/svg/skull.svg",
-        });
-    }
+    addSetting("deathState", {
+        type: Boolean,
+        default: isNotPF2,
+    }, "world", isNotPF2);
+    addSetting("deathStateName", {
+        type: String,
+        default: t("deathStateName.default"),
+    }, "world", isNotPF2);
+    addSetting("deathMarker", {
+        type: String,
+        default: "icons/svg/skull.svg",
+    }, "world", isNotPF2);
     if (["starfinder","pf1","pf2e","archmage","dnd5e"].includes(game.system.id)){
         addSetting("addTemp", {
             type:    Boolean,
