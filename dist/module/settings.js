@@ -8,147 +8,92 @@ export const registerSettings = function() {
             hint:   t(`${key}.hint`),
 	        scope:  scope,
             config: config
-        }
+        };
         game.settings.register("healthEstimate", key, Object.assign(commonData,data))
     }
     
-    game.settings.register("healthEstimate", "stateNames", {
-        name:     t("stateNames.name"),
-        hint:     t("stateNames.hint"),
-        scope:    "world",
+    addSetting("stateNames", {
         type:     String,
         default:  t("stateNames.default").join(", "),
-        config:   true
     });
-    game.settings.register("healthEstimate", "deathState", {
-        name:     t("deathState.name"),
-        hint:     t("deathState.hint"),
-        scope:    "world",
+    addSetting("deathState", {
         type:     Boolean,
         default:  true,
-        config:   true
+
     });
-    game.settings.register("healthEstimate", "deathStateName", {
-        name:     t("deathStateName.name"),
-        hint:     t("deathStateName.hint"),
-        scope:    "world",
+    addSetting("deathStateName", {
         type:     String,
         default:  t("deathStateName.default"),
-        config:   true
     });
-    game.settings.register("healthEstimate", "deathMarker", {
-        name:     t("deathMarker.name"),
-        hint:     t("deathMarker.hint"),
-        scope:    "world",
+    addSetting("deathMarker", {
         type:     String,
         default:  "icons/svg/skull.svg",
-        config:   true
     });
     if (["starfinder","pf1","pf2e","archmage","dnd5e"].includes(game.system.id)){
-        game.settings.register("healthEstimate", "addTemp", {
-            name:    t("addTemp.name"),
-            hint:    t("addTemp.hint"),
-            scope:   "world",
+        addSetting("addTemp", {
             type:    Boolean,
             default: false,
-            config:  true
         })
     }
     if (game.system.id === "pf1") {
-        game.settings.register("healthEstimate", "PF1.showExtra", {
-            name:    t("PF1.showExtra.name"),
-            hint:    t("PF1.showExtra.hint"),
-            scope:   "world",
+        addSetting("PF1.showExtra", {
             type:    Boolean,
             default: true,
-            config:  true
+        });
+        addSetting("PF1.disabledName", {
+            type:    String,
+            default: t("PF1.disabledName.default")
+        });
+        addSetting("PF1.dyingName", {
+            type:    String,
+            default: t("PF1.dyingName.default")
         })
     }
     if (game.system.id === "numenera") {
-        game.settings.register("healthEstimate", "countPools", {
-            name:    t("countPools.name"),
-            hint:    t("countPools.hint"),
-            scope:   "world",
+        addSetting("countPools", {
             type:    Boolean,
             default: false,
-            config:  true
         })
     }
     if (game.system.id === "starfinder") {
-        game.settings.register("healthEstimate", "addStamina", {
-            name:    t("addStamina.name"),
-            hint:    t("countPools.hint"),
-            scope:   "world",
+        addSetting("addStamina", {
             type:    Boolean,
             default: true,
-            config:  true
         });
-        game.settings.register("healthEstimate", "useThreshold", {
-            name:    t("useThreshold.name"),
-            hint:    t("useThreshold.hint"),
-            scope:   "world",
+        addSetting("useThreshold", {
             type:    Boolean,
             default: false,
-            config:  true
         });
-        game.settings.register("healthEstimate", "thresholdNames", {
-            name:    t("thresholdNames.name"),
-            hint:    t("thresholdNames.hint"),
-            scope:   "world",
+        addSetting("thresholdNames", {
             type:    String,
             default: t("thresholdNames.default").join(", "),
-            config: true
         });
-        game.settings.register("healthEstimate", "vehicleNames", {
-            name:    t("vehicleNames.name"),
-            hint:    t("vehicleNames.hint"),
-            scope:   "world",
+        addSetting("vehicleNames", {
             type:    String,
             default: t("vehicleNames.default").join(", "),
-            config: true
         })
     }
     if (game.system.id === "worldbuilding") {
-        game.settings.register("healthEstimate", "simpleRule", {
-            name: t("simpleRule.name"),
-            hint: t("simpleRule.hint"),
-            scope: "world",
+        addSetting("simpleRule", {
             type: String,
             default: t("simpleRule.default"),
-            config: true
         });
     }
-    game.settings.register("healthEstimate", "fontSize", {
-        name:    t("fontSize.name"),
-        hint:    t("fontSize.hint"),
-        scope:   "client",
+    addSetting("fontSize", {
         type:    String,
         default: "x-large",
-        config:   true
-    });
-    game.settings.register("healthEstimate", "color", {
-        name:     t("color.name"),
-        hint:     t("color.hint"),
-        scope:    "world",
+    }, "client");
+    addSetting("color", {
         type:     Boolean,
         default:  true,
-        config:   true
     });
-    // game.settings.register("healthEstimate", "colorArray", {
-    // 	name:     t("colorArray.name"),
-    // 	hint:     t("colorArray.hint"),
-    // 	scope:    "world",
+    // addSetting("colorArray", {
     // 	type:     Array,
     // 	default:  ["rgb(255 0 0)", "rgb(0 255 0)"],
-    // 	config:   true,
     // 	onChange: s => {}
     // })
-    game.settings.register("healthEstimate", "smoothGradient", {
-        name:     t("smoothGradient.name"),
-        hint:     t("smoothGradient.hint"),
-        scope:    "world",
+    addSetting("smoothGradient", {
         type:     Boolean,
         default:  true,
-        config:   true
     })
 };

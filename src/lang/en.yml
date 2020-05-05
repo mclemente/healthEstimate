@@ -21,6 +21,18 @@ healthEstimate:
         hint: |-
             Include temporary health points in calculating what description to show.
             E.g. with the setting turned on the token receiving temp HP will look "healthier" unless it's already at max health.
+    PF1:
+        showExtra:
+            name: Disabled & Dying
+            hint: Show "Disabled" and "Dying" descriptions
+        disabledName:
+            name: Disabled
+            hint: Description to show when token is precisely at 0 HP
+            default: Disabled
+        dyingName:
+            name: Dying
+            hint: Description to show when token is below 0 HP
+            default: Dying
     countPools:
         name: Count Empty Pools
         hint: Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted/replenished
