@@ -1,6 +1,8 @@
 # Health Estimate
 A simple module for showing estimated health level of an enemy on mouseover, similar to Baldur's Gate games. 
 
+![example](example.png)
+
 ## Supported systems
 * 13th Age
 * D&D 5e
