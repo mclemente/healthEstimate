@@ -16,19 +16,21 @@ export const registerSettings = function() {
         type:     String,
         default:  t("stateNames.default").join(", "),
     });
-    addSetting("deathState", {
-        type:     Boolean,
-        default:  true,
-
-    });
-    addSetting("deathStateName", {
-        type:     String,
-        default:  t("deathStateName.default"),
-    });
-    addSetting("deathMarker", {
-        type:     String,
-        default:  "icons/svg/skull.svg",
-    });
+    if (game.system.id !== "pf2e") {
+        addSetting("deathState", {
+            type: Boolean,
+            default: true,
+            
+        });
+        addSetting("deathStateName", {
+            type: String,
+            default: t("deathStateName.default"),
+        });
+        addSetting("deathMarker", {
+            type: String,
+            default: "icons/svg/skull.svg",
+        });
+    }
     if (["starfinder","pf1","pf2e","archmage","dnd5e"].includes(game.system.id)){
         addSetting("addTemp", {
             type:    Boolean,
