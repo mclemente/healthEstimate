@@ -1,18 +1,7 @@
-/**
- * This is your JavaScript entry file for Foundry VTT.
- * Register custom settings, sheets, and constants using the Foundry API.
- * Change this heading to be more descriptive to your module, or remove it.
- * Author: [your name]
- * Content License: [copyright and-or license] If using an existing system
- * 					you may want to put a (link to a) license or copyright
- * 					notice here (e.g. the OGL).
- * Software License: [your license] Put your desired license here, which
- * 					 determines how others may use and modify your module
- */
-
 // Import JavaScript modules
 import { registerSettings } from './module/settings.js';
 import { preloadTemplates } from './module/preloadTemplates.js';
+import { getHealthFraction } from "./module/systemSpecifics.js";
 
 /* ------------------------------------ */
 /* Initialize module					*/
@@ -36,6 +25,8 @@ Hooks.once('init', async function() {
 Hooks.once('setup', function() {
 	// Do anything after initialization but before
 	// ready
+	
+	// Have to register Settings here, because doing so at init breaks i18n
 	registerSettings();
 });
 
@@ -52,10 +43,6 @@ Hooks.once('ready', function() {
 			options.id = "healthEstimate";
 			return options;
 		}
-		
-		// static setPostition() {
-		// 	return super.setPostition();
-		// }
 		
 		getData() {
 			const data = super.getData();
@@ -81,7 +68,7 @@ Hooks.once('ready', function() {
 			
 			Hooks.on('deleteToken', (...args) => {
 				canvas.hud.HealthEstimate.clear();
-			})
+			});
             Hooks.on('updateToken', (scene, token, ...args) => {
                 if (token._id === canvas.hud.HealthEstimate.object.id) {
                 	canvas.hud.HealthEstimate.clear();
@@ -99,26 +86,54 @@ Hooks.once('ready', function() {
 			}
 		}
 		_getEstimation(token) {
-			const hp = token.actor.data.data.attributes.hp;
-			const fraction = Math.min((hp.value + hp.temp) / hp.max, 1);
+			const fraction = Math.min(getHealthFraction(token), 1);
 			const isDead = token.data.overlayEffect === game.settings.get("healthEstimate", "deathMarker");
 			const showDead = game.settings.get("healthEstimate", "deathState");
 			const showColor = game.settings.get("healthEstimate", "color");
-			const descriptions = game.settings.get("healthEstimate", "stateNames").split(/[,;]\s*/);
+			let   descriptions = game.settings.get("healthEstimate", "stateNames").split(/[,;]\s*/);
 			const smooth = game.settings.get("healthEstimate","smoothGradient");
 			const stage = Math.max(0,Math.ceil((descriptions.length- 1) * fraction));
 			const step = smooth ? fraction : stage / (descriptions.length - 1);
 			const fontSize = game.settings.get("healthEstimate", "fontSize");
-			let desc, color;
+			let desc, color, stroke;
 			
 			if (showDead && isDead) {
 				desc = game.settings.get("healthEstimate", "deathStateName");
 				color = "#900";
+				stroke = "#000";
 			} else {
-				desc = descriptions[stage];
-				color = (chroma.bezier(['#F00','#0F0']).scale())(step).hex();
+				// noinspection FallThroughInSwitchStatementJS
+				switch (game.system.id) {
+					case "pf1":
+						const hp = token.actor.data.data.attributes.hp;
+						if (hp < 1) {
+							if (hp === 0) {
+								desc = game.settings.get("healthEstimate", "PF1.disabledName");
+							} else {
+								desc = game.settings.get("healthEstimate", "PF1.dyingName");
+							}
+							break
+						}
+					case "starfinder":
+						const type = token.actor.data.type;
+						if (type !== "character" || type !== "npc"){
+							if (type === "vehicle" && game.settings.get("healthEstimate", "useThreshold")) {
+								descriptions = game.settings.get("healthEstimate", "thresholdNames").split(/[,;]\s*/);
+							} else {
+								descriptions = game.settings.get("healthEstimate", "vehicleNames").split(/[,;]\s*/);
+							}
+						}
+					default:
+						desc   = descriptions[stage];
+						color  = (chroma.bezier(['#F00','#0F0']).scale())(step).hex();
+						stroke = chroma(color).darken(3);
+				}
 			}
-			if (!showColor) color = "#FFF";
+			if (!showColor) {
+				color  = "#FFF";
+				stroke = "#000";
+			}
+			document.documentElement.style.setProperty('--healthEstimate-stroke-color', stroke);
 			canvas.hud.HealthEstimate.estimation = {desc, color, fontSize};
 		}
 	}
