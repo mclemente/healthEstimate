@@ -4,28 +4,39 @@
 	"description": "Gives players ability to see approximate health status of a token",
 	"version": "0.1.3",
 	"author": "Shylight",
-	"scripts": [
-		"./lib/chroma.min.js"
-	],
-	"esmodules": [
-		"healthEstimate.js"
-	],
-	"styles": ["healthEstimate.css"],
-	"packs": [],
+	"scripts": ["./lib/chroma.min.js"],
+	"esmodules": ["./healthEstimate.js"],
+	"styles": ["./healthEstimate.css"],
 	"languages": [
 		{
 			"lang": "en",
 			"name": "English",
-			"path": "lang/en.json"
+			"path": "./lang/en.json"
+		},
+		{
+			"lang": "ru",
+			"name": "Русский",
+			"path": "./lang/ru.json"
 		}
+	],
+	"systems": [
+		"archmage",
+		"dungeonworld",
+		"fate",
+		"numenera",
+		"pf1",
+		"pf2e",
+		"shadowrun5e",
+		"swade",
+		"wfrp4e",
+		"worldbuilding",
+		"starfinder",
+		"dnd5e"
 	],
 	"minimumCoreVersion": "0.5.0",
 	"compatibleCoreVersion": "0.5.5",
 	"url": "https://gitlab.com/tsuki.no.mai/healthestimate",
 	"manifest": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/master/src/module.json",
 	"download": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/v0.1.3/package/healthEstimate-v0.1.3.zip",
-	"license": "",
-	"readme": "",
-	"bugs": "",
-	"changelog": ""
+	"license": "http://creativecommons.org/licenses/by/4.0/"
 }
