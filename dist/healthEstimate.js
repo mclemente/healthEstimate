@@ -77,7 +77,11 @@ Hooks.once('ready', function() {
             })
 		}
 		_handleOverlay(token, hovered) {
-			if (canvas.hud.HealthEstimate === undefined || game.keyboard.isDown('Alt')) return;
+			if (canvas.hud.HealthEstimate === undefined
+			    || game.keyboard.isDown('Alt')
+			    || (game.settings.get("healthEstimate", "onlyNPCs") && token.actor.isPC)
+			    || (game.settings.get("healthEstimate", "onlyGM")   && !game.user.isGM)
+			   ) return;
 			if (hovered) {
                 this._getEstimation(token);
 				canvas.hud.HealthEstimate.owner = token.owner;

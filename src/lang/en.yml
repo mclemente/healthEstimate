@@ -76,3 +76,9 @@ healthEstimate:
     deathMarker:
         name: Death Marker
         hint: Path to the condition icon that marks the dead tokens.
+    onlyGM:
+        name: GM only
+        hint: Only show estimations to GM.
+    onlyNPCs:
+        name: NPCs only
+        hint: Only show estimations for NPCs, but not for player characters.
