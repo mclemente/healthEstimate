@@ -1,17 +1,17 @@
-export function getHealthFraction(token) {
+export function getFractionFormula() {
 	switch (game.system.id) {
 		case "archmage":
-		case "dnd5e": {
+		case "dnd5e": return function(token) {
 			const hp = token.actor.data.data.attributes.hp;
 			let addTemp = 0;
 			if (token.actor.data.type === "character" && game.settings.get("healthEstimate", "addTemp")) addTemp = 1;
 			return Math.min((hp.temp * addTemp + hp.value) / hp.max, 1);
-		}
-		case "dungeonworld": {
+		};
+		case "dungeonworld": return function(token) {
 			const hp = token.actor.data.data.attributes.hp;
 			return Math.min(hp.value / hp.max, 1);
-		}
-		case "fate": {
+		};
+		case "fate": return function(token) {
 			let hitCounter = 6;
 			for (let [key, value] of Object.entries(token.actor.data.data.health.cons)) {
 				if (value !== "") hitCounter -= 1;
@@ -20,8 +20,8 @@ export function getHealthFraction(token) {
 				hitCounter -= 1 * value;
 			}
 			return hitCounter / 6;
-		}
-		case "numenera": {
+		};
+		case "numenera": return function(token) {
 			const [might, speed, intellect] = token.actor.data.data.stats;
 			if (token.actor.data.type === "character"){
 				if (game.settings.get("healthEstimate", "countPools")) {
@@ -44,27 +44,27 @@ export function getHealthFraction(token) {
 				const hp = token.actor.data.data.health;
 				return hp.current / hp.max;
 			}
-		}
-		case "pf1": {
+		};
+		case "pf1": return function(token) {
 			const hp = token.actor.data.data.attributes.hp;
 			let addTemp = 0;
 			if (game.settings.get("healthEstimate", "addTemp")) addTemp = 1;
 			return Math.min((hp.value - hp.nonlethal + (hp.temp * addTemp)) / hp.max, 1);
-		}
-		case "pf2e": {
+		};
+		case "pf2e": return function(token) {
 			const hp = token.actor.data.data.attributes.hp;
 			let addTemp = 0;
 			if (game.settings.get("healthEstimate", "addTemp")) addTemp = 1;
 			return Math.min((hp.value + (hp.temp * addTemp)) / hp.max, 1);
-		}
-		case "shadowrun5e": {
+		};
+		case "shadowrun5e": return function(token) {
 			const [stun, physical] = token.actor.data.data.track;
 			return Math.min(
 				(stun.max - stun.value) / stun.max,
 				(physical.max - physical.value) / physical.max
 			)
-		}
-		case "starfinder": {
+		};
+		case "starfinder": return function(token) {
 			const type = token.actor.data.type;
 			return () => { //wrapping inner switch so it doesn't cause problems
 				const hp = token.actor.data.data.attributes.hp;
@@ -94,18 +94,19 @@ export function getHealthFraction(token) {
 					}
 				}
 			}
-		}
-		case "swade": {
+		};
+		case "swade": return function(token) {
 			const hp = token.actor.data.data.wounds;
 			return (hp.max - hp.value) / hp.max
-		}
-		case "wfrp4e": {
+		};
+		case "wfrp4e": return function(token) {
 			const hp = token.actor.data.data.status.wounds;
 			return hp.value / hp.max
-		}
-		case "worldbuilding": {
+		};
+		case "worldbuilding": return function(token) {
 			/* Can't think of a different way to do it that doesn't involve FS manipulation, which is its own can of worms */
-			eval(game.settings.get("healthEstimate","simpleRule"))
-		}
+			const setting = game.settings.get("healthEstimate","simpleRule");
+			return Function('token', setting)(token);
+		};
 	}
 }

@@ -1,7 +1,7 @@
 // Import JavaScript modules
 import { registerSettings } from './module/settings.js';
 import { preloadTemplates } from './module/preloadTemplates.js';
-import { getHealthFraction } from "./module/systemSpecifics.js";
+import { getFractionFormula } from "./module/systemSpecifics.js";
 
 /* ------------------------------------ */
 /* Initialize module					*/
@@ -54,6 +54,7 @@ Hooks.once('ready', function() {
 	
 	class HealthEstimate {
 		constructor() {
+			this.healthFractionFormula = getFractionFormula();
 			this.initHooks();
 		}
 		initHooks() {
@@ -86,7 +87,7 @@ Hooks.once('ready', function() {
 			}
 		}
 		_getEstimation(token) {
-			const fraction = Math.min(getHealthFraction(token), 1);
+			const fraction = Math.min(this.healthFractionFormula(token), 1);
 			const isDead = token.data.overlayEffect === game.settings.get("healthEstimate", "deathMarker");
 			const showDead = game.settings.get("healthEstimate", "deathState");
 			const showColor = game.settings.get("healthEstimate", "color");
