@@ -26,13 +26,13 @@ export const registerSettings = function() {
 		type:    String,
 		default: t("stateNames.default").join(", "),
 	});
-	addSetting("deathState", {
-		type: Boolean,
-		default: isNotPF2,
-	}, "world", isNotPF2);
 	addSetting("deathStateName", {
 		type: String,
 		default: t("deathStateName.default"),
+	});
+	addSetting("deathState", {
+		type: Boolean,
+		default: isNotPF2,
 	}, "world", isNotPF2);
 	addSetting("deathMarker", {
 		type: String,

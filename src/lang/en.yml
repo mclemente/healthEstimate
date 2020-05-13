@@ -10,12 +10,19 @@ healthEstimate:
             - Barely Injured
             - Uninjured
     deathState:
-        name: Separate Death State
-        hint: Show a separate description for dead tokens.
+        name: Death State on Condition
+        hint: Show token as dead when it's been marked with specific condition. Works independently from the macro.
     deathStateName:
         name: Death State Name
-        hint: The description shown to players when the token is dead.
+        hint: The description shown to players when the token is dead. Compendium tab has a macro for marking a token (or several) as dead.
         default: Dead
+    deathMarker:
+        name: Death Marker
+        hint: >-
+            Path to the condition icon that marks the dead tokens.
+
+            To get a custom icon's path, select a token marked with it, open the console and enter
+            "canvas.tokens.controlled[0].data.overlayEffect"
     addTemp:
         name: Add Temporary Health
         hint: |-
@@ -73,9 +80,6 @@ healthEstimate:
         hint: >-
             With this setting off the color will only change when the next description is reached,
             with it on it will reflect the health percentage.
-    deathMarker:
-        name: Death Marker
-        hint: Path to the condition icon that marks the dead tokens.
     onlyGM:
         name: GM only
         hint: Only show estimations to GM.
