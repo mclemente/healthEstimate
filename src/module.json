@@ -13,6 +13,15 @@
 	"styles": [
 		"./healthEstimate.css"
 	],
+	"packs": [
+		{
+			"name": "deathmacro",
+			"label": "Death macro",
+			"path": "./packs/macros.db",
+			"module": "healthEstimate",
+			"entity": "Macro"
+		}
+	],
 	"languages": [
 		{
 			"lang": "en",

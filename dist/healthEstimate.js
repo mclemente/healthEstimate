@@ -102,7 +102,10 @@ Hooks.once('ready', function() {
 			const fontSize = game.settings.get("healthEstimate", "fontSize");
 			let desc, color, stroke;
 			
-			if (showDead && isDead) {
+			if (
+			    (showDead && isDead) ||
+				token.getFlag("healthEstimate", "dead")
+			   ) {
 				desc = game.settings.get("healthEstimate", "deathStateName");
 				color = "#900";
 				stroke = "#000";
