@@ -12,14 +12,21 @@ export function getFractionFormula() {
 			return Math.min(hp.value / hp.max, 1);
 		};
 		case "fate": return function(token) {
-			let hitCounter = 6;
-			for (let [key, value] of Object.entries(token.actor.data.data.health.cons)) {
-				if (value !== "") hitCounter -= 1;
+			switch (token.actor.data.type) {
+				case "Accelerated": {
+					let hitCounter = 6;
+					for (let [key, value] of Object.entries(token.actor.data.data.health.cons)) {
+						if (value.value !== "") hitCounter -= 1;
+					}
+					for (let [key, value] of Object.entries(token.actor.data.data.health.stress)) {
+						hitCounter -= 1 * value;
+					}
+					return hitCounter / 6;
+				}
+				case "Core": {
+					//TODO: Add actual logic when necessary variables are added to the token
+				}
 			}
-			for (let [key, value] of Object.entries(token.actor.data.data.health.stress)) {
-				hitCounter -= 1 * value;
-			}
-			return hitCounter / 6;
 		};
 		case "numenera": return function(token) {
 			const [might, speed, intellect] = token.actor.data.data.stats;

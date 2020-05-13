@@ -57,6 +57,9 @@ Hooks.once('ready', function() {
 			this.healthFractionFormula = getFractionFormula();
 			this.initHooks();
 		}
+		
+		
+		
 		initHooks() {
 			Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
 				html.append('<template id="healthEstimate"></template>');
@@ -77,10 +80,12 @@ Hooks.once('ready', function() {
             })
 		}
 		_handleOverlay(token, hovered) {
-			if (canvas.hud.HealthEstimate === undefined
-			    || game.keyboard.isDown('Alt')
-			    || (game.settings.get("healthEstimate", "onlyNPCs") && token.actor.isPC)
-			    || (game.settings.get("healthEstimate", "onlyGM")   && !game.user.isGM)
+			if (
+				canvas.hud.HealthEstimate === undefined ||
+			    game.keyboard.isDown('Alt') ||
+			    (game.settings.get("healthEstimate", "onlyNPCs") && token.actor.isPC) ||
+			    (game.settings.get("healthEstimate", "onlyGM")   && !game.user.isGM) ||
+				(game.system.id === "fate" && token.actor.data.type !== "Accelerated") //Until other FATE sheets are viable
 			   ) return;
 			if (hovered) {
                 this._getEstimation(token);
