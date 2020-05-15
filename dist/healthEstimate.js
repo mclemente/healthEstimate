@@ -74,9 +74,11 @@ Hooks.once('ready', function() {
 				canvas.hud.HealthEstimate.clear();
 			});
             Hooks.on('updateToken', (scene, token, ...args) => {
-                if (token._id === canvas.hud.HealthEstimate.object.id) {
-                	canvas.hud.HealthEstimate.clear();
-                }
+                if (canvas.hud.HealthEstimate !== undefined && canvas.hud.HealthEstimate.object !== null) {
+                	if (token._id === canvas.hud.HealthEstimate.object.id) {
+						canvas.hud.HealthEstimate.clear();
+					}
+				}
             })
 		}
 		_handleOverlay(token, hovered) {
