@@ -115,7 +115,9 @@ Hooks.once('ready', function() {
 				color = "#900";
 				stroke = "#000";
 			} else {
-				// noinspection FallThroughInSwitchStatementJS
+				desc   = descriptions[stage];
+				color  = (chroma.bezier(['#F00','#0F0']).scale())(step).hex();
+				stroke = chroma(color).darken(3);
 				switch (game.system.id) {
 					case "pf1":
 						const hp = token.actor.data.data.attributes.hp;
@@ -125,8 +127,8 @@ Hooks.once('ready', function() {
 							} else {
 								desc = game.settings.get("healthEstimate", "PF1.dyingName");
 							}
-							break
 						}
+						break;
 					case "starfinder":
 						const type = token.actor.data.type;
 						if (type !== "character" || type !== "npc"){
@@ -136,10 +138,7 @@ Hooks.once('ready', function() {
 								descriptions = game.settings.get("healthEstimate", "vehicleNames").split(/[,;]\s*/);
 							}
 						}
-					default:
-						desc   = descriptions[stage];
-						color  = (chroma.bezier(['#F00','#0F0']).scale())(step).hex();
-						stroke = chroma(color).darken(3);
+						break;
 				}
 			}
 			if (!showColor) {
