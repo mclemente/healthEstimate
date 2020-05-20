@@ -17,6 +17,10 @@ Hooks.once('init', async function() {
 	await preloadTemplates();
 
 	// Register custom sheets (if any)
+	Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
+		html.append('<template id="healthEstimate"></template>');
+	});
+	
 });
 
 /* ------------------------------------ */
@@ -47,7 +51,6 @@ Hooks.once('ready', function() {
 		getData() {
 			const data = super.getData();
 			data.status = this.estimation;
-			data.isOwner = this.owner;
 			return data;
 		}
 	}
@@ -63,10 +66,6 @@ Hooks.once('ready', function() {
 		
 		
 		initHooks() {
-			Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
-				html.append('<template id="healthEstimate"></template>');
-			});
-			
 			Hooks.on('hoverToken', (token, hovered) => {
 			    this._handleOverlay(token, hovered);
 			});
@@ -93,7 +92,6 @@ Hooks.once('ready', function() {
 			   ) return;
 			if (hovered) {
                 this._getEstimation(token);
-				canvas.hud.HealthEstimate.owner = token.owner;
 				canvas.hud.HealthEstimate.bind(token);
 			} else {
 				canvas.hud.HealthEstimate.clear();
