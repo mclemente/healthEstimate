@@ -56,6 +56,7 @@ Hooks.once('ready', function() {
 		constructor() {
 			this.healthFractionFormula = getFractionFormula();
 			this.initHooks();
+			document.documentElement.style.setProperty('--healthEstimate-text-size', game.settings.get("healthEstimate", "fontSize"));
 		}
 		
 		
@@ -106,7 +107,6 @@ Hooks.once('ready', function() {
 			const smooth = game.settings.get("healthEstimate","smoothGradient");
 			const stage = Math.max(0,Math.ceil((descriptions.length- 1) * fraction));
 			const step = smooth ? fraction : stage / (descriptions.length - 1);
-			const fontSize = game.settings.get("healthEstimate", "fontSize");
 			let desc, color, stroke;
 			
 			if (
@@ -148,7 +148,8 @@ Hooks.once('ready', function() {
 				stroke = "#000";
 			}
 			document.documentElement.style.setProperty('--healthEstimate-stroke-color', stroke);
-			canvas.hud.HealthEstimate.estimation = {desc, color, fontSize};
+			document.documentElement.style.setProperty('--healthEstimate-text-color', color);
+			canvas.hud.HealthEstimate.estimation = {desc};
 		}
 	}
 	new HealthEstimate();

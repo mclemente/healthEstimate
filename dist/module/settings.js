@@ -95,6 +95,7 @@ export const registerSettings = function() {
 	addSetting("color", {
 		type:     Boolean,
 		default:  true,
+		onChange: s => {document.documentElement.style.setProperty('--healthEstimate-text-size', s)}
 	});
 	// addSetting("colorArray", {
 	// 	type:     Array,
