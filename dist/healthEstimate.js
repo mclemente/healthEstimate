@@ -57,6 +57,7 @@ Hooks.once('ready', function() {
 			this.healthFractionFormula = getFractionFormula();
 			this.initHooks();
 			document.documentElement.style.setProperty('--healthEstimate-text-size', game.settings.get("healthEstimate", "fontSize"));
+			canvas.hud.HealthEstimate = new HealthEstimateOverlay();
 		}
 		
 		
@@ -64,7 +65,6 @@ Hooks.once('ready', function() {
 		initHooks() {
 			Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
 				html.append('<template id="healthEstimate"></template>');
-				canvas.hud.HealthEstimate = new HealthEstimateOverlay();
 			});
 			
 			Hooks.on('hoverToken', (token, hovered) => {
@@ -88,7 +88,8 @@ Hooks.once('ready', function() {
 			    game.keyboard.isDown('Alt') ||
 			    (game.settings.get("healthEstimate", "onlyNPCs") && token.actor.isPC) ||
 			    (game.settings.get("healthEstimate", "onlyGM")   && !game.user.isGM) ||
-				(game.system.id === "fate" && token.actor.data.type !== "Accelerated") //Until other FATE sheets are viable
+				(game.system.id === "fate" && token.actor.data.type !== "Accelerated") || //Until other FATE sheets are viable
+				(game.system.id === "blades-in-the-dark" && token.actor.data.type === "crew")
 			   ) return;
 			if (hovered) {
                 this._getEstimation(token);

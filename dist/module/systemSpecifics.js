@@ -7,6 +7,30 @@ export function getFractionFormula() {
 			if (token.actor.data.type === "character" && game.settings.get("healthEstimate", "addTemp")) addTemp = 1;
 			return Math.min((hp.temp * addTemp + hp.value) / hp.max, 1);
 		};
+		case "blades-in-the-dark": return function(token){
+			const hp = token.actor.data.data.harm;
+			let harmLevel = 0;
+			for (let [key, value] of Object.entries(hp)) {
+				for (let entry of Object.values(value)) {
+					if (!(!entry || entry.length === 0 || /^\s*$/.test(entry))) {  //Testing for empty or whitespace
+						switch (key) {
+							case "light":
+								harmLevel += 1;
+								break;
+							case "medium":
+								harmLevel += 3;
+								break;
+							case "heavy":
+								harmLevel += 9;
+								break;
+							case "deadly":
+								return 0
+						}
+					}
+				}
+			}
+			return 1 - (harmLevel / 18)
+		};
 		case "dungeonworld": return function(token) {
 			const hp = token.actor.data.data.attributes.hp;
 			return Math.min(hp.value / hp.max, 1);

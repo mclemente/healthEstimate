@@ -1,8 +1,12 @@
 :root{
     --healthEstimate-stroke-color: #000;
+    --healthEstimate-text-color:   #FFF;
+    --healthEstimate-text-size: x-large;
 }
 #healthEstimate {
     display: grid;
+    color: var(--healthEstimate-text-color);
+    font-size: var(--healthEstimate-text-size);
     grid-template-columns: 10em;
     grid-auto-rows: auto;
     align-content: start;

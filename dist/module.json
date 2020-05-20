@@ -46,7 +46,8 @@
 		"wfrp4e",
 		"worldbuilding",
 		"starfinder",
-		"dnd5e"
+		"dnd5e",
+		"blades-in-the-dark"
 	],
 	"minimumCoreVersion": "0.5.0",
 	"compatibleCoreVersion": "0.5.6",
