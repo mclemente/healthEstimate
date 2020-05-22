@@ -1,44 +1,45 @@
-export const registerSettings = function() {
-	const isNotPF2 = !(game.system.id === "pf2e");
+export const registerSettings = function () {
+	const isNotPF2 = !(game.system.id === "pf2e")
 	
 	function t(key) {
-		return game.i18n.localize(`healthEstimate.${key}`);
+		return game.i18n.localize(`healthEstimate.${key}`)
 	}
-	function addSetting(key, data, scope = "world", config = true){
+	
+	function addSetting(key, data, scope = "world", config = true) {
 		const commonData = {
 			name:   t(`${key}.name`),
 			hint:   t(`${key}.hint`),
 			scope:  scope,
 			config: config
-		};
-		game.settings.register("healthEstimate", key, Object.assign(commonData,data))
+		}
+		game.settings.register("healthEstimate", key, Object.assign(commonData, data))
 	}
 	
 	addSetting("onlyGM", {
 		type:    Boolean,
 		default: false
-	});
+	})
 	addSetting("onlyNPCs", {
 		type:    Boolean,
 		default: false
-	});
+	})
 	addSetting("stateNames", {
 		type:    String,
 		default: t("stateNames.default").join(", "),
-	});
+	})
 	addSetting("deathStateName", {
-		type: String,
+		type:    String,
 		default: t("deathStateName.default"),
-	});
+	})
 	addSetting("deathState", {
-		type: Boolean,
+		type:    Boolean,
 		default: isNotPF2,
-	}, "world", isNotPF2);
+	}, "world", isNotPF2)
 	addSetting("deathMarker", {
-		type: String,
+		type:    String,
 		default: "icons/svg/skull.svg",
-	}, "world", isNotPF2);
-	if (["starfinder","pf1","pf2e","archmage","dnd5e"].includes(game.system.id)){
+	}, "world", isNotPF2)
+	if (["starfinder", "pf1", "pf2e", "archmage", "dnd5e"].includes(game.system.id)) {
 		addSetting("addTemp", {
 			type:    Boolean,
 			default: false,
@@ -48,11 +49,11 @@ export const registerSettings = function() {
 		addSetting("PF1.showExtra", {
 			type:    Boolean,
 			default: true,
-		});
+		})
 		addSetting("PF1.disabledName", {
 			type:    String,
 			default: t("PF1.disabledName.default")
-		});
+		})
 		addSetting("PF1.dyingName", {
 			type:    String,
 			default: t("PF1.dyingName.default")
@@ -68,15 +69,15 @@ export const registerSettings = function() {
 		addSetting("addStamina", {
 			type:    Boolean,
 			default: true,
-		});
+		})
 		addSetting("useThreshold", {
 			type:    Boolean,
 			default: false,
-		});
+		})
 		addSetting("thresholdNames", {
 			type:    String,
 			default: t("thresholdNames.default").join(", "),
-		});
+		})
 		addSetting("vehicleNames", {
 			type:    String,
 			default: t("vehicleNames.default").join(", "),
@@ -84,26 +85,28 @@ export const registerSettings = function() {
 	}
 	if (game.system.id === "worldbuilding") {
 		addSetting("simpleRule", {
-			type: String,
+			type:    String,
 			default: t("simpleRule.default"),
-		});
+		})
 	}
 	addSetting("fontSize", {
 		type:    String,
 		default: "x-large",
-	}, "client");
+	}, "client")
 	addSetting("color", {
 		type:     Boolean,
 		default:  true,
-		onChange: s => {document.documentElement.style.setProperty('--healthEstimate-text-size', s)}
-	});
+		onChange: s => {
+			document.documentElement.style.setProperty('--healthEstimate-text-size', s)
+		}
+	})
 	// addSetting("colorArray", {
 	// 	type:     Array,
 	// 	default:  ["rgb(255 0 0)", "rgb(0 255 0)"],
 	// 	onChange: s => {}
 	// })
 	addSetting("smoothGradient", {
-		type:     Boolean,
-		default:  true,
+		type:    Boolean,
+		default: true,
 	})
-};
+}
