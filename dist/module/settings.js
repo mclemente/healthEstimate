@@ -1,9 +1,7 @@
+import {t}                                           from "./utils.js"
+import {systemSpecificSettings, updateBreakSettings} from "./systemSpecifics.js"
+
 export const registerSettings = function () {
-	const isNotPF2 = !(game.system.id === "pf2e")
-	
-	function t(key) {
-		return game.i18n.localize(`healthEstimate.${key}`)
-	}
 	
 	function addSetting(key, data, scope = "world", config = true) {
 		const commonData = {
@@ -15,97 +13,35 @@ export const registerSettings = function () {
 		game.settings.register("healthEstimate", key, Object.assign(commonData, data))
 	}
 	
-	addSetting("onlyGM", {
-		type:    Boolean,
-		default: false
+	addSetting("core.onlyGM", {
+		type:     Boolean,
+		default:  false,
+		onChange: () => {
+			updateBreakSettings()
+		}
 	})
-	addSetting("onlyNPCs", {
-		type:    Boolean,
-		default: false
+	addSetting("core.onlyNPCs", {
+		type:     Boolean,
+		default:  false,
+		onChange: () => {
+			updateBreakSettings()
+		}
 	})
-	addSetting("stateNames", {
-		type:    String,
-		default: t("stateNames.default").join(", "),
-	})
-	addSetting("deathStateName", {
-		type:    String,
-		default: t("deathStateName.default"),
-	})
-	addSetting("deathState", {
-		type:    Boolean,
-		default: isNotPF2,
-	}, "world", isNotPF2)
-	addSetting("deathMarker", {
-		type:    String,
-		default: "icons/svg/skull.svg",
-	}, "world", isNotPF2)
-	if (["starfinder", "pf1", "pf2e", "archmage", "dnd5e"].includes(game.system.id)) {
-		addSetting("addTemp", {
-			type:    Boolean,
-			default: false,
-		})
+	for (let [key, data] of Object.entries(systemSpecificSettings)) {
+		addSetting(key, data)
 	}
-	if (game.system.id === "pf1") {
-		addSetting("PF1.showExtra", {
-			type:    Boolean,
-			default: true,
-		})
-		addSetting("PF1.disabledName", {
-			type:    String,
-			default: t("PF1.disabledName.default")
-		})
-		addSetting("PF1.dyingName", {
-			type:    String,
-			default: t("PF1.dyingName.default")
-		})
-	}
-	if (game.system.id === "numenera") {
-		addSetting("countPools", {
-			type:    Boolean,
-			default: false,
-		})
-	}
-	if (game.system.id === "starfinder") {
-		addSetting("addStamina", {
-			type:    Boolean,
-			default: true,
-		})
-		addSetting("useThreshold", {
-			type:    Boolean,
-			default: false,
-		})
-		addSetting("thresholdNames", {
-			type:    String,
-			default: t("thresholdNames.default").join(", "),
-		})
-		addSetting("vehicleNames", {
-			type:    String,
-			default: t("vehicleNames.default").join(", "),
-		})
-	}
-	if (game.system.id === "worldbuilding") {
-		addSetting("simpleRule", {
-			type:    String,
-			default: t("simpleRule.default"),
-		})
-	}
-	addSetting("fontSize", {
+	addSetting("core.fontSize", {
 		type:    String,
 		default: "x-large",
 	}, "client")
-	addSetting("color", {
+	addSetting("core.color", {
 		type:     Boolean,
 		default:  true,
 		onChange: s => {
 			document.documentElement.style.setProperty('--healthEstimate-text-size', s)
 		}
 	})
-	// addSetting("colorArray", {
-	// 	type:     Array,
-	// 	default:  ["rgb(255 0 0)", "rgb(0 255 0)"],
-	// 	onChange: s => {}
-	// })
-	addSetting("smoothGradient", {
+	addSetting("core.smoothGradient", {
 		type:    Boolean,
 		default: true,
 	})
