@@ -9,6 +9,7 @@ import {HealthEstimate}         from "./module/logic.js"
 /* ------------------------------------ */
 Hooks.once('init', async function () {
 	console.log('healthEstimate | Initializing healthEstimate')
+	// CONFIG.debug.hooks = true
 	
 	// Assign custom classes and constants here
 	
@@ -31,8 +32,8 @@ Hooks.once('setup', function () {
 	// Do anything after initialization but before
 	// ready
 	
+	prepareSystemSpecifics().then(registerSettings())
 	// Have to register Settings here, because doing so at init breaks i18n
-	prepareSystemSpecifics.then(() => {registerSettings()}).catch((e) => {console.error(e)})
 })
 
 /* ------------------------------------ */

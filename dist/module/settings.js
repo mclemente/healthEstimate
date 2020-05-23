@@ -2,6 +2,7 @@ import {t}                                           from "./utils.js"
 import {systemSpecificSettings, updateBreakSettings} from "./systemSpecifics.js"
 
 export const registerSettings = function () {
+	console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	
 	function addSetting(key, data, scope = "world", config = true) {
 		const commonData = {
@@ -26,6 +27,14 @@ export const registerSettings = function () {
 		onChange: () => {
 			updateBreakSettings()
 		}
+	})
+	addSetting("core.stateNames", {
+		type:    String,
+		default: t("core.stateNames.default").join(", "),
+	})
+	addSetting("core.deathStateName", {
+		type:    String,
+		default: t("core.deathStateName.default"),
 	})
 	for (let [key, data] of Object.entries(systemSpecificSettings)) {
 		addSetting(key, data)
