@@ -1,37 +1,39 @@
-import {t}                      from "../utils.js"
+import {t} from "../utils.js"
 
-const fraction = function (token) {
+const fraction     = function (token) {
 	const type = token.actor.data.type
-	return () => { //wrapping inner switch so it doesn't cause problems
-		const hp = token.actor.data.data.attributes.hp
-		switch (type) {
-			case "npc":
-			case "character": {
-				const sp = token.actor.data.data.attributes.sp
-				const addStamina = game.settings.get("healthEstimate", "starfinder.addStamina") ? 1 : 0
-				const temp = game.settings.get("healthEstimate", "core.addTemp") && (type === "character") ? hp.temp : 0
-				return Math.min((hp.value + (sp.value * addStamina) + temp) / (hp.max + (sp.max * addStamina)), 1)
-			}
-			case "vehicle": {
-				if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
-					if (hp.value > hp.threshold) {
-						return 1
-					} else if (hp.value > 0) {
-						return 0.5
-					} else {
-						return 0
-					}
+	const hp   = token.actor.data.data.attributes.hp
+	switch (type) {
+		case "npc":
+		case "character": {
+			console.log("character")
+			const sp = token.actor.data.data.attributes.sp
+			console.log(sp)
+			const addStamina = game.settings.get("healthEstimate", "starfinder.addStamina") ? 1 : 0
+			console.log(addStamina)
+			const temp = game.settings.get("healthEstimate", "core.addTemp") && (type === "character") ? hp.temp : 0
+			console.log(temp)
+			return Math.min((hp.value + (sp.value * addStamina) + temp) / (hp.max + (sp.max * addStamina)), 1)
+		}
+		case "vehicle": {
+			if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+				if (hp.value > hp.threshold) {
+					return 1
+				} else if (hp.value > 0) {
+					return 0.5
 				} else {
-					return hp.value / hp.max
+					return 0
 				}
-			}
-			case "starship": {
+			} else {
 				return hp.value / hp.max
 			}
 		}
+		case "starship": {
+			return hp.value / hp.max
+		}
 	}
 }
-const settings = ()=> {
+const settings     = () => {
 	return {
 		"core.addTemp":              {
 			type:    Boolean,
