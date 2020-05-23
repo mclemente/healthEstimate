@@ -1,4 +1,4 @@
-import {fractionFormula, breakOverlayRender, updateBreakSettings} from "./systemSpecifics.js"
+import {fractionFormula, breakOverlayRender, descriptionToShow, updateBreakSettings} from "./systemSpecifics.js"
 
 class HealthEstimateOverlay extends TokenHUD {
 	static get defaultOptions() {
@@ -71,33 +71,12 @@ export class HealthEstimate {
 			color = "#900"
 			stroke = "#000"
 		} else {
-			desc = descriptions[stage]
+			desc = descriptionToShow(descriptions,stage,token)
+		}
+		if (showColor) {
 			color = (chroma.bezier(['#F00', '#0F0']).scale())(step).hex()
 			stroke = chroma(color).darken(3)
-			switch (game.system.id) {
-				case "pf1":
-					const hp = token.actor.data.data.attributes.hp
-					if (hp < 1) {
-						if (hp === 0) {
-							desc = game.settings.get("healthEstimate", "PF1.disabledName")
-						} else {
-							desc = game.settings.get("healthEstimate", "PF1.dyingName")
-						}
-					}
-					break
-				case "starfinder":
-					const type = token.actor.data.type
-					if (type !== "character" || type !== "npc") {
-						if (type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
-							descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/)
-						} else {
-							descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/)
-						}
-					}
-					break
-			}
-		}
-		if (!showColor) {
+		} else {
 			color = "#FFF"
 			stroke = "#000"
 		}
