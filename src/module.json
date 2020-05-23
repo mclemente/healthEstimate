@@ -2,7 +2,7 @@
 	"name": "healthEstimate",
 	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "1.2.1",
+	"version": "1.3.0",
 	"author": "Shylight",
 	"scripts": [
 		"./lib/chroma.min.js"
@@ -41,8 +41,10 @@
 		"numenera",
 		"pf1",
 		"pf2e",
+		"ryuutama",
 		"shadowrun5e",
 		"swade",
+		"symbaroum",
 		"wfrp4e",
 		"worldbuilding",
 		"starfinder",
@@ -50,9 +52,9 @@
 		"blades-in-the-dark"
 	],
 	"minimumCoreVersion": "0.5.0",
-	"compatibleCoreVersion": "0.5.6",
+	"compatibleCoreVersion": "0.6.0",
 	"url": "https://gitlab.com/tsuki.no.mai/healthestimate",
 	"manifest": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/master/src/module.json",
-	"download": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/v1.2.1/package/healthEstimate-v1.2.1.zip",
+	"download": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/v1.3.0/package/healthEstimate-v1.3.0.zip",
 	"license": "http://creativecommons.org/licenses/by/4.0/"
 }
