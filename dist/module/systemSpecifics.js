@@ -1,6 +1,7 @@
-import {isEmpty}    from "./utils.js"
-import * as dnd5e   from "./systems/dnd5e.js"
-import * as systems from "./systems.js"
+import {isEmpty}        from "./utils.js"
+import * as dnd5e       from "./systems/dnd5e.js"
+import * as systems     from "./systems.js"
+import {updateSettings} from "./logic.js"
 
 console.log(systems["dnd5e"])
 
@@ -9,11 +10,13 @@ export let breakOverlayRender
 export let systemSpecificSettings = {
 	"core.deathState":  {
 		"type":    Boolean,
-		"default": false
+		"default": false,
+		onChange: s => { updateSettings() }
 	},
 	"core.deathMarker": {
 		type:    String,
 		default: "icons/svg/skull.svg",
+		onChange: s => { updateSettings() }
 	}
 }
 export let descriptionToShow = function (descriptions, stage, token) {
@@ -67,8 +70,8 @@ export function prepareSystemSpecifics() {
 					systemID = "bitd"
 					break
 				case "pf2e":
-					systemSpecificSettings.delete("deathState") //!!!
-					systemSpecificSettings.delete("deathMarker")//!!!
+					systemSpecificSettings["core.deathState"].config = false
+					systemSpecificSettings["core.deathMarker"].config = false
 					break
 			}
 			

@@ -1,9 +1,8 @@
 import {t}                                           from "./utils.js"
 import {systemSpecificSettings, updateBreakSettings} from "./systemSpecifics.js"
+import {updateSettings}                              from "./logic.js"
 
 export const registerSettings = function () {
-	console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-	
 	function addSetting(key, data, scope = "world", config = true) {
 		const commonData = {
 			name:   t(`${key}.name`),
@@ -31,6 +30,7 @@ export const registerSettings = function () {
 	addSetting("core.stateNames", {
 		type:    String,
 		default: t("core.stateNames.default").join(", "),
+		onChange: s => { updateSettings() }
 	})
 	addSetting("core.deathStateName", {
 		type:    String,
@@ -42,16 +42,16 @@ export const registerSettings = function () {
 	addSetting("core.fontSize", {
 		type:    String,
 		default: "x-large",
+		onChange: s => { document.documentElement.style.setProperty('--healthEstimate-text-size', s) }
 	}, "client")
 	addSetting("core.color", {
 		type:     Boolean,
 		default:  true,
-		onChange: s => {
-			document.documentElement.style.setProperty('--healthEstimate-text-size', s)
-		}
+		onChange: s => { updateSettings() }
 	})
 	addSetting("core.smoothGradient", {
 		type:    Boolean,
 		default: true,
+		onChange: s => { updateSettings() }
 	})
 }

@@ -1,16 +1,27 @@
-import {fractionFormula, breakOverlayRender, descriptionToShow, updateBreakSettings} from "./systemSpecifics.js"
+import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings} from "./systemSpecifics.js"
+
+let descriptions, deathMarker, deathStateName, showDead, showColor, smooth
+
+export function updateSettings() {
+	showColor      = game.settings.get("healthEstimate", "core.color")
+	descriptions   = game.settings.get("healthEstimate", "core.stateNames").split(/[,;]\s*/)
+	smooth         = game.settings.get("healthEstimate", "core.smoothGradient")
+	deathStateName = game.settings.get("healthEstimate", "core.deathStateName")
+	showDead       = game.settings.get("healthEstimate", "core.deathState")
+	deathMarker    = game.settings.get("healthEstimate", "core.deathMarker")
+}
 
 class HealthEstimateOverlay extends TokenHUD {
 	static get defaultOptions() {
-		const options = super.defaultOptions
-		options.classes = options.classes.concat(["healthEstimate"])
+		const options    = super.defaultOptions
+		options.classes  = options.classes.concat(["healthEstimate"])
 		options.template = "modules/healthEstimate/templates/healthEstimate.hbs"
-		options.id = "healthEstimate"
+		options.id       = "healthEstimate"
 		return options
 	}
 	
 	getData() {
-		const data = super.getData()
+		const data  = super.getData()
 		data.status = this.estimation
 		return data
 	}
@@ -21,6 +32,7 @@ export class HealthEstimate {
 		updateBreakSettings()
 		document.documentElement.style.setProperty('--healthEstimate-text-size', game.settings.get("healthEstimate", "core.fontSize"))
 		canvas.hud.HealthEstimate = new HealthEstimateOverlay()
+		updateSettings()
 		this.initHooks()
 	}
 	
@@ -54,30 +66,26 @@ export class HealthEstimate {
 	
 	_getEstimation(token) {
 		const fraction = Math.min(fractionFormula(token), 1)
-		const isDead = token.data.overlayEffect === game.settings.get("healthEstimate", "core.deathMarker")
-		const showDead = game.settings.get("healthEstimate", "core.deathState")
-		const showColor = game.settings.get("healthEstimate", "core.color")
-		let descriptions = game.settings.get("healthEstimate", "core.stateNames").split(/[,;]\s*/)
-		const smooth = game.settings.get("healthEstimate", "core.smoothGradient")
-		const stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
-		const step = smooth ? fraction : stage / (descriptions.length - 1)
+		const isDead   = token.data.overlayEffect === deathMarker
+		const stage    = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
+		const step     = smooth ? fraction : stage / (descriptions.length - 1)
 		let desc, color, stroke
 		
 		if (
 			(showDead && isDead) ||
 			token.getFlag("healthEstimate", "dead")
 		) {
-			desc = game.settings.get("healthEstimate", "deathStateName")
-			color = "#900"
+			desc   = deathStateName
+			color  = "#900"
 			stroke = "#000"
 		} else {
-			desc = descriptionToShow(descriptions,stage,token)
+			desc = descriptionToShow(descriptions, stage, token)
 		}
 		if (showColor) {
-			color = (chroma.bezier(['#F00', '#0F0']).scale())(step).hex()
+			color  = (chroma.bezier(['#F00', '#0F0']).scale())(step).hex()
 			stroke = chroma(color).darken(3)
 		} else {
-			color = "#FFF"
+			color  = "#FFF"
 			stroke = "#000"
 		}
 		document.documentElement.style.setProperty('--healthEstimate-stroke-color', stroke)
