@@ -52,7 +52,7 @@
 		"blades-in-the-dark"
 	],
 	"minimumCoreVersion": "0.5.0",
-	"compatibleCoreVersion": "0.5.6",
+	"compatibleCoreVersion": "0.6.0",
 	"url": "https://gitlab.com/tsuki.no.mai/healthestimate",
 	"manifest": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/master/src/module.json",
 	"download": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/v1.2.1/package/healthEstimate-v1.2.1.zip",
