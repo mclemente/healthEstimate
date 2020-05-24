@@ -6,13 +6,9 @@ const fraction     = function (token) {
 	switch (type) {
 		case "npc":
 		case "character": {
-			console.log("character")
 			const sp = token.actor.data.data.attributes.sp
-			console.log(sp)
 			const addStamina = game.settings.get("healthEstimate", "starfinder.addStamina") ? 1 : 0
-			console.log(addStamina)
 			const temp = game.settings.get("healthEstimate", "core.addTemp") && (type === "character") ? hp.temp : 0
-			console.log(temp)
 			return Math.min((hp.value + (sp.value * addStamina) + temp) / (hp.max + (sp.max * addStamina)), 1)
 		}
 		case "vehicle": {

@@ -83,6 +83,9 @@ healthEstimate:
                 - Battered
                 - Scratched
                 - Pristine
+        addStamina:
+            name: Account for Stamina
+            hint: With this setting on Stamina will be added to HP for calculations.
     worldbuilding:
         simpleRule:
             name: Estimation Rule
