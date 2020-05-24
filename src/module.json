@@ -30,8 +30,13 @@
 		},
 		{
 			"lang": "ru",
-			"name": "Русский",
+			"name": "Русский (Russian)",
 			"path": "./lang/ru.json"
+		},
+		{
+			"lang": "ko",
+			"name": "한국어 (Korean)",
+			"path": "./lang/ko.json"
 		}
 	],
 	"systems": [
