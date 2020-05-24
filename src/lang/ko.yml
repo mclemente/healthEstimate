@@ -1,0 +1,95 @@
+healthEstimate:
+    core:
+        onlyGM:
+            name: GM에게만 표시
+            hint: GM에게만 상태를 보인다
+        onlyNPCs:
+            name: NPC만 표시
+            hint: NPC에 대한 상태만이 표시되며 PC에게는 표시되지 않는다
+        stateNames:
+            name: 단계
+            hint: 플레이어에게 표시되는 단계 설명으로, 최악에서 최상의 상태까지 정렬되어 있다
+            default:
+                - 무의식
+                - 임사
+                - 중상
+                - 부상
+                - 경상
+                - 건강
+        deathState:
+            name: 죽음 상태 표시
+            hint: 특정 조건이 되었을 때 토큰을 사망 상태로 표시한다. 매크로와는 독립적으로 작동한다
+        deathStateName:
+            name: 죽음 상태 이름
+            hint: 토큰이 사망 상태가 되었을 때 플레이어에게 표시되는 설명 Compendium 탭에 하나 혹의 여럿의 토큰을 사망 상태로 표시하는 매크로가 존재한다
+            default: 사망
+        deathMarker:
+            name: 죽음 표시자
+            hint: >-
+                죽은 토큰을 표시하는 상태 아이콘의 경로
+
+                사용자 지정 아이콘의 경로를 가져오려면 사용자 지정 아이콘으로 표시된 토큰을 선택하고 콘솔을 연 뒤 다음을 입력한다
+                "canvas.tokens.controlled[0].data.overlayEffect"
+        addTemp:
+            name: 임시 체력 추가
+            hint: |-
+                표시될 설명을 계산할 때 임시 HP가 포함 된다
+                E.g. 설정이 켜져 있을 동안 토큰의 HP가 최대치가 아닌 한 임시 HP를 가질 경우 "굳건"한 상태로 보인다
+        fontSize:
+            name: 폰트 사이즈
+            hint: CSS 폰트 사이즈에 대한 유효 속성을 적용한다
+        color:
+            name: 색상
+            hint: 설명을 현재 상태에 맞춰 녹색에서 적색에 이르는 그라데이션으로 표시한다
+        smoothGradient:
+            name: 부드러운 그라데이션
+            hint: >-
+                이 설정을 해제시 다음 단계에 도착해야만 색상이 변경되며
+                HP 비율을 반영한다
+    PF1:
+        showExtra:
+            name: Disabled & Dying
+            hint: Show "Disabled" and "Dying" descriptions
+        disabledName:
+            name: Disabled
+            hint: Description to show when token is precisely at 0 HP
+            default: Disabled
+        dyingName:
+            name: Dying
+            hint: Description to show when token is below 0 HP
+            default: Dying
+    numenera:
+        countPools:
+            name: Count Empty Pools
+            hint: Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted/replenished
+    starfinder:
+        useThreshold:
+            name: Use Vehicle Threshold
+            hint: If this setting is on, the "Threshold Stages" descriptions will be used for vehicles above threshold, below it, and at 0 HP respectively.
+        thresholdNames:
+            name: Threshold Stages
+            hint: The amount of stages is limited to 3, arranged from worst to best condition
+            default:
+                - Wrecked
+                - Broken
+                - Fully Functional
+        vehicleNames:
+            name: Vehicle Stages
+            hint: Descriptions shown for starships (always), and vehicles (if "Use Vehicle Threshold" is off)
+            default:
+                - Wrecked
+                - Flaming
+                - Smoking
+                - Battered
+                - Scratched
+                - Pristine
+        addStamina:
+            name: Account for Stamina
+            hint: With this setting on Stamina will be added to HP for calculations.
+    worldbuilding:
+        simpleRule:
+            name: 평가 규칙
+            hint: >-
+                토큰 건강도의 비율을 계산하기 위한 JS 공식, 조심해서 변경할 것.
+                기본값은 간단한 내림차순으로 가정하며 예를 들어 건강 필드에서 10/10으로 시작하고 피해를 입을 때 0/10을 향해 내려간다.
+            default: const hp = token.actor.data.data.health; return hp.value / hp.max
