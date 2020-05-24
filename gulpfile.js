@@ -449,7 +449,7 @@ function updateManifest(cb) {
 
 		/* Update URLs */
 
-		const result = `${rawURL}/v${manifest.file.version}/package/${manifest.file.name}-v${manifest.file.version}.zip`;
+		const result = `${rawURL}/${manifest.file.version}/package/${manifest.file.name}-v${manifest.file.version}.zip`;
 
 		manifest.file.url = repoURL;
 		manifest.file.manifest = `${rawURL}/master/${manifestRoot}/${manifest.name}`;
@@ -479,7 +479,7 @@ function gitAdd() {
 
 function gitCommit() {
 	return gulp.src('./*').pipe(
-		git.commit(`v${getManifest().file.version}`, {
+		git.commit(`${getManifest().file.version}`, {
 			args: '-a',
 			disableAppendPaths: true,
 		})
@@ -497,7 +497,7 @@ function gitTag() {
 	);
 }
 
-const execGit = gulp.series(gitAdd, gitCommit, gitTag);
+const execGit = gulp.series(gitAdd, gitCommit/*, gitTag*/);
 
 const execBuild = gulp.parallel(buildTS, buildLess, buildSASS, buildYaml, copyFiles);
 
