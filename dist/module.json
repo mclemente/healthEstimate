@@ -2,7 +2,7 @@
 	"name": "healthEstimate",
 	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "1.3.1",
+	"version": "1.3.2",
 	"author": "Shylight",
 	"scripts": [
 		"./lib/chroma.min.js"
@@ -30,8 +30,13 @@
 		},
 		{
 			"lang": "ru",
-			"name": "Русский",
+			"name": "Русский (Russian)",
 			"path": "./lang/ru.json"
+		},
+		{
+			"lang": "ko",
+			"name": "한국어 (Korean)",
+			"path": "./lang/ko.json"
 		}
 	],
 	"systems": [
@@ -55,6 +60,6 @@
 	"compatibleCoreVersion": "0.6.0",
 	"url": "https://gitlab.com/tsuki.no.mai/healthestimate",
 	"manifest": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/master/src/module.json",
-	"download": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/1.3.1/package/healthEstimate-v1.3.1.zip",
+	"download": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/1.3.2/package/healthEstimate-v1.3.2.zip",
 	"license": "http://creativecommons.org/licenses/by/4.0/"
 }
