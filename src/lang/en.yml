@@ -1,3 +1,11 @@
+# If you're unfamiliar with YAML, this comment will explain the syntax you can find in this file:
+#    "-" denotes a list item;
+#    ">-" and "|-" both allow you to break up text into several lines. The difference being "|-" keeps your linebreaks,
+#         while ">-" only adds a linebreak if you have an empty line in the text (see Death Marker entry for example)
+#
+# Generally you can just replace the text without having to worry about that.
+# However using an editor that can highlight the syntax could still be helpful.
+
 healthEstimate:
     core:
         onlyGM:
@@ -76,7 +84,7 @@ healthEstimate:
         vehicleNames:
             name: Vehicle Stages
             hint: Descriptions shown for starships (always), and vehicles (if "Use Vehicle Threshold" is off)
-            default:
+            default:        #There are no official descriptions for the states of the ship, so feel free to go with what you feel will work best in your language
                 - Wrecked
                 - Flaming
                 - Smoking
