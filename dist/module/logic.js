@@ -82,8 +82,8 @@ export class HealthEstimate {
 			desc = descriptionToShow(descriptions, stage, token)
 		}
 		if (showColor) {
-			color  = (chroma.bezier(['#F00', '#0F0']).scale())(step).hex()
-			stroke = chroma(color).darken(3)
+			color  = color || (chroma.bezier(['#F00', '#0F0']).scale())(step).hex()
+			stroke = stroke || chroma(color).darken(3)
 		} else {
 			color  = "#FFF"
 			stroke = "#000"
