@@ -1,6 +1,7 @@
 import {t}                                           from "./utils.js"
 import {systemSpecificSettings, updateBreakSettings} from "./systemSpecifics.js"
 import {updateSettings}                              from "./logic.js"
+import {ColorSettings}                               from "./colorSettings.js"
 
 export const registerSettings = function () {
 	function addSetting(key, data, scope = "world", config = true) {
@@ -12,6 +13,14 @@ export const registerSettings = function () {
 		}
 		game.settings.register("healthEstimate", key, Object.assign(commonData, data))
 	}
+	
+	game.settings.registerMenu("healthEstimate", "colorSettings", {
+		name: "Test",
+		label: "labeltest",
+		icon: "fas fa-palette",
+		type: ColorSettings,
+		restricted: true
+	})
 	
 	addSetting("core.onlyGM", {
 		type:     Boolean,
