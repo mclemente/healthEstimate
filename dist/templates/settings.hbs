@@ -9,25 +9,5 @@
 	<div class="form-group"><label for=""></label></div>
 	<div class="form-group"><label for=""></label></div>
 	<script>
-		let gradEx   = document.getElementById("gradientExampleHE")
-		let gp = new Grapick({el: '#gradientControlsHE'})
-		gp.addHandler(0, "#f00")
-		gp.addHandler(100, "#00f")
-		gp.on('change', complete => {
-			updateGradient(
-				gp.handlers.map(a => a.color),
-				gp.handlers.map(a => Math.round(a.position)/100)
-			)
-		})
-		function updateGradient(colors=["#f00","#00f"], locations=[0,1]) {
-			let gradString = ''
-			for (let i = 0; i < 100; i++) {
-				gradString += `<span style="display:inline-block;height:25px;width:1%;background-color:${
-						(chroma.bezier(colors).scale().domain(locations).mode('lch'))(i/100).hex()
-				};"></span>`
-			}
-			gradEx.innerHTML = gradString
-		}
-		updateGradient()
 	</script>
 </form>
