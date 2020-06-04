@@ -1,7 +1,7 @@
 import {t}                                           from "./utils.js"
 import {systemSpecificSettings, updateBreakSettings} from "./systemSpecifics.js"
 import {updateSettings}                              from "./logic.js"
-import {ColorSettings}                               from "./colorSettings.js"
+import {HealthEstimateColorSettings}                 from "./colorSettings.js"
 
 export const registerSettings = function () {
 	function addSetting(key, data, scope = "world", config = true) {
@@ -15,10 +15,10 @@ export const registerSettings = function () {
 	}
 	
 	game.settings.registerMenu("healthEstimate", "colorSettings", {
-		name: "Test",
-		label: "labeltest",
-		icon: "fas fa-palette",
-		type: ColorSettings,
+		name:       "Health Estimate Color Settings",
+		label:      "Color Settings",
+		icon:       "fas fa-palette",
+		type:       HealthEstimateColorSettings,
 		restricted: true
 	})
 	

@@ -1,7 +1,7 @@
-export class ColorSettings extends FormApplication {
+export class HealthEstimateColorSettings extends FormApplication {
 	
 	constructor(object, options = {}) {
-		super(object, options);
+		super(object, options)
 	}
 	
 	/**
@@ -9,12 +9,16 @@ export class ColorSettings extends FormApplication {
 	 */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			id: "healthestimate-colors-form",
-			title: "Health Estimate Color Settings",
-			template: "./modules/healthEstimate/templates/settings.hbs",
-			classes: ["sheet"],
-			width: 600,
+			id:            "healthestimate-colors-form",
+			title:         "Health Estimate Color Settings",
+			template:      "./modules/healthEstimate/templates/settings.hbs",
+			classes:       ["sheet"],
+			width:         600,
 			closeOnSubmit: true
-		});
+		})
+	}
+	
+	getData(options) {
+		return {}
 	}
 }

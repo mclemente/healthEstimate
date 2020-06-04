@@ -6,7 +6,8 @@
 	"author": "Shylight",
 	"scripts": [
 		"./lib/chroma.min.js",
-		"./lib/color-picker.min.js"
+		"./lib/color-picker.min.js",
+		"./lib/grapick.min.js"
 	],
 	"esmodules": [
 		"./healthEstimate.js"
