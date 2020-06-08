@@ -4,12 +4,31 @@ import {updateSettings}                              from "./logic.js"
 import {HealthEstimateColorSettings}                 from "./colorSettings.js"
 
 export const registerSettings = function () {
-	function addSetting(key, data, scope = "world", config = true) {
+	/**
+	 * Shorthand for addSetting. Default data: {scope: "world", "config": true}
+	 * @function addSetting
+	 * @param {string} key
+	 * @param {object} data
+	 */
+	function addSetting(key, data) {
 		const commonData = {
 			name:   t(`${key}.name`),
 			hint:   t(`${key}.hint`),
-			scope:  scope,
-			config: config
+			scope:  "world",
+			config: true
+		}
+		game.settings.register("healthEstimate", key, Object.assign(commonData, data))
+	}
+	
+	/**
+	 * Shorthand for addSetting. Default data: {scope: "world", "config": false}
+	 * @param {string} key
+	 * @param {object} data
+	 */
+	function addMenuSetting(key, data) {
+		const commonData = {
+			scope:  "world",
+			config: false
 		}
 		game.settings.register("healthEstimate", key, Object.assign(commonData, data))
 	}
@@ -37,9 +56,11 @@ export const registerSettings = function () {
 		}
 	})
 	addSetting("core.stateNames", {
-		type:    String,
-		default: t("core.stateNames.default").join(", "),
-		onChange: s => { updateSettings() }
+		type:     String,
+		default:  t("core.stateNames.default").join(", "),
+		onChange: s => {
+			updateSettings()
+		}
 	})
 	addSetting("core.deathStateName", {
 		type:    String,
@@ -49,18 +70,44 @@ export const registerSettings = function () {
 		addSetting(key, data)
 	}
 	addSetting("core.fontSize", {
-		type:    String,
-		default: "x-large",
-		onChange: s => { document.documentElement.style.setProperty('--healthEstimate-text-size', s) }
-	}, "client")
+		type:     String,
+		default:  "x-large",
+		scope:    "client",
+		onChange: s => {
+			document.documentElement.style.setProperty('--healthEstimate-text-size', s)
+		}
+	})
 	addSetting("core.color", {
 		type:     Boolean,
 		default:  true,
-		onChange: s => { updateSettings() }
+		onChange: s => {
+			updateSettings()
+		}
 	})
 	addSetting("core.smoothGradient", {
-		type:    Boolean,
-		default: true,
-		onChange: s => { updateSettings() }
+		type:     Boolean,
+		default:  true,
+		onChange: s => {
+			updateSettings()
+		}
+	})
+	addMenuSetting("core.colorSettings.gradient", {
+		type:    Object,
+		default: {
+			colors:    [`#F00`, `#0F0`],
+			positions: [0, 1]
+		}
+	})
+	addMenuSetting(`core.colorSettings.bezier`, {
+		type: Boolean,
+		default: true
+	})
+	addMenuSetting(`core.colorSettings.lightCorrection`, {
+		type: Boolean,
+		default: false
+	})
+	addMenuSetting(`core.colorSettings.mode`, {
+		type: String,
+		default: `rgb`
 	})
 }

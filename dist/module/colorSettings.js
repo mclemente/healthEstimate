@@ -2,7 +2,6 @@ export class HealthEstimateColorSettings extends FormApplication {
 	
 	constructor(object, options = {}) {
 		super(object, options)
-		console.log(this)
 		this.initHooks()
 		
 	}
@@ -28,7 +27,6 @@ export class HealthEstimateColorSettings extends FormApplication {
 	
 	initHooks() {
 		Hooks.on('renderHealthEstimateColorSettings', () => {
-			console.log("owo")
 			this.gradEx = document.getElementById("gradientExampleHE")
 			this.gp     = new Grapick({el: '#gradientControlsHE'})
 			this.gp.addHandler(0, "#f00")
@@ -47,7 +45,7 @@ export class HealthEstimateColorSettings extends FormApplication {
 		let gradString = ''
 		for (let i = 0; i < 100; i++) {
 			gradString += `<span style="display:inline-block;height:25px;width:1%;background-color:${
-				(chroma.bezier(colors).scale().domain(locations).mode('lch'))(i / 100).hex()
+				(chroma.bezier(colors).scale().domain(locations).mode('cmyk'))(i / 100).hex()
 			};"></span>`
 		}
 		this.gradEx.innerHTML = gradString
