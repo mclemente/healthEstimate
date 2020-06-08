@@ -1,0 +1,118 @@
+healthEstimate:
+    core:
+        onlyGM:
+            name: Que pour le MJ
+            hint: Si activé, l''estimation n''est visible que pour le MJ.
+        onlyNPCs:
+            name: Que pour les PNJs
+            hint: Si activé, l'estimation n'est visible que pour les PNJs, mais pas pour les PJs.
+        stateNames:
+            name: Etapes
+            hint: Série de descriptions présentées aux joueurs, classées du pire au meilleur état de santé possible.
+            default:
+                - Inconscient
+                - Presque mort
+                - Grièvement blessé
+                - Blessé
+                - Mouche Rouge
+                - Légèrement blessé
+                - Indemne
+        deathState:
+            name: État de décès sous condition
+            hint: >-
+                Indiquer qu'il est mort lorsqu'il a été marqué d'une condition
+                spécifique. Fonctionne indépendamment de la macro.
+        deathStateName:
+            name: Nom de l'État de mort
+            hint: >-
+                Description montrée aux joueurs lorsque le token est mort. L'onglet
+                Compendium contient une macro permettant de marquer un token (ou
+                plusieurs) comme mort.
+            default: Mort
+        deathMarker:
+            name: Marqueur de la mort
+            hint: >-
+                Emplacement de l'icône de condition marquant les tokens morts.
+
+                Pour obtenir l'emplacement du symbole personnalisé, sélectionnez un
+                token marqué avec celui-ci, ouvrez la console et entrez
+                "canvas.tokens.controlled[0].data.overlayEffect"
+        addTemp:
+            name: Ajout de PV Temporaraires
+            hint: >-
+                Inclure des points de vie temporaires dans le calcul de la description à
+                afficher.
+
+                Par exemple, si le paramètre est activé, le token recevant le point de
+                vie temporaire aura l'air "plus sain " à moins qu'il ne soit déjà au
+                maximum de sa santé.
+        fontSize:
+            name: Taille de la Police
+            hint: Accepte toute propriété valable pour CSS font-size
+        color:
+            name: Couleur
+            hint: >-
+                Est ce que les descriptions doivent-elles être mises en surbrillance via
+                un dégradé de couleurs allant du vert au rouge correspondant à l'état de
+                santé actuel ?
+        smoothGradient:
+            name: Dégradé progressif
+            hint: >-
+                Avec ce réglage, la couleur ne changera que lorsque la description
+                suivante sera atteinte. Un pourcentage de santé sera indiqué.
+    PF1:
+        showExtra:
+            name: Hors-combat & Mourant
+            hint: Voir les descriptions pour "Hors-combat" et "Mourant"
+        disabledName:
+            name: Hors-combat
+            hint: Description pour afficher lorsque le token est précisément à 0 PV
+            default: Hors-combat
+        dyingName:
+            name: Mourant
+            hint: Description pour afficher lorsque le token est en dessous 0 PV
+            default: Mourant
+    numenera:
+        countPools:
+            name: Compter les réserves vides
+            hint: >-
+                Compter les réserves vides au lieu de la somme de leurs valeurs,
+                l'estimation ne changeant que lorsqu'une réserve est épuisée/remplie
+    starfinder:
+        useThreshold:
+            name: Seuil d'utilisation des véhicules
+            hint: >-
+                Si ce paramètre est activé, les descriptions "Étapes du seuil" seront
+                utilisées pour les véhicules au-dessus du seuil, en dessous de celui-ci
+                et à 0 PV respectivement.
+        thresholdNames:
+            name: Étapes des seuils
+            hint: Le nombre d'étapes est limité à 3, classées du pire au meilleur
+            default:
+                - Naufragé
+                - cassé
+                - pleinement fonctionnel
+        vehicleNames:
+            name: Étapes du véhicule
+            hint: >-
+                Descriptions indiquées pour les vaisseaux (toujours) et les véhicules
+                (si"Seuil d'utilisation des véhicules" est désactivé)
+            default:
+                - Épaves
+                - En feu
+                - Fumant
+                - Endommagées
+                - Rayées
+                - Intactes
+        addStamina:
+            name: Ajout de l'endurance
+            hint: Avec ce réglage l'Endurance sera ajoutée au PV pour les calculs.
+    worldbuilding:
+        simpleRule:
+            name: Règle d'estimation
+            hint: >-
+                La formule JS pour calculer la proportion de santé que le token a. A
+                modifier avec prudence. La valeur par défaut suppose une simple santé
+                descendante, par exemple vous commencez avec 10/10 dans votre case santé
+                et descendez à 0/10 lorsque vous subissez des dommages.
+            default: const hp = token.actor.data.data.health; return hp.value / hp.max
