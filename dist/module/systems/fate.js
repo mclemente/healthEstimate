@@ -1,16 +1,18 @@
-const fraction = function (token) {
+const fraction       = function (token) {
 	switch (token.actor.data.type) {
-		case "Accelerated": {
+		case 'Accelerated': {
 			let hitCounter = 6
 			for (let [key, value] of Object.entries(token.actor.data.data.health.cons)) {
-				if (value.value !== "") hitCounter -= 1
+				if (value.value !== '') {
+					hitCounter -= 1
+				}
 			}
 			for (let [key, value] of Object.entries(token.actor.data.data.health.stress)) {
 				hitCounter -= 1 * value
 			}
 			return hitCounter / 6
 		}
-		case "Core": {
+		case 'Core': {
 			//TODO: Add actual logic when necessary variables are added to the token
 		}
 	}

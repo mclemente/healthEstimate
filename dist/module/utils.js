@@ -3,7 +3,7 @@
  * @param string
  * @returns {boolean}
  */
-export function isEmpty(string) {
+export function isEmpty (string) {
 	return !string || string.length === 0 || /^\s*$/.test(string)
 }
 
@@ -12,6 +12,10 @@ export function isEmpty(string) {
  * @param key
  * @returns {string}
  */
-export function t(key) {
+export function t (key) {
 	return game.i18n.localize(`healthEstimate.${key}`)
+}
+
+export function set (key) {
+
 }
