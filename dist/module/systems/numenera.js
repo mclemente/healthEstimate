@@ -25,8 +25,7 @@ const fraction = function (token) {
 		return hp.current / hp.max
 	}
 }
-const settings = () => {
-	return {
+const settings ={
 		'numenera.countPools': {
 			type   : Boolean,
 			default: false,

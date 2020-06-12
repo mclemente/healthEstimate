@@ -100,7 +100,7 @@ export function prepareSystemSpecifics () {
 			const currentSystem = systems[systemID]
 			fractionFormula     = currentSystem.fraction
 			if (currentSystem.settings !== undefined) {
-				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings())
+				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings)
 			}
 			if (currentSystem.breakCondition !== undefined) {
 				breakConditions['system'] = currentSystem.breakCondition

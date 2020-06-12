@@ -6,12 +6,10 @@ const fraction = function (token) {
 	}
 	return Math.min((hp.temp * addTemp + hp.value) / hp.max, 1)
 }
-const settings = () => {
-	return {
-		'core.addTemp': {
-			type   : Boolean,
-			default: false,
-		}
+const settings = {
+	'core.addTemp': {
+		type   : Boolean,
+		default: false
 	}
 }
 

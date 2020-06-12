@@ -29,41 +29,39 @@ const fraction     = function (token) {
 		}
 	}
 }
-const settings     = () => {
-	return {
-		'core.addTemp'             : {
-			type   : Boolean,
-			default: false,
-		},
-		'starfinder.addStamina'    : {
-			type   : Boolean,
-			default: true,
-		},
-		'starfinder.useThreshold'  : {
-			type   : Boolean,
-			default: false,
-		},
-		'starfinder.thresholdNames': {
-			type   : String,
-			default: t('starfinder.thresholdNames.default').join(', '),
-		},
-		'starfinder.vehicleNames'  : {
-			type   : String,
-			default: t('starfinder.vehicleNames.default').join(', '),
-		}
+const settings     = {
+	'core.addTemp'             : {
+		type   : Boolean,
+		default: false
+	},
+	'starfinder.addStamina'    : {
+		type   : Boolean,
+		default: true
+	},
+	'starfinder.useThreshold'  : {
+		type   : Boolean,
+		default: false
+	},
+	'starfinder.thresholdNames': {
+		type   : String,
+		default: t('starfinder.thresholdNames.default').join(', ')
+	},
+	'starfinder.vehicleNames'  : {
+		type   : String,
+		default: t('starfinder.vehicleNames.default').join(', ')
 	}
 }
 const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}) {
-	if (state.isDead) {
-		return state.desc
-	}
 	const type = token.actor.data.type
 	if (type !== 'character' && type !== 'npc') {
 		if (type === 'vehicle' && game.settings.get('healthEstimate', 'starfinder.useThreshold')) {
-			descriptions = game.settings.get('healthEstimate', 'starfinder.thresholdNames').split(/[,;]\s*/)
+			return game.settings.get('healthEstimate', 'starfinder.thresholdNames').split(/[,;]\s*/)
 		} else {
-			descriptions = game.settings.get('healthEstimate', 'starfinder.vehicleNames').split(/[,;]\s*/)
+			return game.settings.get('healthEstimate', 'starfinder.vehicleNames').split(/[,;]\s*/)
 		}
+	}
+	if (state.isDead) {
+		return state.desc
 	}
 	return descriptions[stage]
 }

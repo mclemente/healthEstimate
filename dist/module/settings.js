@@ -70,7 +70,7 @@ export const registerSettings = function () {
 	})
 	addSetting('core.deathStateName', {
 		type   : String,
-		default: t('core.deathStateName.default')
+		default: t('core.deathStateName.default'),
 		onChange: s => {
 			updateSettings()
 		}

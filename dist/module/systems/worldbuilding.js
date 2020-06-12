@@ -5,12 +5,10 @@ const fraction = function (token) {
 	const setting = game.settings.get('healthEstimate', 'worldbuilding.simpleRule')
 	return Function('token', setting)(token)
 }
-const settings = () => {
-	return {
-		'worldbuilding.simpleRule': {
-			type   : String,
-			default: t('worldbuilding.simpleRule.default'),
-		}
+const settings = {
+	'worldbuilding.simpleRule': {
+		type   : String,
+		default: t('worldbuilding.simpleRule.default')
 	}
 }
 
