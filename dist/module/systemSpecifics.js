@@ -85,12 +85,15 @@ export function prepareSystemSpecifics () {
 
 			let systemID = game.system.id
 			switch (systemID) {
+				//13th Age is identical to 5e for our usecase, might as well
 				case 'archmage':
 					systemID = 'dnd5e'
 					break
+				//Can't use hyphens in import/export
 				case 'blades-in-the-dark':
 					systemID = 'bitd'
 					break
+				//PF2E doesn't support overlay conditions
 				case 'pf2e':
 					systemSpecificSettings['core.deathState'].config  = false
 					systemSpecificSettings['core.deathMarker'].config = false
