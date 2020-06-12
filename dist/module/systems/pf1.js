@@ -28,8 +28,8 @@ const settings = ()=> {
 }
 const descriptions = function (descriptions, stage, token) {
 	const hp = token.actor.data.data.attributes.hp
-	if (hp < 1) {
-		if (hp === 0) {
+	if (hp.value < 1) {
+		if (hp.value === 0) {
 			return game.settings.get("healthEstimate", "PF1.disabledName")
 		} else {
 			return game.settings.get("healthEstimate", "PF1.dyingName")
