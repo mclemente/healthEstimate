@@ -103,7 +103,11 @@ export function prepareSystemSpecifics () {
 			const currentSystem = systems[systemID]
 			fractionFormula     = currentSystem.fraction
 			if (currentSystem.settings !== undefined) {
-				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings)
+				/*
+				 * currentSystem.settings is a function because doing it otherwise causes
+				 * l18n calls fire before they're initialized.
+				 */
+				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings())
 			}
 			if (currentSystem.breakCondition !== undefined) {
 				breakConditions['system'] = currentSystem.breakCondition
