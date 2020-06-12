@@ -28,7 +28,10 @@ const settings     = () => {
 		}
 	}
 }
-const descriptions = function (descriptions, stage, token) {
+const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}) {
+	if (state.isDead) {
+		return state.desc
+	}
 	const hp = token.actor.data.data.attributes.hp
 	if (hp.value < 1) {
 		if (hp.value === 0) {

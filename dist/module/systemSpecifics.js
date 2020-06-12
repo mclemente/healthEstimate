@@ -1,4 +1,4 @@
-import {isEmpty} from './utils.js'
+import {isEmpty, sGet} from './utils.js'
 import * as dnd5e from './systems/dnd5e.js'
 import * as systems from './systems.js'
 import {updateSettings} from './logic.js'
@@ -23,17 +23,35 @@ export let systemSpecificSettings = {
 		}
 	}
 }
-export let descriptionToShow      = function (descriptions, stage, token) {
+
+/**
+ * Function handling which description to show. Can be overriden by a system-specific implementation
+ * @param {String[]} descriptions
+ * @param {Number} stage
+ * @param {Token} token
+ * @param state
+ * @returns {*}
+ */
+export let descriptionToShow = function
+	(
+		descriptions,
+		stage,
+		token,
+		state = {isDead: false, desc: ''}
+	) {
+	if (state.isDead) {
+		return state.desc
+	}
 	return descriptions[stage]
 }
 
 const tempHPSetting = {
 	type   : Boolean,
-	default: false,
+	default: false
 }
 
 let breakConditions = {
-	'default': `game.keyboard.isDown('Alt')`,
+	'default': `game.keyboard.isDown('Alt')`
 }
 
 function updateBreakConditions () {
@@ -57,8 +75,8 @@ function updateBreakConditions () {
 }
 
 export function updateBreakSettings () {
-	breakConditions['onlyGM']   = game.settings.get('healthEstimate', 'core.onlyGM') ? `|| !game.user.isGM` : ``
-	breakConditions['onlyNPCs'] = game.settings.get('healthEstimate', 'core.onlyNPCs') ? `|| token.actor.isPC` : ``
+	breakConditions['onlyGM']   = sGet('core.onlyGM') ? `|| !game.user.isGM` : ``
+	breakConditions['onlyNPCs'] = sGet('core.onlyNPCs') ? `|| token.actor.isPC` : ``
 	updateBreakConditions()
 }
 

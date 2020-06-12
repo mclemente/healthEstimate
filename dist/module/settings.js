@@ -5,7 +5,8 @@ import {HealthEstimateColorSettings} from './colorSettings.js'
 
 export const registerSettings = function () {
 	/**
-	 * Shorthand for addSetting. Default data: {scope: "world", "config": true}
+	 * Shorthand for addSetting.
+	 * Default data: {scope: "world", config: true}
 	 * @function addSetting
 	 * @param {string} key
 	 * @param {object} data
@@ -21,12 +22,15 @@ export const registerSettings = function () {
 	}
 
 	/**
-	 * Shorthand for addSetting. Default data: {scope: "world", "config": false}
+	 * Shorthand for addSetting.
+	 * Default data: {scope: "world", config: false}
 	 * @param {string} key
 	 * @param {object} data
 	 */
 	function addMenuSetting (key, data) {
 		const commonData = {
+			name  : t(`${key}.name`),
+			hint  : t(`${key}.hint`),
 			scope : 'world',
 			config: false
 		}
@@ -41,6 +45,8 @@ export const registerSettings = function () {
 		restricted: true
 	})
 
+
+	/* Settings for the main settings menu */
 	addSetting('core.onlyGM', {
 		type    : Boolean,
 		default : false,
@@ -64,7 +70,17 @@ export const registerSettings = function () {
 	})
 	addSetting('core.deathStateName', {
 		type   : String,
-		default: t('core.deathStateName.default'),
+		default: t('core.deathStateName.default')
+		onChange: s => {
+			updateSettings()
+		}
+	})
+	addSetting('core.NPCsJustDie', {
+		type   : Boolean,
+		default: true,
+		onChange: s => {
+			updateSettings()
+		}
 	})
 	for (let [key, data] of Object.entries(systemSpecificSettings)) {
 		addSetting(key, data)
@@ -77,24 +93,21 @@ export const registerSettings = function () {
 			document.documentElement.style.setProperty('--healthEstimate-text-size', s)
 		}
 	})
-	addSetting('core.color', {
+
+
+	/* Settings for the custom menu */
+	addMenuSetting('core.color', {
 		type    : Boolean,
 		default : true,
-		onChange: s => {
-			updateSettings()
-		}
 	})
-	addSetting('core.smoothGradient', {
+	addMenuSetting('core.smoothGradient', {
 		type    : Boolean,
 		default : true,
-		onChange: s => {
-			updateSettings()
-		}
 	})
 	addMenuSetting('core.colorSettings.gradient', {
 		type   : Object,
 		default: {
-			colors   : [`#F00`, `#0F0`],
+			colors   : [`#FF0000`, `#00FF00`],
 			positions: [0, 1]
 		}
 	})
@@ -102,12 +115,32 @@ export const registerSettings = function () {
 		type   : Boolean,
 		default: true
 	})
-	addMenuSetting(`core.colorSettings.lightCorrection`, {
+	addMenuSetting(`core.colorSettings.correctLightness`, {
 		type   : Boolean,
 		default: false
 	})
 	addMenuSetting(`core.colorSettings.mode`, {
 		type   : String,
-		default: `rgb`
+		default: `rgb`,
+		choices: {
+			'rgb': 'RGB',
+			'hsl': 'HSL',
+			'lch': 'LCH'
+		}
+	})
+	addMenuSetting('core.colorSettings.deadColor', {
+		type   : String,
+		default: '#990000'
+	})
+	addMenuSetting('core.colorSettings.outline', {
+		type   : Object,
+		default: {
+			mode      : 'darken',
+			multiplier: 3
+		},
+		choices: {
+			'darken'  : 'Darken',
+			'brighten': 'Brighten'
+		}
 	})
 }

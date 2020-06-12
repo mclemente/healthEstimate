@@ -1,14 +1,25 @@
 import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings} from './systemSpecifics.js'
+import {sGet} from './utils.js'
 
-let descriptions, deathMarker, deathStateName, showDead, showColor, smooth
+let descriptions, deathStateName, showDead, showColor, smooth, isDead
 
 export function updateSettings () {
-	showColor      = game.settings.get('healthEstimate', 'core.color')
-	descriptions   = game.settings.get('healthEstimate', 'core.stateNames').split(/[,;]\s*/)
-	smooth         = game.settings.get('healthEstimate', 'core.smoothGradient')
-	deathStateName = game.settings.get('healthEstimate', 'core.deathStateName')
-	showDead       = game.settings.get('healthEstimate', 'core.deathState')
-	deathMarker    = game.settings.get('healthEstimate', 'core.deathMarker')
+	showColor       = sGet('core.color')
+	descriptions    = sGet('core.stateNames').split(/[,;]\s*/)
+	smooth          = sGet('core.smoothGradient')
+	deathStateName  = sGet('core.deathStateName')
+	let showDead    = sGet('core.deathState')
+	let NPCsJustDie = sGet('core.NPCsJustDie')
+	let deathMarker = sGet('core.deathMarker')
+
+	isDead = new Function(
+		'token', 'stage',
+		`return (
+			${NPCsJustDie ? 'stage === 0 ||' : ''}
+			${showDead ? `token.data.overlayEffect === '${deathMarker}' ||` : ''}
+			token.getFlag('healthEstimate', 'dead')
+		)`
+	)
 }
 
 class HealthEstimateOverlay extends TokenHUD {
@@ -30,7 +41,7 @@ class HealthEstimateOverlay extends TokenHUD {
 export class HealthEstimate {
 	constructor () {
 		updateBreakSettings()
-		document.documentElement.style.setProperty('--healthEstimate-text-size', game.settings.get('healthEstimate', 'core.fontSize'))
+		document.documentElement.style.setProperty('--healthEstimate-text-size', sGet('core.fontSize'))
 		canvas.hud.HealthEstimate = new HealthEstimateOverlay()
 		updateSettings()
 		this.initHooks()
@@ -68,20 +79,17 @@ export class HealthEstimate {
 
 	_getEstimation (token) {
 		const fraction = Math.min(fractionFormula(token), 1)
-		const isDead   = token.data.overlayEffect === deathMarker
+		// const isDead   = token.data.overlayEffect === deathMarker
 		const stage    = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
 		const step     = smooth ? fraction : stage / (descriptions.length - 1)
 		let desc, color, stroke
 
-		if (
-			(showDead && isDead) ||
-			token.getFlag('healthEstimate', 'dead')
-		) {
-			desc   = deathStateName
+		desc = descriptionToShow(descriptions, stage, token, {isDead: isDead(token, stage), desc: deathStateName})
+		if (isDead(token, stage)) {
+			// desc   = deathStateName
 			color  = '#900'
 			stroke = '#000'
 		} else {
-			desc = descriptionToShow(descriptions, stage, token)
 		}
 		if (showColor) {
 			color  = color || (chroma.bezier(['#F00', '#0F0']).scale())(step).hex()

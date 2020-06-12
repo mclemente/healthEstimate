@@ -38,6 +38,11 @@ healthEstimate:
 
                 To get a custom icon's path, select a token marked with it, open the console and enter
                 "canvas.tokens.controlled[0].data.overlayEffect"
+        NPCsJustDie:
+            name: NPCs die immediately
+            hint: >-
+                With this setting on the lowest option in normal description list won't be shown for NPCs,
+                they'll be shown as dead instead.
         addTemp:
             name: Add Temporary Health
             hint: |-

@@ -1,3 +1,5 @@
+import {sGet, sSet} from './utils.js'
+
 export class HealthEstimateColorSettings extends FormApplication {
 
 	constructor (object, options = {}) {
@@ -22,7 +24,8 @@ export class HealthEstimateColorSettings extends FormApplication {
 
 	getData (options) {
 		const data = {
-			bezier: game.settings.get('healthEstimate', 'bezier')
+			bezier: sGet('core.colorSettings.bezier'),
+			correctLightness: sGet('core.colorSettings.correctLightness')
 		}
 
 		return {}

@@ -53,7 +53,10 @@ const settings     = () => {
 		}
 	}
 }
-const descriptions = function (descriptions, stage, token) {
+const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}) {
+	if (state.isDead) {
+		return state.desc
+	}
 	const type = token.actor.data.type
 	if (type !== 'character' && type !== 'npc') {
 		if (type === 'vehicle' && game.settings.get('healthEstimate', 'starfinder.useThreshold')) {
