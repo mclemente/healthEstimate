@@ -4,6 +4,8 @@ export class HealthEstimateColorSettings extends FormApplication {
 
 	constructor (object, options = {}) {
 		super(object, options)
+		this.gradFn = new Function()
+		this.gradColors = []
 		this.initHooks()
 	}
 
@@ -52,7 +54,6 @@ export class HealthEstimateColorSettings extends FormApplication {
 			useColor        : prepSetting('color'),
 			smoothGradient  : prepSetting('smoothGradient'),
 			bezier          : prepSetting('bezier'),
-			correctLightness: prepSetting('correctLightness'),
 			deadColor       : prepSetting('deadColor'),
 			mode            : prepSelection('mode'),
 			outline         : prepSelection('outline')
@@ -65,10 +66,27 @@ export class HealthEstimateColorSettings extends FormApplication {
 			const bezier            = document.getElementById(`bezier`)
 			const mode              = document.getElementById(`mode`)
 
-			this.gradFn = new Function()
-			this.gradCl = new Function()
+			this.smoothGradient = document.getElementById('smoothGradient')
 			this.gradEx = document.getElementById('gradientExampleHE')
-			this.gp     = this.gp || new Grapick({el: '#gradientControlsHE'})
+			this.gp     = this.gp || new Grapick({
+				el: '#gradientControlsHE',
+				colorEl: '<input id="colorpicker"/>'
+			})
+			this.gp.setColorPicker(handler => {
+				const el = handler.getEl().querySelector('#colorpicker');
+				console.log(el)
+
+				$(el).spectrum({
+					color    : handler.getColor(),
+					showAlpha: true,
+					change (color) {
+						handler.setColor(color.toRgbString());
+					},
+					move (color) {
+						handler.setColor(color.toRgbString(), 0);
+					}
+				});
+			})
 			this.setHandlers(gradientPositions).then(() => {
 				this.updateGradientFunction()
 			})
@@ -82,30 +100,29 @@ export class HealthEstimateColorSettings extends FormApplication {
 					this.updateGradientFunction()
 				})
 			}
+			this.smoothGradient.addEventListener('change', () => {
+				this.updateGradient()
+			})
 
 		})
 	}
 
 	async setHandlers (positions) {
 		for (let [i, v] of positions.colors.entries()) {
-			await this.gp.addHandler(positions.positions[i] * 100, v)
+			this.gp.addHandler(positions.positions[i] * 100, v)
 		}
-		// return(`!`)
 	}
 
 	updateGradientFunction () {
 		const bezier           = document.getElementById(`bezier`).checked
 		const mode             = document.getElementById(`mode`).value
-		const colorHandler     = bezier
-		                         ? `bezier(colors).scale()`
-		                         : `scale(colors)`
+		const colorHandler     = bezier ? `bezier(colors).scale()` : `scale(colors)`
 
-
+		// this.gradFn = new Function(
+		// 	`position`, `colors`, `colorPositions`,
+		// 	`return (chroma.${colorHandler}.domain(colorPositions).mode('${mode}'))(position/100).hex()`
+		// )
 		this.gradFn = new Function(
-			`position`, `colors`, `colorPositions`,
-			`return (chroma.${colorHandler}.domain(colorPositions).mode('${mode}'))(position/100).hex()`
-		)
-		this.gradCl = new Function(
 			`amount`, `colors`, `colorPositions`,
 			`return (chroma.${colorHandler}.domain(colorPositions).mode('${mode}').colors(amount))`
 		)
@@ -113,18 +130,20 @@ export class HealthEstimateColorSettings extends FormApplication {
 	}
 
 	updateGradient () {
-		// const colors = this.gp.handlers.map(a => a.color)
-		// const positions = this.gp.handlers.map(a => Math.round(a.position) / 100)
 		const colors         = this.gp.handlers.map(a => a.color)
 		const colorPositions = this.gp.handlers.map(a => Math.round(a.position) / 100)
+		const gradLength = this.smoothGradient.checked ? 100 : sGet('core.stateNames').split(/[,;]\s*/).length
+		const width = 100/gradLength
+		this.gradColors = this.gradFn(gradLength, colors, colorPositions)
 		let gradString       = ''
-		for (let i = 0; i < 100; i++) {
+
+		for (let i = 0; i < gradLength; i++) {
 			gradString +=
 				`<span style="
         			display:inline-block;
-        			height:25px;
-        			width:1%;
-        			background-color:${this.gradFn(i, colors, colorPositions)};"></span>`
+        			height:30px;
+        			width:${width}%;
+        			background-color:${this.gradColors[i]};"></span>`
 		}
 		// (chroma.bezier(colors).scale().domain(positions).mode('cmyk'))(i / 100).hex()
 		this.gradEx.innerHTML = gradString

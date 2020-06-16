@@ -21,7 +21,11 @@
         </span>
     </div>
     <div class="form-group">
-        <label for=""></label>
+        {{#with smoothGradient}}
+            <label for="smoothGradient">{{localize name}}</label>
+            <input type="checkbox" name="smoothGradient" id="smoothGradient" {{#if value}}checked="checked"{{/if}}>
+            <p class="notes">{{localize hint}}</p>
+        {{/with}}
     </div>
     <div class="form-group">
         <label for=""></label>
