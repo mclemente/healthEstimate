@@ -1,23 +1,23 @@
-<form autocomplete="off" onsubmit="event.preventDefault()">
+<form autocomplete="off" style="padding: 0 2.5%" onsubmit="event.preventDefault()">
+    <div class="form-group" style="align-items: flex-end;">
+        <label for="useColor" style="flex:none;margin-right: 3px">{{useColor.name}}</label>
+        <input type="checkbox" name="useColor" id="useColor" {{#if useColor.value}}checked="checked"{{/if}}>
+    </div>
     <div class="form-group" style="flex-direction: column">
         <div id="gradientExampleHE"></div>
         <div id="gradientControlsHE"></div>
     </div>
     <div class="form-group">
-        <span>
+        <span class="gradient-settings">
+            <select name="mode" id="mode">
+                {{#each mode}}
+                    <option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+                {{/each}}
+            </select>
+        </span>
+        <span class="gradient-settings">
             <label for="bezier">Bezier</label>
             <input type="checkbox" name="bezier" id="bezier">
-        </span>
-        <span>
-            <label for="correctLightness">{{localize 'healthEstimate.core.colorSettings.correctLightness.name'}}</label>
-            <input type="checkbox" name="correctLightness" id="correctLightness">
-        </span>
-        <span>
-            <select name="mode" id="mode">
-                <option value="rgb">RGB</option>
-                <option value="hsv">HSV</option>
-                <option value="hcl">HCL</option>
-            </select>
         </span>
     </div>
     <div class="form-group">

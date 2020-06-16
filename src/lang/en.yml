@@ -51,17 +51,15 @@ healthEstimate:
         fontSize:
             name: Font Size
             hint: Accepts any valid property for CSS font-size
-        color:
-            name: Color
-            hint: Should the descriptions be highlighted with a gradient from green to red corresponding to current health?
-        smoothGradient:
-            name: Smooth Gradient
-            hint: >-
-                With this setting off the color will only change when the next description is reached,
-                with it on it will reflect the health percentage.
         colorSettings:
-            correctLightness:
-                name: Correct Lightness
+            color:
+                name: Use Color
+                hint: Should the descriptions be highlighted with a gradient from green to red corresponding to current health?
+            smoothGradient:
+                name: Smooth Gradient
+                hint: >-
+                    With this setting off the color will only change when the next description is reached,
+                    with it on it will reflect the health percentage.
     PF1:
         showExtra:
             name: Disabled & Dying

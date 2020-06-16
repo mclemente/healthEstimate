@@ -96,11 +96,11 @@ export const registerSettings = function () {
 
 
 	/* Settings for the custom menu */
-	addMenuSetting('core.color', {
+	addMenuSetting('core.colorSettings.color', {
 		type    : Boolean,
 		default : true,
 	})
-	addMenuSetting('core.smoothGradient', {
+	addMenuSetting('core.colorSettings.smoothGradient', {
 		type    : Boolean,
 		default : true,
 	})

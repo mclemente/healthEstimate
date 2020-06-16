@@ -1,4 +1,4 @@
-import {sGet, sSet} from './utils.js'
+import {sGet, sSet, settingData} from './utils.js'
 
 export class HealthEstimateColorSettings extends FormApplication {
 
@@ -23,22 +23,50 @@ export class HealthEstimateColorSettings extends FormApplication {
 	}
 
 	getData (options) {
-		const data = {
-			bezier: sGet('core.colorSettings.bezier'),
-			correctLightness: sGet('core.colorSettings.correctLightness')
+		function path (key) {
+			return `core.colorSettings.${key}`
+		}
+		function prepSelection(key) {
+			let data = settingData(path(key))
+			let current = sGet(path(key))
+			let result = []
+			for (let [k,v] of Object.entries(data.choices)) {
+				result.push({
+					key: k,
+					value: v,
+					selected: k === current
+				})
+			}
+			return result
+		}
+		function prepSetting (key) {
+			let data = settingData(path(key))
+			return {
+				value: sGet(path(key)),
+				name: data.name,
+				hint: data.hint
+			}
 		}
 
-		return {}
+		return {
+			useColor        : prepSetting('color'),
+			smoothGradient  : prepSetting('smoothGradient'),
+			bezier          : prepSetting('bezier'),
+			correctLightness: prepSetting('correctLightness'),
+			deadColor       : prepSetting('deadColor'),
+			mode            : prepSelection('mode'),
+			outline         : prepSelection('outline')
+		}
 	}
 
 	initHooks () {
 		Hooks.on('renderHealthEstimateColorSettings', () => {
 			const gradientPositions = game.settings.get(`healthEstimate`, `core.colorSettings.gradient`)
 			const bezier            = document.getElementById(`bezier`)
-			const correctLightness  = document.getElementById(`correctLightness`)
 			const mode              = document.getElementById(`mode`)
 
 			this.gradFn = new Function()
+			this.gradCl = new Function()
 			this.gradEx = document.getElementById('gradientExampleHE')
 			this.gp     = this.gp || new Grapick({el: '#gradientControlsHE'})
 			this.setHandlers(gradientPositions).then(() => {
@@ -49,7 +77,7 @@ export class HealthEstimateColorSettings extends FormApplication {
 			this.gp.on('change', complete => {
 				this.updateGradient()
 			})
-			for (const v of [bezier, correctLightness, mode]) {
+			for (const v of [bezier, mode]) {
 				v.addEventListener(`change`, () => {
 					this.updateGradientFunction()
 				})
@@ -67,20 +95,19 @@ export class HealthEstimateColorSettings extends FormApplication {
 
 	updateGradientFunction () {
 		const bezier           = document.getElementById(`bezier`).checked
-		const correctLightness = document.getElementById(`correctLightness`).checked
 		const mode             = document.getElementById(`mode`).value
 		const colorHandler     = bezier
 		                         ? `bezier(colors).scale()`
 		                         : `scale(colors)`
-		let lightness          = ``
 
-		if (correctLightness) {
-			lightness = `.correctLightness()`
-		}
 
 		this.gradFn = new Function(
 			`position`, `colors`, `colorPositions`,
-			`return (chroma.${colorHandler}${lightness}.domain(colorPositions).mode('${mode}'))(position/100).hex()`
+			`return (chroma.${colorHandler}.domain(colorPositions).mode('${mode}'))(position/100).hex()`
+		)
+		this.gradCl = new Function(
+			`amount`, `colors`, `colorPositions`,
+			`return (chroma.${colorHandler}.domain(colorPositions).mode('${mode}').colors(amount))`
 		)
 		this.updateGradient()
 	}

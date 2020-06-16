@@ -4,9 +4,9 @@ import {sGet} from './utils.js'
 let descriptions, deathStateName, showDead, showColor, smooth, isDead
 
 export function updateSettings () {
-	showColor       = sGet('core.color')
+	showColor       = sGet('core.colorSettings.color')
 	descriptions    = sGet('core.stateNames').split(/[,;]\s*/)
-	smooth          = sGet('core.smoothGradient')
+	smooth          = sGet('core.colorSettings.smoothGradient')
 	deathStateName  = sGet('core.deathStateName')
 	let showDead    = sGet('core.deathState')
 	let NPCsJustDie = sGet('core.NPCsJustDie')
