@@ -10,7 +10,7 @@
     <div class="form-group">
         <span class="gradient-settings">
             <select name="mode" id="mode">
-                {{#each mode}}
+                {{#each mode.select}}
                     <option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
                 {{/each}}
             </select>
@@ -28,7 +28,10 @@
         {{/with}}
     </div>
     <div class="form-group">
-        <label for=""></label>
+        {{#with deadColor}}
+            <label for="deadColor">{{localize name}}</label>
+            <input type="text" name="deadColor" id="deadColor">
+        {{/with}}
     </div>
     <div class="form-group">
         <label for=""></label>

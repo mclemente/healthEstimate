@@ -40,19 +40,29 @@
     justify-content: center;
 }
 
-.sp-dd{
+.sp-preview {
+    width: 30px;
+    height: 20px;
+    margin-right: 5px;
+}
+.sp-replacer {
+    padding: 4px;
+    flex:initial!important;
+}
+
+.grp-handler .sp-dd{
     display: none;
 }
-.sp-preview {
+.grp-handler .sp-preview {
     width: 11px;
     height: 11px;
     margin-right: 0;
     border-radius: 11px;
 }
-.sp-preview-inner {
+.grp-handler .sp-preview-inner {
     border-radius: 11px;
 }
-.sp-replacer {
+.grp-handler .sp-replacer {
     padding: 1px;
     margin-left: -6px;
     border-radius: 15px;

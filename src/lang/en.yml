@@ -60,6 +60,8 @@ healthEstimate:
                 hint: >-
                     With this setting off the color will only change when the next description is reached,
                     with it on it will reflect the health percentage.
+            deadColor:
+                name: Color of dead tokens
     PF1:
         showExtra:
             name: Disabled & Dying
