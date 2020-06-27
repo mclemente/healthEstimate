@@ -4,9 +4,9 @@ import {sGet} from './utils.js'
 let descriptions, deathStateName, showDead, showColor, smooth, isDead
 
 export function updateSettings () {
-	showColor       = sGet('core.colorSettings.color')
+	showColor       = sGet('core.menuSettings.color')
 	descriptions    = sGet('core.stateNames').split(/[,;]\s*/)
-	smooth          = sGet('core.colorSettings.smoothGradient')
+	smooth          = sGet('core.menuSettings.smoothGradient')
 	deathStateName  = sGet('core.deathStateName')
 	let showDead    = sGet('core.deathState')
 	let NPCsJustDie = sGet('core.NPCsJustDie')
@@ -25,7 +25,7 @@ export function updateSettings () {
 class HealthEstimateOverlay extends TokenHUD {
 	static get defaultOptions () {
 		const options    = super.defaultOptions
-		options.classes  = options.classes.concat(['healthEstimate'])
+		options.classes  = options.classes.concat(['healthEstimate', 'healthEstimateColor'])
 		options.template = 'modules/healthEstimate/templates/healthEstimate.hbs'
 		options.id       = 'healthEstimate'
 		return options
@@ -41,7 +41,7 @@ class HealthEstimateOverlay extends TokenHUD {
 export class HealthEstimate {
 	constructor () {
 		updateBreakSettings()
-		document.documentElement.style.setProperty('--healthEstimate-text-size', sGet('core.fontSize'))
+		document.documentElement.style.setProperty('--healthEstimate-text-size', sGet('core.menuSettings.fontSize'))
 		canvas.hud.HealthEstimate = new HealthEstimateOverlay()
 		updateSettings()
 		this.initHooks()
