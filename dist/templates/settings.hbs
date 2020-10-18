@@ -1,4 +1,4 @@
-<form autocomplete="off" style="padding: 0 2.5%" onsubmit="event.preventDefault()">
+<form autocomplete="off" style="padding: 0 2.5%" onsubmit="event.preventDefault()" style="display: flex;flex-direction: column;">
     <div class="form-group" style="align-items: flex-end;">
         <label for="useColor" style="flex:none;margin-right: 3px">{{useColor.name}}</label>
         <input type="checkbox" name="useColor" id="useColor" {{#if useColor.value}}checked="checked"{{/if}}>
@@ -87,6 +87,12 @@
     <div class="form-group">
         <label for=""></label>
     </div>
-    <script>
-    </script>
+    <footer class="sheet-footer flexrow" style="margin-top: auto">
+<!--        <button type="button" name="reset">-->
+<!--            <i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}-->
+<!--        </button>-->
+        <button type="submit" name="submit">
+            <i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}
+        </button>
+    </footer>
 </form>

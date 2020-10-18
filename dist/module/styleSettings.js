@@ -228,4 +228,9 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			sampleItems[i].style.setProperty('--healthEstimate-stroke-color', this.outlColors[position])
 		}
 	}
+
+	async _updateObject(e,d) {
+		console.debug(e)
+		console.debug(d)
+	}
 }
