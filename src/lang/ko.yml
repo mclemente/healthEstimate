@@ -46,46 +46,6 @@ healthEstimate:
             hint: >-
                 이 설정을 해제시 다음 단계에 도착해야만 색상이 변경되며
                 HP 비율을 반영한다
-    PF1:
-        showExtra:
-            name: Disabled & Dying
-            hint: Show "Disabled" and "Dying" descriptions
-        disabledName:
-            name: Disabled
-            hint: Description to show when token is precisely at 0 HP
-            default: Disabled
-        dyingName:
-            name: Dying
-            hint: Description to show when token is below 0 HP
-            default: Dying
-    numenera:
-        countPools:
-            name: Count Empty Pools
-            hint: Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted/replenished
-    starfinder:
-        useThreshold:
-            name: Use Vehicle Threshold
-            hint: If this setting is on, the "Threshold Stages" descriptions will be used for vehicles above threshold, below it, and at 0 HP respectively.
-        thresholdNames:
-            name: Threshold Stages
-            hint: The amount of stages is limited to 3, arranged from worst to best condition
-            default:
-                - Wrecked
-                - Broken
-                - Fully Functional
-        vehicleNames:
-            name: Vehicle Stages
-            hint: Descriptions shown for starships (always), and vehicles (if "Use Vehicle Threshold" is off)
-            default:
-                - Wrecked
-                - Flaming
-                - Smoking
-                - Battered
-                - Scratched
-                - Pristine
-        addStamina:
-            name: Account for Stamina
-            hint: With this setting on Stamina will be added to HP for calculations.
     worldbuilding:
         simpleRule:
             name: 평가 규칙

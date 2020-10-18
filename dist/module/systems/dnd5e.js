@@ -1,3 +1,5 @@
+import {addTemp, breakOnZeroMaxHP} from './commonSettings.js'
+
 const fraction = function (token) {
 	const hp    = token.actor.data.data.attributes.hp
 	let addTemp = 0
@@ -6,13 +8,6 @@ const fraction = function (token) {
 	}
 	return Math.min((hp.temp * addTemp + hp.value) / hp.max, 1)
 }
-const settings = () => {
-	return {
-		'core.addTemp': {
-			type   : Boolean,
-			default: false,
-		}
-	}
-}
+const settings = Object.assign({}, addTemp, breakOnZeroMaxHP)
 
 export {fraction, settings}
