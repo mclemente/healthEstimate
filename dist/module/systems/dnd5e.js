@@ -8,6 +8,8 @@ const fraction = function (token) {
 	}
 	return Math.min((hp.temp * addTemp + hp.value) / hp.max, 1)
 }
-const settings = Object.assign({}, addTemp, breakOnZeroMaxHP)
+const settings = () => {return Object.assign({}, addTemp, breakOnZeroMaxHP)}
 
-export {fraction, settings}
+const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0`
+
+export {fraction, settings, breakCondition}
