@@ -5,13 +5,17 @@
 	"version": "1.3.3",
 	"author": "Shylight",
 	"scripts": [
-		"./lib/chroma.min.js"
+		"./lib/chroma.min.js",
+		"./lib/color-picker.min.js",
+		"./lib/grapick.min.js",
+		"./lib/spectrum.min.js"
 	],
 	"esmodules": [
 		"./healthEstimate.js"
 	],
 	"styles": [
-		"./healthEstimate.css"
+		"./healthEstimate.css",
+		"./lib/spectrum.min.css"
 	],
 	"packs": [
 		{

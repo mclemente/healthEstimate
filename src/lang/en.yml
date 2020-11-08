@@ -16,7 +16,14 @@ healthEstimate:
             hint: Only show estimations for NPCs, but not for player characters.
         stateNames:
             name: Stages
-            hint: An array of descriptions shown to players, arranged from worst to best possible health.
+            hint: >-
+                An array of descriptions shown to players, arranged from worst to best possible health.
+
+                The amount of possible descriptions is not limited, the module will adjust the health percentage to show
+                them proportionally to the amount.
+
+                If there is a need for one description to cover a higher range of health than others simply copy it
+                several times.
             default:
                 - Unconscious
                 - Near Death
@@ -28,43 +35,66 @@ healthEstimate:
             name: Death State on Condition
             hint: Show token as dead when it's been marked with specific condition. Works independently from the macro.
         deathStateName:
-            name: Death State Name
-            hint: The description shown to players when the token is dead. Compendium tab has a macro for marking a token (or several) as dead.
+            name:    Death State Name
+            hint:    The description shown to players when the token is dead. Compendium tab has a macro for marking a token (or several) as dead.
             default: Dead
         deathMarker:
             name: Death Marker
             hint: >-
-                Path to the condition icon that marks the dead tokens.
+                  Path to the condition icon that marks the dead tokens.
 
-                To get a custom icon's path, select a token marked with it, open the console and enter
-                "canvas.tokens.controlled[0].data.overlayEffect"
+                  To get a custom icon's path, select a token marked with it, open the console and enter
+                  "canvas.tokens.controlled[0].data.overlayEffect"
+        NPCsJustDie:
+            name: NPCs die immediately
+            hint: >-
+                  With this setting on the lowest option in normal description list won't be shown for NPCs,
+                  they'll be shown as dead instead.
         addTemp:
             name: Add Temporary Health
             hint: |-
-                Include temporary health points in calculating what description to show.
-                E.g. with the setting turned on the token receiving temp HP will look "healthier" unless it's already at max health.
-        fontSize:
-            name: Font Size
-            hint: Accepts any valid property for CSS font-size
-        color:
-            name: Color
-            hint: Should the descriptions be highlighted with a gradient from green to red corresponding to current health?
-        smoothGradient:
-            name: Smooth Gradient
-            hint: >-
-                With this setting off the color will only change when the next description is reached,
-                with it on it will reflect the health percentage.
+                  Include temporary health points in calculating what description to show.
+                  E.g. with the setting turned on the token receiving temp HP will look "healthier" unless it's already at max health.
+        menuSettings:
+            fontSize:
+                name: Font Size
+                hint: Accepts any valid property for CSS font-size
+            useColor:
+                name: Use Color
+                hint: This won't affect the settings window, but with checkmark off the descriptions will be shown in black and white.
+            smoothGradient:
+                name: Smooth Gradient
+                hint: >-
+                      With this setting off the color will only change when the next description is reached,
+                      with it on it will reflect the health percentage.
+            deadColor:
+                name: Color of dead tokens
+            outline:
+                name:     Outline
+                darken:   Darken
+                brighten: Brighten
+            position:
+                name: Position
+                top:    Top
+                middle: Middle
+                bottom: Bottom
+            positionAdjustment:
+                name:   Position Adjustment
+                hint:   >-
+                        Position is set relative to the frame. The number lets you tweak the position relative to its normal
+                        place. Positive numbers push it lower, negative – higher. The default value of -1 sets it to
+                        "1 line above initial position".
     PF1:
         showExtra:
             name: Disabled & Dying
             hint: Show "Disabled" and "Dying" descriptions
         disabledName:
-            name: Disabled
-            hint: Description to show when token is precisely at 0 HP
+            name:    Disabled
+            hint:    Description to show when token is precisely at 0 HP
             default: Disabled
         dyingName:
-            name: Dying
-            hint: Description to show when token is below 0 HP
+            name:    Dying
+            hint:    Description to show when token is below 0 HP
             default: Dying
     numenera:
         countPools:
@@ -96,8 +126,8 @@ healthEstimate:
             hint: With this setting on Stamina will be added to HP for calculations.
     worldbuilding:
         simpleRule:
-            name: Estimation Rule
-            hint: >-
-                The JS formula for calculating the fraction of health token has. Alter with caution.
-                Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage.
+            name:    Estimation Rule
+            hint:    >-
+                     The JS formula for calculating the fraction of health token has. Alter with caution.
+                     Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage.
             default: const hp = token.actor.data.data.health; return hp.value / hp.max
