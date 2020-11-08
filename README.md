@@ -35,6 +35,6 @@ Tested on 0.5.5 version.
 Every suggestions/feedback are appreciated, if so, please contact me on discord (Shylight#1337)
 
 ## License
-Health Estimate is a module for Foundry VTT by Shylight and is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+Health Estimate is a module for Foundry VTT by Shylight and is licensed under the MIT License.
 
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development](https://foundryvtt.com/article/license/).
