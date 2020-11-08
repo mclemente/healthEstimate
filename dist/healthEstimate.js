@@ -19,7 +19,7 @@ Hooks.once('init', async function () {
 	await preloadTemplates()
 	
 	// Register custom sheets (if any)
-	Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
+	Hooks.once('renderHeadsUpDisplay', (app, html, data) => {
 		html.append('<template id="healthEstimate"></template>')
 	})
 	
@@ -31,9 +31,9 @@ Hooks.once('init', async function () {
 Hooks.once('setup', function () {
 	// Do anything after initialization but before
 	// ready
-	
-	prepareSystemSpecifics().then(registerSettings())
+
 	// Have to register Settings here, because doing so at init breaks i18n
+	prepareSystemSpecifics().then(registerSettings())
 })
 
 /* ------------------------------------ */
