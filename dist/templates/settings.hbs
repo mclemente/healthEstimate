@@ -2,6 +2,7 @@
     <div class="form-group" style="align-items: flex-end;">
         <label for="useColor" style="flex:none;margin-right: 3px">{{useColor.name}}</label>
         <input type="checkbox" name="useColor" id="useColor" {{#if useColor.value}}checked="checked"{{/if}}>
+        <p class="notes">{{useColor.hint}}</p>
     </div>
     <div class="form-group">
         {{#with smoothGradient}}

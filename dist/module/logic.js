@@ -1,16 +1,26 @@
 import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings} from './systemSpecifics.js'
 import {sGet} from './utils.js'
 
-let descriptions, deathStateName, showDead, showColor, smooth, isDead
+let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker,
+    colors, outline, deadColor, deadOutline
 
 export function updateSettings () {
-	showColor       = sGet('core.menuSettings.color')
+	useColor       = sGet('core.menuSettings.useColor')
 	descriptions    = sGet('core.stateNames').split(/[,;]\s*/)
 	smooth          = sGet('core.menuSettings.smoothGradient')
 	deathStateName  = sGet('core.deathStateName')
-	let showDead    = sGet('core.deathState')
-	let NPCsJustDie = sGet('core.NPCsJustDie')
-	let deathMarker = sGet('core.deathMarker')
+	showDead    = sGet('core.deathState')
+	NPCsJustDie = sGet('core.NPCsJustDie')
+	deathMarker = sGet('core.deathMarker')
+	colors = sGet('core.variables.colors')[0]
+	outline = sGet('core.variables.outline')[0]
+	deadColor = sGet('core.variables.deadColor')
+	deadOutline = sGet('core.variables.deadOutline')
+
+	const margin = `${sGet('core.menuSettings.positionAdjustment')}em`
+	const alignment = sGet('core.menuSettings.position')
+	document.documentElement.style.setProperty('--healthEstimate-margin', margin)
+	document.documentElement.style.setProperty('--healthEstimate-alignment', alignment)
 
 	isDead = new Function(
 		'token', 'stage',
@@ -35,6 +45,10 @@ class HealthEstimateOverlay extends TokenHUD {
 		const data  = super.getData()
 		data.status = this.estimation
 		return data
+	}
+
+	activateListeners (html) {
+		return
 	}
 }
 
@@ -79,24 +93,16 @@ export class HealthEstimate {
 
 	_getEstimation (token) {
 		const fraction = Math.min(fractionFormula(token), 1)
-		// const isDead   = token.data.overlayEffect === deathMarker
 		const stage    = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
-		const step     = smooth ? fraction : stage / (descriptions.length - 1)
+		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction))
 		let desc, color, stroke
 
 		desc = descriptionToShow(descriptions, stage, token, {isDead: isDead(token, stage), desc: deathStateName})
+		color = colors[colorIndex]
+		stroke = outline[colorIndex]
 		if (isDead(token, stage)) {
-			// desc   = deathStateName
-			color  = '#900'
-			stroke = '#000'
-		} else {
-		}
-		if (showColor) {
-			color  = color || (chroma.bezier(['#F00', '#0F0']).scale())(step).hex()
-			stroke = stroke || chroma(color).darken(3)
-		} else {
-			color  = '#FFF'
-			stroke = '#000'
+			color  = deadColor
+			stroke = deadOutline
 		}
 		document.documentElement.style.setProperty('--healthEstimate-stroke-color', stroke)
 		document.documentElement.style.setProperty('--healthEstimate-text-color', color)

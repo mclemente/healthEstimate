@@ -16,7 +16,14 @@ healthEstimate:
             hint: Only show estimations for NPCs, but not for player characters.
         stateNames:
             name: Stages
-            hint: An array of descriptions shown to players, arranged from worst to best possible health.
+            hint: >-
+                An array of descriptions shown to players, arranged from worst to best possible health.
+
+                The amount of possible descriptions is not limited, the module will adjust the health percentage to show
+                them proportionally to the amount.
+
+                If there is a need for one description to cover a higher range of health than others simply copy it
+                several times.
             default:
                 - Unconscious
                 - Near Death
@@ -52,9 +59,9 @@ healthEstimate:
             fontSize:
                 name: Font Size
                 hint: Accepts any valid property for CSS font-size
-            color:
+            useColor:
                 name: Use Color
-                hint: Should the descriptions be highlighted with a gradient from green to red corresponding to current health?
+                hint: This won't affect the settings window, but with checkmark off the descriptions will be shown in black and white.
             smoothGradient:
                 name: Smooth Gradient
                 hint: >-

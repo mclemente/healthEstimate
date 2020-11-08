@@ -1,4 +1,5 @@
 import {sGet, sSet, settingData} from './utils.js'
+import {updateSettings} from './logic.js'
 
 export class HealthEstimateStyleSettings extends FormApplication {
 
@@ -70,7 +71,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		}
 
 		return {
-			useColor          : prepSetting('color'),
+			useColor          : prepSetting('useColor'),
 			smoothGradient    : prepSetting('smoothGradient'),
 			deadColor         : prepSetting('deadColor'),
 			fontSize          : prepSetting('fontSize'),
@@ -229,8 +230,40 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		}
 	}
 
+	/**
+	 * Executes on form submission
+	 * @param {Event} e - the form submission event
+	 * @param {Object} d - the form data
+	 */
 	async _updateObject(e,d) {
-		console.debug(e)
-		console.debug(d)
+		const iterableSettings = Object.keys(d).filter(key => key.indexOf('outline') === -1)
+
+		for (let key of iterableSettings) {
+			sSet(`core.menuSettings.${key}`, d[key])
+		}
+
+		let deadColor = d['deadColor']
+		if (!d['useColor']) {
+			this.gradColors = ['#FFF']
+			this.outlColors = ['#000']
+			this.deadOutline = '#000'
+			deadColor = '#FFF'
+		}
+
+		sSet(`core.menuSettings.gradient`, {
+			colors: this.gp.handlers.map(a => a.color),
+			positions: this.gp.handlers.map(a => Math.round(a.position) / 100)
+		})
+		sSet(`core.menuSettings.outline`, {
+			mode: d['outlineMode'],
+			multiplier: d['outlineIntensity']
+		})
+
+		sSet(`core.variables.colors`, this.gradColors)
+		sSet(`core.variables.outline`, this.outlColors)
+		sSet(`core.variables.deadColor`, deadColor)
+		sSet(`core.variables.deadOutline`, this.deadOutline)
+
+		setTimeout(updateSettings, 50)
 	}
 }
