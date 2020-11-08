@@ -19,7 +19,7 @@ Hooks.once('init', async function () {
 	await preloadTemplates()
 	
 	// Register custom sheets (if any)
-	Hooks.once('renderHeadsUpDisplay', (app, html, data) => {
+	Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
 		html.append('<template id="healthEstimate"></template>')
 	})
 	
