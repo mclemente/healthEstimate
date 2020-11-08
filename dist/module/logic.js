@@ -21,6 +21,7 @@ export function updateSettings () {
 	const alignment = sGet('core.menuSettings.position')
 	document.documentElement.style.setProperty('--healthEstimate-margin', margin)
 	document.documentElement.style.setProperty('--healthEstimate-alignment', alignment)
+	document.documentElement.style.setProperty('--healthEstimate-text-size', sGet('core.menuSettings.fontSize'))
 
 	isDead = new Function(
 		'token', 'stage',
@@ -32,7 +33,7 @@ export function updateSettings () {
 	)
 }
 
-class HealthEstimateOverlay extends TokenHUD {
+class HealthEstimateOverlay extends BasePlaceableHUD {
 	static get defaultOptions () {
 		const options    = super.defaultOptions
 		options.classes  = options.classes.concat(['healthEstimate', 'healthEstimateColor'])
@@ -46,16 +47,11 @@ class HealthEstimateOverlay extends TokenHUD {
 		data.status = this.estimation
 		return data
 	}
-
-	activateListeners (html) {
-		return
-	}
 }
 
 export class HealthEstimate {
 	constructor () {
 		updateBreakSettings()
-		document.documentElement.style.setProperty('--healthEstimate-text-size', sGet('core.menuSettings.fontSize'))
 		canvas.hud.HealthEstimate = new HealthEstimateOverlay()
 		updateSettings()
 		this.initHooks()
