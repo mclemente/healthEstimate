@@ -2,7 +2,7 @@
 	"name": "healthEstimate",
 	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"author": "Shylight",
 	"scripts": [
 		"./lib/chroma.min.js",
@@ -66,9 +66,9 @@
 		"blades-in-the-dark"
 	],
 	"minimumCoreVersion": "0.5.0",
-	"compatibleCoreVersion": "0.6.0",
-	"url": "https://gitlab.com/tsuki.no.mai/healthestimate",
-	"manifest": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/master/src/module.json",
-	"download": "https://gitlab.com/tsuki.no.mai/healthestimate/-/raw/2.0.0/package/healthEstimate-v2.0.0.zip",
+	"compatibleCoreVersion": "0.7.6",
+	"url": "https://github.com/Shylight/healthEstimate",
+	"manifest": "https://raw.githubusercontent.com/Shylight/healthEstimate/master/src/module.json",
+	"download": "https://raw.githubusercontent.com/Shylight/healthEstimate/2.0.1/package/healthEstimate-v2.0.1.zip",
 	"license": "http://creativecommons.org/licenses/by/4.0/"
 }
