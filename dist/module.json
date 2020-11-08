@@ -70,5 +70,5 @@
 	"url": "https://github.com/Shylight/healthEstimate",
 	"manifest": "https://raw.githubusercontent.com/Shylight/healthEstimate/master/src/module.json",
 	"download": "https://raw.githubusercontent.com/Shylight/healthEstimate/2.0.1/package/healthEstimate-v2.0.1.zip",
-	"license": "http://creativecommons.org/licenses/by/4.0/"
+	"license": "https://choosealicense.com/licenses/mit/"
 }
