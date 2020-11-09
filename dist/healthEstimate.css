@@ -4,6 +4,7 @@
     --healthEstimate-text-size    : x-large;
     --healthEstimate-alignment    : start;
     --healthEstimate-margin       : -1em;
+    --healthEstimate-width        : 100px;
 }
 
 .healthEstimate {
@@ -14,7 +15,7 @@
     align-content         : var(--healthEstimate-alignment);
     justify-content       : unsafe center;
     margin-top            : var(--healthEstimate-margin);
-    width                 : 100%;
+    width                 : var(--healthEstimate-width) !important;
 }
 
 .healthEstimateColor {
