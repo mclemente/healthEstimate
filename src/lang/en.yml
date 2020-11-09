@@ -87,6 +87,9 @@ healthEstimate:
                         Position is set relative to the frame. The number lets you tweak the position relative to its normal
                         place. Positive numbers push it lower, negative – higher. The default value of -1 sets it to
                         "1 line above initial position".
+    dnd5e:
+        vehicleNames:
+            hint: Descriptions shown for vehicles if "Use Vehicle Threshold" is off
     PF1:
         showExtra:
             name: Disabled & Dying
