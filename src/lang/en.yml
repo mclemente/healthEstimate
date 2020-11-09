@@ -90,6 +90,12 @@ healthEstimate:
     dnd5e:
         vehicleNames:
             hint: Descriptions shown for vehicles if "Use Vehicle Threshold" is off
+            default:     #There are no official descriptions for the states of the vehicles, so feel free to go with what you feel will work best in your language
+                - Wrecked
+                - Broken
+                - Battered
+                - Scratched
+                - Pristine
     PF1:
         showExtra:
             name: Disabled & Dying
