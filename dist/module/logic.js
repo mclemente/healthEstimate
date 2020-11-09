@@ -6,18 +6,18 @@ let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDi
 
 export function updateSettings () {
 	useColor       = sGet('core.menuSettings.useColor')
-	descriptions    = sGet('core.stateNames').split(/[,;]\s*/)
-	smooth          = sGet('core.menuSettings.smoothGradient')
-	deathStateName  = sGet('core.deathStateName')
-	showDead    = sGet('core.deathState')
-	NPCsJustDie = sGet('core.NPCsJustDie')
-	deathMarker = sGet('core.deathMarker')
-	colors = sGet('core.variables.colors')[0]
-	outline = sGet('core.variables.outline')[0]
-	deadColor = sGet('core.variables.deadColor')
-	deadOutline = sGet('core.variables.deadOutline')
+	descriptions   = sGet('core.stateNames').split(/[,;]\s*/)
+	smooth         = sGet('core.menuSettings.smoothGradient')
+	deathStateName = sGet('core.deathStateName')
+	showDead       = sGet('core.deathState')
+	NPCsJustDie    = sGet('core.NPCsJustDie')
+	deathMarker    = sGet('core.deathMarker')
+	colors         = sGet('core.variables.colors')[0]
+	outline        = sGet('core.variables.outline')[0]
+	deadColor      = sGet('core.variables.deadColor')
+	deadOutline    = sGet('core.variables.deadOutline')
 
-	const margin = `${sGet('core.menuSettings.positionAdjustment')}em`
+	const margin    = `${sGet('core.menuSettings.positionAdjustment')}em`
 	const alignment = sGet('core.menuSettings.position')
 	document.documentElement.style.setProperty('--healthEstimate-margin', margin)
 	document.documentElement.style.setProperty('--healthEstimate-alignment', alignment)
@@ -79,6 +79,9 @@ export class HealthEstimate {
 		if (breakOverlayRender(token)) {
 			return
 		}
+		const width = `${canvas.scene.data.grid * token.data.width}px`
+		document.documentElement.style.setProperty('--healthEstimate-width', width)
+
 		if (hovered) {
 			this._getEstimation(token)
 			canvas.hud.HealthEstimate.bind(token)
@@ -88,13 +91,13 @@ export class HealthEstimate {
 	}
 
 	_getEstimation (token) {
-		const fraction = Math.min(fractionFormula(token), 1)
-		const stage    = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
+		const fraction   = Math.min(fractionFormula(token), 1)
+		const stage      = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
 		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction))
 		let desc, color, stroke
 
-		desc = descriptionToShow(descriptions, stage, token, {isDead: isDead(token, stage), desc: deathStateName})
-		color = colors[colorIndex]
+		desc   = descriptionToShow(descriptions, stage, token, {isDead: isDead(token, stage), desc: deathStateName}, fraction)
+		color  = colors[colorIndex]
 		stroke = outline[colorIndex]
 		if (isDead(token, stage)) {
 			color  = deadColor

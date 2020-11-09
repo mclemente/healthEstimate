@@ -6,6 +6,7 @@ import * as bitd from './systems/blades-in-the-dark.js'
 import * as dnd5e from './systems/dnd5e.js'
 import * as dungeonworld from './systems/dungeonworld.js'
 import * as fate from './systems/fate.js'
+import * as lancer from './systems/lancer.js'
 import * as numenera from './systems/numenera.js'
 import * as pf1 from './systems/pf1.js'
 import * as pf2e from './systems/pf2e.js'
@@ -22,6 +23,7 @@ export {
 	dnd5e,
 	dungeonworld,
 	fate,
+	lancer,
 	numenera,
 	pf1,
 	pf2e,

@@ -35,6 +35,10 @@ const settings     = () => {
 			type   : Boolean,
 			default: false,
 		},
+		'core.breakOnZeroMaxHP'    : {
+			type   : Boolean,
+			default: true,
+		},
 		'starfinder.addStamina'    : {
 			type   : Boolean,
 			default: true,
@@ -50,10 +54,10 @@ const settings     = () => {
 		'starfinder.vehicleNames'  : {
 			type   : String,
 			default: t('starfinder.vehicleNames.default').join(', '),
-		}
+		},
 	}
 }
-const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}) {
+const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}, fraction) {
 	if (state.isDead) {
 		return state.desc
 	}
@@ -64,8 +68,11 @@ const descriptions = function (descriptions, stage, token, state = {isDead: fals
 		} else {
 			descriptions = game.settings.get('healthEstimate', 'starfinder.vehicleNames').split(/[,;]\s*/)
 		}
+		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
 	}
 	return descriptions[stage]
 }
 
-export {fraction, settings, descriptions}
+const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0`
+
+export {fraction, settings, descriptions, breakCondition}
