@@ -96,7 +96,7 @@ export class HealthEstimate {
 		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction))
 		let desc, color, stroke
 
-		desc   = descriptionToShow(descriptions, stage, token, {isDead: isDead(token, stage), desc: deathStateName})
+		desc   = descriptionToShow(descriptions, stage, token, {isDead: isDead(token, stage), desc: deathStateName}, fraction)
 		color  = colors[colorIndex]
 		stroke = outline[colorIndex]
 		if (isDead(token, stage)) {

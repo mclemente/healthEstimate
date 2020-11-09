@@ -57,7 +57,7 @@ const settings     = () => {
 		},
 	}
 }
-const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}) {
+const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}, fraction) {
 	if (state.isDead) {
 		return state.desc
 	}
@@ -68,6 +68,7 @@ const descriptions = function (descriptions, stage, token, state = {isDead: fals
 		} else {
 			descriptions = game.settings.get('healthEstimate', 'starfinder.vehicleNames').split(/[,;]\s*/)
 		}
+		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
 	}
 	return descriptions[stage]
 }

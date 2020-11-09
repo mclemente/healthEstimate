@@ -37,7 +37,8 @@ export let descriptionToShow = function
 		descriptions,
 		stage,
 		token,
-		state = {isDead: false, desc: ''}
+		state = {isDead: false, desc: ''},
+		fraction
 	) {
 	if (state.isDead) {
 		return state.desc
