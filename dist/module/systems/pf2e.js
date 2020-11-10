@@ -60,8 +60,8 @@ const descriptions = function (descriptions, stage, token, state = {isDead: fals
 }
 
 const breakCondition = `
-	|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0)
 	|| token.actor.data.type === 'loot'
+	|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0)
 `
 
 export {fraction, settings, descriptions, breakCondition}
