@@ -77,7 +77,7 @@ function updateBreakConditions () {
 
 export function updateBreakSettings () {
 	breakConditions['onlyGM']   = sGet('core.onlyGM') ? `|| !game.user.isGM` : ``
-	breakConditions['onlyNPCs'] = sGet('core.onlyNPCs') ? `|| token.actor.isPC` : ``
+	breakConditions['onlyNPCs'] = sGet('core.onlyNPCs') ? `|| token.actor.hasPlayerOwner` : ``
 	updateBreakConditions()
 }
 
