@@ -54,6 +54,7 @@
 		"fate",
 		"lancer",
 		"numenera",
+		"ose",
 		"pf1",
 		"pf2e",
 		"ryuutama",
@@ -67,7 +68,7 @@
 		"blades-in-the-dark"
 	],
 	"minimumCoreVersion": "0.5.0",
-	"compatibleCoreVersion": "0.7.6",
+	"compatibleCoreVersion": "0.7.7",
 	"url": "https://github.com/Shylight/healthEstimate",
 	"manifest": "https://raw.githubusercontent.com/Shylight/healthEstimate/master/src/module.json",
 	"download": "https://raw.githubusercontent.com/Shylight/healthEstimate/2.1.1/package/healthEstimate-v2.1.1.zip",

@@ -8,6 +8,7 @@ import * as dungeonworld from './systems/dungeonworld.js'
 import * as fate from './systems/fate.js'
 import * as lancer from './systems/lancer.js'
 import * as numenera from './systems/numenera.js'
+import * as ose from './systems/ose.js'
 import * as pf1 from './systems/pf1.js'
 import * as pf2e from './systems/pf2e.js'
 import * as ryuutama from './systems/ryuutama.js'
@@ -25,6 +26,7 @@ export {
 	fate,
 	lancer,
 	numenera,
+	ose,
 	pf1,
 	pf2e,
 	ryuutama,
