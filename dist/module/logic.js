@@ -27,7 +27,7 @@ export function updateSettings () {
 		'token', 'stage',
 		`return (
 			${NPCsJustDie ? 'stage === 0 ||' : ''}
-			${showDead ? `token.data.overlayEffect === '${deathMarker}' ||` : ''}
+			${showDead ? `token.actor.effects.entries.some(x => x.data.icon === '${deathMarker}') ||` : ''}
 			token.getFlag('healthEstimate', 'dead')
 		)`
 	)
