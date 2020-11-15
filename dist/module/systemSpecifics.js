@@ -1,6 +1,5 @@
 import {isEmpty, sGet} from './utils.js'
-import * as dnd5e from './systems/dnd5e.js'
-import * as systems from './systems.js'
+import {addSetting} from './settings.js'
 import {updateSettings} from './logic.js'
 
 console.log(systems['dnd5e'])
@@ -68,9 +67,10 @@ function updateBreakConditions () {
 		return new Function(`token`,
 			`return
 				${prep('default')}
-				${prep('onlyGM')} ${prep('onlyNPCs')}
+				${prep('onlyGM')} 
+				${prep('onlyNPCs')}
 				${prep('system')}
-			`.replace(/\n^\s+/gm, ' ')
+			`//.replace(/\n^\s+/gm, ' ')
 		)(token)
 	}
 }
@@ -83,25 +83,9 @@ export function updateBreakSettings () {
 
 export function prepareSystemSpecifics () {
 	return new Promise((resolve, reject) => {
+		import(`./systems/${game.system.id}.js`)
+		.then(currentSystem => {
 
-			let systemID = game.system.id
-			switch (systemID) {
-				//13th Age is identical to 5e for our usecase, might as well
-				case 'archmage':
-					systemID = 'dnd5e'
-					break
-				//Can't use hyphens in import/export
-				case 'blades-in-the-dark':
-					systemID = 'bitd'
-					break
-				//PF2E doesn't support overlay conditions
-				case 'pf2e':
-					systemSpecificSettings['core.deathState'].config  = false
-					systemSpecificSettings['core.deathMarker'].config = false
-					break
-			}
-
-			const currentSystem = systems[systemID]
 			fractionFormula     = currentSystem.fraction
 			if (currentSystem.settings !== undefined) {
 				/*
@@ -116,7 +100,11 @@ export function prepareSystemSpecifics () {
 			if (currentSystem.descriptions !== undefined) {
 				descriptionToShow = currentSystem.descriptions
 			}
+
+			for (let [key, data] of Object.entries(systemSpecificSettings)) {
+				addSetting(key, data)
+			}
 			resolve('success')
-		}
-	)
+		})
+	})
 }
