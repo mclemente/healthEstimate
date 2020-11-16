@@ -3,24 +3,24 @@ import {systemSpecificSettings, updateBreakSettings} from './systemSpecifics.js'
 import {updateSettings} from './logic.js'
 import {HealthEstimateStyleSettings} from './styleSettings.js'
 
-export const registerSettings = function () {
-	/**
-	 * Shorthand for addSetting.
-	 * Default data: {scope: "world", config: true}
-	 * @function addSetting
-	 * @param {string} key
-	 * @param {object} data
-	 */
-	function addSetting (key, data) {
-		const commonData = {
-			name  : t(`${key}.name`),
-			hint  : t(`${key}.hint`),
-			scope : 'world',
-			config: true
-		}
-		game.settings.register('healthEstimate', key, Object.assign(commonData, data))
+/**
+ * Shorthand for addSetting.
+ * Default data: {scope: "world", config: true}
+ * @function addSetting
+ * @param {string} key
+ * @param {object} data
+ */
+export function addSetting (key, data) {
+	const commonData = {
+		name  : t(`${key}.name`),
+		hint  : t(`${key}.hint`),
+		scope : 'world',
+		config: true
 	}
+	game.settings.register('healthEstimate', key, Object.assign(commonData, data))
+}
 
+export const registerSettings = function () {
 	/**
 	 * Shorthand for addSetting.
 	 * Default data: {scope: "world", config: false}
@@ -61,6 +61,13 @@ export const registerSettings = function () {
 			updateBreakSettings()
 		}
 	})
+	addSetting('core.onlyPCs', {
+		type    : Boolean,
+		default : false,
+		onChange: () => {
+			updateBreakSettings()
+		}
+	})
 	addSetting('core.stateNames', {
 		type    : String,
 		default : t('core.stateNames.default').join(', '),
@@ -82,9 +89,6 @@ export const registerSettings = function () {
 			updateSettings()
 		}
 	})
-	for (let [key, data] of Object.entries(systemSpecificSettings)) {
-		addSetting(key, data)
-	}
 
 
 	/* Settings for the custom menu */
