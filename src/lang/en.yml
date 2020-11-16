@@ -14,6 +14,9 @@ healthEstimate:
         onlyNPCs:
             name: NPCs only
             hint: Only show estimations for NPCs, but not for player characters.
+        onlyPCs:
+            name: PCs only
+            hint: Only show estimations for PCs, but not for non-player characters.
         stateNames:
             name: Stages
             hint: >-

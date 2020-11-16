@@ -61,6 +61,13 @@ export const registerSettings = function () {
 			updateBreakSettings()
 		}
 	})
+	addSetting('core.onlyPCs', {
+		type    : Boolean,
+		default : false,
+		onChange: () => {
+			updateBreakSettings()
+		}
+	})
 	addSetting('core.stateNames', {
 		type    : String,
 		default : t('core.stateNames.default').join(', '),

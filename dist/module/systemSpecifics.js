@@ -2,8 +2,6 @@ import {isEmpty, sGet} from './utils.js'
 import {addSetting} from './settings.js'
 import {updateSettings} from './logic.js'
 
-console.log(systems['dnd5e'])
-
 export let fractionFormula
 export let breakOverlayRender
 export let systemSpecificSettings = {
@@ -12,15 +10,15 @@ export let systemSpecificSettings = {
 		'default': false,
 		onChange : s => {
 			updateSettings()
-		}
+		},
 	},
 	'core.deathMarker': {
 		type    : String,
 		default : 'icons/svg/skull.svg',
 		onChange: s => {
 			updateSettings()
-		}
-	}
+		},
+	},
 }
 
 /**
@@ -37,7 +35,7 @@ export let descriptionToShow = function
 		stage,
 		token,
 		state = {isDead: false, desc: ''},
-		fraction
+		fraction,
 	) {
 	if (state.isDead) {
 		return state.desc
@@ -47,11 +45,11 @@ export let descriptionToShow = function
 
 const tempHPSetting = {
 	type   : Boolean,
-	default: false
+	default: false,
 }
 
 let breakConditions = {
-	'default': `game.keyboard.isDown('Alt')`
+	'default': `game.keyboard.isDown('Alt')`,
 }
 
 function updateBreakConditions () {
@@ -65,19 +63,21 @@ function updateBreakConditions () {
 
 	breakOverlayRender = function (token) {
 		return new Function(`token`,
-			`return
+			`return (
 				${prep('default')}
 				${prep('onlyGM')} 
 				${prep('onlyNPCs')}
+				${prep('onlyPCs')}
 				${prep('system')}
-			`//.replace(/\n^\s+/gm, ' ')
+			)`
 		)(token)
 	}
 }
 
 export function updateBreakSettings () {
 	breakConditions['onlyGM']   = sGet('core.onlyGM') ? `|| !game.user.isGM` : ``
-	breakConditions['onlyNPCs'] = sGet('core.onlyNPCs') ? `|| token.actor.hasPlayerOwner` : ``
+	breakConditions['onlyNPCs'] = sGet('core.onlyNPCs') ? `|| (!game.user.isGM && token.actor.hasPlayerOwner)` : ``
+	breakConditions['onlyPCs']  = sGet('core.onlyPCs') ? `|| (!game.user.isGM && !token.actor.hasPlayerOwner)` : ``
 	updateBreakConditions()
 }
 
@@ -85,8 +85,7 @@ export function prepareSystemSpecifics () {
 	return new Promise((resolve, reject) => {
 		import(`./systems/${game.system.id}.js`)
 		.then(currentSystem => {
-
-			fractionFormula     = currentSystem.fraction
+			fractionFormula = currentSystem.fraction
 			if (currentSystem.settings !== undefined) {
 				/*
 				 * currentSystem.settings is a function because doing it otherwise causes
