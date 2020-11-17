@@ -26,7 +26,7 @@ export function updateSettings () {
 	isDead = new Function(
 		'token', 'stage',
 		`return (
-			${NPCsJustDie ? 'stage === 0 ||' : ''}
+			${NPCsJustDie ? '(!token.actor.hasPlayerOwner && stage === 0) ||' : ''}
 			${showDead ? `token.actor.effects.entries.some(x => x.data.icon === '${deathMarker}') ||` : ''}
 			token.getFlag('healthEstimate', 'dead')
 		)`
