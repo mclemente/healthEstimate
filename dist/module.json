@@ -65,7 +65,8 @@
 		"worldbuilding",
 		"starfinder",
 		"dnd5e",
-		"blades-in-the-dark"
+		"blades-in-the-dark",
+		"foundryvtt-reve-de-dragon"
 	],
 	"minimumCoreVersion": "0.5.0",
 	"compatibleCoreVersion": "0.7.7",
