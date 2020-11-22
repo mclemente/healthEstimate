@@ -66,6 +66,7 @@ function updateBreakConditions () {
 			`return (
 				${prep('default')}
 				${prep('onlyGM')} 
+				${prep('onlyNotGM')} 
 				${prep('onlyNPCs')}
 				${prep('onlyPCs')}
 				${prep('system')}
@@ -76,6 +77,7 @@ function updateBreakConditions () {
 
 export function updateBreakSettings () {
 	breakConditions['onlyGM']   = sGet('core.onlyGM') ? `|| !game.user.isGM` : ``
+	breakConditions['onlyNotGM']   = sGet('core.onlyNotGM') ? `|| game.user.isGM` : ``
 	breakConditions['onlyNPCs'] = sGet('core.onlyNPCs') ? `|| (!game.user.isGM && token.actor.hasPlayerOwner)` : ``
 	breakConditions['onlyPCs']  = sGet('core.onlyPCs') ? `|| (!game.user.isGM && !token.actor.hasPlayerOwner)` : ``
 	updateBreakConditions()

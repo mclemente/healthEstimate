@@ -11,6 +11,9 @@ healthEstimate:
         onlyGM:
             name: GM only
             hint: Only show estimations to GM.
+        onlyNotGM:
+            name: Players only
+            hint: Only show estimations to players.
         onlyNPCs:
             name: NPCs only
             hint: Only show estimations for NPCs, but not for player characters.

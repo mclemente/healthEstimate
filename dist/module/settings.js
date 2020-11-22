@@ -54,6 +54,13 @@ export const registerSettings = function () {
 			updateBreakSettings()
 		}
 	})
+	addSetting('core.onlyNotGM', {
+		type    : Boolean,
+		default : false,
+		onChange: () => {
+			updateBreakSettings()
+		}
+	})
 	addSetting('core.onlyNPCs', {
 		type    : Boolean,
 		default : false,
