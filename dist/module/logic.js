@@ -2,7 +2,7 @@ import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSetti
 import {sGet} from './utils.js'
 
 let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker,
-    colors, outline, deadColor, deadOutline
+    colors, outline, deadColor, deadOutline, perfectionism
 
 export function updateSettings () {
 	useColor       = sGet('core.menuSettings.useColor')
@@ -16,6 +16,7 @@ export function updateSettings () {
 	outline        = sGet('core.variables.outline')[0]
 	deadColor      = sGet('core.variables.deadColor')
 	deadOutline    = sGet('core.variables.deadOutline')
+	perfectionism  = sGet('core.perfectionism')
 
 	const margin    = `${sGet('core.menuSettings.positionAdjustment')}em`
 	const alignment = sGet('core.menuSettings.position')
@@ -92,11 +93,18 @@ export class HealthEstimate {
 
 	_getEstimation (token) {
 		const fraction   = Math.min(fractionFormula(token), 1)
-		const stage      = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
+		const stage      = Math.max(0,
+			perfectionism ?
+			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
+			Math.ceil((descriptions.length - 1) * fraction),
+		)
 		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction))
 		let desc, color, stroke
 
-		desc   = descriptionToShow(descriptions, stage, token, {isDead: isDead(token, stage), desc: deathStateName}, fraction)
+		desc   = descriptionToShow(descriptions, stage, token, {
+			isDead: isDead(token, stage),
+			desc  : deathStateName,
+		}, fraction)
 		color  = colors[colorIndex]
 		stroke = outline[colorIndex]
 		if (isDead(token, stage)) {

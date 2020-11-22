@@ -96,6 +96,13 @@ export const registerSettings = function () {
 			updateSettings()
 		}
 	})
+	addSetting('core.perfectionism', {
+		type: Boolean,
+		default: false,
+		onChange: s => {
+			updateSettings()
+		}
+	})
 
 
 	/* Settings for the custom menu */

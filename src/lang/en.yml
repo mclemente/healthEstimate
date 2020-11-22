@@ -56,6 +56,9 @@ healthEstimate:
             hint: >-
                   With this setting on the lowest option in normal description list won't be shown for NPCs,
                   they'll be shown as dead instead.
+        perfectionism:
+            name: Perfectionism
+            hint: Only show the best possible description when the target is in perfect state - not a single damage taken.
         addTemp:
             name: Add Temporary Health
             hint: |-
