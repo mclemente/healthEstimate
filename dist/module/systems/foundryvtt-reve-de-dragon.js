@@ -19,7 +19,7 @@ function ratio(node) {
 const fraction = function (token) {
     const endurance = defaultIfEmpty(token.actor.data.data.sante.endurance, missing)
     const ratioEndurance = ratio(endurance)
-    if (token.actor.data.data.blessures == undefined || token.actor.data.data.sante.vie == undefined) {
+    if (token.actor.data.data.blessures === undefined || token.actor.data.data.sante.vie === undefined) {
         return ratioEndurance
     }
 
@@ -53,7 +53,7 @@ const fraction = function (token) {
     /*
     * Other values tat indicategood/bad health
     */
-    const ratioFatigue = 1 - ratio(token.actor.data.data.sante.fatigue, missing))
+    const ratioFatigue = 1 - ratio(token.actor.data.data.sante.fatigue, missing)
     const ratioBlessure = 1 - ratio(blessures)
     const ratioVie = ratio(token.actor.data.data.sante.vie)
 
