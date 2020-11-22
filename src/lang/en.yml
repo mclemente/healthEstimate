@@ -16,10 +16,10 @@ healthEstimate:
             hint: Only show estimations to players.
         onlyNPCs:
             name: NPCs only
-            hint: Only show estimations for NPCs, but not for player characters.
+            hint: Only show estimations for NPCs, but not for player characters. This setting only affects players.
         onlyPCs:
             name: PCs only
-            hint: Only show estimations for PCs, but not for non-player characters.
+            hint: Only show estimations for PCs, but not for non-player characters. This setting only affects players.
         stateNames:
             name: Stages
             hint: >-
