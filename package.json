@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "healthEstimate",
-	"version": "2.2.2",
+	"version": "2.3.0",
 	"description": "",
 	"scripts": {
 		"package": "gulp package"

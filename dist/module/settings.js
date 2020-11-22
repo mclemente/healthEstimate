@@ -54,6 +54,13 @@ export const registerSettings = function () {
 			updateBreakSettings()
 		}
 	})
+	addSetting('core.onlyNotGM', {
+		type    : Boolean,
+		default : false,
+		onChange: () => {
+			updateBreakSettings()
+		}
+	})
 	addSetting('core.onlyNPCs', {
 		type    : Boolean,
 		default : false,
@@ -85,6 +92,13 @@ export const registerSettings = function () {
 	addSetting('core.NPCsJustDie', {
 		type    : Boolean,
 		default : true,
+		onChange: s => {
+			updateSettings()
+		}
+	})
+	addSetting('core.perfectionism', {
+		type: Boolean,
+		default: false,
 		onChange: s => {
 			updateSettings()
 		}
