@@ -41,18 +41,20 @@ const settings     = () => {
 	}
 }
 const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}) {
+	const hp = token.actor.data.data.attributes.hp
+
+	if (hp.nonlethal >= hp.value && hp.value > 0){
+		return game.settings.get("healthEstimate", "PF1.disabledName")
+	}
 	if (state.isDead) {
 		return state.desc
 	}
-	const hp = token.actor.data.data.attributes.hp
 	if (game.settings.get("healthEstimate", "PF1.showExtra") && hp.value < 1) {
 		if (hp.value === 0) {
 			return game.settings.get("healthEstimate", "PF1.disabledName")
 		} else {
 			return game.settings.get('healthEstimate', 'PF1.dyingName')
 		}
-	} else if (hp.nonlethal >= hp.value){
-		return game.settings.get("healthEstimate", "PF1.disabledName")
 	} else {
 		return descriptions[stage]
 	}
