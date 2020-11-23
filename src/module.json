@@ -2,7 +2,7 @@
 	"name": "healthEstimate",
 	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "2.3.0",
+	"version": "2.4.0",
 	"author": "Shylight",
 	"scripts": [
 		"./lib/chroma.min.js",
@@ -80,6 +80,6 @@
 	"compatibleCoreVersion": "0.7.7",
 	"url": "https://github.com/Shylight/healthEstimate",
 	"manifest": "https://raw.githubusercontent.com/Shylight/healthEstimate/master/src/module.json",
-	"download": "https://raw.githubusercontent.com/Shylight/healthEstimate/2.3.0/package/healthEstimate-v2.3.0.zip",
+	"download": "https://raw.githubusercontent.com/Shylight/healthEstimate/releases/download/2.4.0/healthEstimate-v2.4.0.zip",
 	"license": "https://choosealicense.com/licenses/mit/"
 }
