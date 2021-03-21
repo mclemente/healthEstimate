@@ -1,0 +1,32 @@
+// import {addTemp, breakOnZeroMaxHP} from './commonSettings.js'
+import {descriptions} from './starfinder.js'
+import {t} from '../utils.js'
+
+const fraction = function (token) {
+	const hp = token.actor.data.data.attributes.pv
+	let temp = 0
+	if (token.actor.data.type === 'character' && game.settings.get('healthEstimate', 'core.addTemp')) {
+		temp = hp.temp
+	}
+	return Math.min((temp + hp.value) / hp.max, 1)
+}
+const settings = () => {
+	return {
+		'core.addTemp'             : {
+			type   : Boolean,
+			default: false,
+		},
+		'core.breakOnZeroMaxHP'    : {
+			type   : Boolean,
+			default: true,
+		},
+		'starfinder.useThreshold'  : {
+			type   : Boolean,
+			default: false,
+		}
+	}
+}
+
+const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.pv.max === 0`
+
+export {fraction, settings, breakCondition, descriptions}

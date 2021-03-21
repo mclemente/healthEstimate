@@ -2,8 +2,8 @@
 	"name": "healthEstimate",
 	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "2.4.0",
-	"author": "Shylight",
+	"version": "1.0.0.0",
+	"author": "MClemente, Shylight",
 	"scripts": [
 		"./lib/chroma.min.js",
 		"./lib/color-picker.min.js",
@@ -51,6 +51,11 @@
 			"lang": "cn",
 			"name": "中文 (Chinese)",
 			"path": "./lang/cn.json"
+		},
+		{
+			"lang": "pt-BR",
+			"name": "Português (Brasil)",
+			"path": "./lang/pt-BR.json"
 		}
 	],
 	"systems": [
@@ -67,19 +72,24 @@
 		"shadowrun5e",
 		"swade",
 		"symbaroum",
+		"tormenta20",
 		"twodsix",
 		"wfrp4e",
 		"worldbuilding",
 		"starfinder",
 		"dnd5e",
+    "sw5e",
 		"blades-in-the-dark",
 		"foundryvtt-reve-de-dragon",
+    "tormenta20",
 		"uesrpg-d100"
 	],
 	"minimumCoreVersion": "0.5.0",
-	"compatibleCoreVersion": "0.7.7",
-	"url": "https://github.com/Shylight/healthEstimate",
-	"manifest": "https://raw.githubusercontent.com/Shylight/healthEstimate/master/src/module.json",
-	"download": "https://github.com/Shylight/healthEstimate/releases/download/2.4.0/healthEstimate-v2.4.0.zip",
-	"license": "https://choosealicense.com/licenses/mit/"
+	"compatibleCoreVersion": "0.7.9",
+	"url": "https://github.com/mclemente/healthEstimate",
+	"manifest": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.json",
+	"download": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.zip",
+	"license": "https://choosealicense.com/licenses/mit/",
+  "bugs": "https://github.com/mclemente/healthEstimate/issues",
+  "allowBugReporter": true
 }

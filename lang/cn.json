@@ -1,0 +1,167 @@
+{
+  "healthEstimate": {
+    "core": {
+      "onlyGM": {
+        "name": "仅GM",
+        "hint": "仅对GM显示健康评估。"
+      },
+      "onlyNotGM": {
+        "name": "仅玩家",
+        "hint": "仅对玩家显示健康评估。"
+      },
+      "onlyNPCs": {
+        "name": "仅NPC",
+        "hint": "仅显示NPC的健康评估，而不显示玩家的。 这个设定仅影响玩家。"
+      },
+      "onlyPCs": {
+        "name": "仅玩家",
+        "hint": "仅显示PC的健康评估，而不显示NPC的。 这个设定仅影响玩家。"
+      },
+      "stateNames": {
+        "name": "阶段",
+        "hint": "对玩家显示的一组描述，按照生命值从低到高排列。\n描述的数量没有限制，模组会按照数量调整显示的健康百分比。\n如果需要一个描述覆盖比其他描述更多的健康范围，则将它复制几遍即可。",
+        "default": [
+          "失去意识",
+          "将死之人",
+          "重伤",
+          "受伤",
+          "轻伤",
+          "无伤"
+        ]
+      },
+      "deathState": {
+        "name": "死亡状态显示",
+        "hint": "当token被特定状态标记时将其显示为死亡。该功能独立于宏工作。"
+      },
+      "deathStateName": {
+        "name": "死亡状态名称",
+        "hint": "token死亡时显示给玩家们的描述。合集包中有一个宏用来一或多个token标记为死亡。",
+        "default": "死亡"
+      },
+      "deathMarker": {
+        "name": "死亡标记",
+        "hint": "标记死亡token的状态图标路径\n要获得一个自定义图标的路径，选择一个被该图标标记的token，打开控制台并输入 \"canvas.tokens.controlled[0].data.overlayEffect\""
+      },
+      "NPCsJustDie": {
+        "name": "NPC立刻死亡",
+        "hint": "开启这个选项，描述列表中最差的一项便不会为NPC们显示， 他们会被显示为死亡。"
+      },
+      "perfectionism": {
+        "name": "完美主义",
+        "hint": "仅在目标的健康状态全满时显示最佳的描述-完全无伤。"
+      },
+      "addTemp": {
+        "name": "添加临时生命值",
+        "hint": "显示描述时将临时生命值也计算在内。\n例如：启用此选项后，有临时生命值的token会看起来更“健康”，除非它正处于最大生命值。"
+      },
+      "breakOnZeroMaxHP": {
+        "name": "在最大hp为0的token上隐藏",
+        "hint": "对物品token很有用"
+      },
+      "menuSettings": {
+        "fontSize": {
+          "name": "字体大小",
+          "hint": "接受任何可用的CSS字体大小属性"
+        },
+        "useColor": {
+          "name": "使用颜色",
+          "hint": "这并不会影响设置窗口，但禁用该项会让描述以黑白显示。"
+        },
+        "smoothGradient": {
+          "name": "平滑梯度",
+          "hint": "禁用该选项会让描述的颜色仅在到达下一阶段时改变， 启用该选项则会反映健康百分比。"
+        },
+        "deadColor": {
+          "name": "死亡token颜色"
+        },
+        "outline": {
+          "name": "描线",
+          "darken": "暗色",
+          "brighten": "亮色"
+        },
+        "position": {
+          "name": "位置",
+          "top": "顶部",
+          "middle": "中部",
+          "bottom": "底部"
+        },
+        "positionAdjustment": {
+          "name": "位置调整",
+          "hint": "与方框的相对位置。数字用以调整相对位置。 正数会使其下移，负数上升。默认值-1意为 “初始位置上一行”"
+        }
+      }
+    },
+    "dnd5e": {
+      "vehicleNames": {
+        "hint": "禁用“使用载具阈值”时显示的描述",
+        "default": [
+          "毁坏",
+          "破损",
+          "受创",
+          "刮擦",
+          "完好"
+        ]
+      }
+    },
+    "PF1": {
+      "showExtra": {
+        "name": "瘫痪和濒死",
+        "hint": "显示“瘫痪”和“濒死”描述"
+      },
+      "disabledName": {
+        "name": "瘫痪",
+        "hint": "当token的HP正好为0时显示的描述",
+        "default": "瘫痪"
+      },
+      "dyingName": {
+        "name": "濒死",
+        "hint": "当token的HP低于0时显示的描述",
+        "default": "濒死"
+      }
+    },
+    "numenera": {
+      "countPools": {
+        "name": "空属性池计数",
+        "hint": "为空属性池计数，而不是统计其值的和。评估仅会在属性池被删除或补足时更改。"
+      }
+    },
+    "starfinder": {
+      "useThreshold": {
+        "name": "使用载具阈值",
+        "hint": "启用该选项后，将会使用“阈值阶段”中的文本来分别描述在阈值之上、之下和0HP时的载具状态。"
+      },
+      "thresholdNames": {
+        "name": "阈值阶段",
+        "hint": "阶段的数量限制为3，按状态从低到高排列。",
+        "default": [
+          "毁坏",
+          "破损",
+          "功能正常"
+        ]
+      },
+      "vehicleNames": {
+        "name": "载具阶段",
+        "hint": "总是为飞船显示的描述，如果“使用载具阈值”被禁用则也为载具显示。",
+        "default": [
+          "毁坏",
+          "着火",
+          "冒烟",
+          "受创",
+          "刮擦",
+          "完好"
+        ]
+      },
+      "addStamina": {
+        "name": "记录耐力",
+        "hint": "启用该选项会将耐力加到HP上用作计算。"
+      }
+    },
+    "worldbuilding": {
+      "simpleRule": {
+        "name": "评估规则",
+        "hint": "用来计算token生命值分数的公式JS公式。谨慎更改。 默认为简单的递减生命值，例如：初始生命值为10/10，受到伤害后降为0/10。",
+        "default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+      }
+    }
+  }
+}

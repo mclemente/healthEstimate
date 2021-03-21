@@ -1,0 +1,167 @@
+{
+  "healthEstimate": {
+    "core": {
+      "onlyGM": {
+        "name": "MJ Uniquement",
+        "hint": "Afficher uniquement les estimations au MJ."
+      },
+      "onlyNotGM": {
+        "name": "Joueurs uniquement",
+        "hint": "Afficher uniquement les estimations aux joueurs."
+      },
+      "onlyNPCs": {
+        "name": "PNJs uniquement",
+        "hint": "Afficher uniquement les estimations pour les PNJ, mais pas pour les PJ. Cette option affecte uniquement les PJ."
+      },
+      "onlyPCs": {
+        "name": "PJs uniquement",
+        "hint": "Afficher uniquement les estimations pour les PJ, mais pas pour les PNJ. Cette option affecte uniquement les PJ."
+      },
+      "stateNames": {
+        "name": "Etapes",
+        "hint": "Série de descriptions présentées aux joueurs, classées du pire au meilleur état de santé possible.\nLe nombre de descriptions possible n''est pas limité. Le module ajuste propotionelement le pourcentage de santé associé en fonction de ce nombre de choix possibles. \nS''il y a besoin d'une plage de pourcentage plus grande pour l''une des descriptions, copié simplement plusieurs fois ce nom dans la liste.",
+        "default": [
+          "Inconscient",
+          "Mourant",
+          "Grièvement blessé",
+          "Blessé",
+          "Légèrement blessé",
+          "Indemne"
+        ]
+      },
+      "deathState": {
+        "name": "État Mort sous condition",
+        "hint": "Indiquer que le token est mort lorsqu'il a été marqué d'une condition spécifique. Fonctionne indépendamment de la macro."
+      },
+      "deathStateName": {
+        "name": "Nom de l'État de Mort",
+        "hint": "Description montrée aux joueurs lorsque le token est mort. L'onglet Compendium contient une macro permettant de marquer un token (ou plusieurs) comme mort.",
+        "default": "Mort"
+      },
+      "deathMarker": {
+        "name": "Marqueur de la mort",
+        "hint": "Emplacement de l'icône de condition marquant les tokens morts.\nPour obtenir l'emplacement du symbole personnalisé, sélectionnez un token marqué avec celui-ci, ouvrez la console et entrez \"canvas.tokens.controlled[0].data.overlayEffect\""
+      },
+      "NPCsJustDie": {
+        "name": "Mort immédiate des PNJs",
+        "hint": "Si activé, la description la plus basse dans la liste des descriptions ne sera pas affichée pour les PNJs. A la place, ceux-ci seront marqués avec l'état \"Mort\" directement."
+      },
+      "perfectionism": {
+        "name": "Perfectioniste",
+        "hint": "Afficher la meilleure description possible uniquement si aucun dégat n'a été subit."
+      },
+      "addTemp": {
+        "name": "Ajout de PV Temporaires",
+        "hint": "Inclure les points de vie temporaires dans le calcul de la description à afficher.\nPar exemple, si l'option est activée, le token recevant les points de vie temporaire aura l'air en meilleure santé, à moins qu'il ne soit déjà au maximum de ses points de vie."
+      },
+      "breakOnZeroMaxHP": {
+        "name": "Ne pas afficher pour les tokens à 0 PV Max",
+        "hint": "Utile pour les objets ayant un token"
+      },
+      "menuSettings": {
+        "fontSize": {
+          "name": "Taille de la police",
+          "hint": "Accepte toute propriété valable pour CSS font-size"
+        },
+        "useColor": {
+          "name": "Utiliser couleur",
+          "hint": "Si désactivé, les descriptions s'afficheront en noir et blanc."
+        },
+        "smoothGradient": {
+          "name": "Dégradé progressif",
+          "hint": "Si désactivé, la couleur changera seulement lorsque la description suivante est atteinte. Si activé, elle reflète le pourcentage de points de vie."
+        },
+        "deadColor": {
+          "name": "Couleur pour les tokens morts"
+        },
+        "outline": {
+          "name": "Contour",
+          "darken": "Assombri",
+          "brighten": "Éclairci"
+        },
+        "position": {
+          "name": "Position",
+          "top": "Haut",
+          "middle": "Milieu",
+          "bottom": "Bas"
+        },
+        "positionAdjustment": {
+          "name": "Ajustement de la position",
+          "hint": "La position est relative au cadre. Le nombre vous permet d'ajuster la position relative par rapport à sa position normale.  Un nombre positif descend la description, un negatif la montre. La valeur par défaut est -1 et correspond à \"1 ligne en dessous de la position initiale\"."
+        }
+      }
+    },
+    "dnd5e": {
+      "vehicleNames": {
+        "hint": "Descriptions shown for vehicles if \"Use Vehicle Threshold\" is off",
+        "default": [
+          "Détruit",
+          "Cassé",
+          "Cabossé",
+          "Éraflé",
+          "Neuf"
+        ]
+      }
+    },
+    "PF1": {
+      "showExtra": {
+        "name": "Hors-combat & Mourant",
+        "hint": "Voir les descriptions pour \"Hors-combat\" et \"Mourant\""
+      },
+      "disabledName": {
+        "name": "Hors-combat",
+        "hint": "Description pour afficher lorsque le token est précisément à 0 PV",
+        "default": "Hors-combat"
+      },
+      "dyingName": {
+        "name": "Mourant",
+        "hint": "Description pour afficher lorsque le token est en dessous de 0 PV",
+        "default": "Mourant"
+      }
+    },
+    "numenera": {
+      "countPools": {
+        "name": "Compter les réserves vides",
+        "hint": "Compter les réserves vides au lieu de la somme de leurs valeurs, l'estimation ne changeant que lorsqu'une réserve est épuisée/remplie"
+      }
+    },
+    "starfinder": {
+      "useThreshold": {
+        "name": "Seuil d'utilisation des véhicules",
+        "hint": "Si ce paramètre est activé, les descriptions \"Étapes du seuil\" seront utilisées pour les véhicules au-dessus du seuil, en dessous de celui-ci et à 0 PV respectivement."
+      },
+      "thresholdNames": {
+        "name": "Étapes des seuils",
+        "hint": "Le nombre d'étapes est limité à 3, classées du pire au meilleur",
+        "default": [
+          "Naufragé",
+          "Cassé",
+          "Pleinement fonctionnel"
+        ]
+      },
+      "vehicleNames": {
+        "name": "Étapes du véhicule",
+        "hint": "Descriptions indiquées pour les vaisseaux (toujours) et les véhicules (si \"Seuil d'utilisation des véhicules\" est désactivé)",
+        "default": [
+          "Épave",
+          "En feu",
+          "Fumant",
+          "Endommagé",
+          "Rayé",
+          "Intacte"
+        ]
+      },
+      "addStamina": {
+        "name": "Ajout de l'endurance",
+        "hint": "Avec ce réglage l'Endurance sera ajoutée au PV pour les calculs."
+      }
+    },
+    "worldbuilding": {
+      "simpleRule": {
+        "name": "Règle d'estimation",
+        "hint": "La formule JS pour calculer la proportion de santé que le token a. A modifier avec prudence. La valeur par défaut suppose une simple santé descendante, par exemple vous commencez avec 10/10 dans votre case santé et descendez à 0/10 lorsque vous subissez des dommages.",
+        "default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+      }
+    }
+  }
+}
