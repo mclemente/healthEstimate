@@ -14,7 +14,7 @@
 		"./healthEstimate.js"
 	],
 	"styles": [
-		"./healthEstimate.css",
+		"./css/healthEstimate.css",
 		"./lib/spectrum.min.css"
 	],
 	"packs": [
@@ -78,10 +78,10 @@
 		"worldbuilding",
 		"starfinder",
 		"dnd5e",
-    "sw5e",
+		"sw5e",
 		"blades-in-the-dark",
 		"foundryvtt-reve-de-dragon",
-    "tormenta20",
+		"tormenta20",
 		"uesrpg-d100"
 	],
 	"minimumCoreVersion": "0.5.0",
@@ -90,6 +90,6 @@
 	"manifest": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.json",
 	"download": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.zip",
 	"license": "https://choosealicense.com/licenses/mit/",
-  "bugs": "https://github.com/mclemente/healthEstimate/issues",
-  "allowBugReporter": true
+	"bugs": "https://github.com/mclemente/healthEstimate/issues",
+	"allowBugReporter": true
 }
