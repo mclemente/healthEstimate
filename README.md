@@ -8,7 +8,7 @@
 ![the latest version](https://img.shields.io/github/downloads/mclemente/healthEstimate/latest/total)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-# Health Estimate
+# Health Estimate 2
 A simple module for showing estimated health level of an enemy on mouseover, similar to Baldur's Gate games. 
 
 ![example](example.png)
