@@ -55,7 +55,7 @@
         "hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra. Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
       },
       "breakOnZeroMaxHP": {
-        "name": "Ocultar descritor de tokens com 0PV máximo",
+        "name": "Ocultar descritor de tokens com 0 PV máximo",
         "hint": "Útil para tokens de objetos."
       },
       "menuSettings": {
