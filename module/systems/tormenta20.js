@@ -19,10 +19,6 @@ const settings = () => {
 		'core.breakOnZeroMaxHP'    : {
 			type   : Boolean,
 			default: true,
-		},
-		'starfinder.useThreshold'  : {
-			type   : Boolean,
-			default: false,
 		}
 	}
 }
