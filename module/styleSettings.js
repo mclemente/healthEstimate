@@ -20,7 +20,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		return mergeObject(super.defaultOptions, {
 			id           : 'healthestimate-style-form',
 			title        : 'Health Estimate Style Settings',
-			template     : './modules/healthEstimate/templates/settings.hbs',
+			template     : './modules/healthEstimate2/templates/settings.hbs',
 			classes      : ['sheet'],
 			width        : 640,
 			height       : 480,
