@@ -37,7 +37,7 @@ class HealthEstimateOverlay extends BasePlaceableHUD {
 	static get defaultOptions () {
 		const options = super.defaultOptions
 		options.classes = options.classes.concat(['healthEstimate', 'healthEstimateColor'])
-		options.template = 'modules/healthestimate/templates/healthEstimate.hbs'
+		options.template = 'modules/healthEstimate/templates/healthEstimate.hbs'
 		options.id = 'healthEstimate'
 		return options
 	}
