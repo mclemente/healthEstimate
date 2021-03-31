@@ -3,7 +3,7 @@
 ![](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/mclemente/healthEstimate/master/module.json&label=version&query=version&style=plasticcolor=success)
 
 ![GitHub release](https://img.shields.io/github/release-date/mclemente/healthEstimate)
-[![GitHub commits](https://img.shields.io/github/commits-since/mclemente/healthEstimate/1.0.0.0/master)](https://github.com/mclemente/healthEstimate/commits/master)
+[![GitHub commits](https://img.shields.io/github/commits-since/mclemente/healthEstimate/2.5.0.0/master)](https://github.com/mclemente/healthEstimate/commits/master)
 ![all versions](https://img.shields.io/github/downloads/mclemente/healthEstimate/total)
 ![the latest version](https://img.shields.io/github/downloads/mclemente/healthEstimate/latest/total)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
