@@ -2,23 +2,23 @@ import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSetti
 import {sGet} from './utils.js'
 
 let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker,
-    colors, outline, deadColor, deadOutline, perfectionism
+ colors, outline, deadColor, deadOutline, perfectionism, outputChat, npcName
 
 export function updateSettings () {
-	useColor       = sGet('core.menuSettings.useColor')
-	descriptions   = sGet('core.stateNames').split(/[,;]\s*/)
-	smooth         = sGet('core.menuSettings.smoothGradient')
+	useColor = sGet('core.menuSettings.useColor')
+	descriptions = sGet('core.stateNames').split(/[,;]\s*/)
+	smooth = sGet('core.menuSettings.smoothGradient')
 	deathStateName = sGet('core.deathStateName')
-	showDead       = sGet('core.deathState')
-	NPCsJustDie    = sGet('core.NPCsJustDie')
-	deathMarker    = sGet('core.deathMarker')
-	colors         = sGet('core.variables.colors')[0]
-	outline        = sGet('core.variables.outline')[0]
-	deadColor      = sGet('core.variables.deadColor')
-	deadOutline    = sGet('core.variables.deadOutline')
-	perfectionism  = sGet('core.perfectionism')
+	showDead = sGet('core.deathState')
+	NPCsJustDie = sGet('core.NPCsJustDie')
+	deathMarker = sGet('core.deathMarker')
+	colors = sGet('core.variables.colors')[0]
+	outline = sGet('core.variables.outline')[0]
+	deadColor = sGet('core.variables.deadColor')
+	deadOutline = sGet('core.variables.deadOutline')
+	perfectionism = sGet('core.perfectionism')
 
-	const margin    = `${sGet('core.menuSettings.positionAdjustment')}em`
+	const margin = `${sGet('core.menuSettings.positionAdjustment')}em`
 	const alignment = sGet('core.menuSettings.position')
 	document.documentElement.style.setProperty('--healthEstimate-margin', margin)
 	document.documentElement.style.setProperty('--healthEstimate-alignment', alignment)
@@ -29,22 +29,22 @@ export function updateSettings () {
 		`return (
 			${NPCsJustDie ? '(!token.actor.hasPlayerOwner && stage === 0) ||' : ''}
 			${showDead ? `token.actor.effects.entries.some(x => x.data.icon === '${deathMarker}') ||` : ''}
-			token.getFlag('healthEstimate2', 'dead')
+			token.getFlag('healthestimate', 'dead')
 		)`
 	)
 }
 
 class HealthEstimateOverlay extends BasePlaceableHUD {
 	static get defaultOptions () {
-		const options    = super.defaultOptions
-		options.classes  = options.classes.concat(['healthEstimate', 'healthEstimateColor'])
-		options.template = 'modules/healthEstimate2/templates/healthEstimate.hbs'
-		options.id       = 'healthEstimate'
+		const options = super.defaultOptions
+		options.classes = options.classes.concat(['healthEstimate', 'healthEstimateColor'])
+		options.template = 'modules/healthestimate/templates/healthEstimate.hbs'
+		options.id = 'healthEstimate'
 		return options
 	}
 
 	getData () {
-		const data  = super.getData()
+		const data = super.getData()
 		data.status = this.estimation
 		return data
 	}
@@ -58,7 +58,6 @@ export class HealthEstimate {
 		this.initHooks()
 	}
 
-
 	initHooks () {
 		Hooks.on('hoverToken', (token, hovered) => {
 			this._handleOverlay(token, hovered)
@@ -67,6 +66,7 @@ export class HealthEstimate {
 		Hooks.on('deleteToken', (...args) => {
 			canvas.hud.HealthEstimate.clear()
 		})
+		
 		Hooks.on('updateToken', (scene, token, ...args) => {
 			if (canvas.hud.HealthEstimate !== undefined && canvas.hud.HealthEstimate.object !== null) {
 				if (token._id === canvas.hud.HealthEstimate.object.id) {
@@ -86,14 +86,15 @@ export class HealthEstimate {
 		if (hovered) {
 			this._getEstimation(token)
 			canvas.hud.HealthEstimate.bind(token)
-		} else {
+		}
+		else {
 			canvas.hud.HealthEstimate.clear()
 		}
 	}
 
 	_getEstimation (token) {
-		const fraction   = Math.min(fractionFormula(token), 1)
-		const stage      = Math.max(0,
+		const fraction = Math.min(fractionFormula(token), 1)
+		const stage = Math.max(0,
 			perfectionism ?
 			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
 			Math.ceil((descriptions.length - 1) * fraction),
@@ -101,14 +102,14 @@ export class HealthEstimate {
 		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction))
 		let desc, color, stroke
 
-		desc   = descriptionToShow(descriptions, stage, token, {
+		desc = descriptionToShow(descriptions, stage, token, {
 			isDead: isDead(token, stage),
-			desc  : deathStateName,
+			desc : deathStateName,
 		}, fraction)
-		color  = colors[colorIndex]
+		color = colors[colorIndex]
 		stroke = outline[colorIndex]
 		if (isDead(token, stage)) {
-			color  = deadColor
+			color = deadColor
 			stroke = deadOutline
 		}
 		document.documentElement.style.setProperty('--healthEstimate-stroke-color', stroke)
