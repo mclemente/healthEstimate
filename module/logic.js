@@ -1,8 +1,7 @@
 import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings} from './systemSpecifics.js'
 import {sGet} from './utils.js'
 
-let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker,
- colors, outline, deadColor, deadOutline, perfectionism, outputChat, npcName
+let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism
 
 export function updateSettings () {
 	useColor = sGet('core.menuSettings.useColor')
@@ -29,7 +28,7 @@ export function updateSettings () {
 		`return (
 			${NPCsJustDie ? '(!token.actor.hasPlayerOwner && stage === 0) ||' : ''}
 			${showDead ? `token.actor.effects.entries.some(x => x.data.icon === '${deathMarker}') ||` : ''}
-			token.getFlag('healthestimate', 'dead')
+			token.getFlag('healthEstimate', 'dead')
 		)`
 	)
 }

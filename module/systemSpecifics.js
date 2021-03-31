@@ -85,7 +85,12 @@ export function updateBreakSettings () {
 
 export function prepareSystemSpecifics () {
 	return new Promise((resolve, reject) => {
-		import(`./systems/${game.system.id}.js`)
+		const systems = ["archmage", "D35E", "dungeonworld", "fate", "lancer", "numenera", "ose", "pf1", "pf2e", "ryuutama", "shadowrun5e", "swade", "symbaroum", "tormenta20", "twodsix", "wfrp4e", "worldbuilding", "starfinder", "dnd5e", "sw5e", "blades-in-the-dark", "foundryvtt-reve-de-dragon", "tormenta20", "uesrpg-d100"];
+		let importString = `./systems/${game.system.id}.js`;
+		if (!systems.includes(game.system.id)) {
+			importString = `./systems/generic.js`;
+		}
+		import(importString)
 		.then(currentSystem => {
 			fractionFormula = currentSystem.fraction
 			if (currentSystem.settings !== undefined) {
