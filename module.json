@@ -2,7 +2,7 @@
 	"name": "healthEstimate",
 	"title": "Health Estimate 2",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "2.5.0.2",
+	"version": "2.5.0.3",
 	"author": "MClemente, Shylight",
 	"scripts": [
 		"./lib/chroma.min.js",
@@ -20,7 +20,7 @@
 	"packs": [
 		{
 			"name": "deathmacro",
-			"label": "Death macro",
+			"label": "Health Estimate Macros",
 			"path": "./packs/macros.db",
 			"module": "healthEstimate",
 			"entity": "Macro"

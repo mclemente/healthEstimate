@@ -50,6 +50,10 @@
         "name": "Perfectionism",
         "hint": "Only show the best possible description when the target is in perfect state - not a single damage taken."
       },
+      "outputChat": {
+        "name": "Output Estimate to Chat",
+        "hint": "Output any estimate changes to chat. Characters flagged with the Hide Estimate macro will be shown as \"Unknown Entity\"."
+      },
       "addTemp": {
         "name": "Add Temporary Health",
         "hint": "Include temporary health points in calculating what description to show.\nE.g. with the setting turned on the token receiving temp HP will look \"healthier\" unless it's already at max health."

@@ -1,7 +1,25 @@
 import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings} from './systemSpecifics.js'
 import {sGet} from './utils.js'
 
-let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism
+let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat;
+
+export function HealthEstimateInfos() {
+	useColor = sGet('core.menuSettings.useColor')
+	descriptions = sGet('core.stateNames').split(/[,;]\s*/)
+	smooth = sGet('core.menuSettings.smoothGradient')
+	deathStateName = sGet('core.deathStateName')
+	showDead = sGet('core.deathState')
+	NPCsJustDie = sGet('core.NPCsJustDie')
+	deathMarker = sGet('core.deathMarker')
+	colors = sGet('core.variables.colors')[0]
+	outline = sGet('core.variables.outline')[0]
+	deadColor = sGet('core.variables.deadColor')
+	deadOutline = sGet('core.variables.deadOutline')
+	perfectionism = sGet('core.perfectionism')
+	outputChat = sGet('core.outputChat')
+	
+	return {descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat};
+}
 
 export function updateSettings () {
 	useColor = sGet('core.menuSettings.useColor')
@@ -16,6 +34,7 @@ export function updateSettings () {
 	deadColor = sGet('core.variables.deadColor')
 	deadOutline = sGet('core.variables.deadOutline')
 	perfectionism = sGet('core.perfectionism')
+	outputChat = sGet('core.outputChat')
 
 	const margin = `${sGet('core.menuSettings.positionAdjustment')}em`
 	const alignment = sGet('core.menuSettings.position')
@@ -76,8 +95,8 @@ export class HealthEstimate {
 	}
 
 	_handleOverlay (token, hovered) {
-		if (breakOverlayRender(token)) {
-			return
+		if (breakOverlayRender(token) || (!game.user.isGM && token.actor.getFlag('healthEstimate', 'hideHealthEstimate'))) {
+			return;
 		}
 		const width = `${canvas.scene.data.grid * token.data.width}px`
 		document.documentElement.style.setProperty('--healthEstimate-width', width)

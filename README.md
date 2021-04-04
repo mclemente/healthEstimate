@@ -9,17 +9,17 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 # Health Estimate 2
-A simple module for showing estimated health level of an enemy on mouseover, similar to Baldur's Gate games. 
-
+A simple module for showing estimated health level of an enemy on mouseover, similar to Baldur's Gate games.  
 ![example](example.png)
 
 ## Feedback
 All suggestions/feedback are appreciated, please contact me on Discord (MClemente#5524) or submit a pull request.
 
 ## Attribution
-This project uses [chroma.js](https://github.com/gka/chroma.js) library released under [BSD license](http://opensource.org/licenses/BSD-3-Clause), and [Grapick](https://www.npmjs.com/package/grapick) library licensed under MIT License
+This project uses [chroma.js](https://github.com/gka/chroma.js) library released under [BSD license](http://opensource.org/licenses/BSD-3-Clause), and [Grapick](https://www.npmjs.com/package/grapick) library licensed under MIT License.  
+This module is a fork of Health Estimate, a module for Foundry VTT made by Shylight that is licensed under the MIT License.  
+This module uses code of [Health Monitor](https://github.com/rockshow888/health-monitor), a module for Foundry VTT made by rockshow888 that is licensed under the GPL License.
 
 ## License
-This is a fork of Health Estimate, a module for Foundry VTT made by Shylight, and is licensed under the MIT License.
-
+This module is licensed under the GPL License.  
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development](https://foundryvtt.com/article/license/).

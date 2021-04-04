@@ -50,6 +50,10 @@
         "name": "Perfeccionismo",
         "hint": "Mostra o melhor descritor possível apenas quando o alvo estiver sem qualquer dano."
       },
+      "outputChat": {
+        "name": "Enviar Estimativa para o Chat",
+        "hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro de Hide Character aparecem como \"Entitidade Desconhecida\"."
+      },
       "addTemp": {
         "name": "Adicionar pontos de vida temporários",
         "hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra. Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
