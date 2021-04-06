@@ -1,4 +1,7 @@
 # Changelog
+## 2.5.0.4
+- Added support to Star Wars FFG.
+
 ## 2.5.0.3
 - Added an Output Estimate to Chat setting. Whenever the stage changes, a message is shown telling the new estimate. It currently doesn't show the Dead estimate for NPCs (the mouse-over estimate will be "Dead" while it'll be "Unconscious" on chat).
 - Added a Hide Estimate macro. It makes selected tokens' actors not show their estimate to players, it also replaces the name of creatures on chat as Unknown Entity.
