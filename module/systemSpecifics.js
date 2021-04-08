@@ -4,6 +4,7 @@ import {updateSettings} from './logic.js'
 
 export let fractionFormula
 export let breakOverlayRender
+export let systemSpecificSettings = {}
 
 /**
  * Function handling which description to show. Can be overriden by a system-specific implementation
@@ -77,11 +78,21 @@ export function prepareSystemSpecifics () {
 		import(importString)
 		.then(currentSystem => {
 			fractionFormula = currentSystem.fraction
+			if (currentSystem.settings !== undefined) {
+				/*
+				 * currentSystem.settings is a function because doing it otherwise causes
+				 * l18n calls fire before they're initialized.
+				 */
+				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings())
+			}
 			if (currentSystem.breakCondition !== undefined) {
 				breakConditions['system'] = currentSystem.breakCondition
 			}
 			if (currentSystem.descriptions !== undefined) {
 				descriptionToShow = currentSystem.descriptions
+			}
+			for (let [key, data] of Object.entries(systemSpecificSettings)) {
+				addSetting(key, data)
 			}
 			resolve('success')
 		})
