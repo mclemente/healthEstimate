@@ -1,4 +1,9 @@
 # Changelog
+## 2.5.1.0
+- Fixed an issue with a setting not loading correctly.
+- Moved settings related to death into its own category.
+- Aggregated the four "Only show estimations to" settings into a single setting.
+
 ## 2.5.0.4
 - Added support to Star Wars FFG.
 

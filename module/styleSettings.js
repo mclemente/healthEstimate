@@ -5,7 +5,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 
 	constructor (object, options = {}) {
 		super(object, options)
-		this.gradFn     = new Function()
+		this.gradFn = new Function()
 		this.gradColors = []
 		Hooks.once('renderHealthEstimateStyleSettings', this.initHooks.bind(this))
 		Hooks.once('closeHealthEstimateStyleSettings', () => {
@@ -18,30 +18,30 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	 */
 	static get defaultOptions () {
 		return mergeObject(super.defaultOptions, {
-			id           : 'healthestimate-style-form',
-			title        : 'Health Estimate Style Settings',
-			template     : './modules/healthEstimate/templates/settings.hbs',
-			classes      : ['sheet'],
-			width        : 640,
-			height       : 480,
+			id : 'healthestimate-style-form',
+			title : 'Health Estimate Style Settings',
+			template : './modules/healthEstimate/templates/settings.hbs',
+			classes : ['sheet'],
+			width : 640,
+			height : "auto",
 			closeOnSubmit: true
 		})
 	}
 
 	getData (options) {
 		function prepSelection (key, param = false) {
-			const path  = `core.menuSettings.${key}`
-			let data    = settingData(path)
+			const path = `core.menuSettings.${key}`
+			let data = settingData(path)
 			let current = ''
-			let result  = {
+			let result = {
 				select: [],
-				name  : data.name,
-				hint  : data.hint
+				name : data.name,
+				hint : data.hint
 			}
 
 			if (param) {
 				let currentObject = sGet(path)
-				current           = currentObject[param]
+				current = currentObject[param]
 				// for (let [k, v] of Object.entries((currentObject))) {
 				// 	result[k] = v
 				// }
@@ -52,8 +52,8 @@ export class HealthEstimateStyleSettings extends FormApplication {
 
 			for (let [k, v] of Object.entries(data.choices)) {
 				result.select.push({
-					key     : k,
-					value   : v,
+					key : k,
+					value : v,
 					selected: k === current
 				})
 			}
@@ -62,7 +62,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 
 		function prepSetting (key) {
 			const path = `core.menuSettings.${key}`
-			let data   = settingData(path)
+			let data = settingData(path)
 			return {
 				value: sGet(path),
 				name : data.name,
@@ -71,43 +71,43 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		}
 
 		return {
-			useColor          : prepSetting('useColor'),
-			smoothGradient    : prepSetting('smoothGradient'),
-			deadColor         : prepSetting('deadColor'),
-			fontSize          : prepSetting('fontSize'),
+			useColor : prepSetting('useColor'),
+			smoothGradient : prepSetting('smoothGradient'),
+			deadColor : prepSetting('deadColor'),
+			fontSize : prepSetting('fontSize'),
 			positionAdjustment: prepSetting('positionAdjustment'),
-			position          : prepSelection('position'),
-			mode              : prepSelection('mode'),
-			outline           : prepSelection('outline', 'mode')
+			position : prepSelection('position'),
+			mode : prepSelection('mode'),
+			outline : prepSelection('outline', 'mode')
 		}
 	}
 
 	initHooks () {
 		const gradientPositions = game.settings.get(`healthEstimate`, `core.menuSettings.gradient`)
-		const mode              = document.getElementById(`mode`)
+		const mode = document.getElementById(`mode`)
 
-		this.deadColor       = document.getElementById('deadColor')
+		this.deadColor = document.getElementById('deadColor')
 		this.deadColor.value = sGet('core.menuSettings.deadColor')
-		this.deadOutline     = sGet('core.variables.deadOutline')
+		this.deadOutline = sGet('core.variables.deadOutline')
 
-		// this.deadColor      = sGet('core.menuSettings.deadColor')
-		this.outlineMode        = document.getElementById('outlineMode')
-		this.outlineIntensity   = document.getElementById('outlineIntensity')
-		this.fontSize           = document.getElementById('fontSize')
-		this.textPosition       = document.getElementById('position')
+		// this.deadColor = sGet('core.menuSettings.deadColor')
+		this.outlineMode = document.getElementById('outlineMode')
+		this.outlineIntensity = document.getElementById('outlineIntensity')
+		this.fontSize = document.getElementById('fontSize')
+		this.textPosition = document.getElementById('position')
 		this.positionAdjustment = document.getElementById('positionAdjustment')
-		this.smoothGradient     = document.getElementById('smoothGradient')
-		this.gradEx             = document.getElementById('gradientExampleHE')
+		this.smoothGradient = document.getElementById('smoothGradient')
+		this.gradEx = document.getElementById('gradientExampleHE')
 
 		this.gp = new Grapick({
-			el     : '#gradientControlsHE',
+			el : '#gradientControlsHE',
 			colorEl: '<input id="colorpicker"/>'
 		})
 		this.gp.setColorPicker(handler => {
 			const el = handler.getEl().querySelector('#colorpicker')
 
 			$(el).spectrum({
-				color    : handler.getColor(),
+				color : handler.getColor(),
 				showAlpha: true,
 				change (color) {
 					handler.setColor(color.toRgbString())
@@ -124,7 +124,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		$(this.deadColor).spectrum({
 			// color: sGet('core.menuSettings.deadColor'),
 			preferredFormat: 'hex',
-			move  : function (color) {
+			move : function (color) {
 				this.deadColor.value = color.toHexString()
 				this.updateSample()
 			}.bind(this),
@@ -158,7 +158,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	}
 
 	updateGradientFunction () {
-		const mode         = document.getElementById(`mode`).value
+		const mode = document.getElementById(`mode`).value
 		const colorHandler = mode === 'bez' ? `bezier(colors).scale()` : `scale(colors).mode('${mode}')`
 
 		this.gradFn = new Function(
@@ -171,7 +171,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	}
 	updateOutlineFunction () {
 		const outlineHandler = this.outlineMode.value
-		const outlineAmount  = this.outlineIntensity.value
+		const outlineAmount = this.outlineIntensity.value
 
 		this.outlFn = new Function(
 			'color=false',
@@ -188,13 +188,13 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	}
 
 	updateGradient () {
-		const colors         = this.gp.handlers.map(a => a.color)
+		const colors = this.gp.handlers.map(a => a.color)
 		const colorPositions = this.gp.handlers.map(a => Math.round(a.position) / 100)
-		this.gradLength      = this.smoothGradient.checked ? 100 : sGet('core.stateNames').split(/[,;]\s*/).length
-		const width          = 100 / this.gradLength
-		this.gradColors      = this.gradFn(this.gradLength, colors, colorPositions)
-		this.outlColors      = this.outlFn()
-		let gradString       = ''
+		this.gradLength = this.smoothGradient.checked ? 100 : sGet('core.stateNames').split(/[,;]\s*/).length
+		const width = 100 / this.gradLength
+		this.gradColors = this.gradFn(this.gradLength, colors, colorPositions)
+		this.outlColors = this.outlFn()
+		let gradString = ''
 
 		for (let i = 0; i < this.gradLength; i++) {
 			gradString +=
@@ -211,7 +211,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	}
 
 	updateSample () {
-		const sample      = document.getElementById('healthEstimateSample')
+		const sample = document.getElementById('healthEstimateSample')
 		const sampleItems = sample.children[0].children
 
 		this.deadOutline = this.outlFn(this.deadColor.value)
@@ -223,7 +223,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		sampleItems[0].style.setProperty('--healthEstimate-stroke-color', this.deadOutline)
 
 		for (let i = 1; i <= 6; i++) {
-			const position =  Math.max(Math.round(this.gradLength * ((i-1) / 5))-1, 0)
+			const position = Math.max(Math.round(this.gradLength * ((i-1) / 5))-1, 0)
 
 			sampleItems[i].style.setProperty('--healthEstimate-text-color', this.gradColors[position])
 			sampleItems[i].style.setProperty('--healthEstimate-stroke-color', this.outlColors[position])

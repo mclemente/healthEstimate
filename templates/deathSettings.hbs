@@ -1,0 +1,38 @@
+<form autocomplete="off" style="padding: 0 2.5%" onsubmit="event.preventDefault()" style="display: flex;flex-direction: column;">
+	<div class="form-group">
+		{{#with deathState}}
+			<label for="deathState">{{localize name}}</label>
+			<input type="checkbox" name="deathState" id="deathState" {{#if value}}checked="checked"{{/if}}>
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with deathStateName}}
+			<label for="deathStateName">{{localize name}}</label>
+			<input type="text" name="deathStateName" id="deathStateName" value="{{value}}">
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with NPCsJustDie}}
+			<label for="NPCsJustDie">{{localize name}}</label>
+			<input type="checkbox" name="NPCsJustDie" id="NPCsJustDie" {{#if value}}checked="checked"{{/if}}>
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with deathMarker}}
+			<label for="deathMarker">{{localize name}}</label>
+			<input type="text" name="deathMarker" id="deathMarker" value="{{value}}">
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<footer class="sheet-footer flexrow" style="margin-top: auto">
+<!--		<button type="button" name="reset">-->
+<!--			<i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}-->
+<!--		</button>-->
+		<button type="submit" name="submit">
+			<i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}
+		</button>
+	</footer>
+</form>

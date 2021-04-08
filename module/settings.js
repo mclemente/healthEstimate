@@ -1,7 +1,8 @@
 import {t} from './utils.js'
-import {systemSpecificSettings, updateBreakSettings} from './systemSpecifics.js'
+import {updateBreakSettings} from './systemSpecifics.js'
 import {updateSettings} from './logic.js'
 import {HealthEstimateStyleSettings} from './styleSettings.js'
+import {HealthEstimateDeathSettings} from './deathSettings.js'
 
 /**
  * Shorthand for addSetting.
@@ -44,33 +45,25 @@ export const registerSettings = function () {
 		type: HealthEstimateStyleSettings,
 		restricted: true
 	})
-
+	game.settings.registerMenu('healthEstimate', 'deathSettings', {
+		name: 'Death Settings',
+		label: 'Death Settings',
+		icon: 'fas fa-skull',
+		type: HealthEstimateDeathSettings,
+		restricted: true
+	})
 
 	/* Settings for the main settings menu */
-	addSetting('core.onlyGM', {
-		type: Boolean,
-		default: false,
-		onChange: () => {
-			updateBreakSettings()
-		}
-	})
-	addSetting('core.onlyNotGM', {
-		type: Boolean,
-		default: false,
-		onChange: () => {
-			updateBreakSettings()
-		}
-	})
-	addSetting('core.onlyNPCs', {
-		type: Boolean,
-		default: false,
-		onChange: () => {
-			updateBreakSettings()
-		}
-	})
-	addSetting('core.onlyPCs', {
-		type: Boolean,
-		default: false,
+	addSetting('core.showDescription', {
+		type: Number,
+		default: 0,
+		choices: {
+			0 : t('core.showDescription.choices.all'),
+			1 : t('core.showDescription.choices.GM'),
+			2 : t('core.showDescription.choices.Players'),
+			3 : t('core.showDescription.choices.NPC'),
+			4 : t('core.showDescription.choices.PC')
+		},
 		onChange: () => {
 			updateBreakSettings()
 		}
@@ -78,20 +71,6 @@ export const registerSettings = function () {
 	addSetting('core.stateNames', {
 		type: String,
 		default: t('core.stateNames.default').join(', '),
-		onChange: s => {
-			updateSettings()
-		}
-	})
-	addSetting('core.deathStateName', {
-		type: String,
-		default: t('core.deathStateName.default'),
-		onChange: s => {
-			updateSettings()
-		}
-	})
-	addSetting('core.NPCsJustDie', {
-		type: Boolean,
-		default: true,
 		onChange: s => {
 			updateSettings()
 		}
@@ -111,6 +90,36 @@ export const registerSettings = function () {
 		}
 	})
 
+	/* Settings for the death menu */
+	addMenuSetting('core.deathState', {
+		'type'   : Boolean,
+		'default': false,
+		onChange : s => {
+			updateSettings()
+		}
+	})
+	addMenuSetting('core.deathStateName', {
+		type: String,
+		default: t('core.deathStateName.default'),
+		onChange: s => {
+			updateSettings()
+		}
+	})
+	addMenuSetting('core.NPCsJustDie', {
+		type: Boolean,
+		default: true,
+		onChange: s => {
+			updateSettings()
+		}
+	})
+	addMenuSetting('core.deathMarker', {
+		type    : String,
+		default : 'icons/svg/skull.svg',
+		onChange: s => {
+			updateSettings()
+		}
+	})
+	
 
 	/* Settings for the custom menu */
 	addMenuSetting('core.menuSettings.useColor', {

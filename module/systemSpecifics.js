@@ -4,22 +4,6 @@ import {updateSettings} from './logic.js'
 
 export let fractionFormula
 export let breakOverlayRender
-export let systemSpecificSettings = {
-	'core.deathState' : {
-		'type'   : Boolean,
-		'default': false,
-		onChange : s => {
-			updateSettings()
-		},
-	},
-	'core.deathMarker': {
-		type    : String,
-		default : 'icons/svg/skull.svg',
-		onChange: s => {
-			updateSettings()
-		},
-	},
-}
 
 /**
  * Function handling which description to show. Can be overriden by a system-specific implementation
@@ -76,10 +60,10 @@ function updateBreakConditions () {
 }
 
 export function updateBreakSettings () {
-	breakConditions['onlyGM']   = sGet('core.onlyGM') ? `|| !game.user.isGM` : ``
-	breakConditions['onlyNotGM']   = sGet('core.onlyNotGM') ? `|| game.user.isGM` : ``
-	breakConditions['onlyNPCs'] = sGet('core.onlyNPCs') ? `|| (!game.user.isGM && token.actor.hasPlayerOwner)` : ``
-	breakConditions['onlyPCs']  = sGet('core.onlyPCs') ? `|| (!game.user.isGM && !token.actor.hasPlayerOwner)` : ``
+	breakConditions['onlyGM'] = sGet('core.showDescription') == 1 ? `|| !game.user.isGM` : ``
+	breakConditions['onlyNotGM']   = sGet('core.showDescription') == 2 ? `|| game.user.isGM` : ``
+	breakConditions['onlyNPCs'] = sGet('core.showDescription') == 3 ? `|| (!game.user.isGM && token.actor.hasPlayerOwner)` : ``
+	breakConditions['onlyPCs']  = sGet('core.showDescription') == 4 ? `|| (!game.user.isGM && !token.actor.hasPlayerOwner)` : ``
 	updateBreakConditions()
 }
 
@@ -93,22 +77,11 @@ export function prepareSystemSpecifics () {
 		import(importString)
 		.then(currentSystem => {
 			fractionFormula = currentSystem.fraction
-			if (currentSystem.settings !== undefined) {
-				/*
-				 * currentSystem.settings is a function because doing it otherwise causes
-				 * l18n calls fire before they're initialized.
-				 */
-				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings())
-			}
 			if (currentSystem.breakCondition !== undefined) {
 				breakConditions['system'] = currentSystem.breakCondition
 			}
 			if (currentSystem.descriptions !== undefined) {
 				descriptionToShow = currentSystem.descriptions
-			}
-
-			for (let [key, data] of Object.entries(systemSpecificSettings)) {
-				addSetting(key, data)
 			}
 			resolve('success')
 		})

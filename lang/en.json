@@ -1,21 +1,16 @@
 {
   "healthEstimate": {
     "core": {
-      "onlyGM": {
-        "name": "GM only",
-        "hint": "Only show estimations to GM."
-      },
-      "onlyNotGM": {
-        "name": "Players only",
-        "hint": "Only show estimations to players."
-      },
-      "onlyNPCs": {
-        "name": "NPCs only",
-        "hint": "Only show estimations for NPCs, but not for player characters. This setting only affects players."
-      },
-      "onlyPCs": {
-        "name": "PCs only",
-        "hint": "Only show estimations for PCs, but not for non-player characters. This setting only affects players."
+      "showDescription": {
+        "name": "Show Estimates",
+        "hint": "Show estimates to the selected users.",
+        "choices": {
+          "all": "All",
+          "GM": "Only to GM",
+          "Players": "Only to Players",
+          "NPC": "Only to Players (NPC estimates only)",
+          "PC": "Only to Players (PC estimates only)"
+        }
       },
       "stateNames": {
         "name": "Stages",

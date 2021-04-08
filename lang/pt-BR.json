@@ -1,21 +1,16 @@
 {
   "healthEstimate": {
     "core": {
-      "onlyGM": {
-        "name": "Apenas o Mestre",
-        "hint": "Mostra os descritores somente ao Mestre."
-      },
-      "onlyNotGM": {
-        "name": "Apenas os jogadores",
-        "hint": "Mostra os descritores somente aos jogadores."
-      },
-      "onlyNPCs": {
-        "name": "Apenas NPCs",
-        "hint": "Mostra os descritores somente dos NPCs. Esta configuração afeta apenas aos jogadores."
-      },
-      "onlyPCs": {
-        "name": "Apenas PJs",
-        "hint": "Mostra os descritores somente dos PJs. Esta configuração afeta apenas aos jogadores."
+      "showDescription": {
+        "name": "Mostrar Estimativas",
+        "hint": "Mostra as estimativas para os usuários selecionados.",
+        "choices": {
+          "all": "Todos",
+          "GM": "Apenas para o Mestre",
+          "Players": "Apenas para Jogadores",
+          "NPC": "Apenas para Jogadores (Apenas estiamtivas de NPC)",
+          "PC": "Apenas para Jogadores (Apenas estiamtivas de PJ)"
+        }
       },
       "stateNames": {
         "name": "Estágios",
@@ -35,7 +30,7 @@
       },
       "deathStateName": {
         "name": "Descritor de morte",
-        "hint": "O descritor mostrado quando o personagem está morto. A guia Compendium possui uma macro para marcar um token (ou vários) como morto.",
+        "hint": "O descritor mostrado quando o personagem está morto. A aba Pacotes de Compêndio possui uma macro para marcar tokens como mortos.",
         "default": "Morto"
       },
       "deathMarker": {
