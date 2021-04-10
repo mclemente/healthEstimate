@@ -2,7 +2,55 @@
 import {registerSettings} from './module/settings.js'
 import {preloadTemplates} from './module/preloadTemplates.js'
 import {descriptionToShow, fractionFormula, prepareSystemSpecifics} from "./module/systemSpecifics.js"
-import {HealthEstimate, HealthEstimateInfos} from "./module/logic.js"
+import {HealthEstimate, descriptions, deathStateName, isDead, outputChat, perfectionism, updateSettings} from "./module/logic.js"
+import {t} from "./module/utils.js"
+
+// Add any additional hooks if necessary
+var current_hp_actor = {}; //store hp of PC
+
+function getCharacters(actors) {
+	for (let actor of actors) {
+		const fraction = Math.min(fractionFormula(actor), 1)
+		const stage = Math.max(0,
+			perfectionism ?
+			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
+			Math.ceil((descriptions.length - 1) * fraction),
+		)
+		current_hp_actor[actor.data._id] = {'name': actor.data.name, 'stage':stage, 'dead':isDead(actor, stage)};
+	}
+}
+
+function outputStageChange(actors) {
+	for (let actor of actors) {
+		const fraction = Math.min(fractionFormula(actor), 1)
+		const stage = Math.max(0,
+			perfectionism ?
+			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
+			Math.ceil((descriptions.length - 1) * fraction),
+		)
+		const dead = isDead(actor, stage);
+		if (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead) {
+			let name = current_hp_actor[actor.data._id].name;
+			if (actor.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
+				name = "Unknown entity";
+			}
+			let css = "<span class='hm_messagetaken'>";
+			if (stage > current_hp_actor[actor.data._id].stage) {
+				css = "<span class='hm_messageheal'>"
+			}
+			let desc = descriptionToShow(descriptions, stage, actor, {
+				isDead: dead,
+				desc : deathStateName,
+			}, fraction);
+			let chatData = {
+				content: (css + name + " " + t("core.isNow") + " " + desc + ".</span>")
+			};
+			ChatMessage.create(chatData, {});
+			current_hp_actor[actor.data._id].stage = stage;
+			current_hp_actor[actor.data._id].dead = dead;
+		}
+	}
+}
 
 /* ------------------------------------ */
 /* Initialize module		*/
@@ -45,106 +93,33 @@ Hooks.once('ready', function () {
 	new HealthEstimate()
 })
 
-// Add any additional hooks if necessary
-var current_hp_actor = {}; //store hp of PC
-var infos = {};
-
 //HP storing code for canvas load or token created
 Hooks.on('canvasReady', function(){
-	infos = HealthEstimateInfos();
 	let tokens = canvas.tokens.placeables.filter(e => e.actor);
-	for (let actor of tokens) {
-		const fraction = Math.min(fractionFormula(actor), 1)
-		const stage = Math.max(0,
-			infos.perfectionism ?
-			Math.ceil((infos.descriptions.length - 2 + Math.floor(fraction)) * fraction) :
-			Math.ceil((infos.descriptions.length - 1) * fraction),
-		)
-		current_hp_actor[actor.data._id] = {'name': actor.data.name, 'stage':stage};
-	}
+	updateSettings();
+	getCharacters(tokens)
 });
 
 Hooks.on('createToken', function(){
-	infos = HealthEstimateInfos();
 	let tokens = canvas.tokens.placeables.filter(e => e.actor);
-	for (let actor of tokens) {
-		const fraction = Math.min(fractionFormula(actor), 1)
-		const stage = Math.max(0,
-			infos.perfectionism ?
-			Math.ceil((infos.descriptions.length - 2 + Math.floor(fraction)) * fraction) :
-			Math.ceil((infos.descriptions.length - 1) * fraction),
-		)
-		current_hp_actor[actor.data._id] = {'name': actor.data.name, 'stage':stage};
-	}
+	getCharacters(tokens)
 });	
 
 //spam in chat if token (NPC) is updated
 Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
-	infos = HealthEstimateInfos();
-	let chatData = "";
-	if(game.user.isGM && infos.outputChat) { //only the USER that promoted the change will spam the message
-		var math = {};
+	if(game.user.isGM && outputChat) { //only the USER that promoted the change will spam the message
 		/*start collectting all PNC hp information*/	
 		let actors = canvas.tokens.placeables.filter(e=> e.actor);
-		for (let actor of actors) {
-			const fraction = Math.min(fractionFormula(actor), 1)
-			const stage = Math.max(0,
-				infos.perfectionism ?
-				Math.ceil((infos.descriptions.length - 2 + Math.floor(fraction)) * fraction) :
-				Math.ceil((infos.descriptions.length - 1) * fraction),
-			)
-			math[actor.data._id] = {'name': actor.data.name, 'stage':stage};
-			if (math[actor.data._id].stage != current_hp_actor[actor.data._id].stage) {
-				let name = math[actor.data._id].name;
-				if (actor.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
-					name = "Unknown entity";
-				}
-				let css = "<span class='hm_messagetaken'>";
-				if (math[actor.data._id].stage < current_hp_actor[actor.data._id].stage) {
-					css = "<span class='hm_messageheal'>"
-				}
-				chatData = {
-					content: (css + name + " is now " + infos.descriptions[math[actor.data._id].stage] + ".</span>")
-				};
-				ChatMessage.create(chatData, {});	
-			}
-		}
-		chatData = "";
+		outputStageChange(actors);
 	}
 });
 
 //spam in chat if the actor is updated
 Hooks.on('updateActor', (data, options, apps, userId) => {
-	infos = HealthEstimateInfos();
-	let chatData = "";
-	if(game.user.isGM && infos.outputChat) { //only the USER that promoted the change will spam the message
-		var math = {};
+	if(game.user.isGM && outputChat) { //only the USER that promoted the change will spam the message
 		/*start collectting all PNC hp information*/	
 		let actors = canvas.tokens.placeables.filter(e=> e.actor && e.actor.data.type==='character');
-		for (let actor of actors) {
-			const fraction = Math.min(fractionFormula(actor), 1)
-			const stage = Math.max(0,
-				infos.perfectionism ?
-				Math.ceil((infos.descriptions.length - 2 + Math.floor(fraction)) * fraction) :
-				Math.ceil((infos.descriptions.length - 1) * fraction),
-			)
-			math[actor.data._id] = {'name': actor.data.name, 'stage':stage};
-			if (math[actor.data._id].stage != current_hp_actor[actor.data._id].stage) {
-				let name = math[actor.data._id].name;
-				if (actor.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName == 0) {
-					name = "Unknown entity";
-				}
-				let css = "<span class='hm_messagetaken'>";
-				if (math[actor.data._id].stage < current_hp_actor[actor.data._id].stage) {
-					css = "<span class='hm_messageheal'>"
-				}
-				chatData = {
-					content: (css + name + " is now " + infos.descriptions[math[actor.data._id].stage] + ".</span>")
-				};
-				ChatMessage.create(chatData, {});	
-			}
-		}
-		chatData = "";
+		outputStageChange(actors);
 	}
 });	
 
@@ -159,8 +134,8 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 		html.css("margin", "2px");
 		html.css("padding", "2px");
 		html.css("border", "2px solid #191813d6");
-		html.find(".message-sender").text("");	
-		html.find(".message-metadata")[0].style.display = "none";
+		// html.find(".message-sender").text("");
+		// html.find(".message-metadata")[0].style.display = "none";
 	}
 	if (html.find(".hm_messagetaken").length) {
 		html.css("background", "#c50d19");
@@ -171,8 +146,8 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 		html.css("margin", "2px");
 		html.css("padding", "2px");
 		html.css("border", "2px solid #191813d6");
-		html.find(".message-sender").text("");	
-		html.find(".message-metadata")[0].style.display = "none";
+		// html.find(".message-sender").text("");
+		// html.find(".message-metadata")[0].style.display = "none";
 	}
 });
 	

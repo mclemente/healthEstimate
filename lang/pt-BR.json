@@ -1,6 +1,7 @@
 {
   "healthEstimate": {
     "core": {
+      "isNow": "agora está",
       "showDescription": {
         "name": "Mostrar Estimativas",
         "hint": "Mostra as estimativas para os usuários selecionados.",
@@ -8,8 +9,8 @@
           "all": "Todos",
           "GM": "Apenas para o Mestre",
           "Players": "Apenas para Jogadores",
-          "NPC": "Apenas para Jogadores (Apenas estiamtivas de NPC)",
-          "PC": "Apenas para Jogadores (Apenas estiamtivas de PJ)"
+          "NPC": "Apenas para Jogadores (Apenas estimativas de NPC)",
+          "PC": "Apenas para Jogadores (Apenas estimativas de PJ)"
         }
       },
       "stateNames": {
@@ -26,7 +27,7 @@
       },
       "deathState": {
         "name": "Condição Morto",
-        "hint": "Mostra o token como morto quando é marcado com uma condição específica. Funciona independentemente da macro."
+        "hint": "Mostra o token como morto quando afetado por qualquer condição que use o ícone da opção Marcador de morte. Funciona independentemente da macro."
       },
       "deathStateName": {
         "name": "Descritor de morte",
@@ -39,7 +40,7 @@
       },
       "NPCsJustDie": {
         "name": "NPCs morrem imediatamente",
-        "hint": "Com esta configuração, o pior item da lista de descritores não será mostrado em NPCs que estejam com 0 PV, eles aparecerão automaticamente com o Descritor de morte."
+        "hint": "O último estágio de NPCs é substituído pelo Descritor de morte."
       },
       "perfectionism": {
         "name": "Perfeccionismo",

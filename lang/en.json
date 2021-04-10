@@ -1,6 +1,7 @@
 {
   "healthEstimate": {
     "core": {
+      "isNow": "is now",
       "showDescription": {
         "name": "Show Estimates",
         "hint": "Show estimates to the selected users.",
@@ -26,7 +27,7 @@
       },
       "deathState": {
         "name": "Death State on Condition",
-        "hint": "Show token as dead when it's been marked with specific condition. Works independently from the macro."
+        "hint": "Show token as dead when it's been affected by any condition that uses the icon set on the Death Marker setting. Works independently from the macro."
       },
       "deathStateName": {
         "name": "Death State Name",
@@ -39,7 +40,7 @@
       },
       "NPCsJustDie": {
         "name": "NPCs die immediately",
-        "hint": "With this setting on the lowest option in normal description list won't be shown for NPCs, they'll be shown as dead instead."
+        "hint": "The last stage of NPCs is replaced by the Death State Name."
       },
       "perfectionism": {
         "name": "Perfectionism",

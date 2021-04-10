@@ -1,24 +1,12 @@
 import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings} from './systemSpecifics.js'
 import {sGet} from './utils.js'
 
-let descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat;
+export let descriptions, deathStateName, showDead, useColor, smooth, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat;
 
-export function HealthEstimateInfos() {
-	useColor = sGet('core.menuSettings.useColor')
-	descriptions = sGet('core.stateNames').split(/[,;]\s*/)
-	smooth = sGet('core.menuSettings.smoothGradient')
-	deathStateName = sGet('core.deathStateName')
-	showDead = sGet('core.deathState')
-	NPCsJustDie = sGet('core.NPCsJustDie')
-	deathMarker = sGet('core.deathMarker')
-	colors = sGet('core.variables.colors')[0]
-	outline = sGet('core.variables.outline')[0]
-	deadColor = sGet('core.variables.deadColor')
-	deadOutline = sGet('core.variables.deadOutline')
-	perfectionism = sGet('core.perfectionism')
-	outputChat = sGet('core.outputChat')
-	
-	return {descriptions, deathStateName, showDead, useColor, smooth, isDead, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat};
+export function isDead(token, stage) {
+	return (NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0)
+		|| (showDead && token.actor.effects.entries.some(x => x.data.icon === deathMarker))
+		|| token.getFlag('healthEstimate', 'dead');
 }
 
 export function updateSettings () {
@@ -41,15 +29,6 @@ export function updateSettings () {
 	document.documentElement.style.setProperty('--healthEstimate-margin', margin)
 	document.documentElement.style.setProperty('--healthEstimate-alignment', alignment)
 	document.documentElement.style.setProperty('--healthEstimate-text-size', sGet('core.menuSettings.fontSize'))
-
-	isDead = new Function(
-		'token', 'stage',
-		`return (
-			${NPCsJustDie ? '(!token.actor.hasPlayerOwner && stage === 0) ||' : ''}
-			${showDead ? `token.actor.effects.entries.some(x => x.data.icon === '${deathMarker}') ||` : ''}
-			token.getFlag('healthEstimate', 'dead')
-		)`
-	)
 }
 
 class HealthEstimateOverlay extends BasePlaceableHUD {
