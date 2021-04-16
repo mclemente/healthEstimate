@@ -1,5 +1,4 @@
-import {descriptions} from './starfinder.js'
-import {t} from '../utils.js'
+import {descriptions, t} from '../utils.js'
 
 const fraction = function (token) {
 	let hp = token.actor.data.data.stats.wounds;

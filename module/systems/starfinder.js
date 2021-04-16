@@ -1,4 +1,4 @@
-import {t} from '../utils.js'
+import {descriptions, t} from '../utils.js'
 
 const fraction     = function (token) {
 	const type = token.actor.data.type
@@ -56,21 +56,6 @@ const settings     = () => {
 			default: t('starfinder.vehicleNames.default').join(', '),
 		},
 	}
-}
-const descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}, fraction) {
-	if (state.isDead) {
-		return state.desc
-	}
-	const type = token.actor.data.type
-	if (type !== 'character' && type !== 'npc') {
-		if (type === 'vehicle' && game.settings.get('healthEstimate', 'starfinder.useThreshold')) {
-			descriptions = game.settings.get('healthEstimate', 'starfinder.thresholdNames').split(/[,;]\s*/)
-		} else {
-			descriptions = game.settings.get('healthEstimate', 'starfinder.vehicleNames').split(/[,;]\s*/)
-		}
-		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction))
-	}
-	return descriptions[stage]
 }
 
 const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0`

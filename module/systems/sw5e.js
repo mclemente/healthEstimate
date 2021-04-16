@@ -1,6 +1,4 @@
-// import {addTemp, breakOnZeroMaxHP} from './commonSettings.js'
-import {descriptions} from './starfinder.js'
-import {t} from '../utils.js'
+import {descriptions, t} from '../utils.js'
 
 const fraction = function (token) {
 	const hp    = token.actor.data.data.attributes.hp

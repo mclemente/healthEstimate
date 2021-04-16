@@ -1,7 +1,3 @@
-// import {addTemp, breakOnZeroMaxHP} from './commonSettings.js'
-import {descriptions} from './starfinder.js'
-import {t} from '../utils.js'
-
 const fraction = function (token) {
 	const hp = token.actor.data.data.attributes.pv
 	let temp = 0
@@ -25,4 +21,4 @@ const settings = () => {
 
 const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.pv.max === 0`
 
-export {fraction, settings, breakCondition, descriptions}
+export {fraction, settings, breakCondition}

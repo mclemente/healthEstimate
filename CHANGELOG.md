@@ -1,4 +1,7 @@
 # Changelog
+## 2.5.1.3
+- Fixed a bug on SWFFG where NPCs would have the descriptions of vehicles.
+
 ## 2.5.1.2
 - Output Estimate to Chat setting now outputs Dead estimates normally.
 
