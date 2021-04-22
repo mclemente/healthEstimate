@@ -74,6 +74,10 @@ export class HealthEstimate {
 	}
 
 	_handleOverlay (token, hovered) {
+		if (!token.actor) {
+			console.error(`Health Estimate | ${token.name} has no actor.`);
+			return;
+		}
 		if (breakOverlayRender(token) || (!game.user.isGM && token.actor.getFlag('healthEstimate', 'hideHealthEstimate'))) {
 			return;
 		}
