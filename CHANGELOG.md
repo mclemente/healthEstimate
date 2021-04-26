@@ -1,4 +1,10 @@
 # Changelog
+## 2.5.3
+- Added support to Call of Cthulhu 7e (CoC7), thanks to [snap01](https://github.com/snap01).
+
+## 2.5.2
+- Fixed a console error when trying to render the estimate for tokens without actors (e.g. a token whose actor has been deleted).
+
 ## 2.5.1.3
 - Fixed a bug on SWFFG where NPCs would have the descriptions of vehicles.
 
