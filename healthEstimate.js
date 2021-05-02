@@ -56,7 +56,7 @@ function outputStageChange(actors) {
 /* Initialize module		*/
 /* ------------------------------------ */
 Hooks.once('init', async function () {
-	console.log('healthEstimate | Initializing healthEstimate')
+	console.log('healthEstimate | Initializing healthEstimate');
 	// CONFIG.debug.hooks = true
 	
 	// Assign custom classes and constants here
@@ -68,8 +68,8 @@ Hooks.once('init', async function () {
 	
 	// Register custom sheets (if any)
 	Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
-	html.append('<template id="healthEstimate"></template>')
-	})
+		html.append('<template id="healthEstimate"></template>')
+	});
 	
 })
 

@@ -70,7 +70,7 @@ export function updateBreakSettings () {
 
 export function prepareSystemSpecifics () {
 	return new Promise((resolve, reject) => {
-		const systems = ["archmage", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dungeonworld", "fate", "foundryvtt-reve-de-dragon", "lancer", "numenera", "ose", "pf1", "pf2e", "ryuutama", "shadowrun5e", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum", "tormenta20", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"];
+		const systems = ["archmage", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon", "lancer", "numenera", "ose", "pf1", "pf2e", "ryuutama", "shadowrun5e", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum", "tormenta20", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"];
 		let importString = `./systems/${game.system.id}.js`;
 		if (!systems.includes(game.system.id)) {
 			importString = `./systems/generic.js`;

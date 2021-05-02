@@ -1,4 +1,7 @@
 # Changelog
+## 2.5.4
+- Added support to Das Schwarze Auge 5 (dsa5).
+
 ## 2.5.3
 - Added support to Call of Cthulhu 7e (CoC7), thanks to [snap01](https://github.com/snap01).
 
