@@ -33,11 +33,6 @@
 			"path": "./lang/en.json"
 		},
 		{
-			"lang": "ru",
-			"name": "Русский (Russian)",
-			"path": "./lang/ru.json"
-		},
-		{
 			"lang": "ko",
 			"name": "한국어 (Korean)",
 			"path": "./lang/ko.json"
