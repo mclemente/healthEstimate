@@ -5,8 +5,8 @@ export let descriptions, deathStateName, showDead, useColor, smooth, NPCsJustDie
 
 export function isDead(token, stage) {
 	return (NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0)
-		|| (showDead && token.actor.effects.entries.some(x => x.data.icon === deathMarker))
-		|| token.getFlag('healthEstimate', 'dead');
+		|| (showDead && Array.from(token.actor.effects.values()).some(x => x.data.icon === deathMarker))
+		|| token.document.getFlag('healthEstimate', 'dead');
 }
 
 export function updateSettings () {
@@ -17,8 +17,8 @@ export function updateSettings () {
 	showDead = sGet('core.deathState')
 	NPCsJustDie = sGet('core.NPCsJustDie')
 	deathMarker = sGet('core.deathMarker')
-	colors = sGet('core.variables.colors')[0]
-	outline = sGet('core.variables.outline')[0]
+	colors = sGet('core.variables.colors')
+	outline = sGet('core.variables.outline')
 	deadColor = sGet('core.variables.deadColor')
 	deadOutline = sGet('core.variables.deadOutline')
 	perfectionism = sGet('core.perfectionism')

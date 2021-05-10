@@ -31,7 +31,7 @@ function outputStageChange(actors) {
 		const dead = isDead(actor, stage);
 		if (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead) {
 			let name = current_hp_actor[actor.data._id].name;
-			if (actor.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
+			if (actor.document.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
 				name = "Unknown entity";
 			}
 			let css = "<span class='hm_messagetaken'>";
@@ -121,7 +121,7 @@ Hooks.on('updateActor', (data, options, apps, userId) => {
 		let actors = canvas.tokens.placeables.filter(e=> e.actor && e.actor.data.type==='character');
 		outputStageChange(actors);
 	}
-});	
+});
 
 // This is for chat styling
 Hooks.on("renderChatMessage", (app, html, data) => { 
