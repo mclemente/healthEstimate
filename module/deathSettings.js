@@ -1,12 +1,12 @@
-import {sGet, sSet, settingData} from './utils.js'
-import {updateSettings} from './logic.js'
+import {sGet, sSet, settingData} from './utils.js';
+import {updateSettings} from './logic.js';
 
 export class HealthEstimateDeathSettings extends FormApplication {
 
 	constructor (object, options = {}) {
-		super(object, options)
-		this.gradFn = new Function()
-		this.gradColors = []
+		super(object, options);
+		this.gradFn = new Function();
+		this.gradColors = [];
 	}
 
 	/**
@@ -21,18 +21,18 @@ export class HealthEstimateDeathSettings extends FormApplication {
 			width : 640,
 			height : "auto",
 			closeOnSubmit: true
-		})
+		});
 	}
 
 	getData (options) {
 
 		function prepSetting (key) {
-			let data = settingData(`core.${key}`)
+			let data = settingData(`core.${key}`);
 			return {
 				value: sGet(`core.${key}`),
 				name : data.name,
 				hint : data.hint
-			}
+			};
 		}
 
 		return {
@@ -40,7 +40,7 @@ export class HealthEstimateDeathSettings extends FormApplication {
 			deathStateName : prepSetting('deathStateName'),
 			NPCsJustDie : prepSetting('NPCsJustDie'),
 			deathMarker : prepSetting('deathMarker'),
-		}
+		};
 	}
 
 	/**
