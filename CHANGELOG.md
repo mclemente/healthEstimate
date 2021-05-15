@@ -1,4 +1,7 @@
 # Changelog
+## 2.5.5
+- FoundryVTT 0.8.x compatibility.
+
 ## 2.5.4
 - Added support to Das Schwarze Auge 5 (dsa5).
 
