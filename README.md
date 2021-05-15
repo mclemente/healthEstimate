@@ -3,10 +3,12 @@
 ![](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/mclemente/healthEstimate/master/module.json&label=version&query=version&style=plasticcolor=success)
 
 ![GitHub release](https://img.shields.io/github/release-date/mclemente/healthEstimate)
-[![GitHub commits](https://img.shields.io/github/commits-since/mclemente/healthEstimate/2.5.0.0/master)](https://github.com/mclemente/healthEstimate/commits/master)
+[![GitHub commits](https://img.shields.io/github/commits-since/mclemente/healthEstimate/2.5.5/master)](https://github.com/mclemente/healthEstimate/commits/master)
 ![all versions](https://img.shields.io/github/downloads/mclemente/healthEstimate/total)
 ![the latest version](https://img.shields.io/github/downloads/mclemente/healthEstimate/latest/total)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X742NL3)
 
 # Health Estimate 2
 A simple module for showing estimated health level of an enemy on mouseover, similar to Baldur's Gate games.  
