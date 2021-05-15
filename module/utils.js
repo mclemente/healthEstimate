@@ -4,7 +4,7 @@
  * @returns {boolean}
  */
 export function isEmpty (string) {
-	return !string || string.length === 0 || /^\s*$/.test(string)
+	return !string || string.length === 0 || /^\s*$/.test(string);
 }
 
  /**
@@ -30,7 +30,7 @@ export let descriptions = function (descriptions, stage, token, state = {isDead:
 		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
 	}
 	return descriptions[stage];
-}
+};
 
 /**
  * Shorthand for localization
@@ -38,7 +38,7 @@ export let descriptions = function (descriptions, stage, token, state = {isDead:
  * @returns {string}
  */
 export function t (key) {
-	return game.i18n.localize(`healthEstimate.${key}`)
+	return game.i18n.localize(`healthEstimate.${key}`);
 }
 
 /**
@@ -47,7 +47,7 @@ export function t (key) {
  * @param value
  */
 export function sSet (key, value) {
-	game.settings.set('healthEstimate', key, value)
+	game.settings.set('healthEstimate', key, value);
 }
 
 /**
@@ -56,7 +56,7 @@ export function sSet (key, value) {
  * @returns {any}
  */
 export function sGet (key) {
-	return game.settings.get('healthEstimate', key)
+	return game.settings.get('healthEstimate', key);
 }
 
 /**
@@ -65,5 +65,5 @@ export function sGet (key) {
  * @returns {Object}
  */
 export function settingData(key) {
-	return game.settings.settings.get(`healthEstimate.${key}`)
+	return game.settings.settings.get(`healthEstimate.${key}`);
 }

@@ -1,42 +1,42 @@
 // Import JavaScript modules
-import {registerSettings} from './module/settings.js'
-import {preloadTemplates} from './module/preloadTemplates.js'
-import {descriptionToShow, fractionFormula, prepareSystemSpecifics} from "./module/systemSpecifics.js"
-import {HealthEstimate, descriptions, deathStateName, isDead, outputChat, perfectionism, updateSettings} from "./module/logic.js"
-import {t} from "./module/utils.js"
+import {registerSettings} from './module/settings.js';
+import {preloadTemplates} from './module/preloadTemplates.js';
+import {descriptionToShow, fractionFormula, prepareSystemSpecifics} from "./module/systemSpecifics.js";
+import {HealthEstimate, descriptions, deathStateName, isDead, outputChat, perfectionism, updateSettings} from "./module/logic.js";
+import {t} from "./module/utils.js";
 
 // Add any additional hooks if necessary
 var current_hp_actor = {}; //store hp of PC
 
 function getCharacters(actors) {
 	for (let actor of actors) {
-		const fraction = Math.min(fractionFormula(actor), 1)
+		const fraction = Math.min(fractionFormula(actor), 1);
 		const stage = Math.max(0,
 			perfectionism ?
 			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
-			Math.ceil((descriptions.length - 1) * fraction),
-		)
+			Math.ceil((descriptions.length - 1) * fraction)
+		);
 		current_hp_actor[actor.data._id] = {'name': actor.data.name, 'stage':stage, 'dead':isDead(actor, stage)};
 	}
 }
 
 function outputStageChange(actors) {
 	for (let actor of actors) {
-		const fraction = Math.min(fractionFormula(actor), 1)
+		const fraction = Math.min(fractionFormula(actor), 1);
 		const stage = Math.max(0,
 			perfectionism ?
 			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
-			Math.ceil((descriptions.length - 1) * fraction),
-		)
+			Math.ceil((descriptions.length - 1) * fraction)
+		);
 		const dead = isDead(actor, stage);
 		if (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead) {
 			let name = current_hp_actor[actor.data._id].name;
-			if (actor.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
+			if (actor.document.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
 				name = "Unknown entity";
 			}
 			let css = "<span class='hm_messagetaken'>";
 			if (stage > current_hp_actor[actor.data._id].stage) {
-				css = "<span class='hm_messageheal'>"
+				css = "<span class='hm_messageheal'>";
 			}
 			let desc = descriptionToShow(descriptions, stage, actor, {
 				isDead: dead,
@@ -64,14 +64,14 @@ Hooks.once('init', async function () {
 	// Register custom module settings
 	
 	// Preload Handlebars templates
-	await preloadTemplates()
+	await preloadTemplates();
 	
 	// Register custom sheets (if any)
 	Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
-		html.append('<template id="healthEstimate"></template>')
+		html.append('<template id="healthEstimate"></template>');
 	});
 	
-})
+});
 
 /* ------------------------------------ */
 /* Setup module		*/
@@ -81,8 +81,8 @@ Hooks.once('setup', function () {
 	// ready
 
 	// Have to register Settings here, because doing so at init breaks i18n
-	prepareSystemSpecifics().then(registerSettings())
-})
+	prepareSystemSpecifics().then(registerSettings());
+});
 
 /* ------------------------------------ */
 /* When ready		*/
@@ -90,19 +90,19 @@ Hooks.once('setup', function () {
 Hooks.once('ready', function () {
 	// Do anything once the module is ready
 	
-	new HealthEstimate()
-})
+	new HealthEstimate();
+});
 
 //HP storing code for canvas load or token created
 Hooks.on('canvasReady', function(){
 	let tokens = canvas.tokens.placeables.filter(e => e.actor);
 	updateSettings();
-	getCharacters(tokens)
+	getCharacters(tokens);
 });
 
 Hooks.on('createToken', function(){
 	let tokens = canvas.tokens.placeables.filter(e => e.actor);
-	getCharacters(tokens)
+	getCharacters(tokens);
 });	
 
 //spam in chat if token (NPC) is updated
@@ -121,7 +121,7 @@ Hooks.on('updateActor', (data, options, apps, userId) => {
 		let actors = canvas.tokens.placeables.filter(e=> e.actor && e.actor.data.type==='character');
 		outputStageChange(actors);
 	}
-});	
+});
 
 // This is for chat styling
 Hooks.on("renderChatMessage", (app, html, data) => { 
