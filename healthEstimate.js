@@ -16,7 +16,7 @@ function getCharacters(actors) {
 			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
 			Math.ceil((descriptions.length - 1) * fraction)
 		);
-		current_hp_actor[actor.data._id] = {'name': actor.data.name, 'stage':stage, 'dead':isDead(actor, stage)};
+		current_hp_actor[actor.data._id] = {'name': actor.document.data.name || actor.name, 'stage':stage, 'dead':isDead(actor, stage)};
 	}
 }
 
