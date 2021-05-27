@@ -1,57 +1,10 @@
 // Import JavaScript modules
 import {registerSettings} from './module/settings.js';
 import {preloadTemplates} from './module/preloadTemplates.js';
-import {descriptionToShow, fractionFormula, prepareSystemSpecifics} from "./module/systemSpecifics.js";
-import {HealthEstimate, descriptions, deathStateName, isDead, outputChat, perfectionism, updateSettings} from "./module/logic.js";
-import {t} from "./module/utils.js";
+import {prepareSystemSpecifics} from "./module/systemSpecifics.js";
+import {HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings} from "./module/logic.js";
 
 // Add any additional hooks if necessary
-var current_hp_actor = {}; //store hp of PC
-
-function getCharacters(actors) {
-	for (let actor of actors) {
-		const fraction = Math.min(fractionFormula(actor), 1);
-		const stage = Math.max(0,
-			perfectionism ?
-			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
-			Math.ceil((descriptions.length - 1) * fraction)
-		);
-		current_hp_actor[actor.data._id] = {'name': actor.document.data.name || actor.name, 'stage':stage, 'dead':isDead(actor, stage)};
-	}
-}
-
-function outputStageChange(actors) {
-	for (let actor of actors) {
-		const fraction = Math.min(fractionFormula(actor), 1);
-		const stage = Math.max(0,
-			perfectionism ?
-			Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) :
-			Math.ceil((descriptions.length - 1) * fraction)
-		);
-		const dead = isDead(actor, stage);
-		if (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead) {
-			let name = current_hp_actor[actor.data._id].name;
-			if (actor.document.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
-				name = "Unknown entity";
-			}
-			let css = "<span class='hm_messagetaken'>";
-			if (stage > current_hp_actor[actor.data._id].stage) {
-				css = "<span class='hm_messageheal'>";
-			}
-			let desc = descriptionToShow(descriptions, stage, actor, {
-				isDead: dead,
-				desc : deathStateName,
-			}, fraction);
-			let chatData = {
-				content: (css + name + " " + t("core.isNow") + " " + desc + ".</span>")
-			};
-			ChatMessage.create(chatData, {});
-			current_hp_actor[actor.data._id].stage = stage;
-			current_hp_actor[actor.data._id].dead = dead;
-		}
-	}
-}
-
 /* ------------------------------------ */
 /* Initialize module		*/
 /* ------------------------------------ */

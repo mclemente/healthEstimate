@@ -72,15 +72,15 @@ export function prepareSystemSpecifics () {
 				 * l18n calls fire before they're initialized.
 				 */
 				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings());
+				for (let [key, data] of Object.entries(systemSpecificSettings)) {
+					addSetting(key, data);
+				}
 			}
 			if (currentSystem.breakCondition !== undefined) {
 				breakConditions['system'] = currentSystem.breakCondition;
 			}
 			if (currentSystem.descriptions !== undefined) {
 				descriptionToShow = currentSystem.descriptions;
-			}
-			for (let [key, data] of Object.entries(systemSpecificSettings)) {
-				addSetting(key, data);
 			}
 			resolve('success');
 		});
