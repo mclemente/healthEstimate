@@ -1,6 +1,6 @@
 {
 	"name": "healthEstimate",
-	"title": "Health Estimate 2",
+	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
 	"version": "2.5.5",
 	"author": "MClemente, Shylight",
