@@ -2,7 +2,7 @@
 	"name": "healthEstimate",
 	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "2.5.5",
+	"version": "2.5.7",
 	"author": "MClemente, Shylight",
 	"scripts": [
 		"./lib/chroma.min.js",

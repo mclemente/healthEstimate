@@ -1,4 +1,11 @@
 # Changelog
+## 2.5.7
+- Fixed error being thrown when loading the module.
+
+## 2.5.6
+- Changed the module's title back to Health Estimate to make it the same as the one on the FoundryVTT page.
+- Updated Chinese translation (thanks to [hmqgg](https://github.com/hmqgg))
+
 ## 2.5.5
 - FoundryVTT 0.8.x compatibility.
 

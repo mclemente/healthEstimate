@@ -109,7 +109,7 @@ export class HealthEstimate {
 		});
 		
 		Hooks.on('updateToken', (scene, token, ...args) => {
-			if (canvas.hud.HealthEstimate !== undefined && canvas.hud.HealthEstimate.object !== null) {
+			if (canvas.hud.HealthEstimate !== undefined && canvas.hud.HealthEstimate.object) {
 				if (token._id === canvas.hud.HealthEstimate.object.id) {
 					canvas.hud.HealthEstimate.clear();
 				}
