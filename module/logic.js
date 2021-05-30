@@ -1,5 +1,5 @@
 import {breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings} from './systemSpecifics.js';
-import {sGet} from './utils.js';
+import {sGet, t} from './utils.js';
 
 export let descriptions, deathStateName, showDead, useColor, smooth, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat;
 
