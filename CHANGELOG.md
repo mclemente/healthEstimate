@@ -1,4 +1,7 @@
 # Changelog
+## 2.5.8
+- Fixed Output Estimate to Chat not working.
+
 ## 2.5.7
 - Fixed error being thrown when loading the module.
 
