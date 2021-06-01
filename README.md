@@ -5,7 +5,7 @@
 
 [![ko-fi](https://img.shields.io/badge/ko--fi-Support%20Me-red?style=flat-square&logo=ko-fi)](ko-fi.com/mclemente)
 
-# Health Estimate 2
+# Health Estimate
 A simple module for showing estimated health level of an enemy on mouseover, similar to Baldur's Gate games.  
 ![example](example.png)  
 Be sure to read the [How To's](https://github.com/mclemente/healthEstimate/wiki/How-To's) for more info on how some features work.
