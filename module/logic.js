@@ -83,6 +83,19 @@ class HealthEstimateOverlay extends BasePlaceableHUD {
 		options.id = 'healthEstimate';
 		return options;
 	}
+	
+	setPosition({left, top, width, height, scale}={}) {
+		if (canvas.grid.type === 2 || canvas.grid.type === 3) {
+			left = this.object.x - 6;
+		}
+		const position = {
+			width: width || this.object.width,
+			height: height || this.object.height,
+			left: left || this.object.x,
+			top: top ?? this.object.y
+		};
+		this.element.css(position);
+	}
 
 	getData () {
 		const data = super.getData();
