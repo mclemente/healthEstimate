@@ -48,6 +48,11 @@
 			"path": "./lang/cn.json"
 		},
 		{
+			"lang": "zh-tw",
+			"name": "国语 (Taiwanese Mandarin)",
+			"path": "./lang/zh-tw.json"
+		},
+		{
 			"lang": "pt-BR",
 			"name": "Português (Brasil)",
 			"path": "./lang/pt-BR.json"
