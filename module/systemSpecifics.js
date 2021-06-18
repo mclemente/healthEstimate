@@ -55,14 +55,14 @@ function updateBreakConditions () {
 export function updateBreakSettings () {
 	breakConditions.onlyGM = sGet('core.showDescription') == 1 ? `|| !game.user.isGM` : ``;
 	breakConditions.onlyNotGM = sGet('core.showDescription') == 2 ? `|| game.user.isGM` : ``;
-	breakConditions.onlyNPCs = sGet('core.showDescription') == 3 ? `|| (!game.user.isGM && token.actor.hasPlayerOwner)` : ``;
-	breakConditions.onlyPCs = sGet('core.showDescription') == 4 ? `|| (!game.user.isGM && !token.actor.hasPlayerOwner)` : ``;
+	breakConditions.onlyNPCs = sGet('core.showDescription') == 3 ? `|| game.user.isGM || token.actor.hasPlayerOwner` : ``;
+	breakConditions.onlyPCs = sGet('core.showDescription') == 4 ? `|| game.user.isGM || !token.actor.hasPlayerOwner` : ``;
 	updateBreakConditions();
 }
 
 export function prepareSystemSpecifics () {
 	return new Promise((resolve, reject) => {
-		const systems = ["archmage", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon", "lancer", "numenera", "ose", "pf1", "pf2e", "ryuutama", "shadowrun5e", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum", "tormenta20", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"];
+		const systems = ["archmage", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon", "lancer", "numenera", "ose", "pf1", "pf2e", "ryuutama", "shadowrun5e", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum", "tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"];
 		let importString = systems.includes(game.system.id) ? `./systems/${game.system.id}.js` : `./systems/generic.js`;
 		import(importString).then(currentSystem => {
 			fractionFormula = currentSystem.fraction;
