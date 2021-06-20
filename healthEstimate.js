@@ -8,10 +8,7 @@ import {HealthEstimate, getCharacters, outputChat, outputStageChange, updateSett
 /* ------------------------------------ */
 /* Initialize module		*/
 /* ------------------------------------ */
-Hooks.once('init', async function () {
-	console.log('healthEstimate | Initializing healthEstimate');
-	// CONFIG.debug.hooks = true
-	
+Hooks.once('init', async function () {	
 	// Assign custom classes and constants here
 	
 	// Register custom module settings

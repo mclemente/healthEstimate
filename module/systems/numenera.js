@@ -14,7 +14,6 @@ const fraction = function (token) {
 		} else {
 			let [total, max] = [0, 0];
 			for (let pool of [might, speed, intellect]) {
-				console.log(pool);
 				total += pool.pool.current;
 				max += pool.pool.maximum;
 			}
