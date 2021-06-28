@@ -1,4 +1,3 @@
-![](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/mclemente/healthEstimate/master/module.json&label=version&query=version&style=plasticcolor=success)
 ![GitHub release](https://img.shields.io/github/release-date/mclemente/healthEstimate)
 ![all versions](https://img.shields.io/github/downloads/mclemente/healthEstimate/total)
 ![the latest version](https://img.shields.io/github/downloads/mclemente/healthEstimate/latest/total)
