@@ -60,9 +60,19 @@ export const registerSettings = function () {
 		choices: {
 			0 : t('core.showDescription.choices.all'),
 			1 : t('core.showDescription.choices.GM'),
-			2 : t('core.showDescription.choices.Players'),
-			3 : t('core.showDescription.choices.NPC'),
-			4 : t('core.showDescription.choices.PC')
+			2 : t('core.showDescription.choices.Players')
+		},
+		onChange: () => {
+			updateBreakSettings();
+		}
+	});
+	addSetting('core.showDescriptionTokenType', {
+		type: Number,
+		default: 0,
+		choices: {
+			0 : t('core.showDescription.choices.all'),
+			1 : t('core.showDescription.choices.PC'),
+			2 : t('core.showDescription.choices.NPC')
 		},
 		onChange: () => {
 			updateBreakSettings();

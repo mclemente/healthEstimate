@@ -1,6 +1,5 @@
 import {isEmpty, sGet} from './utils.js';
 import {addSetting} from './settings.js';
-import {updateSettings} from './logic.js';
 
 export let fractionFormula;
 export let breakOverlayRender;
@@ -55,8 +54,9 @@ function updateBreakConditions () {
 export function updateBreakSettings () {
 	breakConditions.onlyGM = sGet('core.showDescription') == 1 ? `|| !game.user.isGM` : ``;
 	breakConditions.onlyNotGM = sGet('core.showDescription') == 2 ? `|| game.user.isGM` : ``;
-	breakConditions.onlyNPCs = sGet('core.showDescription') == 3 ? `|| game.user.isGM || token.actor.hasPlayerOwner` : ``;
-	breakConditions.onlyPCs = sGet('core.showDescription') == 4 ? `|| game.user.isGM || !token.actor.hasPlayerOwner` : ``;
+	
+	breakConditions.onlyPCs = sGet('core.showDescriptionTokenType') == 1 ? `|| !token.actor.hasPlayerOwner` : ``;
+	breakConditions.onlyNPCs = sGet('core.showDescriptionTokenType') == 2 ? `|| token.actor.hasPlayerOwner` : ``;
 	updateBreakConditions();
 }
 
