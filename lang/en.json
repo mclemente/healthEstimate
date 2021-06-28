@@ -1,17 +1,35 @@
 {
   "healthEstimate": {
     "core": {
+      "custom": {
+        "FractionHP": {
+          "name": "Hit Points Attribute",
+          "hint": "Your system isn't officially supported, so it might be using a different attribute the standard. Only change this if the estimate isn't showing and you know what you're doing."
+        },
+        "FractionMath": {
+          "name": "Fraction Equation",
+          "hint": "Your system isn't officially supported, so choose the equation used to estimate the health fraction.",
+          "choices": {
+            "0": "(Current HP)/(Max HP)",
+            "1": "(Max HP - Current HP)/(Max HP)"
+          }
+        }
+      },
       "isNow": "is now",
       "showDescription": {
-        "name": "Show Estimates",
-        "hint": "Show estimates to the selected users.",
+        "name": "Show Estimates: Users",
+        "hint": "Show estimates to the following users.",
         "choices": {
           "all": "All",
-          "GM": "Only to GM",
-          "Players": "Only to Players",
-          "NPC": "Only to Players (NPC estimates only)",
-          "PC": "Only to Players (PC estimates only)"
+          "GM": "Gamemasters",
+          "Players": "Players",
+          "NPC": "Non-Player Characters",
+          "PC": "Player Characters"
         }
+      },
+      "showDescriptionTokenType": {
+        "name": "Show Estimates: Tokens",
+        "hint": "Show estimates of the following tokens."
       },
       "stateNames": {
         "name": "Stages",

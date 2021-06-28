@@ -1,17 +1,35 @@
 {
   "healthEstimate": {
     "core": {
+      "custom": {
+        "FractionHP": {
+          "name": "Atributo de Pontos de Vida",
+          "hint": "Seu sistema não é oficialmente suportado, então pode estar usando um atributo diferente do padrão. Só mude isso se a estimativa não estiver aparecendo e você souber o que está fazendo."
+        },
+        "FractionMath": {
+          "name": "Fraction Equation",
+          "hint": "Seu sistema não é oficialmente suportado, então escolha a equação usada para calcular a fração da estimativa de vida.",
+          "choices": {
+            "0": "(Current HP)/(Max HP)",
+            "1": "(Max HP - Current HP)/(Max HP)"
+          }
+        }
+      },
       "isNow": "agora está",
       "showDescription": {
-        "name": "Mostrar Estimativas",
-        "hint": "Mostra as estimativas para os usuários selecionados.",
+        "name": "Mostrar Estimativas: Usuários",
+        "hint": "Mostra as estimativas para os seguintes usuários.",
         "choices": {
           "all": "Todos",
-          "GM": "Apenas para o Mestre",
-          "Players": "Apenas para Jogadores",
-          "NPC": "Apenas para Jogadores (Apenas estimativas de NPC)",
-          "PC": "Apenas para Jogadores (Apenas estimativas de PJ)"
+          "GM": "Mestres",
+          "Players": "Jogadores",
+          "NPC": "Personagens do Mestre",
+          "PC": "Personagem de Jogador"
         }
+      },
+      "showDescriptionTokenType": {
+        "name": "Mostrar Estimativas: Tokens",
+        "hint": "Mostra as estimativas dos seguintes tokens."
       },
       "stateNames": {
         "name": "Estágios",
