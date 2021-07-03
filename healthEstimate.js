@@ -1,49 +1,33 @@
-// Import JavaScript modules
 import {registerSettings} from './module/settings.js';
 import {preloadTemplates} from './module/preloadTemplates.js';
 import {prepareSystemSpecifics} from "./module/systemSpecifics.js";
 import {HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings} from "./module/logic.js";
 
-// Add any additional hooks if necessary
-/* ------------------------------------ */
-/* Initialize module		*/
-/* ------------------------------------ */
+/**
+ * Preload templates and add it template to the HUD
+ */
 Hooks.once('init', async function () {	
-	// Assign custom classes and constants here
-	
-	// Register custom module settings
-	
-	// Preload Handlebars templates
 	await preloadTemplates();
-	
-	// Register custom sheets (if any)
 	Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
 		html.append('<template id="healthEstimate"></template>');
 	});
 	
 });
 
-/* ------------------------------------ */
-/* Setup module		*/
-/* ------------------------------------ */
+/**
+ * Have to register Settings here, because doing so at init breaks i18n
+ */
 Hooks.once('setup', function () {
-	// Do anything after initialization but before
-	// ready
-
-	// Have to register Settings here, because doing so at init breaks i18n
 	prepareSystemSpecifics().then(registerSettings());
 });
 
-/* ------------------------------------ */
-/* When ready		*/
-/* ------------------------------------ */
 Hooks.once('ready', function () {
-	// Do anything once the module is ready
-	
 	new HealthEstimate();
 });
 
-//HP storing code for canvas load or token created
+/**
+ * HP storing code for canvas load or token created
+ */
 Hooks.on('canvasReady', function(){
 	let tokens = canvas.tokens.placeables.filter(e => e.actor);
 	updateSettings();
@@ -55,25 +39,33 @@ Hooks.on('createToken', function(){
 	getCharacters(tokens);
 });	
 
-//spam in chat if token (NPC) is updated
+/**
+ * spam in chat if token (NPC) is updated
+ * only the USER that promoted the change will spam the message
+ * start collectting all PNC hp information
+ */
 Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
-	if(game.user.isGM && outputChat) { //only the USER that promoted the change will spam the message
-		/*start collectting all PNC hp information*/	
+	if(game.user.isGM && outputChat) {
 		let actors = canvas.tokens.placeables.filter(e=> e.actor);
 		outputStageChange(actors);
 	}
 });
 
-//spam in chat if the actor is updated
+/**
+ * spam in chat if the actor is updated
+ * only the USER that promoted the change will spam the message
+ * start collectting all PNC hp information
+ */
 Hooks.on('updateActor', (data, options, apps, userId) => {
-	if(game.user.isGM && outputChat) { //only the USER that promoted the change will spam the message
-		/*start collectting all PNC hp information*/	
+	if(game.user.isGM && outputChat) {
 		let actors = canvas.tokens.placeables.filter(e=> e.actor && e.actor.data.type==='character');
 		outputStageChange(actors);
 	}
 });
 
-// This is for chat styling
+/**
+ * Chat Styling
+ */
 Hooks.on("renderChatMessage", (app, html, data) => { 
 	if (html.find(".hm_messageheal").length) {
 		html.css("background", "#06a406");

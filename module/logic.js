@@ -49,10 +49,23 @@ export function outputStageChange(actors) {
 	}
 }
 
+/**
+ * Returns if a token is dead.
+ * A token is dead if:
+ * (a) is a NPC at 0 HP and the NPCsJustDie setting is enabled
+ * (b) has been set as dead in combat (e.g. it has the skull icon, icon may vary from system to system) and the showDead setting is enabled
+ * (c) has the healthEstimate.dead flag, which is set by a macro.
+ * @param {TokenDocument} token 
+ * @param {Integer} stage 
+ * @returns {Boolean}
+ */
 export function isDead(token, stage) {
 	return (NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0) || (showDead && Array.from(token.actor.effects.values()).some(x => x.data.icon === deathMarker)) || token.document.getFlag('healthEstimate', 'dead');
 }
 
+/**
+ * Updates the variables if any setting was changed.
+ */
 export function updateSettings () {
 	useColor = sGet('core.menuSettings.useColor');
 	descriptions = sGet('core.stateNames').split(/[,;]\s*/);
@@ -75,6 +88,9 @@ export function updateSettings () {
 	document.documentElement.style.setProperty('--healthEstimate-text-size', sGet('core.menuSettings.fontSize'));
 }
 
+/**
+ * Creates the Overlay with the text on mouse over.
+ */
 class HealthEstimateOverlay extends BasePlaceableHUD {
 	static get defaultOptions () {
 		const options = super.defaultOptions;
@@ -84,17 +100,16 @@ class HealthEstimateOverlay extends BasePlaceableHUD {
 		return options;
 	}
 	
+	/**
+	 * Sets the position of the overlay.
+	 * This override is needed because the overlay goes off-center on Hexagonal Rows grid types.
+	 * See https://github.com/mclemente/healthEstimate/issues/19 for visual examples.
+	 */
 	setPosition({left, top, width, height, scale}={}) {
 		if (canvas.grid.type === 2 || canvas.grid.type === 3) {
-			left = this.object.x - 6;
+			left = (left ?? this.object.x) - 6;
 		}
-		const position = {
-			width: width || this.object.width,
-			height: height || this.object.height,
-			left: left || this.object.x,
-			top: top ?? this.object.y
-		};
-		this.element.css(position);
+		super.setPosition({left, top, width, height, scale});
 	}
 
 	getData () {

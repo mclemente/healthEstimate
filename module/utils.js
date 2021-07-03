@@ -13,7 +13,7 @@ export function isEmpty (string) {
  * @param {Number} stage
  * @param {Token} token
  * @param state
- * @returns {*}
+ * @returns {String}
  */
 export let descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}, fraction) {
 	if (state.isDead) {
@@ -34,7 +34,7 @@ export let descriptions = function (descriptions, stage, token, state = {isDead:
 
 /**
  * Shorthand for localization
- * @param key
+ * @param {string} key
  * @returns {string}
  */
 export function t (key) {
@@ -61,7 +61,7 @@ export function sGet (key) {
 
 /**
  * Returns a setting Object
- * @param key
+ * @param {string} key
  * @returns {Object}
  */
 export function settingData(key) {

@@ -10,8 +10,9 @@ export let systemSpecificSettings = {};
  * @param {String[]} descriptions
  * @param {Number} stage
  * @param {Token} token
- * @param state
- * @returns {*}
+ * @param {object} state
+ * @param {Number} fraction
+ * @returns {String}
  */
 export let descriptionToShow = function (descriptions, stage, token, state = {isDead: false, desc: ''}, fraction) {
 	if (state.isDead) {
@@ -51,6 +52,9 @@ function updateBreakConditions () {
 	};
 }
 
+/**
+ * Changes which users get to see the overlay.
+ */
 export function updateBreakSettings () {
 	breakConditions.onlyGM = sGet('core.showDescription') == 1 ? `|| !game.user.isGM` : ``;
 	breakConditions.onlyNotGM = sGet('core.showDescription') == 2 ? `|| game.user.isGM` : ``;
@@ -60,17 +64,22 @@ export function updateBreakSettings () {
 	updateBreakConditions();
 }
 
+/**
+ * Gets system specifics, such as its hp attribute and other settings.
+ * currentSystem.settings is a function because doing it otherwise causes l18n calls fire before they're initialized.
+ * @returns {Promise}
+ */
 export function prepareSystemSpecifics () {
 	return new Promise((resolve, reject) => {
-		const systems = ["archmage", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon", "lancer", "numenera", "ose", "pf1", "pf2e", "ryuutama", "shadowrun5e", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum", "tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"];
+		const systems = [
+			"archmage", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon",
+			"lancer", "numenera", "ose", "pf1", "pf2e", "ryuutama", "shadowrun5e", "starfinder", "starwarsffg", "sw5e", "swade",
+			"symbaroum", "tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
+		];
 		let importString = systems.includes(game.system.id) ? `./systems/${game.system.id}.js` : `./systems/generic.js`;
 		import(importString).then(currentSystem => {
 			fractionFormula = currentSystem.fraction;
 			if (currentSystem.settings !== undefined) {
-				/*
-				 * currentSystem.settings is a function because doing it otherwise causes
-				 * l18n calls fire before they're initialized.
-				 */
 				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings());
 				for (let [key, data] of Object.entries(systemSpecificSettings)) {
 					addSetting(key, data);
