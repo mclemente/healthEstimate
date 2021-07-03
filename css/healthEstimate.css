@@ -18,6 +18,16 @@
   width: var(--healthEstimate-width) !important;
 }
 
+.healthEstimateSample {
+  display: grid;
+  font-size: var(--healthEstimate-text-size);
+  grid-template-columns: 10em;
+  grid-auto-rows: auto;
+  align-content: var(--healthEstimate-alignment);
+  justify-content: unsafe center;
+  margin-top: var(--healthEstimate-margin);
+}
+
 .healthEstimateColor {
   color: var(--healthEstimate-text-color);
   text-shadow:
