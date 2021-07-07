@@ -11,6 +11,9 @@ const fraction = function (token) {
 		}
 		return 0;
 	}
+	if(token.actor.data.type === "loot") {
+		return;
+	}
 	if (game.settings.get('healthEstimate', 'core.addTemp') && token.actor.data.type === 'character') {
 		temp = hp.temp;
 	}
