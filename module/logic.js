@@ -26,7 +26,7 @@ export function outputStageChange(actors) {
 			Math.ceil((descriptions.length - 1) * fraction)
 		);
 		const dead = isDead(actor, stage);
-		if (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead) {
+		if (stage && (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead)) {
 			let name = current_hp_actor[actor.data._id].name;
 			if (actor.document.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
 				name = "Unknown entity";
