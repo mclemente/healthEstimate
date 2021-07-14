@@ -111,6 +111,94 @@ class HealthEstimateOverlay extends BasePlaceableHUD {
 		}
 		super.setPosition({left, top, width, height, scale});
 	}
+	
+	/**
+	* This override is only here because Health Estimate spams the Console with Rendering logs.
+	*/
+	async _render(force=false, options={}) {
+
+		// Do not render under certain conditions
+		const states = Application.RENDER_STATES;
+		this._priorState = this._state;
+		if ( [states.CLOSING, states.RENDERING].includes(this._state) ) return;
+
+		// Applications which are not currently rendered must be forced
+		if ( !force && (this._state <= states.NONE) ) return;
+
+		// Begin rendering the application
+		if ( [states.NONE, states.CLOSED, states.ERROR].includes(this._state) && this.showRendering) {
+			console.log(`${vtt} | Rendering ${this.constructor.name}`);
+		}
+		this._state = states.RENDERING;
+
+		// Merge provided options with those supported by the Application class
+		foundry.utils.mergeObject(this.options, options, { insertKeys: false });
+
+		// Get the existing HTML element and application data used for rendering
+		const element = this.element;
+		const data = await this.getData(this.options);
+
+		// Store scroll positions
+		if ( element.length && this.options.scrollY ) this._saveScrollPositions(element);
+
+		// Render the inner content
+		const inner = await this._renderInner(data);
+		let html = inner;
+
+		// If the application already exists in the DOM, replace the inner content
+		if ( element.length ) this._replaceHTML(element, html);
+
+		// Otherwise render a new app
+		else {
+
+			// Wrap a popOut application in an outer frame
+			if ( this.popOut ) {
+				html = await this._renderOuter();
+				html.find('.window-content').append(inner);
+				ui.windows[this.appId] = this;
+			}
+
+			// Add the HTML to the DOM and record the element
+			this._injectHTML(html);
+		}
+
+		// Activate event listeners on the inner HTML
+		this._activateCoreListeners(inner);
+		this.activateListeners(inner);
+
+		// Set the application position (if it's not currently minimized)
+		if ( !this._minimized ) {
+			foundry.utils.mergeObject(this.position, options, {insertKeys: false});
+			this.setPosition(this.position);
+		}
+
+		// Apply focus to the application, maximizing it and bringing it to the top
+		if ( options.focus === true ) {
+			this.maximize().then(() => this.bringToTop());
+		}
+
+		// Dispatch Hooks for rendering the base and subclass applications
+		for ( let cls of this.constructor._getInheritanceChain() ) {
+
+			/**
+			 * A hook event that fires whenever this Application is rendered.
+			 * The hook provides the pending application HTML which will be added to the DOM.
+			 * Hooked functions may modify that HTML or attach interactive listeners to it.
+			 *
+			 * @function renderApplication
+			 * @memberof hookEvents
+			 * @param {Application} app		 The Application instance being rendered
+			 * @param {jQuery} html				 The inner HTML of the document that will be displayed and may be modified
+			 * @param {object} data				 The object of data used when rendering the application
+			 */
+			Hooks.call(`render${cls.name}`, this, html, data);
+		}
+
+		// Restore prior scroll positions
+		if ( this.options.scrollY ) this._restoreScrollPositions(html);
+		this._state = states.RENDERED;
+		this.setPosition();
+	}
 
 	getData () {
 		const data = super.getData();
