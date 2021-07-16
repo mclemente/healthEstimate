@@ -4,7 +4,7 @@
       "custom": {
         "FractionHP": {
           "name": "Lebenspunkte Attribut",
-          "hint": "Dein System wird nicht pffoziell unterstützt, daher könnte es ein anderes Attribut nutzen, als der Standard. Ändere diesen Wert nur, wenn die Schätzung nicht angezeigt wird und du weißt, was du tust."
+          "hint": "Dein System wird nicht offiziell unterstützt, daher könnte es ein anderes Attribut nutzen, als der Standard. Ändere diesen Wert nur, wenn die Schätzung nicht angezeigt wird und du weißt, was du tust."
         },
         "FractionMath": {
           "name": "Bruchgleichung",
