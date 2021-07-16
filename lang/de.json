@@ -1,0 +1,189 @@
+{
+  "healthEstimate": {
+    "core": {
+      "custom": {
+        "FractionHP": {
+          "name": "Lebenspunkte Attribut",
+          "hint": "Dein System wird nicht offiziell unterstützt, daher könnte es ein anderes Attribut nutzen, als der Standard. Ändere diesen Wert nur, wenn die Schätzung nicht angezeigt wird und du weißt, was du tust."
+        },
+        "FractionMath": {
+          "name": "Bruchgleichung",
+          "hint": "Dein System wird nicht offiziell unterstützt, wähle daher die Gleichung zur Schätzung des Gesundheitsanteils",
+          "choices": {
+            "0": "(Aktuelle HP)/(Maximale HP)",
+            "1": "(Maximale HP - Aktuelle HP)/(Maximale HP)"
+          }
+        }
+      },
+      "isNow": "ist jetzt",
+      "showDescription": {
+        "name": "Zeige SChätzung: Benutzer",
+        "hint": "Zeige die Schätzungen der folgenden Benutzer.",
+        "choices": {
+          "all": "Alle",
+          "GM": "Spielleiter",
+          "Players": "Spieler",
+          "NPC": "Nicht-Spieler Charaktere",
+          "PC": "Spieler Charaktere"
+        }
+      },
+      "showDescriptionTokenType": {
+        "name": "Zeige Schätzungen: Token",
+        "hint": "Zeige Schätzungen der folgenden Token."
+      },
+      "stateNames": {
+        "name": "Stufen",
+        "hint": "Eine Sammlung an Beschreibungen, welche den Spielern angezeigt wird, sortiert von der schlechtesten zur besten möglichen Gesundheit.\nDie Anzahl der möglichen Beschreibungen ist nicht limitiert, das Modul wird die Gesundheits-Schritte automatisch proportional an die Anzahl anpassen.\nSollte eine Beschreibung einen größeren Bereich abdecken, kopiere sie einfach mehrfach.",
+        "default": [
+          "Bewusstlos",
+          "Sterbend",
+          "Stark verwundet",
+          "Verwundet",
+          "Leicht verwundet",
+          "Nicht verwundet"
+        ]
+      },
+      "deathState": {
+        "name": "Todes-Zustand bei Bedingung",
+        "hint": "Zeige Token als tot, wenn es durch eine Bedingung beeinflusst wird, die das Icon-Set der Todesmarkereinstellung nutzt. Funktioniert unabhängig vom Makro."
+      },
+      "deathStateName": {
+        "name": "Todes-Zustand Name",
+        "hint": "Die Beschreibung, welche den Spielern angezeigt wird, wenn ein Token als tot markiert wird. Der Kompendium-Tab hat ein Makro, um eines oder mehrere Token als tot zu markieren.",
+        "default": "Tot"
+      },
+      "deathMarker": {
+        "name": "Todes-Marker",
+        "hint": "Pfad zum Bedingungs-Icon, welches tote Tokens markiert.\nUm an den Pfad eines benutzerdefinierten Icons zu gelangen, öffne die Konsole und gib \"canvas.tokens.controlled[0].data.overlayEffect\" ein."
+      },
+      "NPCsJustDie": {
+        "name": "NPCs sterben sofort.",
+        "hint": "Die letzte Stufe von NPCs wird mit dem Namen des Todes-Zustands ausgetauscht."
+      },
+      "perfectionism": {
+        "name": "Perfektionismus",
+        "hint": "Zeige die bestmögliche Beschreibung nur an, wenn das Ziel in perfektem Zustand ist (es keinen Schaden erhalten hat)."
+      },
+      "outputChat": {
+        "name": "Gebe Schätzungen im Chat aus",
+        "hint": "Gibt jede Änderung der Schätzung im Chat aus. Charaktere, die mit dem \"Verstecke Schätzungen\"-Makro markiert wurden, werden als \"Unbekannte Entität\" angezeigt."
+      },
+      "addTemp": {
+        "name": "Füge temporäre Gesundheit hinzu",
+        "hint": "Schließe temporäre Gesundheit und die Berechnung der Schätzung ein.\nMit dieser Einstellung sieht ein Token, welches temporäre HP erhält, \"gesünder\" aus, solange es nicht maximale HP hat."
+      },
+      "breakOnZeroMaxHP": {
+        "name": "Verstecke auf Tokens mit 0 HP",
+        "hint": "Nützlich für Objekte mit Token."
+      },
+      "menuSettings": {
+        "fontSize": {
+          "name": "Schriftgröße",
+          "hint": "Akzeptiert jede valide Eigenschaft für CSS-Schriftgrößen."
+        },
+        "useColor": {
+          "name": "Nutze Farbe",
+          "hint": "Dies betrifft nicht das Einstellungsfenster. Ohne Haken werden die Schätzungen in schwarz-weiß angezeigt."
+        },
+        "smoothGradient": {
+          "name": "Weicher Farbwechsel",
+          "hint": "Ist diese Einstellung aus, wechselt die Farbe nur, wenn die nächste Beschreibung erreicht wird. Ist diese Einstellung an, spiegelt die Farbe die prozentualen HP wieder."
+        },
+        "deadColor": {
+          "name": "Farbe toter Tokens"
+        },
+        "outline": {
+          "name": "Kontur",
+          "darken": "Abdunkeln",
+          "brighten": "Aufhellen"
+        },
+        "position": {
+          "name": "Position",
+          "top": "Oben",
+          "middle": "Mitte",
+            "bottom": "Unten"
+        },
+        "positionAdjustment": {
+          "name": "Position Anpassung",
+          "hint": "Die Position ist relativ zum Rahmen. Die Zahl lässt dich die Position relativ zum normalen Platz anpassen. Positive Zahlen setzen sie tiefer, nagative höher. Der Standardwert von -1 setzt sie auf \"1 Zeile über der ursprünglichen Position\"."
+        }
+      }
+    },
+    "dnd5e": {
+      "vehicleNames": {
+        "hint": "Beschreibung für Fahrzeuge, wenn \"Fahrzeug-Schwellenwert\" ausgeschaltet ist",
+        "default": [
+          "Zerstört",
+          "Gebrochen",
+          "Ramponiert",
+          "Angekratzt",
+          "Unberührt"
+        ]
+      }
+    },
+    "PF1": {
+      "addNonlethal": {
+        "name": "Nutze nicht-tödlichen Schaden",
+        "hint": "Wenn aktiviert, wird nicht-tödlicher Schaden von den aktuellen HP für die Schätzung abgezogen."
+      },
+      "showExtra": {
+        "name": "Invalide & Sterbend",
+        "hint": "Zeige \"Invalide\" und \"Sterbend\" Beschreibungen"
+      },
+      "disabledName": {
+        "name": "Invalide",
+        "hint": "Beschreibung, welche angezeigt wird, wenn das Token präzise 0 HP hat, oder mehr nicht-tödlichen Schaden als übrige HP hat.",
+        "default": "Invalide"
+      },
+      "dyingName": {
+        "name": "Sterbend",
+        "hint": "Beschreibung, welche angezeigt wird, wenn das Token weniger als 0 HP hat.",
+        "default": "Sterbend"
+      }
+    },
+    "numenera": {
+      "countPools": {
+        "name": "Zähle leere Pools",
+        "hint": "Zähle leere Pools, anstatt Summen ihrer Werte. Die Schätzung wird nur geändert, wenn der Pool verbraucht ist/aufgefüllt wird."
+      }
+    },
+    "starfinder": {
+      "useThreshold": {
+        "name": "Nutze Fahrzeug-Schwellenwerte",
+        "hint": "Wenn diese Einstellung eingeschalte3t ist, werden die Beschreibungen der \"Schwellenwert-Stufen\" für Fahrzeuge genutzt."
+      },
+      "thresholdNames": {
+        "name": "Schwellenwert-Stufen",
+        "hint": "Die Anzahl der Stufen ist auf 3 limitiert, sortiert vom schlechtesten zum besten.",
+        "default": [
+          "Zerstört",
+          "Gebrochen",
+          "Voll funktionsfähig"
+        ]
+      },
+      "vehicleNames": {
+        "name": "Fahrzeug-Stufen",
+        "hint": "Beschreibungen, die für Raumschiffe (immer) und Fahrzeuge (wenn \"Nutze Fahrzeug-Schwellenwerte\" ausgeschaltet ist) genutzt werden.",
+        "default": [
+          "Zerstört",
+          "Brennend",
+          "Qualmend",
+          "Ramponiert",
+          "Angekratzt",
+          "Voll funktionsfähig"
+        ]
+      },
+      "addStamina": {
+        "name": "Ausdauer verrechnen",
+        "hint": "Ist die Einstellung eingeschaltet, wird die Ausdauer auf die HP angerechnet."
+      }
+    },
+    "worldbuilding": {
+      "simpleRule": {
+        "name": "SChätzungs-Regel",
+        "hint": "Die JS-Formel für die Berechnung der Token-Schätzung. Verändere sie mit Vorsicht! Standardmäßig wird eine abnehmende Gesundheit angenommen, bspw. startest du mit 10/10 HP und gehst bis 0/10 HP herunter, sobald du Schaden nimmst.",
+        "default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+      }
+    }
+  }
+}
