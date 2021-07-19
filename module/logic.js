@@ -28,7 +28,7 @@ export function outputStageChange(actors) {
 		const dead = isDead(actor, stage);
 		if (stage && (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead)) {
 			let name = current_hp_actor[actor.data._id].name;
-			if (actor.document.getFlag('healthEstimate', 'hideHealthEstimate') && actor.data.displayName==0) {
+			if ((actor.document.getFlag('healthEstimate', 'hideName') || actor.document.getFlag('healthEstimate', 'hideHealthEstimate')) && actor.data.displayName==0) {
 				name = "Unknown entity";
 			}
 			let css = "<span class='hm_messagetaken'>";
@@ -237,7 +237,7 @@ export class HealthEstimate {
 		if (!token.actor) {
 			return;
 		}
-		if (breakOverlayRender(token) || (!game.user.isGM && token.actor.getFlag('healthEstimate', 'hideHealthEstimate'))) {
+		if (breakOverlayRender(token) || (!game.user.isGM && (token.document.getFlag('healthEstimate', 'hideHealthEstimate') || token.actor.getFlag('healthEstimate', 'hideHealthEstimate')))) {
 			return;
 		}
 		const width = `${canvas.scene.data.grid * token.data.width}px`;
