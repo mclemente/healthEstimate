@@ -22,13 +22,14 @@ Hooks.once('setup', function () {
 });
 
 Hooks.once('ready', function () {
-	new HealthEstimate();
+	// new HealthEstimate();
 });
 
 /**
  * HP storing code for canvas load or token created
  */
 Hooks.on('canvasReady', function(){
+	new HealthEstimate();
 	let tokens = canvas.tokens.placeables.filter(e => e.actor);
 	updateSettings();
 	getCharacters(tokens);
