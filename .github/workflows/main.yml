@@ -48,8 +48,7 @@ jobs:
 
     # Create a zip file with all files required by the module to add to the release
     - name: Create download zip
-
-    - run: zip -r ./module.zip healthEstimate.js module.json css/ lang/ lib/ module/ packs/ static/ templates/
+      run: zip -r ./module.zip healthEstimate.js module.json css/ lang/ lib/ module/ packs/ static/ templates/
 
     # Create a release for this specific version
     - name: Update Release with Files
