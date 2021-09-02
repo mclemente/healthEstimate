@@ -2,7 +2,7 @@ import {t} from '../utils.js';
 
 const fraction = (token) => {
 	const data = token.actor.data;
-	const hp   = data.type === 'deployable' ? data.data.hp : data.data.mech.hp;
+	const hp   = data.data.derived.current_hp;
 	return hp.value / hp.max;
 };
 
