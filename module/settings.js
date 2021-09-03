@@ -18,11 +18,7 @@ export function addSetting(key, data) {
 		scope: "world",
 		config: true,
 	};
-	game.settings.register(
-		"healthEstimate",
-		key,
-		Object.assign(commonData, data)
-	);
+	game.settings.register("healthEstimate", key, Object.assign(commonData, data));
 }
 
 export const registerSettings = function () {
@@ -39,11 +35,7 @@ export const registerSettings = function () {
 			scope: "world",
 			config: false,
 		};
-		game.settings.register(
-			"healthEstimate",
-			key,
-			Object.assign(commonData, data)
-		);
+		game.settings.register("healthEstimate", key, Object.assign(commonData, data));
 	}
 
 	game.settings.registerMenu("healthEstimate", "styleSettings", {
@@ -196,10 +188,7 @@ export const registerSettings = function () {
 		type: String,
 		default: "x-large",
 		onChange: (s) => {
-			document.documentElement.style.setProperty(
-				"--healthEstimate-text-size",
-				s
-			);
+			document.documentElement.style.setProperty("--healthEstimate-text-size", s);
 		},
 	});
 

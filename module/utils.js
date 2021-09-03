@@ -15,26 +15,16 @@ export function isEmpty(string) {
  * @param state
  * @returns {String}
  */
-export let descriptions = function (
-	descriptions,
-	stage,
-	token,
-	state = { isDead: false, desc: "" },
-	fraction
-) {
+export let descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
 	if (state.isDead) {
 		return state.desc;
 	}
 	const type = token.actor.data.type;
 	if (type === "vehicle") {
 		if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
-			descriptions = game.settings
-				.get("healthEstimate", "starfinder.thresholdNames")
-				.split(/[,;]\s*/);
+			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
 		} else {
-			descriptions = game.settings
-				.get("healthEstimate", "starfinder.vehicleNames")
-				.split(/[,;]\s*/);
+			descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
 		}
 		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
 	}

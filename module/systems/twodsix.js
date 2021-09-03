@@ -22,17 +22,9 @@ const settings = () => {
 	};
 };
 
-const descriptions = function (
-	descriptions,
-	stage,
-	token,
-	state = { isDead: false, desc: "" },
-	fraction
-) {
+const descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
 	if (token.actor.data.type === "ship") {
-		descriptions = game.settings
-			.get("healthEstimate", "starfinder.vehicleNames")
-			.split(/[,;]\s*/);
+		descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
 		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
 		state.desc = descriptions[0];
 	}

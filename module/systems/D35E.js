@@ -40,12 +40,7 @@ const settings = () => {
 		},
 	};
 };
-const descriptions = function (
-	descriptions,
-	stage,
-	token,
-	state = { isDead: false, desc: "" }
-) {
+const descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }) {
 	const hp = token.actor.data.data.attributes.hp;
 
 	if (hp.nonlethal >= hp.value && hp.value > 0) {

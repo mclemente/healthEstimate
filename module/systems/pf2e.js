@@ -3,10 +3,7 @@ import { t } from "../utils.js";
 const fraction = function (token) {
 	const hp = token.actor.data.data.attributes.hp;
 	let temp = 0;
-	if (
-		token.actor.data.type === "vehicle" &&
-		game.settings.get("healthEstimate", "starfinder.useThreshold")
-	) {
+	if (token.actor.data.type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
 		if (hp.value > hp.brokenThreshold) {
 			return 1;
 		} else if (hp.value > 0) {
@@ -17,10 +14,7 @@ const fraction = function (token) {
 	if (token.actor.data.type === "loot") {
 		return;
 	}
-	if (
-		game.settings.get("healthEstimate", "core.addTemp") &&
-		token.actor.data.type === "character"
-	) {
+	if (game.settings.get("healthEstimate", "core.addTemp") && token.actor.data.type === "character") {
 		temp = hp.temp;
 	}
 	return Math.min((hp.value + temp) / hp.max, 1);
@@ -51,29 +45,16 @@ const settings = () => {
 	};
 };
 
-const descriptions = function (
-	descriptions,
-	stage,
-	token,
-	state = { isDead: false, desc: "" },
-	fraction
-) {
+const descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
 	if (state.isDead) {
 		return state.desc;
 	}
 	const type = token.actor.data.type;
 	if (type === "vehicle" || type === "hazard") {
-		if (
-			type === "vehicle" &&
-			game.settings.get("healthEstimate", "starfinder.useThreshold")
-		) {
-			descriptions = game.settings
-				.get("healthEstimate", "starfinder.thresholdNames")
-				.split(/[,;]\s*/);
+		if (type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
 		} else {
-			descriptions = game.settings
-				.get("healthEstimate", "starfinder.vehicleNames")
-				.split(/[,;]\s*/);
+			descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
 		}
 		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
 	}

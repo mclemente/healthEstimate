@@ -1,36 +1,14 @@
-import {
-	breakOverlayRender,
-	descriptionToShow,
-	fractionFormula,
-	updateBreakSettings,
-} from "./systemSpecifics.js";
+import { breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings } from "./systemSpecifics.js";
 import { sGet, t } from "./utils.js";
 
-export let descriptions,
-	deathStateName,
-	showDead,
-	useColor,
-	smooth,
-	NPCsJustDie,
-	deathMarker,
-	colors,
-	outline,
-	deadColor,
-	deadOutline,
-	perfectionism,
-	outputChat;
+export let descriptions, deathStateName, showDead, useColor, smooth, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat;
 
 let current_hp_actor = {}; //store hp of PC
 
 export function getCharacters(actors) {
 	for (let actor of actors) {
 		const fraction = Math.min(fractionFormula(actor), 1);
-		const stage = Math.max(
-			0,
-			perfectionism
-				? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction)
-				: Math.ceil((descriptions.length - 1) * fraction)
-		);
+		const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
 		current_hp_actor[actor.data._id] = {
 			name: actor.document.data.name || actor.name,
 			stage: stage,
@@ -42,24 +20,11 @@ export function getCharacters(actors) {
 export function outputStageChange(actors) {
 	for (let actor of actors) {
 		const fraction = Math.min(fractionFormula(actor), 1);
-		const stage = Math.max(
-			0,
-			perfectionism
-				? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction)
-				: Math.ceil((descriptions.length - 1) * fraction)
-		);
+		const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
 		const dead = isDead(actor, stage);
-		if (
-			stage &&
-			(stage != current_hp_actor[actor.data._id].stage ||
-				dead != current_hp_actor[actor.data._id].dead)
-		) {
+		if (stage && (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead)) {
 			let name = current_hp_actor[actor.data._id].name;
-			if (
-				(actor.document.getFlag("healthEstimate", "hideName") ||
-					actor.document.getFlag("healthEstimate", "hideHealthEstimate")) &&
-				actor.data.displayName == 0
-			) {
+			if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.data.displayName == 0) {
 				name = "Unknown entity";
 			}
 			let css = "<span class='hm_messagetaken'>";
@@ -99,10 +64,7 @@ export function outputStageChange(actors) {
 export function isDead(token, stage) {
 	return (
 		(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0) ||
-		(showDead &&
-			Array.from(token.actor.effects.values()).some(
-				(x) => x.data.icon === deathMarker
-			)) ||
+		(showDead && Array.from(token.actor.effects.values()).some((x) => x.data.icon === deathMarker)) ||
 		token.document.getFlag("healthEstimate", "dead")
 	);
 }
@@ -128,14 +90,8 @@ export function updateSettings() {
 	const margin = `${sGet("core.menuSettings.positionAdjustment")}em`;
 	const alignment = sGet("core.menuSettings.position");
 	document.documentElement.style.setProperty("--healthEstimate-margin", margin);
-	document.documentElement.style.setProperty(
-		"--healthEstimate-alignment",
-		alignment
-	);
-	document.documentElement.style.setProperty(
-		"--healthEstimate-text-size",
-		sGet("core.menuSettings.fontSize")
-	);
+	document.documentElement.style.setProperty("--healthEstimate-alignment", alignment);
+	document.documentElement.style.setProperty("--healthEstimate-text-size", sGet("core.menuSettings.fontSize"));
 }
 
 /**
@@ -144,10 +100,7 @@ export function updateSettings() {
 class HealthEstimateOverlay extends BasePlaceableHUD {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
-		options.classes = options.classes.concat([
-			"healthEstimate",
-			"healthEstimateColor",
-		]);
+		options.classes = options.classes.concat(["healthEstimate", "healthEstimateColor"]);
 		options.template = "modules/healthEstimate/templates/healthEstimate.hbs";
 		options.id = "healthEstimate";
 		return options;
@@ -178,10 +131,7 @@ class HealthEstimateOverlay extends BasePlaceableHUD {
 		if (!force && this._state <= states.NONE) return;
 
 		// Begin rendering the application
-		if (
-			[states.NONE, states.CLOSED, states.ERROR].includes(this._state) &&
-			this.showRendering
-		) {
+		if ([states.NONE, states.CLOSED, states.ERROR].includes(this._state) && this.showRendering) {
 			console.log(`${vtt} | Rendering ${this.constructor.name}`);
 		}
 		this._state = states.RENDERING;
@@ -194,8 +144,7 @@ class HealthEstimateOverlay extends BasePlaceableHUD {
 		const data = await this.getData(this.options);
 
 		// Store scroll positions
-		if (element.length && this.options.scrollY)
-			this._saveScrollPositions(element);
+		if (element.length && this.options.scrollY) this._saveScrollPositions(element);
 
 		// Render the inner content
 		const inner = await this._renderInner(data);
@@ -278,10 +227,7 @@ export class HealthEstimate {
 		});
 
 		Hooks.on("updateToken", (scene, token, ...args) => {
-			if (
-				canvas.hud.HealthEstimate !== undefined &&
-				canvas.hud.HealthEstimate.object
-			) {
+			if (canvas.hud.HealthEstimate !== undefined && canvas.hud.HealthEstimate.object) {
 				if (token._id === canvas.hud.HealthEstimate.object.id) {
 					canvas.hud.HealthEstimate.clear();
 				}
@@ -295,9 +241,7 @@ export class HealthEstimate {
 		}
 		if (
 			breakOverlayRender(token) ||
-			(!game.user.isGM &&
-				(token.document.getFlag("healthEstimate", "hideHealthEstimate") ||
-					token.actor.getFlag("healthEstimate", "hideHealthEstimate")))
+			(!game.user.isGM && (token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate")))
 		) {
 			return;
 		}
@@ -314,12 +258,7 @@ export class HealthEstimate {
 
 	_getEstimation(token) {
 		const fraction = Math.min(fractionFormula(token), 1);
-		const stage = Math.max(
-			0,
-			perfectionism
-				? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction)
-				: Math.ceil((descriptions.length - 1) * fraction)
-		);
+		const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
 		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
 		let desc, color, stroke;
 
@@ -339,14 +278,8 @@ export class HealthEstimate {
 			color = deadColor;
 			stroke = deadOutline;
 		}
-		document.documentElement.style.setProperty(
-			"--healthEstimate-stroke-color",
-			stroke
-		);
-		document.documentElement.style.setProperty(
-			"--healthEstimate-text-color",
-			color
-		);
+		document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
+		document.documentElement.style.setProperty("--healthEstimate-text-color", color);
 		canvas.hud.HealthEstimate.estimation = { desc };
 	}
 }

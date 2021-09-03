@@ -3,16 +3,10 @@ import { sGet, t } from "../utils.js";
 const fraction = function (token) {
 	const hp = token.actor.data.data.attributes?.hp || token.actor.data.data.hp;
 	let temp = 0;
-	if (
-		game.settings.get("healthEstimate", "core.addTemp") &&
-		token.actor.data.type === "character"
-	) {
+	if (game.settings.get("healthEstimate", "core.addTemp") && token.actor.data.type === "character") {
 		temp = hp.temp;
 	}
-	const outputs = [
-		Math.min((hp.value + temp) / hp.max, 1),
-		(hp.max - hp.value) / hp.max,
-	];
+	const outputs = [Math.min((hp.value + temp) / hp.max, 1), (hp.max - hp.value) / hp.max];
 	return outputs[sGet("core.custom.FractionMath")];
 };
 const settings = () => {

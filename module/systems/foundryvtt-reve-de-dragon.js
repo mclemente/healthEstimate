@@ -17,26 +17,16 @@ function ratio(node) {
 }
 
 const fraction = function (token) {
-	const endurance = defaultIfEmpty(
-		token.actor.data.data.sante.endurance,
-		missing
-	);
+	const endurance = defaultIfEmpty(token.actor.data.data.sante.endurance, missing);
 	const ratioEndurance = ratio(endurance);
-	if (
-		token.actor.data.data.blessures === undefined ||
-		token.actor.data.data.sante.vie === undefined
-	) {
+	if (token.actor.data.data.blessures === undefined || token.actor.data.data.sante.vie === undefined) {
 		return ratioEndurance;
 	}
 
-	const nodeBlessures = defaultIfEmpty(
-		token.actor.data.data.blessures,
-		missingBlessures
-	);
+	const nodeBlessures = defaultIfEmpty(token.actor.data.data.blessures, missingBlessures);
 	const legeres = nodeBlessures.legeres.liste.filter((it) => it.active).length;
 	const graves = nodeBlessures.graves.liste.filter((it) => it.active).length;
-	const critiques =
-		nodeBlessures.critiques.liste.filter((it) => it.active).length > 0;
+	const critiques = nodeBlessures.critiques.liste.filter((it) => it.active).length > 0;
 
 	/*
 	 * Estimation of seriousness of wounds: considerinng wounds that can be taken.
@@ -54,12 +44,7 @@ const fraction = function (token) {
 		inconscient: 100,
 	};
 	const blessures = {
-		value:
-			critiques > 0
-				? tableBlessure.critique[critiques]
-				: graves > 0
-				? tableBlessure.grave[graves]
-				: tableBlessure.legere[legeres],
+		value: critiques > 0 ? tableBlessure.critique[critiques] : graves > 0 ? tableBlessure.grave[graves] : tableBlessure.legere[legeres],
 		max: tableBlessure.inconscient,
 	};
 
@@ -70,9 +55,7 @@ const fraction = function (token) {
 	const ratioBlessure = 1 - ratio(blessures);
 	const ratioVie = ratio(token.actor.data.data.sante.vie);
 
-	return betweenZeroAndOne(
-		Math.min(ratioFatigue, ratioEndurance, ratioVie, ratioBlessure)
-	);
+	return betweenZeroAndOne(Math.min(ratioFatigue, ratioEndurance, ratioVie, ratioBlessure));
 };
 
 export { fraction };

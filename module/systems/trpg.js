@@ -1,10 +1,7 @@
 const fraction = function (token) {
 	const hp = token.actor.data.data.attributes.hp;
 	let temp = 0;
-	if (
-		token.actor.data.type === "character" &&
-		game.settings.get("healthEstimate", "core.addTemp")
-	) {
+	if (token.actor.data.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
 		temp = hp.temp;
 	}
 	return Math.min((temp + hp.value) / hp.max, 1);

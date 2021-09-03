@@ -40,12 +40,7 @@ const settings = () => {
 		},
 	};
 };
-const descriptions = function (
-	descriptions,
-	stage,
-	token,
-	state = { isDead: false, desc: "" }
-) {
+const descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }) {
 	if (state.isDead) {
 		return state.desc;
 	}

@@ -24,7 +24,7 @@ const settings = () => {
 const breakCondition = `
 	|| game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') 
 	&& (token.actor.data.data.mech?.hp.max === 0
-	   || token.actor.data.data.hp?.max    === 0)
+	|| token.actor.data.data.hp?.max    === 0)
 `;
 
 export { fraction, settings, breakCondition };

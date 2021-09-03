@@ -82,10 +82,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	}
 
 	initHooks() {
-		const gradientPositions = game.settings.get(
-			`healthEstimate`,
-			`core.menuSettings.gradient`
-		);
+		const gradientPositions = game.settings.get(`healthEstimate`, `core.menuSettings.gradient`);
 		const mode = document.getElementById(`mode`);
 
 		this.deadColor = document.getElementById("deadColor");
@@ -146,11 +143,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		this.smoothGradient.addEventListener("change", () => {
 			this.updateGradient();
 		});
-		for (let el of [
-			this.fontSize,
-			this.textPosition,
-			this.positionAdjustment,
-		]) {
+		for (let el of [this.fontSize, this.textPosition, this.positionAdjustment]) {
 			el.addEventListener("change", () => {
 				this.updateSample();
 			});
@@ -165,17 +158,9 @@ export class HealthEstimateStyleSettings extends FormApplication {
 
 	updateGradientFunction() {
 		const mode = document.getElementById(`mode`).value;
-		const colorHandler =
-			mode === "bez"
-				? `bezier(colors).scale()`
-				: `scale(colors).mode('${mode}')`;
+		const colorHandler = mode === "bez" ? `bezier(colors).scale()` : `scale(colors).mode('${mode}')`;
 
-		this.gradFn = new Function(
-			`amount`,
-			`colors`,
-			`colorPositions`,
-			`return (chroma.${colorHandler}.domain(colorPositions).colors(amount))`
-		);
+		this.gradFn = new Function(`amount`, `colors`, `colorPositions`, `return (chroma.${colorHandler}.domain(colorPositions).colors(amount))`);
 
 		this.updateOutlineFunction();
 		this.updateGradient();
@@ -200,12 +185,8 @@ export class HealthEstimateStyleSettings extends FormApplication {
 
 	updateGradient() {
 		const colors = this.gp.handlers.map((a) => a.color);
-		const colorPositions = this.gp.handlers.map(
-			(a) => Math.round(a.position) / 100
-		);
-		this.gradLength = this.smoothGradient.checked
-			? 100
-			: sGet("core.stateNames").split(/[,;]\s*/).length;
+		const colorPositions = this.gp.handlers.map((a) => Math.round(a.position) / 100);
+		this.gradLength = this.smoothGradient.checked ? 100 : sGet("core.stateNames").split(/[,;]\s*/).length;
 		const width = 100 / this.gradLength;
 		this.gradColors = this.gradFn(this.gradLength, colors, colorPositions);
 		this.outlColors = this.outlFn();
@@ -231,37 +212,16 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		this.deadOutline = this.outlFn(this.deadColor.value);
 
 		sample.style.setProperty("--healthEstimate-text-size", this.fontSize.value);
-		sample.style.setProperty(
-			"--healthEstimate-alignment",
-			this.textPosition.value
-		);
-		sample.style.setProperty(
-			"--healthEstimate-margin",
-			`${this.positionAdjustment.value}em`
-		);
-		sampleItems[0].style.setProperty(
-			"--healthEstimate-text-color",
-			this.deadColor.value
-		);
-		sampleItems[0].style.setProperty(
-			"--healthEstimate-stroke-color",
-			this.deadOutline
-		);
+		sample.style.setProperty("--healthEstimate-alignment", this.textPosition.value);
+		sample.style.setProperty("--healthEstimate-margin", `${this.positionAdjustment.value}em`);
+		sampleItems[0].style.setProperty("--healthEstimate-text-color", this.deadColor.value);
+		sampleItems[0].style.setProperty("--healthEstimate-stroke-color", this.deadOutline);
 
 		for (let i = 1; i <= 6; i++) {
-			const position = Math.max(
-				Math.round(this.gradLength * ((i - 1) / 5)) - 1,
-				0
-			);
+			const position = Math.max(Math.round(this.gradLength * ((i - 1) / 5)) - 1, 0);
 
-			sampleItems[i].style.setProperty(
-				"--healthEstimate-text-color",
-				this.gradColors[position]
-			);
-			sampleItems[i].style.setProperty(
-				"--healthEstimate-stroke-color",
-				this.outlColors[position]
-			);
+			sampleItems[i].style.setProperty("--healthEstimate-text-color", this.gradColors[position]);
+			sampleItems[i].style.setProperty("--healthEstimate-stroke-color", this.outlColors[position]);
 		}
 	}
 
@@ -271,9 +231,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	 * @param {Object} d - the form data
 	 */
 	async _updateObject(e, d) {
-		const iterableSettings = Object.keys(d).filter(
-			(key) => key.indexOf("outline") === -1
-		);
+		const iterableSettings = Object.keys(d).filter((key) => key.indexOf("outline") === -1);
 
 		for (let key of iterableSettings) {
 			sSet(`core.menuSettings.${key}`, d[key]);

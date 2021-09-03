@@ -14,13 +14,7 @@ export let systemSpecificSettings = {};
  * @param {Number} fraction
  * @returns {String}
  */
-export let descriptionToShow = function (
-	descriptions,
-	stage,
-	token,
-	state = { isDead: false, desc: "" },
-	fraction
-) {
+export let descriptionToShow = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
 	if (state.isDead) {
 		return state.desc;
 	}
@@ -63,19 +57,11 @@ function updateBreakConditions() {
  * Changes which users get to see the overlay.
  */
 export function updateBreakSettings() {
-	breakConditions.onlyGM =
-		sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : ``;
-	breakConditions.onlyNotGM =
-		sGet("core.showDescription") == 2 ? `|| game.user.isGM` : ``;
+	breakConditions.onlyGM = sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : ``;
+	breakConditions.onlyNotGM = sGet("core.showDescription") == 2 ? `|| game.user.isGM` : ``;
 
-	breakConditions.onlyPCs =
-		sGet("core.showDescriptionTokenType") == 1
-			? `|| !token.actor.hasPlayerOwner`
-			: ``;
-	breakConditions.onlyNPCs =
-		sGet("core.showDescriptionTokenType") == 2
-			? `|| token.actor.hasPlayerOwner`
-			: ``;
+	breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor.hasPlayerOwner` : ``;
+	breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor.hasPlayerOwner` : ``;
 	updateBreakConditions();
 }
 
@@ -116,16 +102,11 @@ export function prepareSystemSpecifics() {
 			"wfrp4e",
 			"worldbuilding",
 		];
-		let importString = systems.includes(game.system.id)
-			? `./systems/${game.system.id}.js`
-			: `./systems/generic.js`;
+		let importString = systems.includes(game.system.id) ? `./systems/${game.system.id}.js` : `./systems/generic.js`;
 		import(importString).then((currentSystem) => {
 			fractionFormula = currentSystem.fraction;
 			if (currentSystem.settings !== undefined) {
-				systemSpecificSettings = Object.assign(
-					systemSpecificSettings,
-					currentSystem.settings()
-				);
+				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings());
 				for (let [key, data] of Object.entries(systemSpecificSettings)) {
 					addSetting(key, data);
 				}

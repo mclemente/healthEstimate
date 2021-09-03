@@ -7,22 +7,9 @@ const fraction = function (token) {
 		case "npc":
 		case "character": {
 			const sp = token.actor.data.data.attributes.sp;
-			const addStamina = game.settings.get(
-				"healthEstimate",
-				"starfinder.addStamina"
-			)
-				? 1
-				: 0;
-			const temp =
-				game.settings.get("healthEstimate", "core.addTemp") &&
-				type === "character"
-					? hp.temp
-					: 0;
-			return Math.min(
-				(hp.value + sp.value * addStamina + temp) /
-					(hp.max + sp.max * addStamina),
-				1
-			);
+			const addStamina = game.settings.get("healthEstimate", "starfinder.addStamina") ? 1 : 0;
+			const temp = game.settings.get("healthEstimate", "core.addTemp") && type === "character" ? hp.temp : 0;
+			return Math.min((hp.value + sp.value * addStamina + temp) / (hp.max + sp.max * addStamina), 1);
 		}
 		case "vehicle": {
 			if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {

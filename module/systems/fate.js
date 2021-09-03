@@ -2,16 +2,12 @@ const fraction = function (token) {
 	switch (token.actor.data.type) {
 		case "Accelerated": {
 			let hitCounter = 6;
-			for (let [key, value] of Object.entries(
-				token.actor.data.data.health.cons
-			)) {
+			for (let [key, value] of Object.entries(token.actor.data.data.health.cons)) {
 				if (value.value !== "") {
 					hitCounter -= 1;
 				}
 			}
-			for (let [key, value] of Object.entries(
-				token.actor.data.data.health.stress
-			)) {
+			for (let [key, value] of Object.entries(token.actor.data.data.health.stress)) {
 				hitCounter -= 1 * value;
 			}
 			return hitCounter / 6;
