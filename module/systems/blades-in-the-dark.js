@@ -1,7 +1,7 @@
 import {isEmpty} from '../utils.js';
 
-const fraction       = function (token) {
-	const hp      = toke;n.actor.data.data.harm;
+const fraction = function (token) {
+	const hp = token.actor.data.data.harm;
 	let harmLevel = 0
 	for (let [key, value] of Object.entries(hp)) {
 		for (let entry of Object.values(value)) {

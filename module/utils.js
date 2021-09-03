@@ -47,7 +47,7 @@ export function t (key) {
  * @param value
  */
 export function sSet (key, value) {
-	game.settings.set('healthEstimate', key, value);
+	game.settings.set("healthEstimate", key, value);
 }
 
 /**
@@ -56,7 +56,7 @@ export function sSet (key, value) {
  * @returns {any}
  */
 export function sGet (key) {
-	return game.settings.get('healthEstimate', key);
+	return game.settings.get("healthEstimate", key);
 }
 
 /**
