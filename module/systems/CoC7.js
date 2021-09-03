@@ -6,4 +6,4 @@ const fraction = function (token) {
 	return 0;
 };
 
-export {fraction};
+export { fraction };

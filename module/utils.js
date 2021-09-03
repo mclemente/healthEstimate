@@ -3,11 +3,11 @@
  * @param string
  * @returns {boolean}
  */
-export function isEmpty (string) {
+export function isEmpty(string) {
 	return !string || string.length === 0 || /^\s*$/.test(string);
 }
 
- /**
+/**
  * Function handling which description to show. Overrides systemSpecifics.js's descriptionToShow.
  * @param {String[]} descriptions
  * @param {Number} stage
@@ -15,17 +15,26 @@ export function isEmpty (string) {
  * @param state
  * @returns {String}
  */
-export let descriptions = function (descriptions, stage, token, state = {isDead: false, desc: ''}, fraction) {
+export let descriptions = function (
+	descriptions,
+	stage,
+	token,
+	state = { isDead: false, desc: "" },
+	fraction
+) {
 	if (state.isDead) {
 		return state.desc;
 	}
 	const type = token.actor.data.type;
-	if (type === 'vehicle') {
-		if (game.settings.get('healthEstimate', 'starfinder.useThreshold')) {
-			descriptions = game.settings.get('healthEstimate', 'starfinder.thresholdNames').split(/[,;]\s*/);
-		}
-		else {
-			descriptions = game.settings.get('healthEstimate', 'starfinder.vehicleNames').split(/[,;]\s*/);
+	if (type === "vehicle") {
+		if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+			descriptions = game.settings
+				.get("healthEstimate", "starfinder.thresholdNames")
+				.split(/[,;]\s*/);
+		} else {
+			descriptions = game.settings
+				.get("healthEstimate", "starfinder.vehicleNames")
+				.split(/[,;]\s*/);
 		}
 		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
 	}
@@ -37,7 +46,7 @@ export let descriptions = function (descriptions, stage, token, state = {isDead:
  * @param {string} key
  * @returns {string}
  */
-export function t (key) {
+export function t(key) {
 	return game.i18n.localize(`healthEstimate.${key}`);
 }
 
@@ -46,7 +55,7 @@ export function t (key) {
  * @param {string} key
  * @param value
  */
-export function sSet (key, value) {
+export function sSet(key, value) {
 	game.settings.set("healthEstimate", key, value);
 }
 
@@ -55,7 +64,7 @@ export function sSet (key, value) {
  * @param {string} key
  * @returns {any}
  */
-export function sGet (key) {
+export function sGet(key) {
 	return game.settings.get("healthEstimate", key);
 }
 

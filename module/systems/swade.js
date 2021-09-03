@@ -3,4 +3,4 @@ const fraction = function (token) {
 	return (hp.max - hp.value) / hp.max;
 };
 
-export {fraction};
+export { fraction };

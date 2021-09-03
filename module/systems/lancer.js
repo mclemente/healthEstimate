@@ -1,23 +1,23 @@
-import {t} from '../utils.js';
+import { t } from "../utils.js";
 
 const fraction = (token) => {
 	const data = token.actor.data;
-	const hp   = data.data.derived.current_hp;
+	const hp = data.data.derived.current_hp;
 	return hp.value / hp.max;
 };
 
 const settings = () => {
 	return {
-		'core.breakOnZeroMaxHP': {
-			type   : Boolean,
+		"core.breakOnZeroMaxHP": {
+			type: Boolean,
 			default: true,
 		},
-		'core.stateNames': {
-			config : true,
-			scope  : 'world',
-			type   : String,
-			default: t('starfinder.vehicleNames.default').join(', ')
-		}
+		"core.stateNames": {
+			config: true,
+			scope: "world",
+			type: String,
+			default: t("starfinder.vehicleNames.default").join(", "),
+		},
 	};
 };
 
@@ -27,4 +27,4 @@ const breakCondition = `
 	   || token.actor.data.data.hp?.max    === 0)
 `;
 
-export {fraction, settings, breakCondition};
+export { fraction, settings, breakCondition };

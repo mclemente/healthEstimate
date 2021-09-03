@@ -1,14 +1,13 @@
-import {sGet, sSet, settingData} from './utils.js';
-import {updateSettings} from './logic.js';
+import { sGet, sSet, settingData } from "./utils.js";
+import { updateSettings } from "./logic.js";
 
 export class HealthEstimateStyleSettings extends FormApplication {
-
-	constructor (object, options = {}) {
+	constructor(object, options = {}) {
 		super(object, options);
 		this.gradFn = new Function();
 		this.gradColors = [];
-		Hooks.once('renderHealthEstimateStyleSettings', this.initHooks.bind(this));
-		Hooks.once('closeHealthEstimateStyleSettings', () => {
+		Hooks.once("renderHealthEstimateStyleSettings", this.initHooks.bind(this));
+		Hooks.once("closeHealthEstimateStyleSettings", () => {
 			delete this.gp;
 		});
 	}
@@ -16,27 +15,27 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	/**
 	 * Default Options for this FormApplication
 	 */
-	static get defaultOptions () {
+	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			id : 'healthestimate-style-form',
-			title : 'Health Estimate Style Settings',
-			template : './modules/healthEstimate/templates/settings.hbs',
-			classes : ['sheet'],
-			width : 640,
-			height : "auto",
-			closeOnSubmit: true
+			id: "healthestimate-style-form",
+			title: "Health Estimate Style Settings",
+			template: "./modules/healthEstimate/templates/settings.hbs",
+			classes: ["sheet"],
+			width: 640,
+			height: "auto",
+			closeOnSubmit: true,
 		});
 	}
 
-	getData (options) {
-		function prepSelection (key, param = false) {
+	getData(options) {
+		function prepSelection(key, param = false) {
 			const path = `core.menuSettings.${key}`;
 			let data = settingData(path);
-			let current = '';
+			let current = "";
 			let result = {
 				select: [],
-				name : data.name,
-				hint : data.hint
+				name: data.name,
+				hint: data.hint,
 			};
 
 			if (param) {
@@ -46,76 +45,78 @@ export class HealthEstimateStyleSettings extends FormApplication {
 				// 	result[k] = v
 				// }
 				Object.assign(result, currentObject);
-			}
-			else {
+			} else {
 				current = sGet(path);
 			}
 
 			for (let [k, v] of Object.entries(data.choices)) {
 				result.select.push({
-					key : k,
-					value : v,
-					selected: k === current
+					key: k,
+					value: v,
+					selected: k === current,
 				});
 			}
 			return result;
 		}
 
-		function prepSetting (key) {
+		function prepSetting(key) {
 			const path = `core.menuSettings.${key}`;
 			let data = settingData(path);
 			return {
 				value: sGet(path),
-				name : data.name,
-				hint : data.hint
+				name: data.name,
+				hint: data.hint,
 			};
 		}
 
 		return {
-			useColor : prepSetting('useColor'),
-			smoothGradient : prepSetting('smoothGradient'),
-			deadColor : prepSetting('deadColor'),
-			fontSize : prepSetting('fontSize'),
-			positionAdjustment: prepSetting('positionAdjustment'),
-			position : prepSelection('position'),
-			mode : prepSelection('mode'),
-			outline : prepSelection('outline', 'mode')
+			useColor: prepSetting("useColor"),
+			smoothGradient: prepSetting("smoothGradient"),
+			deadColor: prepSetting("deadColor"),
+			fontSize: prepSetting("fontSize"),
+			positionAdjustment: prepSetting("positionAdjustment"),
+			position: prepSelection("position"),
+			mode: prepSelection("mode"),
+			outline: prepSelection("outline", "mode"),
 		};
 	}
 
-	initHooks () {
-		const gradientPositions = game.settings.get(`healthEstimate`, `core.menuSettings.gradient`);
+	initHooks() {
+		const gradientPositions = game.settings.get(
+			`healthEstimate`,
+			`core.menuSettings.gradient`
+		);
 		const mode = document.getElementById(`mode`);
 
-		this.deadColor = document.getElementById('deadColor');
-		this.deadColor.value = sGet('core.menuSettings.deadColor');
-		this.deadOutline = sGet('core.variables.deadOutline');
+		this.deadColor = document.getElementById("deadColor");
+		this.deadColor.value = sGet("core.menuSettings.deadColor");
+		this.deadOutline = sGet("core.variables.deadOutline");
 
 		// this.deadColor = sGet('core.menuSettings.deadColor');
-		this.outlineMode = document.getElementById('outlineMode');
-		this.outlineIntensity = document.getElementById('outlineIntensity');
-		this.fontSize = document.getElementById('fontSize');
-		this.textPosition = document.getElementById('position');
-		this.positionAdjustment = document.getElementById('positionAdjustment');
-		this.smoothGradient = document.getElementById('smoothGradient');
-		this.gradEx = document.getElementById('gradientExampleHE');
+		this.outlineMode = document.getElementById("outlineMode");
+		this.outlineIntensity = document.getElementById("outlineIntensity");
+		this.fontSize = document.getElementById("fontSize");
+		this.textPosition = document.getElementById("position");
+		this.positionAdjustment = document.getElementById("positionAdjustment");
+		this.smoothGradient = document.getElementById("smoothGradient");
+		this.gradEx = document.getElementById("gradientExampleHE");
 
 		this.gp = new Grapick({
-			el : '#gradientControlsHE',
-			colorEl: '<input id="colorpicker"/>'
+			el: "#gradientControlsHE",
+			colorEl: '<input id="colorpicker"/>',
 		});
-		this.gp.setColorPicker(handler => {
-			const el = handler.getEl().querySelector('#colorpicker');
+		this.gp.setColorPicker((handler) => {
+			const el = handler.getEl().querySelector("#colorpicker");
 
 			$(el).spectrum({
-				color : handler.getColor(),
+				color: handler.getColor(),
 				showAlpha: true,
-				change (color) {
+				change(color) {
 					handler.setColor(color.toRgbString());
 				},
-				move (color) {
+				move(color) {
 					handler.setColor(color.toRgbString(), 0);
-				}
+				},
 			});
 		});
 		this.setHandlers(gradientPositions).then(() => {
@@ -124,8 +125,8 @@ export class HealthEstimateStyleSettings extends FormApplication {
 
 		$(this.deadColor).spectrum({
 			// color: sGet('core.menuSettings.deadColor'),
-			preferredFormat: 'hex',
-			move : function (color) {
+			preferredFormat: "hex",
+			move: function (color) {
 				this.deadColor.value = color.toHexString();
 				this.updateSample();
 			}.bind(this),
@@ -134,48 +135,57 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			}.bind(this),
 		});
 
-		this.gp.on('change', complete => {
+		this.gp.on("change", (complete) => {
 			this.updateGradient();
 		});
 		for (let el of [this.outlineIntensity, this.outlineMode, mode]) {
-			el.addEventListener('change', () => {
+			el.addEventListener("change", () => {
 				this.updateGradientFunction();
 			});
 		}
-		this.smoothGradient.addEventListener('change', () => {
+		this.smoothGradient.addEventListener("change", () => {
 			this.updateGradient();
 		});
-		for (let el of [this.fontSize, this.textPosition, this.positionAdjustment]) {
-			el.addEventListener('change', () => {
+		for (let el of [
+			this.fontSize,
+			this.textPosition,
+			this.positionAdjustment,
+		]) {
+			el.addEventListener("change", () => {
 				this.updateSample();
 			});
 		}
 	}
 
-	async setHandlers (positions) {
+	async setHandlers(positions) {
 		for (let [i, v] of positions.colors.entries()) {
 			this.gp.addHandler(positions.positions[i] * 100, v);
 		}
 	}
 
-	updateGradientFunction () {
+	updateGradientFunction() {
 		const mode = document.getElementById(`mode`).value;
-		const colorHandler = mode === 'bez' ? `bezier(colors).scale()` : `scale(colors).mode('${mode}')`;
+		const colorHandler =
+			mode === "bez"
+				? `bezier(colors).scale()`
+				: `scale(colors).mode('${mode}')`;
 
 		this.gradFn = new Function(
-			`amount`, `colors`, `colorPositions`,
+			`amount`,
+			`colors`,
+			`colorPositions`,
 			`return (chroma.${colorHandler}.domain(colorPositions).colors(amount))`
 		);
 
 		this.updateOutlineFunction();
 		this.updateGradient();
 	}
-	updateOutlineFunction () {
+	updateOutlineFunction() {
 		const outlineHandler = this.outlineMode.value;
 		const outlineAmount = this.outlineIntensity.value;
 
 		this.outlFn = new Function(
-			'color=false',
+			"color=false",
 			`let res = []
 			if (color) {
 				res = chroma(color).${outlineHandler}(${outlineAmount}).hex() 
@@ -188,18 +198,21 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		);
 	}
 
-	updateGradient () {
-		const colors = this.gp.handlers.map(a => a.color);
-		const colorPositions = this.gp.handlers.map(a => Math.round(a.position) / 100);
-		this.gradLength = this.smoothGradient.checked ? 100 : sGet('core.stateNames').split(/[,;]\s*/).length;
+	updateGradient() {
+		const colors = this.gp.handlers.map((a) => a.color);
+		const colorPositions = this.gp.handlers.map(
+			(a) => Math.round(a.position) / 100
+		);
+		this.gradLength = this.smoothGradient.checked
+			? 100
+			: sGet("core.stateNames").split(/[,;]\s*/).length;
 		const width = 100 / this.gradLength;
 		this.gradColors = this.gradFn(this.gradLength, colors, colorPositions);
 		this.outlColors = this.outlFn();
-		let gradString = '';
+		let gradString = "";
 
 		for (let i = 0; i < this.gradLength; i++) {
-			gradString +=
-				`<span style="
+			gradString += `<span style="
 					display:inline-block;
 					height:30px;
 					width:${width}%;
@@ -211,23 +224,44 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		this.updateSample();
 	}
 
-	updateSample () {
-		const sample = document.getElementById('healthEstimateSample');
+	updateSample() {
+		const sample = document.getElementById("healthEstimateSample");
 		const sampleItems = sample.children[0].children;
 
 		this.deadOutline = this.outlFn(this.deadColor.value);
 
-		sample.style.setProperty('--healthEstimate-text-size', this.fontSize.value);
-		sample.style.setProperty('--healthEstimate-alignment', this.textPosition.value);
-		sample.style.setProperty('--healthEstimate-margin', `${this.positionAdjustment.value}em`);
-		sampleItems[0].style.setProperty('--healthEstimate-text-color', this.deadColor.value);
-		sampleItems[0].style.setProperty('--healthEstimate-stroke-color', this.deadOutline);
+		sample.style.setProperty("--healthEstimate-text-size", this.fontSize.value);
+		sample.style.setProperty(
+			"--healthEstimate-alignment",
+			this.textPosition.value
+		);
+		sample.style.setProperty(
+			"--healthEstimate-margin",
+			`${this.positionAdjustment.value}em`
+		);
+		sampleItems[0].style.setProperty(
+			"--healthEstimate-text-color",
+			this.deadColor.value
+		);
+		sampleItems[0].style.setProperty(
+			"--healthEstimate-stroke-color",
+			this.deadOutline
+		);
 
 		for (let i = 1; i <= 6; i++) {
-			const position = Math.max(Math.round(this.gradLength * ((i-1) / 5))-1, 0);
+			const position = Math.max(
+				Math.round(this.gradLength * ((i - 1) / 5)) - 1,
+				0
+			);
 
-			sampleItems[i].style.setProperty('--healthEstimate-text-color', this.gradColors[position]);
-			sampleItems[i].style.setProperty('--healthEstimate-stroke-color', this.outlColors[position]);
+			sampleItems[i].style.setProperty(
+				"--healthEstimate-text-color",
+				this.gradColors[position]
+			);
+			sampleItems[i].style.setProperty(
+				"--healthEstimate-stroke-color",
+				this.outlColors[position]
+			);
 		}
 	}
 
@@ -236,8 +270,10 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	 * @param {Event} e - the form submission event
 	 * @param {Object} d - the form data
 	 */
-	async _updateObject(e,d) {
-		const iterableSettings = Object.keys(d).filter(key => key.indexOf('outline') === -1);
+	async _updateObject(e, d) {
+		const iterableSettings = Object.keys(d).filter(
+			(key) => key.indexOf("outline") === -1
+		);
 
 		for (let key of iterableSettings) {
 			sSet(`core.menuSettings.${key}`, d[key]);
@@ -245,19 +281,19 @@ export class HealthEstimateStyleSettings extends FormApplication {
 
 		let deadColor = d.deadColor;
 		if (!d.useColor) {
-			this.gradColors = ['#FFF'];
-			this.outlColors = ['#000'];
-			this.deadOutline = '#000';
-			deadColor = '#FFF';
+			this.gradColors = ["#FFF"];
+			this.outlColors = ["#000"];
+			this.deadOutline = "#000";
+			deadColor = "#FFF";
 		}
 
 		sSet(`core.menuSettings.gradient`, {
-			colors: this.gp.handlers.map(a => a.color),
-			positions: this.gp.handlers.map(a => Math.round(a.position) / 100)
+			colors: this.gp.handlers.map((a) => a.color),
+			positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
 		});
 		sSet(`core.menuSettings.outline`, {
 			mode: d.outlineMode,
-			multiplier: d.outlineIntensity
+			multiplier: d.outlineIntensity,
 		});
 
 		sSet(`core.variables.colors`, this.gradColors);

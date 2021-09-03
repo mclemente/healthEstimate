@@ -1,9 +1,9 @@
 const fraction = function (token) {
-	if (token.actor.data.type === 'pc') {
-		const might     = token.actor.data.data.stats.might;
-		const speed     = token.actor.data.data.stats.speed;
+	if (token.actor.data.type === "pc") {
+		const might = token.actor.data.data.stats.might;
+		const speed = token.actor.data.data.stats.speed;
 		const intellect = token.actor.data.data.stats.intellect;
-		if (game.settings.get('healthEstimate', 'numenera.countPools')) {
+		if (game.settings.get("healthEstimate", "numenera.countPools")) {
 			let fullPools = 3;
 			for (let pool of [might, speed, intellect]) {
 				if (pool.pool.current === 0) {
@@ -26,11 +26,11 @@ const fraction = function (token) {
 };
 const settings = () => {
 	return {
-		'numenera.countPools': {
-			type   : Boolean,
+		"numenera.countPools": {
+			type: Boolean,
 			default: false,
-		}
+		},
 	};
 };
 
-export {fraction, settings};
+export { fraction, settings };
