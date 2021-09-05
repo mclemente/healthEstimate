@@ -94,6 +94,7 @@ export function prepareSystemSpecifics() {
 			"starwarsffg",
 			"sw5e",
 			"swade",
+			"swnr",
 			"symbaroum",
 			"tormenta20",
 			"trpg",
