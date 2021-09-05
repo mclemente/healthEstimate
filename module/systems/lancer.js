@@ -2,7 +2,7 @@ import { t } from "../utils.js";
 
 const fraction = (token) => {
 	const data = token.actor.data;
-	const hp = data.data.derived.current_hp;
+	const hp = data.data.derived.hp;
 	return hp.value / hp.max;
 };
 
