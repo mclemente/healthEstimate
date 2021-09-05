@@ -7,46 +7,52 @@ let current_hp_actor = {}; //store hp of PC
 
 export function getCharacters(actors) {
 	for (let actor of actors) {
-		const fraction = Math.min(fractionFormula(actor), 1);
-		const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
-		current_hp_actor[actor.data._id] = {
-			name: actor.document.data.name || actor.name,
-			stage: stage,
-			dead: isDead(actor, stage),
-		};
+		if (breakOverlayRender(actor)) continue;
+		try {
+			const fraction = Math.min(fractionFormula(actor), 1);
+			const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
+			current_hp_actor[actor.data._id] = { name: actor.document.data.name || actor.name, stage: stage, dead: isDead(actor, stage) };
+		} catch (err) {
+			console.error(`Health Estimate | Error on getCharacters(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.data.type, err);
+		}
 	}
 }
 
 export function outputStageChange(actors) {
 	for (let actor of actors) {
-		const fraction = Math.min(fractionFormula(actor), 1);
-		const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
-		const dead = isDead(actor, stage);
-		if (stage && (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead)) {
-			let name = current_hp_actor[actor.data._id].name;
-			if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.data.displayName == 0) {
-				name = "Unknown entity";
+		if (breakOverlayRender(actor)) continue;
+		try {
+			const fraction = Math.min(fractionFormula(actor), 1);
+			const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
+			const dead = isDead(actor, stage);
+			if (stage && (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead)) {
+				let name = current_hp_actor[actor.data._id].name;
+				if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.data.displayName == 0) {
+					name = "Unknown entity";
+				}
+				let css = "<span class='hm_messagetaken'>";
+				if (stage > current_hp_actor[actor.data._id].stage) {
+					css = "<span class='hm_messageheal'>";
+				}
+				let desc = descriptionToShow(
+					descriptions,
+					stage,
+					actor,
+					{
+						isDead: dead,
+						desc: deathStateName,
+					},
+					fraction
+				);
+				let chatData = {
+					content: css + name + " " + t("core.isNow") + " " + desc + ".</span>",
+				};
+				ChatMessage.create(chatData, {});
+				current_hp_actor[actor.data._id].stage = stage;
+				current_hp_actor[actor.data._id].dead = dead;
 			}
-			let css = "<span class='hm_messagetaken'>";
-			if (stage > current_hp_actor[actor.data._id].stage) {
-				css = "<span class='hm_messageheal'>";
-			}
-			let desc = descriptionToShow(
-				descriptions,
-				stage,
-				actor,
-				{
-					isDead: dead,
-					desc: deathStateName,
-				},
-				fraction
-			);
-			let chatData = {
-				content: css + name + " " + t("core.isNow") + " " + desc + ".</span>",
-			};
-			ChatMessage.create(chatData, {});
-			current_hp_actor[actor.data._id].stage = stage;
-			current_hp_actor[actor.data._id].dead = dead;
+		} catch (err) {
+			console.error(`Health Estimate | Error on outputStageChange(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.data.type, err);
 		}
 	}
 }
@@ -236,7 +242,7 @@ export class HealthEstimate {
 	}
 
 	_handleOverlay(token, hovered) {
-		if (!token.actor) {
+		if (!token?.actor) {
 			return;
 		}
 		if (
@@ -257,29 +263,33 @@ export class HealthEstimate {
 	}
 
 	_getEstimation(token) {
-		const fraction = Math.min(fractionFormula(token), 1);
-		const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
-		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
-		let desc, color, stroke;
+		try {
+			const fraction = Math.min(fractionFormula(token), 1);
+			const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
+			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
+			let desc, color, stroke;
 
-		desc = descriptionToShow(
-			descriptions,
-			stage,
-			token,
-			{
-				isDead: isDead(token, stage),
-				desc: deathStateName,
-			},
-			fraction
-		);
-		color = colors[colorIndex];
-		stroke = outline[colorIndex];
-		if (isDead(token, stage)) {
-			color = deadColor;
-			stroke = deadOutline;
+			desc = descriptionToShow(
+				descriptions,
+				stage,
+				token,
+				{
+					isDead: isDead(token, stage),
+					desc: deathStateName,
+				},
+				fraction
+			);
+			color = colors[colorIndex];
+			stroke = outline[colorIndex];
+			if (isDead(token, stage)) {
+				color = deadColor;
+				stroke = deadOutline;
+			}
+			document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
+			document.documentElement.style.setProperty("--healthEstimate-text-color", color);
+			canvas.hud.HealthEstimate.estimation = { desc };
+		} catch (err) {
+			console.error(`Health Estimate | Error on HealthEstimate._getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.data.type, err);
 		}
-		document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
-		document.documentElement.style.setProperty("--healthEstimate-text-color", color);
-		canvas.hud.HealthEstimate.estimation = { desc };
 	}
 }
