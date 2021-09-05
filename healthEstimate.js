@@ -1,44 +1,43 @@
-import {registerSettings} from './module/settings.js';
-import {preloadTemplates} from './module/preloadTemplates.js';
-import {prepareSystemSpecifics} from "./module/systemSpecifics.js";
-import {HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings} from "./module/logic.js";
+import { registerSettings } from "./module/settings.js";
+import { preloadTemplates } from "./module/preloadTemplates.js";
+import { prepareSystemSpecifics } from "./module/systemSpecifics.js";
+import { HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
 
 /**
  * Preload templates and add it template to the HUD
  */
-Hooks.once('init', async function () {	
+Hooks.once("init", async function () {
 	await preloadTemplates();
-	Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
+	Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 		html.append('<template id="healthEstimate"></template>');
 	});
-	
 });
 
 /**
  * Have to register Settings here, because doing so at init breaks i18n
  */
-Hooks.once('setup', function () {
+Hooks.once("setup", function () {
 	prepareSystemSpecifics().then(registerSettings());
 });
 
-Hooks.once('ready', function () {
+Hooks.once("ready", function () {
 	// new HealthEstimate();
 });
 
 /**
  * HP storing code for canvas load or token created
  */
-Hooks.on('canvasReady', function(){
+Hooks.on("canvasReady", function () {
 	new HealthEstimate();
-	let tokens = canvas.tokens.placeables.filter(e => e.actor);
+	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
 	updateSettings();
 	getCharacters(tokens);
 });
 
-Hooks.on('createToken', function(){
-	let tokens = canvas.tokens.placeables.filter(e => e.actor);
+Hooks.on("createToken", function () {
+	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
 	getCharacters(tokens);
-});	
+});
 
 /**
  * spam in chat if token (NPC) is updated
@@ -46,8 +45,8 @@ Hooks.on('createToken', function(){
  * start collectting all PNC hp information
  */
 Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
-	if(game.user.isGM && outputChat) {
-		let actors = canvas.tokens.placeables.filter(e=> e.actor);
+	if (game.user.isGM && outputChat) {
+		let actors = canvas.tokens.placeables.filter((e) => e.actor);
 		outputStageChange(actors);
 	}
 });
@@ -57,9 +56,9 @@ Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
  * only the USER that promoted the change will spam the message
  * start collectting all PNC hp information
  */
-Hooks.on('updateActor', (data, options, apps, userId) => {
-	if(game.user.isGM && outputChat) {
-		let actors = canvas.tokens.placeables.filter(e=> e.actor && e.actor.data.type==='character');
+Hooks.on("updateActor", (data, options, apps, userId) => {
+	if (game.user.isGM && outputChat) {
+		let actors = canvas.tokens.placeables.filter((e) => e.actor && e.actor.data.type === "character");
 		outputStageChange(actors);
 	}
 });
@@ -67,7 +66,7 @@ Hooks.on('updateActor', (data, options, apps, userId) => {
 /**
  * Chat Styling
  */
-Hooks.on("renderChatMessage", (app, html, data) => { 
+Hooks.on("renderChatMessage", (app, html, data) => {
 	if (html.find(".hm_messageheal").length) {
 		html.css("background", "#06a406");
 		html.css("text-shadow", "-1px -1px 0 #000 , 1px -1px 0 #000 , -1px 1px 0 #000 , 1px 1px 0 #000");
@@ -93,4 +92,3 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 		// html.find(".message-metadata")[0].style.display = "none";
 	}
 });
-	
