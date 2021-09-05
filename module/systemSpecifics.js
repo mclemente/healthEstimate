@@ -72,36 +72,11 @@ export function updateBreakSettings() {
  */
 export function prepareSystemSpecifics() {
 	return new Promise((resolve, reject) => {
+		// prettier-ignore
 		const systems = [
-			"archmage",
-			"blades-in-the-dark",
-			"CoC7",
-			"D35E",
-			"dnd5e",
-			"dsa5",
-			"dungeonworld",
-			"fate",
-			"foundryvtt-reve-de-dragon",
-			"lancer",
-			"numenera",
-			"ose",
-			"pbta",
-			"pf1",
-			"pf2e",
-			"ryuutama",
-			"shadowrun5e",
-			"starfinder",
-			"starwarsffg",
-			"sw5e",
-			"swade",
-			"swnr",
-			"symbaroum",
-			"tormenta20",
-			"trpg",
-			"twodsix",
-			"uesrpg-d100",
-			"wfrp4e",
-			"worldbuilding",
+			"archmage", "band-of-blades", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon",
+			"lancer", "monsterweek", "numenera", "ose", "pbta", "pf1", "pf2e", "ryuutama", "scum-and-villainy", "shadowrun5e", "starfinder",
+			"starwarsffg", "sw5e", "swade", "symbaroum", "tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
 		];
 		let importString = systems.includes(game.system.id) ? `./systems/${game.system.id}.js` : `./systems/generic.js`;
 		import(importString).then((currentSystem) => {

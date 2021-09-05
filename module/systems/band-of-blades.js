@@ -25,6 +25,6 @@ const fraction = function (token) {
 	}
 	return 1 - harmLevel / 18;
 };
-const breakCondition = `||token.actor.data.type === "npc"||token.actor.data.type === "crew"||token.actor.data.type === "\uD83D\uDD5B clock"||token.actor.data.type === "factions"`;
+const breakCondition = `||token.actor.data.type === "role"||token.actor.data.type === "chosen"||token.actor.data.type === "minion"||token.actor.data.type === "\uD83D\uDD5B clock"`;
 
 export { fraction, breakCondition };
