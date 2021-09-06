@@ -35,7 +35,7 @@
         },
         {
             "lang": "es",
-            "name": "Español",
+            "name": "Español (Spanish)",
             "path": "./lang/es.json"
         },        {
             "lang": "ko",
