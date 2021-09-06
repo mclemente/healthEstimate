@@ -4,10 +4,10 @@
       "custom": {
         "FractionHP": {
           "name": "Atributo de Pontos de Vida",
-          "hint": "Seu sistema não é oficialmente suportado, então pode estar usando um atributo diferente do padrão. Só mude isso se a estimativa não estiver aparecendo e você souber o que está fazendo."
+          "hint": "Seu sistema não é oficialmente suportado, então pode estar usando um atributo diferente do padrão. Só mude isto se a estimativa não estiver aparecendo e você souber o que está fazendo."
         },
         "FractionMath": {
-          "name": "Fraction Equation",
+          "name": "Equação da Fração",
           "hint": "Seu sistema não é oficialmente suportado, então escolha a equação usada para calcular a fração da estimativa de vida.",
           "choices": {
             "0": "(Current HP)/(Max HP)",
