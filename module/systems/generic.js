@@ -1,7 +1,8 @@
-import { sGet, t } from "../utils.js";
+import { getNestedData, sGet, t } from "../utils.js";
 
 const fraction = function (token) {
-	const hp = token.actor.data.data.attributes?.hp || token.actor.data.data.hp;
+	const hpPath = sGet("core.custom.FractionHP");
+	let hp = getNestedData(token, sGet("core.custom.FractionHP")) || token.actor.data.data.attributes?.hp || token.actor.data.data.hp;
 	let temp = 0;
 	if (game.settings.get("healthEstimate", "core.addTemp") && token.actor.data.type === "character") {
 		temp = hp.temp;
@@ -11,10 +12,10 @@ const fraction = function (token) {
 };
 const settings = () => {
 	return {
-		// 'core.custom.FractionHP' : {
-		// 	type: String,
-		// 	default: ""
-		// },
+		'core.custom.FractionHP' : {
+			type: String,
+			default: ""
+		},
 		"core.custom.FractionMath": {
 			type: Number,
 			default: 0,

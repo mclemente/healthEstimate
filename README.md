@@ -16,6 +16,7 @@ All suggestions/feedback are appreciated, please contact me on Discord (MClement
 This project uses [chroma.js](https://github.com/gka/chroma.js) library released under [BSD license](http://opensource.org/licenses/BSD-3-Clause), and [Grapick](https://www.npmjs.com/package/grapick) library licensed under MIT License.  
 This module is a fork of Health Estimate, a module for Foundry VTT made by Shylight that is licensed under the MIT License.  
 This module uses code of [Health Monitor](https://github.com/rockshow888/health-monitor), a module for Foundry VTT made by rockshow888 that is licensed under the GPL License.
+This module uses code of [Token Tooltip Alt](https://github.com/bmarian/token-tooltip-alt/), a module for Foundry VTT made by bmarian that is licensed under the MIT License.
 
 ## License
 This module is licensed under the GPL License. There's an available version under the MIT License [here](https://github.com/mclemente/healthEstimate/tree/MIT-License).  
