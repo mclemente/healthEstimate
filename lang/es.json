@@ -1,0 +1,189 @@
+{
+  "healthEstimate": {
+    "core": {
+      "custom": {
+        "FractionHP": {
+          "name": "Atributo de Puntos de Vida",
+          "hint": "Tu sistema no está soportado oficialmente, así que puede estar usando un atributo diferente al estándar. Cambia esto sólo si la estimación no funciona y sabes lo que estás haciendo."
+        },
+        "FractionMath": {
+          "name": "Ecuación de Fracción",
+          "hint": "Tu sistema no está soportado oficialmente, así que escoge la ecuación usada para estimar la fracción de salud.",
+          "choices": {
+            "0": "(PV Actuales)/(PV Máx)",
+            "1": "(PV Máx - PV Actuales)/(PV Máx)"
+          }
+        }
+      },
+      "isNow": "está ahora",
+      "showDescription": {
+        "name": "Mostrar Estimación: Usuarios",
+        "hint": "Mostrar Estimaciones a los siguientes usuarios.",
+        "choices": {
+          "all": "Todos",
+          "GM": "Narradores",
+          "Players": "Jugadores",
+          "NPC": "Personajes No-Jugadores",
+          "PC": "Personajes Jugadores"
+        }
+      },
+      "showDescriptionTokenType": {
+        "name": "Mostrar Estimaciones: Tokens",
+        "hint": "Mostrar Estimaciones de los siguientes tokens."
+      },
+      "stateNames": {
+        "name": "Estados",
+        "hint": "Una secuencia de descripciones mostradas a los jugadores, ordenadas de peor a mejor salud posibles.\nLa cantidad de descripciones posibles no está limitada, el módulo ajustará el porcentaje de salud para mostrarlo proporcionalemente a dicha cantidad.\nSi fuese necesario que una descripción cubriera un mayor rango de salud que otras simplemente copiala varias veces.",
+        "default": [
+          "Inconsciente",
+          "Cerca de Morir",
+          "Grave",
+          "Herido",
+          "Apenas Herido",
+          "Ileso"
+        ]
+      },
+      "deathState": {
+        "name": "Condición Estado de Muerte",
+        "hint": "Muestra el token como muerto cuando ha sido affectado por una condición que usa el icono establecido en el ajuste Marcador de Muerte. Funcona independendientemente de la macro."
+      },
+      "deathStateName": {
+        "name": "Nombre de Estado de Muerte",
+        "hint": "La descripción mostrada a los jugadores cuando el token está muerto. La sección Compendio tiene una macro para marcar un a token (o varios) como muerto.",
+        "default": "Muerto"
+      },
+      "deathMarker": {
+        "name": "Marcador de Muerte",
+        "hint": "Dirección al icono de condición que marca los tokens muertos.\nPara conseguir una dirección de icono personalizada, selecciona un marcado con ello, abre la consola and escribe \"canvas.tokens.controlled[0].data.overlayEffect\""
+      },
+      "NPCsJustDie": {
+        "name": "Los PNJs mueren inmediatamente",
+        "hint": "El último paso de los PNJs se reemplaza por el Nombre de Estado de Muerte."
+      },
+      "perfectionism": {
+        "name": "Perfeccionismo",
+        "hint": "Muestra la mejor descripción posible sólo cuando el objetivo está en perfecto estado - ni un solo daño sufrido."
+      },
+      "outputChat": {
+        "name": "Mostrar Estimación en el Chat",
+        "hint": "Mostrar cualquier cambio de estimación en el chat. Los personajes marcados con la macro Hide Estimate serán mostrados como \"Unknown Entity\"."
+      },
+      "addTemp": {
+        "name": "Añadir Salud Temporal",
+        "hint": "Incluye puntos de vida temporales al calcular lo que muestra la descripción.\nP.ej. Con el ajuste activado el token que reciba PV temporales aparecerá como \"más sano\" salvo que ya tenga salud máxima."
+      },
+      "breakOnZeroMaxHP": {
+        "name": "Esconder en tokens con 0 PV máx.",
+        "hint": "Útil para objetos con tokens"
+      },
+      "menuSettings": {
+        "fontSize": {
+          "name": "Tamaño de Fuente",
+          "hint": "Acepta cualquier propiedad válida para un tamaño de fuente CSS"
+        },
+        "useColor": {
+          "name": "Usar Color",
+          "hint": "Esto no afectará a la ventana de ajustes, pero si se desmarca las descripciones se mostrarán en blanco y negro."
+        },
+        "smoothGradient": {
+          "name": "Gradiente Suave",
+          "hint": "Con este ajuste apagado el color sólo cambiará cuando se alcance la siguiente descripción, si está activado reflejará el porcentaje de salud."
+        },
+        "deadColor": {
+          "name": "Color de tokens muertos"
+        },
+        "outline": {
+          "name": "Contorno",
+          "darken": "Oscurecido",
+          "brighten": "Brillante"
+        },
+        "position": {
+          "name": "Posición",
+          "top": "Encima",
+          "middle": "Medio",
+          "bottom": "Debajo"
+        },
+        "positionAdjustment": {
+          "name": "Ajuste de Posición",
+          "hint": "La posición se establece relativa al marco. El número te permite afinar la posición relativa a su lugar normal. Números positivos lo empujan hacia abajo, negativos – más alto. El valor predeterminado de -1 lo establece en \"1 line above initial position\"."
+        }
+      }
+    },
+    "dnd5e": {
+      "vehicleNames": {
+        "hint": "Descripciones mostradad para vehículos si \"Usar Umbral de Vehículos\" está apagado",
+        "default": [
+          "Destrozado",
+          "Roto",
+          "Maltrecho",
+          "Magullado",
+          "Prístino"
+        ]
+      }
+    },
+    "PF1": {
+      "addNonlethal": {
+        "name": "Usa Daño no Letal",
+        "hint": "Si se habilita, el daño no letal se restará de salud actual para la estimación ."
+      },
+      "showExtra": {
+        "name": "Incapacitado y Moribundo",
+        "hint": "Muestra las descripciones \"Incapacitado\" y \"Moribundo\"."
+      },
+      "disabledName": {
+        "name": "Incapacitado",
+        "hint": "Descripción mostrada cuando el token está justo a 0 PV o tiene más daño no letal que PV restantes",
+        "default": "Incapacitado"
+      },
+      "dyingName": {
+        "name": "Moribundo",
+        "hint": "Descripción mostada cuando el token está por debajo de 0 PV",
+        "default": "Moribundo"
+      }
+    },
+    "numenera": {
+      "countPools": {
+        "name": "Contar Reservas Vacías",
+        "hint": "Contar reservas vacías en lugar de la suma de sus valores, con la estimación cambiando sólo cuando una reserva se vacía/repone."
+      }
+    },
+    "starfinder": {
+      "useThreshold": {
+        "name": "Usar Umbral de Vehículos",
+        "hint": "Si se activa este ajuste, las descripciones \"Estados de Umbral\" se usarán para vehículas sobre el umbral, por debajo, y a 0 PV respectivamente."
+      },
+      "thresholdNames": {
+        "name": "Estados de Umbral",
+        "hint": "La cantidad de estados está limitada a 3, ordenados de peor a mejor condición",
+        "default": [
+          "Destrozado",
+          "Roto",
+          "Completamente Funcional"
+        ]
+      },
+      "vehicleNames": {
+        "name": "Estados de Vehículos",
+        "hint": "Descripciones mostadas para naves estelares (siempre), y vehículos (si \"Usar Umbral de Vehículos\" está desactivado)",
+        "default": [
+          "Destrozado",
+          "En Llamas",
+          "Humeante",
+          "Maltrecho",
+          "Magullado",
+          "Prístino"
+        ]
+      },
+      "addStamina": {
+        "name": "Tener en cuenta Aguante",
+        "hint": "Con este ajuste activado el Aguante se añadirá a los PV para los cálculos."
+      }
+    },
+    "worldbuilding": {
+      "simpleRule": {
+        "name": "Regla de Estimación",
+        "hint": "La fórmula JS para calcular la fracción de salud que tiene el token. Alterar con precacución. Predeterminado asume una salud descendente simple, p.ej. comienzas con 10/10 en tu campo de salud y va bajando hasta 0/10 al recibir daño.",
+        "default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+      }
+    }
+  }
+}
