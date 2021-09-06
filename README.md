@@ -18,5 +18,5 @@ This module is a fork of Health Estimate, a module for Foundry VTT made by Shyli
 This module uses code of [Health Monitor](https://github.com/rockshow888/health-monitor), a module for Foundry VTT made by rockshow888 that is licensed under the GPL License.
 
 ## License
-This module is licensed under the GPL License.  
+This module is licensed under the GPL License. There's an available version under the MIT License [here](https://github.com/mclemente/healthEstimate/tree/MIT-License).  
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development](https://foundryvtt.com/article/license/).
