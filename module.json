@@ -33,6 +33,11 @@
 			"name": "English",
 			"path": "./lang/en.json"
 		},
+    {
+      "lang": "es",
+      "name": "Español (Spanish)",
+      "path": "./lang/es.json"
+    },  
 		{
 			"lang": "ko",
 			"name": "한국어 (Korean)",

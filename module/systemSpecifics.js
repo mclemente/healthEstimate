@@ -74,7 +74,7 @@ export function prepareSystemSpecifics() {
 	return new Promise((resolve, reject) => {
 		// prettier-ignore
 		const systems = [
-			"archmage", "band-of-blades", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon",
+			"age-system", "alienrpg", "archmage", "band-of-blades", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon",
 			"lancer", "monsterweek", "numenera", "ose", "pbta", "pf1", "pf2e", "ryuutama", "scum-and-villainy", "shadowrun5e", "starfinder",
 			"starwarsffg", "sw5e", "swade", "symbaroum", "tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
 		];
