@@ -54,7 +54,7 @@
       },
       "deathMarker": {
         "name": "Marcador de morte",
-        "hint": "O caminho para o ícone que marca os tokens com a Condição Morto.\n Para obter um ícone personalizado, selecione um token marcado com ele, abra o console e digite \"canvas.tokens.controlled[0].data.overlayEffect\"."
+        "hint": "O caminho para o ícone que marca os tokens com a Condição Morto."
       },
       "NPCsJustDie": {
         "name": "NPCs morrem imediatamente",

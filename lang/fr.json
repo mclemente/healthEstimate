@@ -40,7 +40,7 @@
       },
       "deathMarker": {
         "name": "Marqueur de la mort",
-        "hint": "Emplacement de l'icône de condition marquant les tokens morts.\nPour obtenir l'emplacement du symbole personnalisé, sélectionnez un token marqué avec celui-ci, ouvrez la console et entrez \"canvas.tokens.controlled[0].data.overlayEffect\""
+        "hint": "Emplacement de l'icône de condition marquant les tokens morts."
       },
       "NPCsJustDie": {
         "name": "Mort immédiate des PNJs",

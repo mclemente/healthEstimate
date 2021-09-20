@@ -54,7 +54,7 @@
       },
       "deathMarker": {
         "name": "Todes-Marker",
-        "hint": "Pfad zum Bedingungs-Icon, welches tote Tokens markiert.\nUm an den Pfad eines benutzerdefinierten Icons zu gelangen, öffne die Konsole und gib \"canvas.tokens.controlled[0].data.overlayEffect\" ein."
+        "hint": "Pfad zum Bedingungs-Icon, welches tote Tokens markiert."
       },
       "NPCsJustDie": {
         "name": "NPCs sterben sofort.",

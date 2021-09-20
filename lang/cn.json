@@ -40,7 +40,7 @@
       },
       "deathMarker": {
         "name": "死亡标记",
-        "hint": "标记死亡指示物的状态图标路径\n要获得一个自定义图标的路径，选择一个被该图标标记的指示物，打开控制台并输入 \"canvas.tokens.controlled[0].data.overlayEffect\""
+        "hint": "标记死亡指示物的状态图标路径"
       },
       "NPCsJustDie": {
         "name": "NPC 立刻死亡",

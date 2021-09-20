@@ -54,7 +54,7 @@
       },
       "deathMarker": {
         "name": "Marcador de Muerte",
-        "hint": "Dirección al icono de condición que marca los tokens muertos.\nPara conseguir una dirección de icono personalizada, selecciona un marcado con ello, abre la consola and escribe \"canvas.tokens.controlled[0].data.overlayEffect\""
+        "hint": "Dirección al icono de condición que marca los tokens muertos."
       },
       "NPCsJustDie": {
         "name": "Los PNJs mueren inmediatamente",

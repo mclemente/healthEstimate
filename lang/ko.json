@@ -32,7 +32,7 @@
       },
       "deathMarker": {
         "name": "죽음 표시자",
-        "hint": "죽은 토큰을 표시하는 상태 아이콘의 경로\n사용자 지정 아이콘의 경로를 가져오려면 사용자 지정 아이콘으로 표시된 토큰을 선택하고 콘솔을 연 뒤 다음을 입력한다 \"canvas.tokens.controlled[0].data.overlayEffect\""
+        "hint": "죽은 토큰을 표시하는 상태 아이콘의 경로"
       },
       "NPCsJustDie": {
         "name": "NPC 즉시 사망",

@@ -54,7 +54,7 @@
       },
       "deathMarker": {
         "name": "Death Marker",
-        "hint": "Path to the condition icon that marks the dead tokens.\nTo get a custom icon's path, select a token marked with it, open the console and enter \"canvas.tokens.controlled[0].data.overlayEffect\""
+        "hint": "Path to the condition icon that marks the dead tokens."
       },
       "NPCsJustDie": {
         "name": "NPCs die immediately",
