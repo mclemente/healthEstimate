@@ -25,7 +25,7 @@ export function outputStageChange(actors) {
 			const fraction = Math.min(fractionFormula(actor), 1);
 			const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
 			const dead = isDead(actor, stage);
-			if (stage && (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead)) {
+			if (stage != undefined && (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead)) {
 				let name = current_hp_actor[actor.data._id].name;
 				if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.data.displayName == 0) {
 					name = "Unknown entity";
@@ -71,7 +71,8 @@ export function isDead(token, stage) {
 	return (
 		(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0) ||
 		(showDead && Array.from(token.actor.effects.values()).some((x) => x.data.icon === deathMarker)) ||
-		token.document.getFlag("healthEstimate", "dead")
+		token.document.getFlag("healthEstimate", "dead") ||
+		false
 	);
 }
 
