@@ -87,7 +87,7 @@ export const registerSettings = function () {
 	});
 	addSetting("core.perfectionism", {
 		type: Boolean,
-		default: false,
+		default: true,
 		onChange: (s) => {
 			updateSettings();
 		},
