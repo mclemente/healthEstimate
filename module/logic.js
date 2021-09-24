@@ -9,8 +9,9 @@ export function getCharacters(actors) {
 	for (let actor of actors) {
 		if (breakOverlayRender(actor)) continue;
 		try {
-			const fraction = Math.min(fractionFormula(actor), 1);
-			const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
+			const fraction = getFraction(actor);
+			if (typeof fraction != "number" || isNaN(fraction)) continue;
+			const stage = getStage(fraction);
 			current_hp_actor[actor.data._id] = { name: actor.document.data.name || actor.name, stage: stage, dead: isDead(actor, stage) };
 		} catch (err) {
 			console.error(`Health Estimate | Error on getCharacters(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.data.type, err);
@@ -21,11 +22,12 @@ export function getCharacters(actors) {
 export function outputStageChange(actors) {
 	for (let actor of actors) {
 		if (breakOverlayRender(actor)) continue;
+		if (!(actor.data._id in current_hp_actor)) continue;
 		try {
-			const fraction = Math.min(fractionFormula(actor), 1);
-			const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
+			const fraction = getFraction(actor);
+			const stage = getStage(fraction);
 			const dead = isDead(actor, stage);
-			if (stage != undefined && (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead)) {
+			if (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead) {
 				let name = current_hp_actor[actor.data._id].name;
 				if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.data.displayName == 0) {
 					name = "Unknown entity";
@@ -74,6 +76,24 @@ export function isDead(token, stage) {
 		token.document.getFlag("healthEstimate", "dead") ||
 		false
 	);
+}
+
+/**
+ * Returns the current health fraction of the token.
+ * @param {TokenDocument} token
+ * @returns {Number}
+ */
+function getFraction(token) {
+	return Math.min(fractionFormula(token), 1);
+}
+
+/**
+ * Returns the current health stage of the token.
+ * @param {Number} fraction
+ * @returns {Number}
+ */
+function getStage(fraction) {
+	return Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
 }
 
 /**
@@ -265,8 +285,8 @@ export class HealthEstimate {
 
 	_getEstimation(token) {
 		try {
-			const fraction = Math.min(fractionFormula(token), 1);
-			const stage = Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
+			const fraction = getFraction(token);
+			const stage = getStage(fraction);
 			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
 			let desc, color, stroke;
 
