@@ -1,5 +1,6 @@
 import { isEmpty, sGet } from "./utils.js";
 import { addSetting } from "./settings.js";
+import { deathMarker } from "./logic.js";
 
 export let fractionFormula;
 export let breakOverlayRender;
@@ -20,6 +21,10 @@ export let descriptionToShow = function (descriptions, stage, token, state = { i
 	}
 	return descriptions[stage];
 };
+
+export function tokenEffectsPath(token) {
+	return Array.from(token.actor.effects.values()).some((x) => x.data.icon === deathMarker);
+}
 
 const tempHPSetting = {
 	type: Boolean,
@@ -92,6 +97,9 @@ export function prepareSystemSpecifics() {
 			}
 			if (currentSystem.descriptions !== undefined) {
 				descriptionToShow = currentSystem.descriptions;
+			}
+			if (currentSystem.tokenEffects !== undefined) {
+				tokenEffectsPath = currentSystem.tokenEffects;
 			}
 			resolve("success");
 		});

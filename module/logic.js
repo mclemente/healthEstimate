@@ -1,4 +1,4 @@
-import { breakOverlayRender, descriptionToShow, fractionFormula, updateBreakSettings } from "./systemSpecifics.js";
+import { breakOverlayRender, descriptionToShow, fractionFormula, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
 import { sGet, t } from "./utils.js";
 
 export let descriptions, deathStateName, showDead, useColor, smooth, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat;
@@ -70,12 +70,7 @@ export function outputStageChange(actors) {
  * @returns {Boolean}
  */
 export function isDead(token, stage) {
-	return (
-		(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0) ||
-		(showDead && Array.from(token.actor.effects.values()).some((x) => x.data.icon === deathMarker)) ||
-		token.document.getFlag("healthEstimate", "dead") ||
-		false
-	);
+	return (NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0) || (showDead && tokenEffectsPath(token)) || token.document.getFlag("healthEstimate", "dead") || false;
 }
 
 /**
