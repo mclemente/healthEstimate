@@ -13,28 +13,21 @@ const tableBlessure = {
 	inconscient: 100,
 };
 
-function betweenZeroAndOne(ratio) {
-	return Math.max(0, Math.min(ratio, 1));
-}
-
 function ratio(node) {
-	return betweenZeroAndOne(node.value / node.max);
+	return Math.clamped(node.value / node.max, 0, 1);
 }
 
 const fraction = function (token) {
-	if (token.actor.type == "vehicule") {
-		return 1;
+	if (token.actor.type === "entite") {
+		return ratio(token.actor.data.data.sante.endurance);
 	}
-	const fatigue = token.actor.data.data.sante?.fatigue ?? missing;
-	const ratioFatigue = 1 - ratio({ value: fatigue.value, max: fatigue.max }) / 2;
+	const ratioFatigue = 1 - ratio(token.actor.data.data.sante?.fatigue ?? missing) / 2;
 	const ratioVie = ratio(token.actor.data.data.sante?.vie ?? missing);
 	const ratioEndurance = 0.4 + ratio(token.actor.data.data.sante?.endurance ?? missing) * 0.6;
 	const ratioBlessure = 1 - ratio(estimationBlessures(token));
 
 	return Math.min(ratioBlessure, ratioEndurance, ratioFatigue, ratioVie);
 };
-
-export { fraction };
 
 function estimationBlessures(token) {
 	if (token.actor.data.data.blessures === undefined) {
@@ -59,3 +52,7 @@ function estimationBlessures(token) {
 		max: tableBlessure.inconscient,
 	};
 }
+
+const breakCondition = `||token.actor.type === "vehicule"`;
+
+export { fraction, breakCondition };
