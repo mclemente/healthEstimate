@@ -22,6 +22,17 @@ export let descriptionToShow = function (descriptions, stage, token, state = { i
 	return descriptions[stage];
 };
 
+/**
+ * Name of the type of a vehicle.
+ * Useful for systems that don't use vehicle as the type's name (e.g. vehicule).
+ * It is used in the descriptions (see utils.js).
+ */
+export let vehicleType = "vehicle";
+
+/**
+ * Path of the token's effects.
+ * Useful for systems that change how it is handled (e.g. DSA5).
+ */
 export function tokenEffectsPath(token) {
 	return Array.from(token.actor.effects.values()).some((x) => x.data.icon === deathMarker);
 }
@@ -100,6 +111,9 @@ export function prepareSystemSpecifics() {
 			}
 			if (currentSystem.tokenEffects !== undefined) {
 				tokenEffectsPath = currentSystem.tokenEffects;
+			}
+			if (currentSystem.vehicleType !== undefined) {
+				vehicleType = currentSystem.vehicleType;
 			}
 			resolve("success");
 		});
