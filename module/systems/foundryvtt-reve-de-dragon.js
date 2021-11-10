@@ -1,4 +1,4 @@
-const missing = { value: 0, max: 1, };
+const missing = { value: 0, max: 1 };
 
 const missingBlessures = {
 	legeres: { list: [] },
@@ -22,11 +22,11 @@ function ratio(node) {
 }
 
 const fraction = function (token) {
-	if (token.actor.type == 'vehicule')	{
+	if (token.actor.type == "vehicule") {
 		return 1;
 	}
 	const fatigue = token.actor.data.data.sante?.fatigue ?? missing;
-	const ratioFatigue = 1 - ratio({value: fatigue.value, max:fatigue.max}) / 2;
+	const ratioFatigue = 1 - ratio({ value: fatigue.value, max: fatigue.max }) / 2;
 	const ratioVie = ratio(token.actor.data.data.sante?.vie ?? missing);
 	const ratioEndurance = 0.4 + ratio(token.actor.data.data.sante?.endurance ?? missing) * 0.6;
 	const ratioBlessure = 1 - ratio(estimationBlessures(token));
@@ -59,5 +59,3 @@ function estimationBlessures(token) {
 		max: tableBlessure.inconscient,
 	};
 }
-
-
