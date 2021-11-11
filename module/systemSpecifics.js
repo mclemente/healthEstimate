@@ -5,6 +5,12 @@ import { deathMarker } from "./logic.js";
 export let fractionFormula;
 export let breakOverlayRender;
 export let systemSpecificSettings = {};
+/**
+ * Name of the type of a vehicle.
+ * Useful for systems that don't use vehicle as the type's name (e.g. vehicule).
+ * It is used in the descriptions (see utils.js).
+ */
+export let vehicleType = "vehicle";
 
 /**
  * Function handling which description to show. Can be overriden by a system-specific implementation
@@ -21,13 +27,6 @@ export let descriptionToShow = function (descriptions, stage, token, state = { i
 	}
 	return descriptions[stage];
 };
-
-/**
- * Name of the type of a vehicle.
- * Useful for systems that don't use vehicle as the type's name (e.g. vehicule).
- * It is used in the descriptions (see utils.js).
- */
-export let vehicleType = "vehicle";
 
 /**
  * Path of the token's effects.
@@ -90,9 +89,11 @@ export function prepareSystemSpecifics() {
 	return new Promise((resolve, reject) => {
 		// prettier-ignore
 		const systems = [
-			"age-system", "alienrpg", "archmage", "band-of-blades", "blades-in-the-dark", "CoC7", "D35E", "dnd5e", "dsa5", "dungeonworld", "fate", "foundryvtt-reve-de-dragon",
-			"lancer", "monsterweek", "numenera", "ose", "pbta", "pf1", "pf2e", "ryuutama", "scum-and-villainy", "shadowrun5e", "starfinder",
-			"starwarsffg", "sw5e", "swade", "symbaroum", "tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
+			"age-system", "alienrpg", "archmage", "band-of-blades", "blades-in-the-dark", "CoC7", "cyberpunk-red-core",
+			"D35E", "dnd5e", "dsa5", "dungeonworld", "fate", , "foundryvtt-reve-de-dragon",
+			"lancer", "monsterweek", "numenera", "ose", "pbta", "pf1", "pf2e", "ryuutama",
+			"scum-and-villainy", "shadowrun5e", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum",
+			"tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
 		];
 		let importString = systems.includes(game.system.id) ? `./systems/${game.system.id}.js` : `./systems/generic.js`;
 		import(importString).then((currentSystem) => {
