@@ -59,7 +59,7 @@
 			"path": "./lang/de.json"
 		}
 	],
-	"minimumCoreVersion": "0.8.4",
+	"minimumCoreVersion": "9",
 	"compatibleCoreVersion": "9",
 	"url": "https://github.com/mclemente/healthEstimate",
 	"manifest": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.json",
