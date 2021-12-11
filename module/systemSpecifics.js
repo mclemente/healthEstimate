@@ -42,7 +42,7 @@ const tempHPSetting = {
 };
 
 let breakConditions = {
-	default: `game.keyboard.isDown('Alt')`,
+	default: `game.keyboard.downKeys.has('Alt')`,
 };
 
 function updateBreakConditions() {
