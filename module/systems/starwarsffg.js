@@ -15,11 +15,11 @@ const settings = () => {
 		},
 		"starfinder.thresholdNames": {
 			type: String,
-			default: t("starfinder.thresholdNames.default").join(", "),
+			default: v8_t("starfinder.thresholdNames.default").join(", "),
 		},
 		"starfinder.vehicleNames": {
 			type: String,
-			default: t("dnd5e.vehicleNames.default").join(", "),
+			default: v8_t("dnd5e.vehicleNames.default").join(", "),
 			hint: t("dnd5e.vehicleNames.hint"),
 		},
 	};

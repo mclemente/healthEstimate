@@ -17,7 +17,7 @@ const settings = () => {
 	return {
 		"starfinder.vehicleNames": {
 			type: String,
-			default: t("starfinder.vehicleNames.default").join(", "),
+			default: v8_t("starfinder.vehicleNames.default").join(", "),
 		},
 	};
 };

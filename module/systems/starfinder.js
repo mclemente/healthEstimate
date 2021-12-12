@@ -47,11 +47,11 @@ const settings = () => {
 		},
 		"starfinder.thresholdNames": {
 			type: String,
-			default: t("starfinder.thresholdNames.default").join(", "),
+			default: v8_t("starfinder.thresholdNames.default").join(", "),
 		},
 		"starfinder.vehicleNames": {
 			type: String,
-			default: t("starfinder.vehicleNames.default").join(", "),
+			default: v8_t("starfinder.vehicleNames.default").join(", "),
 		},
 	};
 };
