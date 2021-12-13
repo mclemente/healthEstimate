@@ -47,6 +47,27 @@ export function t(key) {
 	return game.i18n.localize(`healthEstimate.${key}`);
 }
 
+// localize(stringId) {
+//     let v = foundry.utils.getProperty(this.translations, stringId);
+//     if ( typeof v === "string" ) return v;
+//     v = foundry.utils.getProperty(this._fallback, stringId);
+//     return typeof v === "string" ? v : stringId;
+//   }
+
+/**
+ * Shorthand for localization
+ * v8-ish version that can return Arrays.
+ * @param {string} key
+ * @returns {string}
+ */
+export function v8_t(key) {
+	return (
+		foundry.utils.getProperty(game.i18n.translations, `healthEstimate.${key}`) ||
+		foundry.utils.getProperty(game.i18n._fallback, `healthEstimate.${key}`) ||
+		`healthEstimate.${key}`
+	);
+}
+
 // extracts data from an object, and a string path,
 // it has no depth search limit
 export function getNestedData(data, path) {
