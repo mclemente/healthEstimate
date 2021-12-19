@@ -1,4 +1,4 @@
-import { descriptions, t } from "../utils.js";
+import { descriptions, t, v8_t } from "../utils.js";
 
 const fraction = function (token) {
 	let hp = token.actor.data.data.stats.wounds;

@@ -1,4 +1,4 @@
-import { descriptions, t } from "../utils.js";
+import { descriptions, v8_t } from "../utils.js";
 
 const fraction = function (token) {
 	const type = token.actor.data.type;

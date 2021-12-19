@@ -1,4 +1,4 @@
-import { t } from "../utils.js";
+import { t, v8_t } from "../utils.js";
 
 const fraction = function (token) {
 	const hp = token.actor.data.data.attributes.hp;
