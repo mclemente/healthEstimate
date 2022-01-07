@@ -11,6 +11,73 @@ Hooks.once("init", async function () {
 	Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 		html.append('<template id="healthEstimate"></template>');
 	});
+	game.keybindings.register("healthEstimate", "markDead", {
+		name: game.i18n.localize("healthEstimate.core.keybinds.markDead.name"),
+		hint: game.i18n.localize("healthEstimate.core.keybinds.markDead.hint"),
+		onDown: () => {
+			for (let e of canvas.tokens.controlled) {
+				let hasAlive = !e.document.getFlag("healthEstimate", "dead");
+				e.document.setFlag("healthEstimate", "dead", hasAlive);
+			}
+		},
+		restricted: true,
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
+	game.keybindings.register("healthEstimate", "dontMarkDead", {
+		name: game.i18n.localize("healthEstimate.core.keybinds.dontMarkDead.name"),
+		hint: game.i18n.localize("healthEstimate.core.keybinds.dontMarkDead.hint"),
+		onDown: () => {
+			for (let e of canvas.tokens.controlled) {
+				let hasAlive = !e.document.getFlag("healthEstimate", "treatAsPC");
+				e.document.setFlag("healthEstimate", "treatAsPC", hasAlive);
+			}
+		},
+		restricted: true,
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
+	game.keybindings.register("healthEstimate", "hideEstimates", {
+		name: game.i18n.localize("healthEstimate.core.keybinds.hideEstimates.name"),
+		hint: game.i18n.localize("healthEstimate.core.keybinds.hideEstimates.hint"),
+		onDown: () => {
+			for (let e of canvas.tokens.controlled) {
+				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate");
+				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
+				if (hidden) ui.notifications.info(`${e.actor.data.name}'s health estimate is hidden from players.`);
+				else ui.notifications.info(`${e.actor.data.name}'s health estimate is shown to players.`);
+			}
+		},
+		restricted: true,
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
+	game.keybindings.register("healthEstimate", "hideNames", {
+		name: game.i18n.localize("healthEstimate.core.keybinds.hideNames.name"),
+		hint: game.i18n.localize("healthEstimate.core.keybinds.hideNames.hint"),
+		onDown: () => {
+			for (let e of canvas.tokens.controlled) {
+				let hidden = !e.document.getFlag("healthEstimate", "hideName");
+				e.document.setFlag("healthEstimate", "hideName", hidden);
+				if (hidden) ui.notifications.info(`${e.actor.data.name}'s name is hidden from players.`);
+				else ui.notifications.info(`${e.actor.data.name}'s name is shown to players.`);
+			}
+		},
+		restricted: true,
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
+	game.keybindings.register("healthEstimate", "hideEstimatesAndNames", {
+		name: game.i18n.localize("healthEstimate.core.keybinds.hideEstimatesAndNames.name"),
+		hint: game.i18n.localize("healthEstimate.core.keybinds.hideEstimatesAndNames.hint"),
+		onDown: () => {
+			for (let e of canvas.tokens.controlled) {
+				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate") && !e.document.getFlag("healthEstimate", "hideName");
+				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
+				e.document.setFlag("healthEstimate", "hideName", hidden);
+				if (hidden) ui.notifications.info(`${e.actor.data.name}'s health estimate and name are hidden from players.`);
+				else ui.notifications.info(`${e.actor.data.name}'s health estimate and name are shown to players.`);
+			}
+		},
+		restricted: true,
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
 });
 
 /**

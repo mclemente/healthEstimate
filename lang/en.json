@@ -15,6 +15,28 @@
 					}
 				}
 			},
+			"keybinds": {
+				"markDead": {
+					"name": "Mark as Dead",
+					"hint": "Marks all the selected tokens as Dead. If all the selected tokens are already Dead, they'll be reset to alive."
+				},
+				"dontMarkDead": {
+					"name": "Don't Mark as Dead",
+					"hint": "Makes NPCs to not be shown as Dead when its HP reaches 0 (e.g. it'll show Unconscious). This is only useful if you're \"NPCs die immediately\" setting."
+				},
+				"hideEstimates": {
+					"name": "Hide Estimates",
+					"hint": "Hides the estimates of selected tokens from the players. Hidden estimates will show a \"*\" for the GM."
+				},
+				"hideNames": {
+					"name": "Hide Names",
+					"hint": "Hides the names of selected tokens when you're using the \"Output Estimate to Chat\" setting."
+				},
+				"hideEstimatesAndNames": {
+					"name": "Hide Estimates and Names",
+					"hint": "Hides both the estimates and names of selected tokens."
+				}
+			},
 			"isNow": "is now",
 			"showDescription": {
 				"name": "Show Estimates: Users",
