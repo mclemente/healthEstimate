@@ -7,7 +7,7 @@
 	--healthEstimate-width: 100px;
 }
 
-.healthEstimate {
+#healthEstimate {
 	display: grid;
 	font-size: var(--healthEstimate-text-size);
 	grid-template-columns: 10em;
