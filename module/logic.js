@@ -70,7 +70,12 @@ export function outputStageChange(actors) {
  * @returns {Boolean}
  */
 export function isDead(token, stage) {
-	return (NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0) || (showDead && tokenEffectsPath(token)) || token.document.getFlag("healthEstimate", "dead") || false;
+	return (
+		(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && token.document.getFlag("healthEstimate", "treatAsPC")) ||
+		(showDead && tokenEffectsPath(token)) ||
+		token.document.getFlag("healthEstimate", "dead") ||
+		false
+	);
 }
 
 /**
@@ -265,7 +270,6 @@ export class HealthEstimate {
 		if (!token?.actor) {
 			return;
 		}
-		if (
 		if (breakOverlayRender(token) || (!game.user.isGM && hideEstimate(token))) {
 			return;
 		}
