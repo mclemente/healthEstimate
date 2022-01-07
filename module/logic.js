@@ -116,6 +116,10 @@ export function updateSettings() {
 	document.documentElement.style.setProperty("--healthEstimate-text-size", sGet("core.menuSettings.fontSize"));
 }
 
+function hideEstimate(token) {
+	return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
+}
+
 /**
  * Creates the Overlay with the text on mouse over.
  */
@@ -262,9 +266,7 @@ export class HealthEstimate {
 			return;
 		}
 		if (
-			breakOverlayRender(token) ||
-			(!game.user.isGM && (token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate")))
-		) {
+		if (breakOverlayRender(token) || (!game.user.isGM && hideEstimate(token))) {
 			return;
 		}
 		const width = `${canvas.scene.data.grid * token.data.width}px`;
@@ -303,6 +305,7 @@ export class HealthEstimate {
 			}
 			document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
 			document.documentElement.style.setProperty("--healthEstimate-text-color", color);
+			if (hideEstimate(token)) desc += "*";
 			canvas.hud.HealthEstimate.estimation = { desc };
 		} catch (err) {
 			console.error(`Health Estimate | Error on HealthEstimate._getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.data.type, err);
