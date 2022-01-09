@@ -71,7 +71,7 @@ export function outputStageChange(actors) {
  */
 export function isDead(token, stage) {
 	return (
-		(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && token.document.getFlag("healthEstimate", "treatAsPC")) ||
+		(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "treatAsPC")) ||
 		(showDead && tokenEffectsPath(token)) ||
 		token.document.getFlag("healthEstimate", "dead") ||
 		false
