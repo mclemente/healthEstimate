@@ -1,4 +1,5 @@
 import { t, v8_t } from "../utils.js";
+import { deathMarker } from "../logic.js";
 
 const fraction = function (token) {
 	const hp = token.actor.data.data.attributes.hp;
@@ -66,4 +67,8 @@ const breakCondition = `
 	|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0)
 `;
 
-export { fraction, settings, descriptions, breakCondition };
+const tokenEffects = function (token) {
+	return token.data.overlayEffect === deathMarker;
+};
+
+export { fraction, settings, descriptions, breakCondition, tokenEffects };
