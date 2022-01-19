@@ -56,7 +56,7 @@
 			"stateNames": {
 				"name": "Estágios",
 				"hint": "Uma série de descritores organizados da pior para a melhor condição. A quantidade de descritores não possui limite máximo, o módulo se ajustará a porcentagem de vitalidade para mostrá-los proporcionalmente. Se for necessário um descritor para cobrir uma faixa maior de vitalidade, simplesmente copie-o várias vezes.",
-				"default": ["Inconsciente", "Surrado", "Muito Ferido", "Ferido", "Escoriado", "Ileso"]
+				"default": "Inconsciente, Surrado, Muito Ferido, Ferido, Escoriado, Ileso"
 			},
 			"deathState": {
 				"name": "Condição Morto",
@@ -127,7 +127,7 @@
 		"dnd5e": {
 			"vehicleNames": {
 				"hint": "Descriptions shown for vehicles if \"Use Vehicle Threshold\" is off",
-				"default": ["Wrecked", "Broken", "Battered", "Scratched", "Pristine"]
+				"default": "Wrecked, Broken, Battered, Scratched, Pristine"
 			}
 		},
 		"PF1": {
@@ -164,12 +164,12 @@
 			"thresholdNames": {
 				"name": "Threshold Stages",
 				"hint": "The amount of stages is limited to 3, arranged from worst to best condition",
-				"default": ["Wrecked", "Broken", "Fully Functional"]
+				"default": "Wrecked, Broken, Fully Functional"
 			},
 			"vehicleNames": {
 				"name": "Vehicle Stages",
 				"hint": "Descriptions shown for starships (always), and vehicles (if \"Use Vehicle Threshold\" is off)",
-				"default": ["Wrecked", "Flaming", "Smoking", "Battered", "Scratched", "Pristine"]
+				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			},
 			"addStamina": {
 				"name": "Account for Stamina",

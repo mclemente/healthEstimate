@@ -1,4 +1,4 @@
-import { t, v8_t } from "../utils.js";
+import { t } from "../utils.js";
 import { deathMarker } from "../logic.js";
 
 const fraction = function (token) {
@@ -36,11 +36,11 @@ const settings = () => {
 		},
 		"starfinder.thresholdNames": {
 			type: String,
-			default: v8_t("starfinder.thresholdNames.default").join(", "),
+			default: t("starfinder.thresholdNames.default"),
 		},
 		"starfinder.vehicleNames": {
 			type: String,
-			default: v8_t("dnd5e.vehicleNames.default").join(", "),
+			default: t("dnd5e.vehicleNames.default"),
 			hint: t("dnd5e.vehicleNames.hint"),
 		},
 	};

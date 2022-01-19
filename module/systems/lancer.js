@@ -1,5 +1,3 @@
-import { v8_t } from "../utils.js";
-
 const fraction = (token) => {
 	const data = token.actor.data;
 	const hp = data.data.derived.hp;
@@ -16,7 +14,7 @@ const settings = () => {
 			config: true,
 			scope: "world",
 			type: String,
-			default: v8_t("starfinder.vehicleNames.default").join(", "),
+			default: t("starfinder.vehicleNames.default"),
 		},
 	};
 };

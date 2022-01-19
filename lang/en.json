@@ -13,12 +13,17 @@
 						"0": "(Current HP)/(Max HP)",
 						"1": "(Max HP - Current HP)/(Max HP)"
 					}
-				}
+				},
+				"states": "Custom States"
 			},
 			"keybinds": {
 				"markDead": {
 					"name": "Mark as Dead",
 					"hint": "Marks all the selected tokens as Dead. If all the selected tokens are already Dead, they'll be reset to alive."
+				},
+				"customEstimates": {
+					"name": "Custom Estimates",
+					"hint": "Sets custom estimates for the selected tokens. It will change every selected token to the input value. Leaving it as blank will reset it to the same value as the Stages setting."
 				},
 				"dontMarkDead": {
 					"name": "Don't Mark as Dead",
@@ -56,7 +61,7 @@
 			"stateNames": {
 				"name": "Stages",
 				"hint": "An array of descriptions shown to players, arranged from worst to best possible health.\nThe amount of possible descriptions is not limited, the module will adjust the health percentage to show them proportionally to the amount.\nIf there is a need for one description to cover a higher range of health than others simply copy it several times.",
-				"default": ["Unconscious", "Near Death", "Badly Injured", "Injured", "Barely Injured", "Uninjured"]
+				"default": "Unconscious, Near Death, Badly Injured, Injured, Barely Injured, Uninjured"
 			},
 			"deathState": {
 				"name": "Death State on Condition",
@@ -133,7 +138,7 @@
 		"dnd5e": {
 			"vehicleNames": {
 				"hint": "Descriptions shown for vehicles if \"Use Vehicle Threshold\" is off",
-				"default": ["Wrecked", "Broken", "Battered", "Scratched", "Pristine"]
+				"default": "Wrecked, Broken, Battered, Scratched, Pristine"
 			}
 		},
 		"PF1": {
@@ -170,12 +175,12 @@
 			"thresholdNames": {
 				"name": "Threshold Stages",
 				"hint": "The amount of stages is limited to 3, arranged from worst to best condition",
-				"default": ["Wrecked", "Broken", "Fully Functional"]
+				"default": "Wrecked, Broken, Fully Functional"
 			},
 			"vehicleNames": {
 				"name": "Vehicle Stages",
 				"hint": "Descriptions shown for starships (always), and vehicles (if \"Use Vehicle Threshold\" is off)",
-				"default": ["Wrecked", "Flaming", "Smoking", "Battered", "Scratched", "Pristine"]
+				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			},
 			"addStamina": {
 				"name": "Account for Stamina",

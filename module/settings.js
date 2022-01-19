@@ -1,4 +1,4 @@
-import { t, v8_t } from "./utils.js";
+import { t } from "./utils.js";
 import { updateBreakSettings } from "./systemSpecifics.js";
 import { updateSettings } from "./logic.js";
 import { HealthEstimateStyleSettings } from "./styleSettings.js";
@@ -80,7 +80,7 @@ export const registerSettings = function () {
 	});
 	addSetting("core.stateNames", {
 		type: String,
-		default: v8_t("core.stateNames.default").join(", "),
+		default: t("core.stateNames.default"),
 		onChange: (s) => {
 			updateSettings();
 		},

@@ -1,4 +1,4 @@
-import { descriptions, v8_t } from "../utils.js";
+import { descriptions } from "../utils.js";
 
 const fraction = function (token) {
 	const type = token.actor.data.type;
@@ -47,11 +47,11 @@ const settings = () => {
 		},
 		"starfinder.thresholdNames": {
 			type: String,
-			default: v8_t("starfinder.thresholdNames.default").join(", "),
+			default: t("starfinder.thresholdNames.default"),
 		},
 		"starfinder.vehicleNames": {
 			type: String,
-			default: v8_t("starfinder.vehicleNames.default").join(", "),
+			default: t("starfinder.vehicleNames.default"),
 		},
 	};
 };
