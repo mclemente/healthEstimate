@@ -1,11 +1,8 @@
 import { sGet, sSet, settingData } from "./utils.js";
-import { updateSettings } from "./logic.js";
 
 export class HealthEstimateDeathSettings extends FormApplication {
 	constructor(object, options = {}) {
 		super(object, options);
-		this.gradFn = new Function();
-		this.gradColors = [];
 	}
 
 	/**
