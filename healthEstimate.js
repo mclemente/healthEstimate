@@ -78,6 +78,49 @@ Hooks.once("init", async function () {
 		restricted: true,
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
+	game.keybindings.register("healthEstimate", "customEstimates", {
+		name: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.name"),
+		hint: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.hint"),
+		onDown: (rgs) => {
+			if (!canvas.tokens.controlled.length) {
+				ui.notifications.warn(`You haven't selected any tokens.`);
+				return;
+			}
+
+			const defaultSettings = game.settings.get("healthEstimate", "core.stateNames");
+			const tokenSettings = _token.document.getFlag("healthEstimate", "customStages");
+			const customStages = game.i18n.localize("healthEstimate.core.custom.states");
+
+			new Dialog({
+				title: customStages,
+				content: `${customStages}: <input id="customStages" type="text" value="${tokenSettings || defaultSettings}" />`,
+				buttons: {
+					ok: {
+						label: "OK",
+						callback: (html) => {
+							const value = html.find("input#customStages").val();
+							// ui.notifications.info(`Value: ${value}`);
+							for (let e of canvas.tokens.controlled) {
+								e.document.setFlag("healthEstimate", "customStages", value || defaultSettings);
+							}
+						},
+					},
+					reset: {
+						label: game.i18n.localize("SETTINGS.Reset"),
+						callback: (html) => {
+							for (let e of canvas.tokens.controlled) {
+								e.document.setFlag("healthEstimate", "customStages", defaultSettings);
+							}
+						},
+						icon: `<i class="fas fa-undo"></i>`,
+					},
+				},
+				default: "ok",
+			}).render(true);
+		},
+		restricted: true,
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
 });
 
 /**

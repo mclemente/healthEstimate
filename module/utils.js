@@ -22,12 +22,12 @@ export function isEmpty(string) {
  * @param state
  * @returns {String}
  */
-export let descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
+export let descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction, customStages) {
 	if (state.isDead) {
 		return state.desc;
 	}
 	const type = token.actor.data.type;
-	if (type === vehicleType) {
+	if (type === vehicleType && !customStages) {
 		if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
 			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
 		} else {

@@ -291,15 +291,18 @@ export class HealthEstimate {
 			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
 			let desc, color, stroke;
 
+			const customStages = token.document.getFlag("healthEstimate", "customStages").split(/[,;]\s*/);
+
 			desc = descriptionToShow(
-				descriptions,
+				customStages || descriptions,
 				stage,
 				token,
 				{
 					isDead: isDead(token, stage),
 					desc: deathStateName,
 				},
-				fraction
+				fraction,
+				customStages.length ? true : false
 			);
 			color = colors[colorIndex];
 			stroke = outline[colorIndex];
