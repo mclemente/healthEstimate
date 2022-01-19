@@ -87,8 +87,21 @@ Hooks.once("init", async function () {
 				return;
 			}
 
+			function setFlags(flag) {
+				for (let e of canvas.tokens.controlled) {
+					e.actor.setFlag("healthEstimate", "customStages", flag);
+					e.document.setFlag("healthEstimate", "customStages", flag);
+				}
+			}
+			function unsetFlags() {
+				for (let e of canvas.tokens.controlled) {
+					e.actor.unsetFlag("healthEstimate", "customStages");
+					e.document.unsetFlag("healthEstimate", "customStages");
+				}
+			}
+
 			const defaultSettings = game.settings.get("healthEstimate", "core.stateNames");
-			const tokenSettings = _token.document.getFlag("healthEstimate", "customStages");
+			const tokenSettings = canvas.tokens.controlled[0].document.getFlag("healthEstimate", "customStages");
 			const customStages = game.i18n.localize("healthEstimate.core.custom.states");
 
 			new Dialog({
@@ -99,23 +112,17 @@ Hooks.once("init", async function () {
 						label: "OK",
 						callback: (html) => {
 							const value = html.find("input#customStages").val();
-							// ui.notifications.info(`Value: ${value}`);
-							for (let e of canvas.tokens.controlled) {
-								e.document.setFlag("healthEstimate", "customStages", value || defaultSettings);
-							}
+							if (value) setFlags(value);
+							else unsetFlags();
 						},
 					},
 					reset: {
 						label: game.i18n.localize("SETTINGS.Reset"),
-						callback: (html) => {
-							for (let e of canvas.tokens.controlled) {
-								e.document.setFlag("healthEstimate", "customStages", defaultSettings);
-							}
-						},
+						callback: () => unsetFlags(),
 						icon: `<i class="fas fa-undo"></i>`,
 					},
 				},
-				default: "ok",
+				default: "OK",
 			}).render(true);
 		},
 		restricted: true,
@@ -144,7 +151,9 @@ Hooks.on("canvasReady", function () {
 	getCharacters(tokens);
 });
 
-Hooks.on("createToken", function () {
+Hooks.on("createToken", function (tokenDocument, options, userId) {
+	const customStages = tokenDocument.actor.getFlag("healthEstimate", "customStages");
+	if (customStages?.length) tokenDocument.setFlag("healthEstimate", "customStages", customStages);
 	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
 	getCharacters(tokens);
 });
