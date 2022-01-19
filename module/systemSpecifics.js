@@ -42,7 +42,7 @@ const tempHPSetting = {
 };
 
 let breakConditions = {
-	default: `game.keyboard.downKeys.has('Alt')`,
+	default: `game.keyboard.downKeys.has('AltLeft') || game.keyboard.downKeys.has('AltRight')`,
 };
 
 function updateBreakConditions() {
@@ -105,7 +105,7 @@ export function prepareSystemSpecifics() {
 				}
 			}
 			if (currentSystem.breakCondition !== undefined) {
-				breakConditions["system"] = currentSystem.breakCondition;
+				breakConditions.system = currentSystem.breakCondition;
 			}
 			if (currentSystem.descriptions !== undefined) {
 				descriptionToShow = currentSystem.descriptions;
