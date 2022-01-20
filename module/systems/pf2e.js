@@ -15,6 +15,11 @@ const fraction = function (token) {
 	if (token.actor.data.type === "loot") {
 		return;
 	}
+	if (game.settings.get("pf2e", "staminaVariant") && token.actor.data.data.attributes.sp) {
+		const sp = token.actor.data.data.attributes.sp;
+		hp.value += sp.value;
+		hp.max += sp.max;
+	}
 	if (game.settings.get("healthEstimate", "core.addTemp") && token.actor.data.type === "character") {
 		temp = hp.temp;
 	}
