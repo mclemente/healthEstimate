@@ -7,9 +7,9 @@ const missingBlessures = {
 };
 
 const tableBlessure = {
-	legere: [0, 20, 40, 50, 60, 70],
-	grave: [0, 60, 75],
-	critique: [0, 95],
+	legere: [0, 10, 20, 30, 40, 50],
+	grave: [0, 60, 70],
+	critique: [0, 90],
 	inconscient: 100,
 };
 
