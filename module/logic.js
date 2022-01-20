@@ -291,10 +291,11 @@ export class HealthEstimate {
 			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
 			let desc, color, stroke;
 
-			const customStages = token.document.getFlag("healthEstimate", "customStages").split(/[,;]\s*/);
+			let customStages = token.document.getFlag("healthEstimate", "customStages") || [];
+			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
 
 			desc = descriptionToShow(
-				customStages || descriptions,
+				customStages.length ? customStages : descriptions,
 				stage,
 				token,
 				{
