@@ -3,12 +3,12 @@
 		"core": {
 			"custom": {
 				"FractionHP": {
-					"name": "Hit Points Attribute",
-					"hint": "Your system isn't officially supported, so it might be using a different attribute the standard. Only change this if the estimate isn't showing and you know what you're doing."
+					"name": "Hit Points Attribute Data Path",
+					"hint": "Your system might be using another data path. If the estimate isn't showing correctly, input the data path to the correct attribute (e.g. actor.data.data.health)."
 				},
 				"FractionMath": {
 					"name": "Fraction Equation",
-					"hint": "Your system isn't officially supported, so choose the equation used to estimate the health fraction.",
+					"hint": "Your system's HP equation might be different than the default, choose the equation used to estimate the health fraction.",
 					"choices": {
 						"0": "(Current HP)/(Max HP)",
 						"1": "(Max HP - Current HP)/(Max HP)"
