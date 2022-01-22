@@ -92,8 +92,9 @@ function getFraction(token) {
  * @param {Number} fraction
  * @returns {Number}
  */
-function getStage(fraction) {
-	return Math.max(0, perfectionism ? Math.ceil((descriptions.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((descriptions.length - 1) * fraction));
+function getStage(fraction, customStages = []) {
+	const desc = customStages?.length ? customStages : descriptions;
+	return Math.max(0, perfectionism ? Math.ceil((desc.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((desc.length - 1) * fraction));
 }
 
 /**
@@ -287,12 +288,11 @@ export class HealthEstimate {
 	_getEstimation(token) {
 		try {
 			const fraction = getFraction(token);
-			const stage = getStage(fraction);
+			let customStages = token.document.getFlag("healthEstimate", "customStages") || "";
+			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
+			const stage = getStage(fraction, customStages || []);
 			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
 			let desc, color, stroke;
-
-			let customStages = token.document.getFlag("healthEstimate", "customStages") || [];
-			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
 
 			desc = descriptionToShow(
 				customStages.length ? customStages : descriptions,
