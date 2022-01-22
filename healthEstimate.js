@@ -1,5 +1,4 @@
 import { registerSettings } from "./module/settings.js";
-import { preloadTemplates } from "./module/preloadTemplates.js";
 import { prepareSystemSpecifics } from "./module/systemSpecifics.js";
 import { HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
 
@@ -7,7 +6,6 @@ import { HealthEstimate, getCharacters, outputChat, outputStageChange, updateSet
  * Preload templates and add it template to the HUD
  */
 Hooks.once("init", async function () {
-	await preloadTemplates();
 	Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 		html.append('<template id="healthEstimate"></template>');
 	});
@@ -128,6 +126,10 @@ Hooks.once("init", async function () {
 		restricted: true,
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
+	return loadTemplates([
+		// Add paths to "modules/healthEstimate/templates"
+		"modules/healthEstimate/templates/healthEstimate.hbs",
+	]);
 });
 
 /**
