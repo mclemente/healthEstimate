@@ -10,8 +10,8 @@ Hooks.once("init", async function () {
 		html.append('<template id="healthEstimate"></template>');
 	});
 	game.keybindings.register("healthEstimate", "markDead", {
-		name: game.i18n.localize("healthEstimate.core.keybinds.markDead.name"),
-		hint: game.i18n.localize("healthEstimate.core.keybinds.markDead.hint"),
+		name: "healthEstimate.core.keybinds.markDead.name",
+		hint: "healthEstimate.core.keybinds.markDead.hint",
 		onDown: () => {
 			for (let e of canvas.tokens.controlled) {
 				let hasAlive = !e.document.getFlag("healthEstimate", "dead");
@@ -22,8 +22,8 @@ Hooks.once("init", async function () {
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
 	game.keybindings.register("healthEstimate", "dontMarkDead", {
-		name: game.i18n.localize("healthEstimate.core.keybinds.dontMarkDead.name"),
-		hint: game.i18n.localize("healthEstimate.core.keybinds.dontMarkDead.hint"),
+		name: "healthEstimate.core.keybinds.dontMarkDead.name",
+		hint: "healthEstimate.core.keybinds.dontMarkDead.hint",
 		onDown: () => {
 			for (let e of canvas.tokens.controlled) {
 				let hasAlive = !e.document.getFlag("healthEstimate", "treatAsPC");
@@ -34,8 +34,8 @@ Hooks.once("init", async function () {
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
 	game.keybindings.register("healthEstimate", "hideEstimates", {
-		name: game.i18n.localize("healthEstimate.core.keybinds.hideEstimates.name"),
-		hint: game.i18n.localize("healthEstimate.core.keybinds.hideEstimates.hint"),
+		name: "healthEstimate.core.keybinds.hideEstimates.name",
+		hint: "healthEstimate.core.keybinds.hideEstimates.hint",
 		onDown: () => {
 			for (let e of canvas.tokens.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate");
@@ -48,8 +48,8 @@ Hooks.once("init", async function () {
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
 	game.keybindings.register("healthEstimate", "hideNames", {
-		name: game.i18n.localize("healthEstimate.core.keybinds.hideNames.name"),
-		hint: game.i18n.localize("healthEstimate.core.keybinds.hideNames.hint"),
+		name: "healthEstimate.core.keybinds.hideNames.name",
+		hint: "healthEstimate.core.keybinds.hideNames.hint",
 		onDown: () => {
 			for (let e of canvas.tokens.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideName");
@@ -62,8 +62,8 @@ Hooks.once("init", async function () {
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
 	game.keybindings.register("healthEstimate", "hideEstimatesAndNames", {
-		name: game.i18n.localize("healthEstimate.core.keybinds.hideEstimatesAndNames.name"),
-		hint: game.i18n.localize("healthEstimate.core.keybinds.hideEstimatesAndNames.hint"),
+		name: "healthEstimate.core.keybinds.hideEstimatesAndNames.name",
+		hint: "healthEstimate.core.keybinds.hideEstimatesAndNames.hint",
 		onDown: () => {
 			for (let e of canvas.tokens.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate") && !e.document.getFlag("healthEstimate", "hideName");
@@ -77,50 +77,55 @@ Hooks.once("init", async function () {
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
 	game.keybindings.register("healthEstimate", "customEstimates", {
-		name: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.name"),
-		hint: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.hint"),
+		name: "healthEstimate.core.keybinds.customEstimates.name",
+		hint: "healthEstimate.core.keybinds.customEstimates.hint",
 		onDown: (rgs) => {
 			if (!canvas.tokens.controlled.length) {
 				ui.notifications.warn(`You haven't selected any tokens.`);
 				return;
 			}
 
-			function setFlags(flag) {
+			function setFlags(flag, changeActors = false) {
 				for (let e of canvas.tokens.controlled) {
-					e.actor.setFlag("healthEstimate", "customStages", flag);
+					if (changeActors) e.actor.setFlag("healthEstimate", "customStages", flag);
 					e.document.setFlag("healthEstimate", "customStages", flag);
 				}
 			}
-			function unsetFlags() {
+			function unsetFlags(changeActors = false) {
 				for (let e of canvas.tokens.controlled) {
-					e.actor.unsetFlag("healthEstimate", "customStages");
+					if (changeActors) e.actor.unsetFlag("healthEstimate", "customStages");
 					e.document.unsetFlag("healthEstimate", "customStages");
 				}
 			}
 
 			const defaultSettings = game.settings.get("healthEstimate", "core.stateNames");
 			const tokenSettings = canvas.tokens.controlled[0].document.getFlag("healthEstimate", "customStages");
-			const customStages = game.i18n.localize("healthEstimate.core.custom.states");
 
 			new Dialog({
-				title: customStages,
-				content: `${customStages}: <input id="customStages" type="text" value="${tokenSettings || defaultSettings}" />`,
+				title: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.name"),
+				content: `
+				Stages: <input id="defaultStages" type="text" disabled value="${defaultSettings}" />
+				<p>Custom Stages: <input id="customStages" type="text" value="${tokenSettings || defaultSettings}" />
+				`,
 				buttons: {
-					ok: {
-						label: "OK",
+					affectActors: {
+						label: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.options.1"),
+						callback: (html) => {
+							const value = html.find("input#customStages").val();
+							if (value) setFlags(value, true);
+							else unsetFlags(true);
+						},
+					},
+					affectTokens: {
+						label: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.options.2"),
 						callback: (html) => {
 							const value = html.find("input#customStages").val();
 							if (value) setFlags(value);
 							else unsetFlags();
 						},
 					},
-					reset: {
-						label: game.i18n.localize("SETTINGS.Reset"),
-						callback: () => unsetFlags(),
-						icon: `<i class="fas fa-undo"></i>`,
-					},
 				},
-				default: "OK",
+				default: "affectActors",
 			}).render(true);
 		},
 		restricted: true,
