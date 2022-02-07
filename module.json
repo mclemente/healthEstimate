@@ -13,7 +13,7 @@
 			"label": "Health Estimate Macros",
 			"path": "./packs/macros.db",
 			"module": "healthEstimate",
-			"entity": "Macro",
+			"type": "Macro",
 			"private": true
 		}
 	],
