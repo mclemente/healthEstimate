@@ -16,7 +16,7 @@ const fraction = function (token) {
 		return;
 	}
 	let sp = { value: 0, max: 0 };
-	if (game.settings.get("pf2e", "staminaVariant") && token.actor.data.data.attributes.sp) {
+	if (game.settings.get("pf2e", "staminaVariant") && game.settings.get("healthEstimate", "PF2E.staminaToHp") && token.actor.data.data.attributes.sp) {
 		sp = token.actor.data.data.attributes.sp;
 	}
 	if (game.settings.get("healthEstimate", "core.addTemp") && token.actor.data.type === "character") {
@@ -46,6 +46,10 @@ const settings = () => {
 			type: String,
 			default: t("dnd5e.vehicleNames.default"),
 			hint: t("dnd5e.vehicleNames.hint"),
+		},
+		"PF2E.staminaToHp": {
+			type: Boolean,
+			default: true,
 		},
 	};
 };

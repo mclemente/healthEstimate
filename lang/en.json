@@ -164,6 +164,12 @@
 				"default": "Dying"
 			}
 		},
+		"PF2E": {
+			"staminaToHp": {
+				"name": "Stamina to Estimate",
+				"hint": "Add Stamina Points to the estimate."
+			}
+		},
 		"numenera": {
 			"countPools": {
 				"name": "Count Empty Pools",
