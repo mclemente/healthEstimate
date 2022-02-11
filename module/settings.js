@@ -5,7 +5,7 @@ import { HealthEstimateStyleSettings } from "./styleSettings.js";
 import { HealthEstimateDeathSettings } from "./deathSettings.js";
 
 /**
- * Shorthand for addSetting.
+ * Shorthand for game.settings.register().
  * Default data: {scope: "world", config: true}
  * @function addSetting
  * @param {string} key
