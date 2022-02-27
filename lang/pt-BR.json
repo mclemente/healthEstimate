@@ -20,13 +20,21 @@
 					"name": "Marcar como Morto",
 					"hint": "Marca todos os tokens selecionados como Mortos. Se todos os tokens selecionados já estiverem mortos, eles serão redefinidos como vivos."
 				},
+				"customEstimates": {
+					"name": "Estimativas Personalizadas",
+					"hint": "Define estimativas personalizadas para os tokens selecionados. Mudará cada token selecionado para o valor de entrada. Deixá-lo em branco irá redefini-lo para o mesmo valor da configuração de Estágios.",
+					"options": {
+						"1": "Tokens e Atores",
+						"2": "Somente Tokens"
+					}
+				},
 				"dontMarkDead": {
 					"name": "Não Marcar como Morto",
-					"hint": "Faz com que NPCs não sejam mostrados como Morto quando seu HP chegar a 0 (por exemplo, ele mostrará Inconsciente). Isso só é útil se você usar a configuração \"NPCs morrem imediatamente\"."
+					"hint": "Faz com que PNJs não sejam mostrados como Morto quando seus PV chegarem a 0 (por exemplo, ele mostrará Inconsciente). Isso só é útil se você usar a configuração \"PNJs morrem imediatamente\"."
 				},
 				"hideEstimates": {
 					"name": "Ocultar Estimativas",
-					"hint": "Oculta as estimativas de tokens selecionados para os jogadores. Estimativas ocultas mostrarão um \"*\" para o Mestre."
+					"hint": "Oculta as estimativas de tokens selecionados para os jogadores. Estimativas ocultas mostrarão um \"*\" para o MJ."
 				},
 				"hideNames": {
 					"name": "Ocultar Nomes",
@@ -45,8 +53,8 @@
 					"all": "Todos",
 					"GM": "Mestres",
 					"Players": "Jogadores",
-					"NPC": "Personagens do Mestre",
-					"PC": "Personagem de Jogador"
+					"NPC": "Personagens Não Jogadores",
+					"PC": "Personagens Jogadores"
 				}
 			},
 			"showDescriptionTokenType": {
@@ -56,15 +64,15 @@
 			"stateNames": {
 				"name": "Estágios",
 				"hint": "Uma série de descritores organizados da pior para a melhor condição. A quantidade de descritores não possui limite máximo, o módulo se ajustará a porcentagem de vitalidade para mostrá-los proporcionalmente. Se for necessário um descritor para cobrir uma faixa maior de vitalidade, simplesmente copie-o várias vezes.",
-				"default": "Inconsciente, Surrado, Muito Ferido, Ferido, Escoriado, Ileso"
+				"default": "Inconsciente, Quase Morto, Gravemente Ferido, Ferido, Escoriado, Ileso"
 			},
 			"deathState": {
 				"name": "Condição Morto",
 				"hint": "Mostra o token como morto quando afetado por qualquer condição que use o ícone da opção Marcador de morte. Funciona independentemente da macro."
 			},
 			"deathStateName": {
-				"name": "Descritor de morte",
-				"hint": "O descritor mostrado quando o personagem está morto. A aba Pacotes de Compêndio possui uma macro para marcar tokens como mortos.",
+				"name": "Descrição de Morte",
+				"hint": "A descrição mostrada aos jogadores quando o token está morto. A aba Pacotes de Compêndio possui uma macro para marcar tokens como mortos.",
 				"default": "Morto"
 			},
 			"deathMarker": {
@@ -72,8 +80,8 @@
 				"hint": "O caminho para o ícone que marca os tokens com a Condição Morto."
 			},
 			"NPCsJustDie": {
-				"name": "NPCs morrem imediatamente",
-				"hint": "O último estágio de NPCs é substituído pelo Descritor de morte."
+				"name": "PNJs morrem imediatamente",
+				"hint": "O último estágio de PNJs é substituído pela Descrição de Morte."
 			},
 			"perfectionism": {
 				"name": "Perfeccionismo",
@@ -84,11 +92,11 @@
 				"hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro de Hide Character aparecem como \"Entitidade Desconhecida\"."
 			},
 			"addTemp": {
-				"name": "Adicionar pontos de vida temporários",
+				"name": "Adicionar Pontos de Vida Temporários",
 				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra. Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Ocultar descritor de tokens com 0 PV máximo",
+				"name": "Ocultar em tokens com 0 PV máximos",
 				"hint": "Útil para tokens de objetos."
 			},
 			"menuSettings": {
@@ -101,11 +109,11 @@
 					"hint": "Isso não afetará as configurações abaixo, mas com a caixa de seleção desativada, os descritores serão mostrados em preto e branco."
 				},
 				"smoothGradient": {
-					"name": "Gradiente suave",
+					"name": "Gradiente Suave",
 					"hint": "Com esta configuração ligada, a cor refletirá a mudança gradual da vitalidade. Caso esteja desmarcada, ela só mudará quando o próximo descritor for alcançado."
 				},
 				"deadColor": {
-					"name": "Cor dos descritores em personagens mortos"
+					"name": "Cor dos tokens mortos"
 				},
 				"outline": {
 					"name": "Contorno",
@@ -124,10 +132,17 @@
 				}
 			}
 		},
+		"cyberpunk-red-core": {
+			"useSystemStates": {
+				"name": "Use Wound States",
+				"hint": "Ignores the Stages setting and uses the Cyberpunk RED Core's wound states."
+			}
+		},
 		"dnd5e": {
 			"vehicleNames": {
-				"hint": "Descriptions shown for vehicles if \"Use Vehicle Threshold\" is off",
-				"default": "Wrecked, Broken, Battered, Scratched, Pristine"
+				"name": "Estágios de Veículos",
+				"hint": "Descrições exibidas para veículos se \"Usar Limiar do Veículo\" estiver desativado",
+				"default": "Destruído, Quebrado, Maltratado, Arranhado, Impecável"
 			}
 		},
 		"PF1": {
@@ -150,6 +165,12 @@
 				"default": "Dying"
 			}
 		},
+		"PF2E": {
+			"staminaToHp": {
+				"name": "Stamina to Estimate",
+				"hint": "Add Stamina Points to the estimate."
+			}
+		},
 		"numenera": {
 			"countPools": {
 				"name": "Count Empty Pools",
@@ -158,16 +179,16 @@
 		},
 		"starfinder": {
 			"useThreshold": {
-				"name": "Use Vehicle Threshold",
-				"hint": "If this setting is on, the \"Threshold Stages\" descriptions will be used for vehicles above threshold, below it, and at 0 HP respectively."
+				"name": "Usar Limiar do Veículo",
+				"hint": "Se esta configuração estiver ativada, as descrições de \"Estágios de Veículos\" serão usadas para veículos acima do limiar, abaixo dele e com 0 PV, respectivamente."
 			},
 			"thresholdNames": {
-				"name": "Threshold Stages",
-				"hint": "The amount of stages is limited to 3, arranged from worst to best condition",
-				"default": "Wrecked, Broken, Fully Functional"
+				"name": "Estágios de Limiar",
+				"hint": "A quantidade de estágios é limitada a 3, organizadas da pior para a melhor condição",
+				"default": "Destruído, Quebrado, Totalmente Funcional"
 			},
 			"vehicleNames": {
-				"name": "Vehicle Stages",
+				"name": "Estágios de Veículos",
 				"hint": "Descriptions shown for starships (always), and vehicles (if \"Use Vehicle Threshold\" is off)",
 				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			},
