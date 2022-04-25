@@ -6,4 +6,7 @@ const fraction = function (token) {
 	return 0;
 };
 
-export { fraction };
+const breakCondition = `
+	|| token.actor.data.type === 'container'`;
+
+export { fraction, breakCondition };
