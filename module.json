@@ -61,7 +61,7 @@
 	],
 	"minimumCoreVersion": "9",
 	"compatibleCoreVersion": "9",
-	"url": "https://github.com/mclemente/healthEstimate",
+	"url": "https://github.com/DarthBanjo/healthEstimate",
 	"manifest": "https://raw.githubusercontent.com/DarthBanjo/healthEstimate/master/module.json",
 	"download": "https://github.com/DarthBanjo/healthEstimate/archive/refs/heads/master.zip",
 	"license": "https://choosealicense.com/licenses/mit/",
