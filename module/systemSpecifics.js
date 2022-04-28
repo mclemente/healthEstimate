@@ -11,7 +11,7 @@ export let systemSpecificSettings = {};
  * It is used in the descriptions (see utils.js).
  */
 export let vehicleType = "vehicle";
-
+export let starshipType = "starship";
 /**
  * Function handling which description to show. Can be overriden by a system-specific implementation
  * @param {String[]} descriptions
@@ -91,7 +91,7 @@ export function prepareSystemSpecifics() {
 		const systems = [
 			"age-system", "alienrpg", "archmage", "band-of-blades", "blades-in-the-dark", "CoC7", "cyberpunk-red-core",
 			"D35E", "dnd5e", "ds4", "dsa5", "dungeonworld", "fate", , "foundryvtt-reve-de-dragon",
-			"lancer", "monsterweek", "numenera", "ose", "pbta", "pf1", "pf2e", "ryuutama",
+			"lancer", "monsterweek", "numenera", "ose", "od6s", "pbta", "pf1", "pf2e", "ryuutama",
 			"scum-and-villainy", "shadowrun5e", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum",
 			"tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
 		];
