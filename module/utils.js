@@ -1,4 +1,4 @@
-import { vehicleType } from "./systemSpecifics.js";
+import { vehicleType, starshipType } from "./systemSpecifics.js";
 
 export const REG = {
 	// searches if the string is one path
@@ -28,6 +28,14 @@ export let descriptions = function (descriptions, stage, token, state = { isDead
 	}
 	const type = token.actor.data.type;
 	if (type === vehicleType && !customStages) {
+		if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
+		} else {
+			descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
+		}
+		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
+	}
+	if (type === starshipType && !customStages) {
 		if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
 			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
 		} else {
