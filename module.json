@@ -61,9 +61,9 @@
 	],
 	"minimumCoreVersion": "9",
 	"compatibleCoreVersion": "9",
-	"url": "https://github.com/DarthBanjo/healthEstimate",
-	"manifest": "https://raw.githubusercontent.com/DarthBanjo/healthEstimate/master/module.json",
-	"download": "https://github.com/DarthBanjo/healthEstimate/archive/refs/heads/master.zip",
+	"url": "https://github.com/mclemente/healthEstimate",
+	"manifest": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.json",
+	"download": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.zip",
 	"license": "https://choosealicense.com/licenses/mit/",
 	"bugs": "https://github.com/mclemente/healthEstimate/issues",
 	"allowBugReporter": true
