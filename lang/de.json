@@ -17,7 +17,7 @@
 			},
 			"isNow": "ist jetzt",
 			"showDescription": {
-				"name": "Zeige SChätzung: Benutzer",
+				"name": "Zeige Schätzung: Benutzer",
 				"hint": "Zeige die Schätzungen der folgenden Benutzer.",
 				"choices": {
 					"all": "Alle",
@@ -156,7 +156,7 @@
 		},
 		"worldbuilding": {
 			"simpleRule": {
-				"name": "SChätzungs-Regel",
+				"name": "Schätzungs-Regel",
 				"hint": "Die JS-Formel für die Berechnung der Token-Schätzung. Verändere sie mit Vorsicht! Standardmäßig wird eine abnehmende Gesundheit angenommen, bspw. startest du mit 10/10 HP und gehst bis 0/10 HP herunter, sobald du Schaden nimmst.",
 				"default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
 			}
