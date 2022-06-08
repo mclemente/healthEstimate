@@ -93,7 +93,7 @@ export function prepareSystemSpecifics() {
 			"D35E", "dnd5e", "ds4", "dsa5", "dungeonworld", "fate", , "foundryvtt-reve-de-dragon",
 			"lancer", "monsterweek", "numenera", "ose", "od6s", "pbta", "pf1", "pf2e", "ryuutama",
 			"scum-and-villainy", "shadowrun5e", "splittermond", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum",
-			"tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
+			"tor2e","tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
 		];
 		let importString = systems.includes(game.system.id) ? `./systems/${game.system.id}.js` : `./systems/generic.js`;
 		import(importString).then((currentSystem) => {
