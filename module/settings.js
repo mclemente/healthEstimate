@@ -3,6 +3,7 @@ import { updateBreakSettings } from "./systemSpecifics.js";
 import { updateSettings } from "./logic.js";
 import { HealthEstimateStyleSettings } from "./styleSettings.js";
 import { HealthEstimateDeathSettings } from "./deathSettings.js";
+import { injectConfig } from "./injectConfig.js";
 
 /**
  * Shorthand for game.settings.register().
@@ -414,3 +415,47 @@ export const registerSettings = function () {
 		default: "#340000",
 	});
 };
+
+/**
+ * Handler called when token configuration window is opened. Injects custom form html and deals
+ * with updating token.
+ * @category GMOnly
+ * @function
+ * @async
+ * @param {TokenConfig} tokenConfig
+ * @param {JQuery} html
+ */
+export async function renderTokenConfigHandler(tokenConfig, html) {
+	injectConfig.inject(
+		tokenConfig,
+		html,
+		{
+			moduleId: "healthEstimate",
+			tab: {
+				name: "healthEstimate",
+				label: "Health Estimate",
+				icon: "fas fa-hand-pointer fa-fw",
+			},
+		},
+		tokenConfig.object
+	);
+	const posTab = html.find('.tab[data-tab="healthEstimate"]');
+
+	if (tokenConfig.options.sheetConfig) {
+		var hideHealthEstimate = tokenConfig.object.getFlag("healthEstimate", "hideHealthEstimate") ? "checked" : "";
+		var hideName = tokenConfig.object.getFlag("healthEstimate", "hideName") ? "checked" : "";
+		var dontMarkDead = tokenConfig.object.getFlag("healthEstimate", "dontMarkDead") ? "checked" : "";
+	} else {
+		hideHealthEstimate = tokenConfig.token.getFlag("healthEstimate", "hideHealthEstimate") ? "checked" : "";
+		hideName = tokenConfig.token.getFlag("healthEstimate", "hideName") ? "checked" : "";
+		dontMarkDead = tokenConfig.token.getFlag("healthEstimate", "dontMarkDead") ? "checked" : "";
+	}
+	let data = {
+		hideHealthEstimate: hideHealthEstimate,
+		hideName: hideName,
+		dontMarkDead: dontMarkDead,
+	};
+
+	const insertHTML = await renderTemplate("modules/healthEstimate/templates/token-config.html", data);
+	posTab.append(insertHTML);
+}

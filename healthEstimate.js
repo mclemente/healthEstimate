@@ -1,4 +1,4 @@
-import { registerSettings } from "./module/settings.js";
+import { registerSettings, renderTokenConfigHandler } from "./module/settings.js";
 import { prepareSystemSpecifics } from "./module/systemSpecifics.js";
 import { HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
 
@@ -218,3 +218,5 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 		// html.find(".message-metadata")[0].style.display = "none";
 	}
 });
+
+Hooks.on("renderTokenConfig", renderTokenConfigHandler);

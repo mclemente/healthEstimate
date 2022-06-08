@@ -21,6 +21,7 @@ This project uses [chroma.js](https://github.com/gka/chroma.js) library released
 This module is a fork of [Health Estimate](https://github.com/Shylight/healthEstimate), by Shylight, released under the MIT License.  
 This module uses code of [Health Monitor](https://github.com/rockshow888/health-monitor), by rockshow888, released under the MIT License.
 This module uses code of [Token Tooltip Alt](https://github.com/bmarian/token-tooltip-alt/), by bmarian, released under the MIT License.
+theripper93 for [injectConfig](https://github.com/theripper93/injectConfig) library.
 
 ## License
 
