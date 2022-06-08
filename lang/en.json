@@ -30,7 +30,7 @@
 				},
 				"dontMarkDead": {
 					"name": "Don't Mark as Dead",
-					"hint": "Makes NPCs to not be shown as Dead when its HP reaches 0 (e.g. it'll show Unconscious). This is only useful if you're \"NPCs die immediately\" setting."
+					"hint": "Makes NPCs to not be shown as Dead when its HP reaches 0 (e.g. it'll show Unconscious). This is only useful if you're using the \"NPCs die immediately\" setting."
 				},
 				"hideEstimates": {
 					"name": "Hide Estimates",
