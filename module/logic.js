@@ -12,9 +12,9 @@ export function getCharacters(actors) {
 			const fraction = getFraction(actor);
 			if (typeof fraction != "number" || isNaN(fraction)) continue;
 			const stage = getStage(fraction);
-			current_hp_actor[actor.data._id] = { name: actor.document.data.name || actor.name, stage: stage, dead: isDead(actor, stage) };
+			current_hp_actor[actor.id] = { name: actor.document.name || actor.name, stage: stage, dead: isDead(actor, stage) };
 		} catch (err) {
-			console.error(`Health Estimate | Error on getCharacters(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.data.type, err);
+			console.error(`Health Estimate | Error on getCharacters(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.type, err);
 		}
 	}
 }
@@ -22,18 +22,18 @@ export function getCharacters(actors) {
 export function outputStageChange(actors) {
 	for (let actor of actors) {
 		if (breakOverlayRender(actor)) continue;
-		if (!(actor.data._id in current_hp_actor)) continue;
+		if (!(actor.id in current_hp_actor)) continue;
 		try {
 			const fraction = getFraction(actor);
 			const stage = getStage(fraction);
 			const dead = isDead(actor, stage);
-			if (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead) {
-				let name = current_hp_actor[actor.data._id].name;
-				if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.data.displayName == 0) {
+			if (stage != current_hp_actor[actor.id].stage || dead != current_hp_actor[actor.id].dead) {
+				let name = current_hp_actor[actor.id].name;
+				if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.document.displayName == 0) {
 					name = "Unknown entity";
 				}
 				let css = "<span class='hm_messagetaken'>";
-				if (stage > current_hp_actor[actor.data._id].stage) {
+				if (stage > current_hp_actor[actor.id].stage) {
 					css = "<span class='hm_messageheal'>";
 				}
 				let desc = descriptionToShow(
@@ -50,11 +50,11 @@ export function outputStageChange(actors) {
 					content: css + name + " " + t("core.isNow") + " " + desc + ".</span>",
 				};
 				ChatMessage.create(chatData, {});
-				current_hp_actor[actor.data._id].stage = stage;
-				current_hp_actor[actor.data._id].dead = dead;
+				current_hp_actor[actor.id].stage = stage;
+				current_hp_actor[actor.id].dead = dead;
 			}
 		} catch (err) {
-			console.error(`Health Estimate | Error on outputStageChange(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.data.type, err);
+			console.error(`Health Estimate | Error on outputStageChange(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.type, err);
 		}
 	}
 }
@@ -197,6 +197,8 @@ class HealthEstimateOverlay extends BasePlaceableHUD {
 			this._injectHTML(html);
 		}
 
+		if (!this.popOut && this.options.resizable) new Draggable(this, html, false, this.options.resizable);
+
 		// Activate event listeners on the inner HTML
 		this._activateCoreListeners(inner);
 		this.activateListeners(inner);
@@ -260,7 +262,7 @@ export class HealthEstimate {
 
 		Hooks.on("updateToken", (scene, token, ...args) => {
 			if (canvas.hud.HealthEstimate !== undefined && canvas.hud.HealthEstimate.object) {
-				if (token._id === canvas.hud.HealthEstimate.object.id) {
+				if (token.id === canvas.hud.HealthEstimate.object.id) {
 					canvas.hud.HealthEstimate.clear();
 				}
 			}
@@ -274,7 +276,7 @@ export class HealthEstimate {
 		if (breakOverlayRender(token) || (!game.user.isGM && hideEstimate(token))) {
 			return;
 		}
-		const width = `${canvas.scene.data.grid * token.data.width}px`;
+		const width = `${canvas.scene.grid.size * token.document.width}px`;
 		document.documentElement.style.setProperty("--healthEstimate-width", width);
 
 		if (hovered) {
@@ -316,7 +318,7 @@ export class HealthEstimate {
 			if (hideEstimate(token)) desc += "*";
 			canvas.hud.HealthEstimate.estimation = { desc };
 		} catch (err) {
-			console.error(`Health Estimate | Error on HealthEstimate._getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.data.type, err);
+			console.error(`Health Estimate | Error on HealthEstimate._getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.type, err);
 		}
 	}
 }
