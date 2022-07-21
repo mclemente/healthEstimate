@@ -1,7 +1,7 @@
 import { t } from "../utils.js";
 
 const fraction = function (token) {
-	const hp = token.actor.data.data.attributes.hp;
+	const hp = token.actor.system.attributes.hp;
 	let addTemp = 0;
 	let addNonlethal = 0;
 	if (game.settings.get("healthEstimate", "core.addTemp")) {
@@ -44,7 +44,7 @@ const descriptions = function (descriptions, stage, token, state = { isDead: fal
 	if (state.isDead) {
 		return state.desc;
 	}
-	const hp = token.actor.data.data.attributes.hp;
+	const hp = token.actor.system.attributes.hp;
 	if (game.settings.get("healthEstimate", "PF1.showExtra") && hp.value < 1) {
 		if (hp.value === 0) {
 			return game.settings.get("healthEstimate", "PF1.disabledName");
@@ -57,6 +57,6 @@ const descriptions = function (descriptions, stage, token, state = { isDead: fal
 		return descriptions[stage];
 	}
 };
-const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0`;
+const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0`;
 
 export { fraction, settings, descriptions, breakCondition };

@@ -1,8 +1,8 @@
 const fraction = function (token) {
-	if (token.actor.data.type === "pc") {
-		const might = token.actor.data.data.stats.might;
-		const speed = token.actor.data.data.stats.speed;
-		const intellect = token.actor.data.data.stats.intellect;
+	if (token.actor.type === "pc") {
+		const might = token.actor.system.stats.might;
+		const speed = token.actor.system.stats.speed;
+		const intellect = token.actor.system.stats.intellect;
 		if (game.settings.get("healthEstimate", "numenera.countPools")) {
 			let fullPools = 3;
 			for (let pool of [might, speed, intellect]) {
@@ -20,7 +20,7 @@ const fraction = function (token) {
 			return total / max;
 		}
 	} else {
-		const hp = token.actor.data.data.health;
+		const hp = token.actor.system.health;
 		return hp.current / hp.max;
 	}
 };

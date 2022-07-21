@@ -136,7 +136,7 @@
 			"simpleRule": {
 				"name": "评估规则",
 				"hint": "用来计算指示物生命值分数的 JS 公式。谨慎更改。 默认为简单的递减生命值，例如：初始生命值为 10/10，受到伤害后降为 0/10。",
-				"default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 const fraction = function (token) {
-	const hp = token.actor.data.data.attributes.pv;
+	const hp = token.actor.system.attributes.pv;
 	let temp = 0;
-	if (token.actor.data.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
+	if (token.actor.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
 		temp = hp.temp;
 	}
 	return Math.min((temp + hp.value) / hp.max, 1);
@@ -19,6 +19,6 @@ const settings = () => {
 	};
 };
 
-const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.pv.max === 0`;
+const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.pv.max === 0`;
 
 export { fraction, settings, breakCondition };

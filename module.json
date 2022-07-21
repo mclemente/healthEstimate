@@ -71,6 +71,6 @@
 	"bugs": "https://github.com/mclemente/healthEstimate/issues",
 	"compatibility": {
 		"minimum": "10",
-		"verified": "10.270"
+		"verified": "10"
 	}
 }

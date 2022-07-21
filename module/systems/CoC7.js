@@ -1,5 +1,5 @@
 const fraction = function (token) {
-	const hp = token.actor.data.data.attribs.hp;
+	const hp = token.actor.system.attribs.hp;
 	if (hp.max > 0) {
 		return hp.value / hp.max;
 	}
@@ -7,6 +7,6 @@ const fraction = function (token) {
 };
 
 const breakCondition = `
-	|| token.actor.data.type === 'container'`;
+	|| token.actor.type === 'container'`;
 
 export { fraction, breakCondition };

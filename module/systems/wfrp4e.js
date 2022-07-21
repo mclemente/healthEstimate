@@ -1,5 +1,5 @@
 const fraction = function (token) {
-	const hp = token.actor.data.data.status.wounds;
+	const hp = token.actor.system.status.wounds;
 	return hp.value / hp.max;
 };
 

@@ -1,5 +1,5 @@
 const fraction = function (token) {
-	const hp = token.actor.data.data.health.toughness;
+	const hp = token.actor.system.health.toughness;
 	return hp.value / hp.max;
 };
 

@@ -26,7 +26,7 @@ export let descriptions = function (descriptions, stage, token, state = { isDead
 	if (state.isDead) {
 		return state.desc;
 	}
-	const type = token.actor.data.type;
+	const type = token.actor.type;
 	if (type === vehicleType && !customStages) {
 		if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
 			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);

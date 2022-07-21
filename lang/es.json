@@ -158,7 +158,7 @@
 			"simpleRule": {
 				"name": "Regla de Estimación",
 				"hint": "La fórmula JS para calcular la fracción de salud que tiene el token. Alterar con precacución. Predeterminado asume una salud descendente simple, p.ej. comienzas con 10/10 en tu campo de salud y va bajando hasta 0/10 al recibir daño.",
-				"default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
 			}
 		}
 	}
