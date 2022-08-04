@@ -55,6 +55,13 @@ export const registerSettings = function () {
 	});
 
 	/* Settings for the main settings menu */
+	addSetting("core.alwaysShow", {
+		type: Boolean,
+		default: false,
+		onChange: () => {
+			updateSettings();
+		},
+	});
 	addSetting("core.showDescription", {
 		type: Number,
 		default: 0,
@@ -82,21 +89,26 @@ export const registerSettings = function () {
 	addSetting("core.stateNames", {
 		type: String,
 		default: t("core.stateNames.default"),
-		onChange: (s) => {
+		onChange: () => {
 			updateSettings();
 		},
 	});
 	addSetting("core.perfectionism", {
-		type: Boolean,
-		default: true,
-		onChange: (s) => {
+		type: Number,
+		default: 1,
+		choices: {
+			0: t("core.perfectionism.choices.0"),
+			1: t("core.perfectionism.choices.1"),
+			2: t("core.perfectionism.choices.2"),
+		},
+		onChange: () => {
 			updateSettings();
 		},
 	});
 	addSetting("core.outputChat", {
 		type: Boolean,
 		default: false,
-		onChange: (s) => {
+		onChange: () => {
 			updateSettings();
 		},
 	});
@@ -105,28 +117,28 @@ export const registerSettings = function () {
 	addMenuSetting("core.deathState", {
 		type: Boolean,
 		default: false,
-		onChange: (s) => {
+		onChange: () => {
 			updateSettings();
 		},
 	});
 	addMenuSetting("core.deathStateName", {
 		type: String,
 		default: t("core.deathStateName.default"),
-		onChange: (s) => {
+		onChange: () => {
 			updateSettings();
 		},
 	});
 	addMenuSetting("core.NPCsJustDie", {
 		type: Boolean,
 		default: true,
-		onChange: (s) => {
+		onChange: () => {
 			updateSettings();
 		},
 	});
 	addMenuSetting("core.deathMarker", {
 		type: String,
 		default: "icons/svg/skull.svg",
-		onChange: (s) => {
+		onChange: () => {
 			updateSettings();
 		},
 	});

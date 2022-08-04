@@ -22,7 +22,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			template: "./modules/healthEstimate/templates/settings.hbs",
 			classes: ["sheet"],
 			width: 640,
-			height: "auto",
+			height: "fit-content",
 			closeOnSubmit: true,
 		});
 	}
@@ -212,8 +212,8 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		this.deadOutline = this.outlFn(this.deadColor.value);
 
 		sample.style.setProperty("--healthEstimate-text-size", this.fontSize.value);
-		sample.style.setProperty("--healthEstimate-alignment", this.textPosition.value);
-		sample.style.setProperty("--healthEstimate-margin", `${this.positionAdjustment.value}em`);
+		// sample.style.setProperty("--healthEstimate-alignment", this.textPosition.value);
+		// sample.style.setProperty("--healthEstimate-margin", `${this.positionAdjustment.value}em`);
 		sampleItems[0].style.setProperty("--healthEstimate-text-color", this.deadColor.value);
 		sampleItems[0].style.setProperty("--healthEstimate-stroke-color", this.deadOutline);
 

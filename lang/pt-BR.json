@@ -46,6 +46,10 @@
 				}
 			},
 			"isNow": "agora está",
+			"alwaysShow": {
+				"name": "Sempre Mostrar Estimativas",
+				"hint": "Faz com que as estimativas sempre apareçam em vez de só com o passar do mouse."
+			},
 			"showDescription": {
 				"name": "Mostrar Estimativas: Usuários",
 				"hint": "Mostra as estimativas para os seguintes usuários.",
@@ -84,8 +88,13 @@
 				"hint": "O último estágio de PNJs é substituído pela Descrição de Morte."
 			},
 			"perfectionism": {
-				"name": "Perfeccionismo",
-				"hint": "Mostra o melhor descritor possível apenas quando o alvo estiver sem qualquer dano."
+				"name": "Comportamento",
+				"hint": "Descritor = último estágio da configuração \"Estágios\".",
+				"choices": {
+					"0": "Mostrar o descritor quando o alvo está machucado.",
+					"1": "Mostrar o descritor quando o alvo não está machucado.",
+					"2": "Não mostrar o descritor quando o alvo está machucado."
+				}
 			},
 			"outputChat": {
 				"name": "Enviar Estimativa para o Chat",

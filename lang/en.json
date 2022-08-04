@@ -46,6 +46,10 @@
 				}
 			},
 			"isNow": "is now",
+			"alwaysShow": {
+				"name": "Always Show Estimates",
+				"hint": "Makes the estimates to always be shown instead of just when hovering a token."
+			},
 			"showDescription": {
 				"name": "Show Estimates: Users",
 				"hint": "Show estimates to the following users.",
@@ -84,8 +88,13 @@
 				"hint": "The last stage of NPCs is replaced by the Death State Name."
 			},
 			"perfectionism": {
-				"name": "Perfectionism",
-				"hint": "Only show the best possible description when the target is in perfect state - not a single damage taken."
+				"name": "Behavior",
+				"hint": "Description = the last stage in the Stages setting.",
+				"choices": {
+					"0": "Show the description even when the target is damaged.",
+					"1": "Show the description when the target isn't damaged.",
+					"2": "Don't show the description when the target isn't damaged."
+				}
 			},
 			"outputChat": {
 				"name": "Output Estimate to Chat",

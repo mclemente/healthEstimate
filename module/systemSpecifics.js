@@ -33,7 +33,7 @@ export let descriptionToShow = function (descriptions, stage, token, state = { i
  * Useful for systems that change how it is handled (e.g. DSA5).
  */
 export function tokenEffectsPath(token) {
-	return Array.from(token.actor.effects.values()).some((x) => x.data.icon === deathMarker);
+	return Array.from(token.actor.effects.values()).some((x) => x.icon === deathMarker);
 }
 
 const tempHPSetting = {
@@ -42,7 +42,7 @@ const tempHPSetting = {
 };
 
 let breakConditions = {
-	default: `game.keyboard.downKeys.has('AltLeft') || game.keyboard.downKeys.has('AltRight')`,
+	default: `false`,
 };
 
 function updateBreakConditions() {

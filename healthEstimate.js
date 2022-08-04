@@ -1,14 +1,11 @@
 import { registerSettings, renderTokenConfigHandler } from "./module/settings.js";
-import { prepareSystemSpecifics } from "./module/systemSpecifics.js";
-import { HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
+import { breakOverlayRender, prepareSystemSpecifics } from "./module/systemSpecifics.js";
+import { alwaysShow, current_hp_actor, HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
 
 /**
  * Preload templates and add it template to the HUD
  */
 Hooks.once("init", async function () {
-	Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
-		html.append('<template id="healthEstimate"></template>');
-	});
 	game.keybindings.register("healthEstimate", "markDead", {
 		name: "healthEstimate.core.keybinds.markDead.name",
 		hint: "healthEstimate.core.keybinds.markDead.hint",
@@ -40,8 +37,8 @@ Hooks.once("init", async function () {
 			for (let e of canvas.tokens.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.data.name}'s health estimate is hidden from players.`);
-				else ui.notifications.info(`${e.actor.data.name}'s health estimate is shown to players.`);
+				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate is hidden from players.`);
+				else ui.notifications.info(`${e.actor.name}'s health estimate is shown to players.`);
 			}
 		},
 		restricted: true,
@@ -54,8 +51,8 @@ Hooks.once("init", async function () {
 			for (let e of canvas.tokens.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideName", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.data.name}'s name is hidden from players.`);
-				else ui.notifications.info(`${e.actor.data.name}'s name is shown to players.`);
+				if (hidden) ui.notifications.info(`${e.actor.name}'s name is hidden from players.`);
+				else ui.notifications.info(`${e.actor.name}'s name is shown to players.`);
 			}
 		},
 		restricted: true,
@@ -69,8 +66,8 @@ Hooks.once("init", async function () {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate") && !e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
 				e.document.setFlag("healthEstimate", "hideName", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.data.name}'s health estimate and name are hidden from players.`);
-				else ui.notifications.info(`${e.actor.data.name}'s health estimate and name are shown to players.`);
+				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate and name are hidden from players.`);
+				else ui.notifications.info(`${e.actor.name}'s health estimate and name are shown to players.`);
 			}
 		},
 		restricted: true,
@@ -131,10 +128,6 @@ Hooks.once("init", async function () {
 		restricted: true,
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
-	return loadTemplates([
-		// Add paths to "modules/healthEstimate/templates"
-		"modules/healthEstimate/templates/healthEstimate.hbs",
-	]);
 });
 
 /**
@@ -173,7 +166,11 @@ Hooks.on("createToken", function (tokenDocument, options, userId) {
 Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
 	if (game.user.isGM && outputChat) {
 		let actors = canvas.tokens.placeables.filter((e) => e.actor);
-		outputStageChange(actors);
+		for (let actor of actors) {
+			if (breakOverlayRender(actor)) continue;
+			if (!(actor.id in current_hp_actor)) continue;
+			outputStageChange(actor);
+		}
 	}
 });
 
@@ -184,8 +181,12 @@ Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
  */
 Hooks.on("updateActor", (data, options, apps, userId) => {
 	if (game.user.isGM && outputChat) {
-		let actors = canvas.tokens.placeables.filter((e) => e.actor && e.actor.data.type === "character");
-		outputStageChange(actors);
+		let actors = canvas.tokens.placeables.filter((e) => e.actor && e.actor.type === "character");
+		for (let actor of actors) {
+			if (breakOverlayRender(actor)) continue;
+			if (!(actor.id in current_hp_actor)) continue;
+			outputStageChange(actor);
+		}
 	}
 });
 

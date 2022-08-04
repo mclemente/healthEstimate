@@ -5,7 +5,7 @@ const fraction = function (token) {
 	return hp.value / hp.max;
 };
 const tokenEffects = function (token) {
-	return token.data.overlayEffect === deathMarker;
+	return token.document.overlayEffect === deathMarker;
 };
 
 export { fraction, tokenEffects };

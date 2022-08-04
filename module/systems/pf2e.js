@@ -76,7 +76,7 @@ const breakCondition = `
 `;
 
 const tokenEffects = function (token) {
-	return token.data.overlayEffect === deathMarker;
+	return token.document.overlayEffect === deathMarker;
 };
 
 export { fraction, settings, descriptions, breakCondition, tokenEffects };

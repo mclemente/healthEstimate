@@ -1,9 +1,15 @@
 import { breakOverlayRender, descriptionToShow, fractionFormula, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
 import { sGet, t } from "./utils.js";
 
-export let descriptions, deathStateName, showDead, useColor, smooth, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat;
+/**
+ * Setting variables to avoid multiple game.settings.get() calls since the module checks for the settings on token interactions.
+ */
+export let alwaysShow,
+	deathMarker,
+	outputChat,
+	current_hp_actor = {}; //store hp of PC
 
-let current_hp_actor = {}; //store hp of PC
+let alignment, colors, deadColor, deadOutline, deathStateName, descriptions, NPCsJustDie, outline, margin, perfectionism, showDead, smooth, useColor;
 
 export function getCharacters(actors) {
 	for (let actor of actors) {
@@ -19,43 +25,39 @@ export function getCharacters(actors) {
 	}
 }
 
-export function outputStageChange(actors) {
-	for (let actor of actors) {
-		if (breakOverlayRender(actor)) continue;
-		if (!(actor.id in current_hp_actor)) continue;
-		try {
-			const fraction = getFraction(actor);
-			const stage = getStage(fraction);
-			const dead = isDead(actor, stage);
-			if (stage != current_hp_actor[actor.id].stage || dead != current_hp_actor[actor.id].dead) {
-				let name = current_hp_actor[actor.id].name;
-				if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.document.displayName == 0) {
-					name = "Unknown entity";
-				}
-				let css = "<span class='hm_messagetaken'>";
-				if (stage > current_hp_actor[actor.id].stage) {
-					css = "<span class='hm_messageheal'>";
-				}
-				let desc = descriptionToShow(
-					descriptions,
-					stage,
-					actor,
-					{
-						isDead: dead,
-						desc: deathStateName,
-					},
-					fraction
-				);
-				let chatData = {
-					content: css + name + " " + t("core.isNow") + " " + desc + ".</span>",
-				};
-				ChatMessage.create(chatData, {});
-				current_hp_actor[actor.id].stage = stage;
-				current_hp_actor[actor.id].dead = dead;
+export function outputStageChange(actor) {
+	try {
+		const fraction = getFraction(actor);
+		const stage = getStage(fraction);
+		const dead = isDead(actor, stage);
+		if (stage != current_hp_actor[actor.id].stage || dead != current_hp_actor[actor.id].dead) {
+			let name = current_hp_actor[actor.id].name;
+			if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.document.displayName == 0) {
+				name = "Unknown entity";
 			}
-		} catch (err) {
-			console.error(`Health Estimate | Error on outputStageChange(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.type, err);
+			let css = "<span class='hm_messagetaken'>";
+			if (stage > current_hp_actor[actor.id].stage) {
+				css = "<span class='hm_messageheal'>";
+			}
+			let desc = descriptionToShow(
+				descriptions,
+				stage,
+				actor,
+				{
+					isDead: dead,
+					desc: deathStateName,
+				},
+				fraction
+			);
+			let chatData = {
+				content: css + name + " " + t("core.isNow") + " " + desc + ".</span>",
+			};
+			ChatMessage.create(chatData, {});
+			current_hp_actor[actor.id].stage = stage;
+			current_hp_actor[actor.id].dead = dead;
 		}
+	} catch (err) {
+		console.error(`Health Estimate | Error on outputStageChange(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.type, err);
 	}
 }
 
@@ -101,6 +103,7 @@ function getStage(fraction, customStages = []) {
  * Updates the variables if any setting was changed.
  */
 export function updateSettings() {
+	alwaysShow = sGet("core.alwaysShow");
 	useColor = sGet("core.menuSettings.useColor");
 	descriptions = sGet("core.stateNames").split(/[,;]\s*/);
 	smooth = sGet("core.menuSettings.smoothGradient");
@@ -115,10 +118,10 @@ export function updateSettings() {
 	perfectionism = sGet("core.perfectionism");
 	outputChat = sGet("core.outputChat");
 
-	const margin = `${sGet("core.menuSettings.positionAdjustment")}em`;
-	const alignment = sGet("core.menuSettings.position");
-	document.documentElement.style.setProperty("--healthEstimate-margin", margin);
+	alignment = sGet("core.menuSettings.position");
+	margin = sGet("core.menuSettings.positionAdjustment");
 	document.documentElement.style.setProperty("--healthEstimate-alignment", alignment);
+	document.documentElement.style.setProperty("--healthEstimate-margin", `${margin}em`);
 	document.documentElement.style.setProperty("--healthEstimate-text-size", sGet("core.menuSettings.fontSize"));
 }
 
@@ -126,146 +129,29 @@ function hideEstimate(token) {
 	return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
 }
 
-/**
- * Creates the Overlay with the text on mouse over.
- */
-class HealthEstimateOverlay extends BasePlaceableHUD {
-	static get defaultOptions() {
-		const options = super.defaultOptions;
-		options.classes = options.classes.concat(["healthEstimate", "healthEstimateColor"]);
-		options.template = "modules/healthEstimate/templates/healthEstimate.hbs";
-		options.id = "healthEstimate";
-		return options;
-	}
-
-	/**
-	 * Sets the position of the overlay.
-	 * This override is needed because the overlay goes off-center on Hexagonal Rows grid types.
-	 * See https://github.com/mclemente/healthEstimate/issues/19 for visual examples.
-	 */
-	setPosition({ left, top, width, height, scale } = {}) {
-		if (canvas.grid.type === 2 || canvas.grid.type === 3) {
-			left = (left ?? this.object.x) - 6;
-		}
-		super.setPosition({ left, top, width, height, scale });
-	}
-
-	/**
-	 * This override is only here because Health Estimate spams the Console with Rendering logs.
-	 */
-	async _render(force = false, options = {}) {
-		// Do not render under certain conditions
-		const states = Application.RENDER_STATES;
-		this._priorState = this._state;
-		if ([states.CLOSING, states.RENDERING].includes(this._state)) return;
-
-		// Applications which are not currently rendered must be forced
-		if (!force && this._state <= states.NONE) return;
-
-		// Begin rendering the application
-		if ([states.NONE, states.CLOSED, states.ERROR].includes(this._state) && this.showRendering) {
-			console.log(`${vtt} | Rendering ${this.constructor.name}`);
-		}
-		this._state = states.RENDERING;
-
-		// Merge provided options with those supported by the Application class
-		foundry.utils.mergeObject(this.options, options, { insertKeys: false });
-
-		// Get the existing HTML element and application data used for rendering
-		const element = this.element;
-		const data = await this.getData(this.options);
-
-		// Store scroll positions
-		if (element.length && this.options.scrollY) this._saveScrollPositions(element);
-
-		// Render the inner content
-		const inner = await this._renderInner(data);
-		let html = inner;
-
-		// If the application already exists in the DOM, replace the inner content
-		if (element.length) this._replaceHTML(element, html);
-		// Otherwise render a new app
-		else {
-			// Wrap a popOut application in an outer frame
-			if (this.popOut) {
-				html = await this._renderOuter();
-				html.find(".window-content").append(inner);
-				ui.windows[this.appId] = this;
-			}
-
-			// Add the HTML to the DOM and record the element
-			this._injectHTML(html);
-		}
-
-		if (!this.popOut && this.options.resizable) new Draggable(this, html, false, this.options.resizable);
-
-		// Activate event listeners on the inner HTML
-		this._activateCoreListeners(inner);
-		this.activateListeners(inner);
-
-		// Set the application position (if it's not currently minimized)
-		if (!this._minimized) {
-			foundry.utils.mergeObject(this.position, options, { insertKeys: false });
-			this.setPosition(this.position);
-		}
-
-		// Apply focus to the application, maximizing it and bringing it to the top
-		if (options.focus === true) {
-			this.maximize().then(() => this.bringToTop());
-		}
-
-		// Dispatch Hooks for rendering the base and subclass applications
-		for (let cls of this.constructor._getInheritanceChain()) {
-			/**
-			 * A hook event that fires whenever this Application is rendered.
-			 * The hook provides the pending application HTML which will be added to the DOM.
-			 * Hooked functions may modify that HTML or attach interactive listeners to it.
-			 *
-			 * @function renderApplication
-			 * @memberof hookEvents
-			 * @param {Application} app		 The Application instance being rendered
-			 * @param {jQuery} html				 The inner HTML of the document that will be displayed and may be modified
-			 * @param {object} data				 The object of data used when rendering the application
-			 */
-			Hooks.call(`render${cls.name}`, this, html, data);
-		}
-
-		// Restore prior scroll positions
-		if (this.options.scrollY) this._restoreScrollPositions(html);
-		this._state = states.RENDERED;
-		this.setPosition();
-	}
-
-	getData() {
-		const data = super.getData();
-		data.status = this.estimation;
-		return data;
-	}
-}
-
 export class HealthEstimate {
 	constructor() {
 		updateBreakSettings();
-		canvas.hud.HealthEstimate = new HealthEstimateOverlay();
 		updateSettings();
 		this.initHooks();
 	}
 
 	initHooks() {
+		Hooks.on("refreshToken", (token) => {
+			this._handleOverlay(token, alwaysShow || token.hover);
+		});
 		Hooks.on("hoverToken", (token, hovered) => {
-			this._handleOverlay(token, hovered);
+			this._handleOverlay(token, alwaysShow || hovered);
 		});
-
-		Hooks.on("deleteToken", (...args) => {
-			canvas.hud.HealthEstimate.clear();
-		});
-
-		Hooks.on("updateToken", (scene, token, ...args) => {
-			if (canvas.hud.HealthEstimate !== undefined && canvas.hud.HealthEstimate.object) {
-				if (token.id === canvas.hud.HealthEstimate.object.id) {
-					canvas.hud.HealthEstimate.clear();
-				}
+		if (alwaysShow) canvas.scene.tokens.forEach((token) => token.object.refresh());
+		Hooks.on("updateActor", (data, options, apps, userId) => {
+			if (alwaysShow) {
+				let token = canvas.tokens.placeables.find((e) => e.actor && e.actor.type === "character");
+				this._handleOverlay(token, true);
 			}
+		});
+		Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
+			if (alwaysShow) this._handleOverlay(token, true);
 		});
 	}
 
@@ -276,49 +162,79 @@ export class HealthEstimate {
 		if (breakOverlayRender(token) || (!game.user.isGM && hideEstimate(token))) {
 			return;
 		}
-		const width = `${canvas.scene.grid.size * token.document.width}px`;
-		document.documentElement.style.setProperty("--healthEstimate-width", width);
+		const width = canvas.scene.grid.size * token.document.width;
+		document.documentElement.style.setProperty("--healthEstimate-width", `${width}px`);
 
 		if (hovered) {
-			this._getEstimation(token);
-			canvas.hud.HealthEstimate.bind(token);
+			if (!token.isVisible) return;
+			const desc = getEstimation(token);
+			if (!desc) return;
+
+			if (token.healthEstimate) token.healthEstimate.destroy();
+			token.healthEstimate = token.addChild(
+				new PIXI.Text(desc, {
+					fontSize: document.documentElement.style.getPropertyValue("--healthEstimate-text-size"),
+					fill: document.documentElement.style.getPropertyValue("--healthEstimate-text-color"),
+					stroke: document.documentElement.style.getPropertyValue("--healthEstimate-stroke-color"),
+					strokeThickness: 3,
+				})
+			);
+			const gridSize = canvas.scene.grid.size;
+			const tokenHeight = token.document.height;
+			token.healthEstimate.anchor.x = 0.5;
+			token.healthEstimate.anchor.y = margin;
+			token.healthEstimate.x = Math.floor(width / 2);
+			switch (alignment) {
+				case "start":
+					token.healthEstimate.y = -Math.floor((gridSize / 2) * tokenHeight);
+					break;
+				case "center":
+					break;
+				case "end":
+					token.healthEstimate.y = Math.floor((gridSize * tokenHeight) / 2);
+					break;
+				default:
+					console.error("Alignment isn't supposed to be of value %o", alignment);
+			}
 		} else {
-			canvas.hud.HealthEstimate.clear();
+			if (token.healthEstimate) token.healthEstimate.visible = false;
 		}
 	}
+}
 
-	_getEstimation(token) {
-		try {
-			const fraction = getFraction(token);
-			let customStages = token.document.getFlag("healthEstimate", "customStages") || "";
-			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
-			const stage = getStage(fraction, customStages || []);
-			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
-			let desc, color, stroke;
+function getEstimation(token) {
+	try {
+		const fraction = getFraction(token);
+		if (perfectionism == 2 && fraction == 1) return;
+		let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
+		if (customStages.length) customStages = customStages.split(/[,;]\s*/);
+		const stage = getStage(fraction, customStages || []);
+		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
+		let desc, color, stroke;
 
-			desc = descriptionToShow(
-				customStages.length ? customStages : descriptions,
-				stage,
-				token,
-				{
-					isDead: isDead(token, stage),
-					desc: deathStateName,
-				},
-				fraction,
-				customStages.length ? true : false
-			);
-			color = colors[colorIndex];
-			stroke = outline[colorIndex];
-			if (isDead(token, stage)) {
-				color = deadColor;
-				stroke = deadOutline;
-			}
-			document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
-			document.documentElement.style.setProperty("--healthEstimate-text-color", color);
-			if (hideEstimate(token)) desc += "*";
-			canvas.hud.HealthEstimate.estimation = { desc };
-		} catch (err) {
-			console.error(`Health Estimate | Error on HealthEstimate._getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.type, err);
+		desc = descriptionToShow(
+			customStages.length ? customStages : descriptions,
+			stage,
+			token,
+			{
+				isDead: isDead(token, stage),
+				desc: deathStateName,
+			},
+			fraction,
+			customStages.length ? true : false
+		);
+		color = colors[colorIndex];
+		stroke = outline[colorIndex];
+		if (isDead(token, stage)) {
+			color = deadColor;
+			stroke = deadOutline;
 		}
+		document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
+		document.documentElement.style.setProperty("--healthEstimate-text-color", color);
+		if (hideEstimate(token)) desc += "*";
+		return desc;
+		// canvas.hud.HealthEstimate.estimation = { desc };
+	} catch (err) {
+		console.error(`Health Estimate | Error on getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.type, err);
 	}
 }
