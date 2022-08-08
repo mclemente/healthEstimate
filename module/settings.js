@@ -458,9 +458,9 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 		var hideName = tokenConfig.object.getFlag("healthEstimate", "hideName") ? "checked" : "";
 		var dontMarkDead = tokenConfig.object.getFlag("healthEstimate", "dontMarkDead") ? "checked" : "";
 	} else {
-		hideHealthEstimate = tokenConfig.token.getFlag("healthEstimate", "hideHealthEstimate") ? "checked" : "";
-		hideName = tokenConfig.token.getFlag("healthEstimate", "hideName") ? "checked" : "";
-		dontMarkDead = tokenConfig.token.getFlag("healthEstimate", "dontMarkDead") ? "checked" : "";
+		hideHealthEstimate = tokenConfig.token.flags?.healthEstimate?.hideHealthEstimate ? "checked" : "";
+		hideName = tokenConfig.token.flags?.healthEstimate?.hideName ? "checked" : "";
+		dontMarkDead = tokenConfig.token.flags?.healthEstimate?.dontMarkDead ? "checked" : "";
 	}
 	let data = {
 		hideHealthEstimate: hideHealthEstimate,
