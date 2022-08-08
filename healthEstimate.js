@@ -1,6 +1,6 @@
 import { registerSettings, renderTokenConfigHandler } from "./module/settings.js";
-import { breakOverlayRender, prepareSystemSpecifics } from "./module/systemSpecifics.js";
-import { alwaysShow, current_hp_actor, HealthEstimate, getCharacters, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
+import { breakOverlayRender, prepareSystemSpecifics, updateBreakSettings } from "./module/systemSpecifics.js";
+import { alwaysShow, current_hp_actor, HealthEstimate, getCharacters, hideEstimate, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
 
 /**
  * Preload templates and add it template to the HUD
@@ -138,6 +138,8 @@ Hooks.once("setup", function () {
 });
 
 Hooks.once("ready", function () {
+	updateSettings();
+	updateBreakSettings();
 	// new HealthEstimate();
 });
 
@@ -147,7 +149,6 @@ Hooks.once("ready", function () {
 Hooks.on("canvasReady", function () {
 	new HealthEstimate();
 	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
-	updateSettings();
 	getCharacters(tokens);
 });
 
@@ -164,11 +165,12 @@ Hooks.on("createToken", function (tokenDocument, options, userId) {
  * start collectting all PNC hp information
  */
 Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
-	if (game.user.isGM && outputChat) {
-		let actors = canvas.tokens.placeables.filter((e) => e.actor);
+	if (game.user.isGM && outputChat && canvas.scene) {
+		let actors = canvas.tokens.placeables.find((e) => e.actor && e.id == token._id);
 		for (let actor of actors) {
 			if (breakOverlayRender(actor)) continue;
 			if (!(actor.id in current_hp_actor)) continue;
+			if (hideEstimate(actor)) continue;
 			outputStageChange(actor);
 		}
 	}
@@ -180,13 +182,9 @@ Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
  * start collectting all PNC hp information
  */
 Hooks.on("updateActor", (data, options, apps, userId) => {
-	if (game.user.isGM && outputChat) {
-		let actors = canvas.tokens.placeables.filter((e) => e.actor && e.actor.type === "character");
-		for (let actor of actors) {
-			if (breakOverlayRender(actor)) continue;
-			if (!(actor.id in current_hp_actor)) continue;
-			outputStageChange(actor);
-		}
+	if (game.user.isGM && outputChat && canvas.scene) {
+		let actor = canvas.tokens.placeables.find((e) => e.actor && e.actor.type === "character" && e.actor.id == data.id);
+		if (!breakOverlayRender(actor) && !hideEstimate(actor) && actor.id in current_hp_actor) outputStageChange(actor);
 	}
 });
 

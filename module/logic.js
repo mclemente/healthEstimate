@@ -32,7 +32,11 @@ export function outputStageChange(actor) {
 		const dead = isDead(actor, stage);
 		if (stage != current_hp_actor[actor.id].stage || dead != current_hp_actor[actor.id].dead) {
 			let name = current_hp_actor[actor.id].name;
-			if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.document.displayName == 0) {
+			if (
+				(actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) &&
+				actor.document.displayName <= 20 &&
+				!actor.actor.hasPlayerOwner
+			) {
 				name = "Unknown entity";
 			}
 			let css = "<span class='hm_messagetaken'>";
@@ -125,7 +129,7 @@ export function updateSettings() {
 	document.documentElement.style.setProperty("--healthEstimate-text-size", sGet("core.menuSettings.fontSize"));
 }
 
-function hideEstimate(token) {
+export function hideEstimate(token) {
 	return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
 }
 
@@ -133,10 +137,6 @@ export class HealthEstimate {
 	constructor() {
 		updateBreakSettings();
 		updateSettings();
-		this.initHooks();
-	}
-
-	initHooks() {
 		Hooks.on("refreshToken", (token) => {
 			this._handleOverlay(token, alwaysShow || token.hover);
 		});
@@ -146,8 +146,11 @@ export class HealthEstimate {
 		if (alwaysShow) canvas.scene.tokens.forEach((token) => token.object.refresh());
 		Hooks.on("updateActor", (data, options, apps, userId) => {
 			if (alwaysShow) {
-				let token = canvas.tokens.placeables.find((e) => e.actor && e.actor.type === "character");
-				this._handleOverlay(token, true);
+				//Get all the tokens on the off-chance there's two tokens of the same linked actor.
+				let tokens = canvas.tokens.placeables.filter((e) => e.actor && data.id == e.actor.id);
+				for (let token of tokens) {
+					this._handleOverlay(token, true);
+				}
 			}
 		});
 		Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
@@ -156,29 +159,32 @@ export class HealthEstimate {
 	}
 
 	_handleOverlay(token, hovered) {
-		if (!token?.actor) {
-			return;
-		}
-		if (breakOverlayRender(token) || (!game.user.isGM && hideEstimate(token))) {
-			return;
-		}
+		if (!token?.actor) return;
+		if (breakOverlayRender(token) || (!game.user.isGM && hideEstimate(token))) return;
 		const width = canvas.scene.grid.size * token.document.width;
 		document.documentElement.style.setProperty("--healthEstimate-width", `${width}px`);
 
 		if (hovered) {
 			if (!token.isVisible) return;
-			const desc = getEstimation(token);
+			const { desc, color, stroke } = getEstimation(token);
 			if (!desc) return;
 
+			const style = new PIXI.TextStyle({
+				fontSize: document.documentElement.style.getPropertyValue("--healthEstimate-text-size"),
+				fill: color,
+				stroke: stroke,
+				strokeThickness: 3,
+			});
 			if (token.healthEstimate) token.healthEstimate.destroy();
 			token.healthEstimate = token.addChild(
 				new PIXI.Text(desc, {
 					fontSize: document.documentElement.style.getPropertyValue("--healthEstimate-text-size"),
-					fill: document.documentElement.style.getPropertyValue("--healthEstimate-text-color"),
-					stroke: document.documentElement.style.getPropertyValue("--healthEstimate-stroke-color"),
+					fill: color,
+					stroke: stroke,
 					strokeThickness: 3,
 				})
 			);
+
 			const gridSize = canvas.scene.grid.size;
 			const tokenHeight = token.document.height;
 			token.healthEstimate.anchor.x = 0.5;
@@ -210,9 +216,8 @@ function getEstimation(token) {
 		if (customStages.length) customStages = customStages.split(/[,;]\s*/);
 		const stage = getStage(fraction, customStages || []);
 		const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
-		let desc, color, stroke;
 
-		desc = descriptionToShow(
+		let desc = descriptionToShow(
 			customStages.length ? customStages : descriptions,
 			stage,
 			token,
@@ -223,8 +228,8 @@ function getEstimation(token) {
 			fraction,
 			customStages.length ? true : false
 		);
-		color = colors[colorIndex];
-		stroke = outline[colorIndex];
+		let color = colors[colorIndex];
+		let stroke = outline[colorIndex];
 		if (isDead(token, stage)) {
 			color = deadColor;
 			stroke = deadOutline;
@@ -232,7 +237,7 @@ function getEstimation(token) {
 		document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
 		document.documentElement.style.setProperty("--healthEstimate-text-color", color);
 		if (hideEstimate(token)) desc += "*";
-		return desc;
+		return { desc, color, stroke };
 		// canvas.hud.HealthEstimate.estimation = { desc };
 	} catch (err) {
 		console.error(`Health Estimate | Error on getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.type, err);
