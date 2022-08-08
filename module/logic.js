@@ -25,28 +25,28 @@ export function getCharacters(actors) {
 	}
 }
 
-export function outputStageChange(actor) {
+export function outputStageChange(token) {
 	try {
-		const fraction = getFraction(actor);
+		const fraction = getFraction(token);
 		const stage = getStage(fraction);
-		const dead = isDead(actor, stage);
-		if (stage != current_hp_actor[actor.id].stage || dead != current_hp_actor[actor.id].dead) {
-			let name = current_hp_actor[actor.id].name;
+		const dead = isDead(token, stage);
+		if (stage != current_hp_actor[token.id].stage || dead != current_hp_actor[token.id].dead) {
+			let name = current_hp_actor[token.id].name;
 			if (
-				(actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) &&
-				actor.document.displayName <= 20 &&
-				!actor.actor.hasPlayerOwner
+				(token.document.getFlag("healthEstimate", "hideName") || token.document.getFlag("healthEstimate", "hideHealthEstimate")) &&
+				[0, 10, 20, 40].includes(token.document.displayName) &&
+				!token.actor.hasPlayerOwner
 			) {
 				name = "Unknown entity";
 			}
 			let css = "<span class='hm_messagetaken'>";
-			if (stage > current_hp_actor[actor.id].stage) {
+			if (stage > current_hp_actor[token.id].stage) {
 				css = "<span class='hm_messageheal'>";
 			}
 			let desc = descriptionToShow(
 				descriptions,
 				stage,
-				actor,
+				token,
 				{
 					isDead: dead,
 					desc: deathStateName,
@@ -57,11 +57,11 @@ export function outputStageChange(actor) {
 				content: css + name + " " + t("core.isNow") + " " + desc + ".</span>",
 			};
 			ChatMessage.create(chatData, {});
-			current_hp_actor[actor.id].stage = stage;
-			current_hp_actor[actor.id].dead = dead;
+			current_hp_actor[token.id].stage = stage;
+			current_hp_actor[token.id].dead = dead;
 		}
 	} catch (err) {
-		console.error(`Health Estimate | Error on outputStageChange(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.type, err);
+		console.error(`Health Estimate | Error on outputStageChange(). Token Name: %o. Type: %o`, token.name, token.document.actor.type, err);
 	}
 }
 
