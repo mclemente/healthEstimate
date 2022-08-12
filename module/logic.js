@@ -144,16 +144,16 @@ export class HealthEstimate {
 			this._handleOverlay(token, alwaysShow || hovered);
 		});
 		if (alwaysShow) canvas.scene.tokens.forEach((token) => token.object.refresh());
-		Hooks.on("updateActor", (data, options, apps, userId) => {
+		Hooks.on("updateActor", (actor, data, options, userId) => {
 			if (alwaysShow) {
 				//Get all the tokens on the off-chance there's two tokens of the same linked actor.
-				let tokens = canvas.tokens.placeables.filter((e) => e.actor && data.id == e.actor.id);
+				let tokens = canvas.tokens.placeables.filter((e) => e.actor && actor.id == e.actor.id);
 				for (let token of tokens) {
 					this._handleOverlay(token, true);
 				}
 			}
 		});
-		Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
+		Hooks.on("updateToken", (token, change, options, userId) => {
 			if (alwaysShow) this._handleOverlay(token, true);
 		});
 	}

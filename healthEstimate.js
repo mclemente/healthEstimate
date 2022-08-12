@@ -164,15 +164,9 @@ Hooks.on("createToken", function (tokenDocument, options, userId) {
  * only the USER that promoted the change will spam the message
  * start collectting all PNC hp information
  */
-Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
+Hooks.on("updateToken", (token, change, options, userId) => {
 	if (game.user.isGM && outputChat && canvas.scene) {
-		let actors = canvas.tokens.placeables.find((e) => e.actor && e.id == token._id);
-		for (let actor of actors) {
-			if (breakOverlayRender(actor)) continue;
-			if (!(actor.id in current_hp_actor)) continue;
-			if (hideEstimate(actor)) continue;
-			outputStageChange(actor);
-		}
+		if (!breakOverlayRender(token.object) && token.object.id in current_hp_actor && !hideEstimate(token.object)) outputStageChange(token.object);
 	}
 });
 
@@ -181,10 +175,10 @@ Hooks.on("updateToken", (scene, token, updateData, options, userId) => {
  * only the USER that promoted the change will spam the message
  * start collectting all PNC hp information
  */
-Hooks.on("updateActor", (data, options, apps, userId) => {
+Hooks.on("updateActor", (actor, data, options, userId) => {
 	if (game.user.isGM && outputChat && canvas.scene) {
-		let actor = canvas.tokens.placeables.find((e) => e.actor && e.actor.type === "character" && e.actor.id == data.id);
-		if (!breakOverlayRender(actor) && !hideEstimate(actor) && actor.id in current_hp_actor) outputStageChange(actor);
+		let token = canvas.tokens.placeables.find((e) => e.actor && e.actor.type === "character" && e.actor.id == actor.id);
+		if (token && !breakOverlayRender(token) && !hideEstimate(token) && token.id in current_hp_actor) outputStageChange(token);
 	}
 });
 
