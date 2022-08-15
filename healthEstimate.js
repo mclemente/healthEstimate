@@ -1,6 +1,6 @@
 import { registerSettings, renderTokenConfigHandler } from "./module/settings.js";
 import { breakOverlayRender, prepareSystemSpecifics, updateBreakSettings } from "./module/systemSpecifics.js";
-import { alwaysShow, current_hp_actor, HealthEstimate, getCharacters, hideEstimate, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
+import { current_hp_actor, deathMarker, HealthEstimate, getCharacters, hideEstimate, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
 
 /**
  * Preload templates and add it template to the HUD
@@ -213,3 +213,12 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 });
 
 Hooks.on("renderTokenConfig", renderTokenConfigHandler);
+
+Hooks.on("deleteActiveEffect", (activeEffect, options, userId) => {
+	if (activeEffect.icon == deathMarker) {
+		let tokens = canvas.tokens.placeables.filter((e) => e.actor && e.actor.id == activeEffect.parent.id);
+		for (let token of tokens) {
+			if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");
+		}
+	}
+});
