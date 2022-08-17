@@ -1,4 +1,4 @@
-import { registerSettings, renderTokenConfigHandler } from "./module/settings.js";
+import { registerSettings, renderSettingsConfigHandler, renderTokenConfigHandler } from "./module/settings.js";
 import { breakOverlayRender, prepareSystemSpecifics, updateBreakSettings } from "./module/systemSpecifics.js";
 import { current_hp_actor, deathMarker, HealthEstimate, getCharacters, hideEstimate, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
 
@@ -212,6 +212,7 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 	}
 });
 
+Hooks.on("renderSettingsConfig", renderSettingsConfigHandler);
 Hooks.on("renderTokenConfig", renderTokenConfigHandler);
 
 Hooks.on("deleteActiveEffect", (activeEffect, options, userId) => {

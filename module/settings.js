@@ -434,6 +434,33 @@ export const registerSettings = function () {
  * @category GMOnly
  * @function
  * @async
+ * @param {SettingsConfig} settingsConfig
+ * @param {JQuery} html
+ */
+export async function renderSettingsConfigHandler(settingsConfig, html) {
+	const useThreshold = game.settings.get("healthEstimate", "starfinder.useThreshold");
+	const useThresholdCheckbox = html.find('input[name="healthEstimate.starfinder.useThreshold"]');
+	const thresholdNamesInput = html.find('input[name="healthEstimate.starfinder.thresholdNames"]');
+	const vehicleNamesInput = html.find('input[name="healthEstimate.starfinder.vehicleNames"]');
+	disableCheckbox(thresholdNamesInput, !useThreshold);
+	disableCheckbox(vehicleNamesInput, useThreshold);
+
+	useThresholdCheckbox.on("change", (event) => {
+		disableCheckbox(thresholdNamesInput, !event.target.checked);
+		disableCheckbox(vehicleNamesInput, event.target.checked);
+	});
+}
+
+function disableCheckbox(checkbox, boolean) {
+	checkbox.prop("disabled", boolean);
+}
+
+/**
+ * Handler called when token configuration window is opened. Injects custom form html and deals
+ * with updating token.
+ * @category GMOnly
+ * @function
+ * @async
  * @param {TokenConfig} tokenConfig
  * @param {JQuery} html
  */
