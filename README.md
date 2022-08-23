@@ -16,14 +16,9 @@ Be sure to read the [How To's](https://github.com/mclemente/healthEstimate/wiki/
 All suggestions/feedback are appreciated, please contact me on Discord (MClemente#5524) or submit a pull request.
 
 ## Attribution
-
-This project uses [chroma.js](https://github.com/gka/chroma.js) library released under [BSD license](http://opensource.org/licenses/BSD-3-Clause), and [Grapick](https://www.npmjs.com/package/grapick) library licensed under MIT License.  
-This module is a fork of [Health Estimate](https://github.com/Shylight/healthEstimate), by Shylight, released under the MIT License.  
-This module uses code of [Health Monitor](https://github.com/rockshow888/health-monitor), by rockshow888, released under the MIT License.
-This module uses code of [Token Tooltip Alt](https://github.com/bmarian/token-tooltip-alt/), by bmarian, released under the MIT License.
-theripper93 for [injectConfig](https://github.com/theripper93/injectConfig) library.
-
-## License
-
-This module is licensed under the the MIT License.  
-This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development](https://foundryvtt.com/article/license/).
+This project is released under the the MIT License, and is a fork of the original [Health Estimate](https://github.com/Shylight/healthEstimate), by Shylight.  
+This project uses the [chroma.js](https://github.com/gka/chroma.js) library released under [BSD-3-Clause license](http://opensource.org/licenses/BSD-3-Clause).  
+This project uses the [Grapick](https://www.npmjs.com/package/grapick) library licensed under MIT License.  
+This project uses code of [Health Monitor](https://github.com/rockshow888/health-monitor), released under the MIT License.  
+This project uses code of [Token Tooltip Alt](https://github.com/bmarian/token-tooltip-alt/), released under the MIT License.  
+This project uses the [injectConfig](https://github.com/theripper93/injectConfig) library, released under the MIT License.
