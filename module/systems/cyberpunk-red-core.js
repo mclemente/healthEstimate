@@ -12,8 +12,8 @@ const fraction = function (token) {
 
 const breakCondition = `||token.actor.type === "blackIce" || token.actor.type === "container" || token.actor.type === "demon"`;
 
-let descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
-	if (state.isDead) {
+let descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }, fraction) {
+	if (state.dead) {
 		return state.desc;
 	}
 	if (game.settings.get("healthEstimate", "cyberpunk-red-core.useSystemStates")) {

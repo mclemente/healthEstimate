@@ -6,6 +6,23 @@ export const REG = {
 };
 
 /**
+ * Shorthand for game.settings.register().
+ * Default data: {scope: "world", config: true}
+ * @function addSetting
+ * @param {string} key
+ * @param {object} data
+ */
+export function addSetting(key, data) {
+	const commonData = {
+		name: t(`${key}.name`),
+		hint: t(`${key}.hint`),
+		scope: "world",
+		config: true,
+	};
+	game.settings.register("healthEstimate", key, Object.assign(commonData, data));
+}
+
+/**
  * Check whether the entry is an empty string or a falsey value
  * @param string
  * @returns {boolean}
@@ -15,15 +32,15 @@ export function isEmpty(string) {
 }
 
 /**
- * Function handling which description to show. Overrides systemSpecifics.js's descriptionToShow.
+ * Function handling which description to show. Overrides game.healthEstimate.descriptionToShow.
  * @param {String[]} descriptions
  * @param {Number} stage
  * @param {Token} token
  * @param state
  * @returns {String}
  */
-export let descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction, customStages) {
-	if (state.isDead) {
+export let descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }, fraction, customStages) {
+	if (state.dead) {
 		return state.desc;
 	}
 	const type = token.actor.type;

@@ -40,13 +40,13 @@ const settings = () => {
 		},
 	};
 };
-const descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }) {
+const descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }) {
 	const hp = token.actor.system.attributes.hp;
 
 	if (hp.nonlethal >= hp.value && hp.value > 0) {
 		return game.settings.get("healthEstimate", "PF1.disabledName");
 	}
-	if (state.isDead) {
+	if (state.dead) {
 		return state.desc;
 	}
 	if (game.settings.get("healthEstimate", "PF1.showExtra") && hp.value < 1) {

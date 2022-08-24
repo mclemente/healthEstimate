@@ -1,5 +1,4 @@
 import { t } from "../utils.js";
-import { deathMarker } from "../logic.js";
 
 const fraction = function (token) {
 	const hp = token.actor.system.attributes.hp;
@@ -54,8 +53,8 @@ const settings = () => {
 	};
 };
 
-const descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
-	if (state.isDead) {
+const descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }, fraction) {
+	if (state.dead) {
 		return state.desc;
 	}
 	const type = token.actor.type;
@@ -76,7 +75,7 @@ const breakCondition = `
 `;
 
 const tokenEffects = function (token) {
-	return token.document.overlayEffect === deathMarker;
+	return token.document.overlayEffect === game.healthEstimate.deathMarker;
 };
 
 export { fraction, settings, descriptions, breakCondition, tokenEffects };

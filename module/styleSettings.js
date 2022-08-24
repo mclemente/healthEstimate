@@ -1,5 +1,4 @@
 import { sGet, sSet, settingData } from "./utils.js";
-import { updateSettings } from "./logic.js";
 
 export class HealthEstimateStyleSettings extends FormApplication {
 	constructor(object, options = {}) {
@@ -259,6 +258,6 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		sSet(`core.variables.deadColor`, deadColor);
 		sSet(`core.variables.deadOutline`, this.deadOutline);
 
-		setTimeout(updateSettings, 50);
+		setTimeout(game.healthEstimate.updateSettings, 50);
 	}
 }

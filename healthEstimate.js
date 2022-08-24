@@ -1,6 +1,6 @@
-import { registerSettings, renderSettingsConfigHandler, renderTokenConfigHandler } from "./module/settings.js";
-import { breakOverlayRender, prepareSystemSpecifics, updateBreakSettings } from "./module/systemSpecifics.js";
-import { current_hp_actor, deathMarker, HealthEstimate, getCharacters, hideEstimate, outputChat, outputStageChange, updateSettings } from "./module/logic.js";
+import { renderSettingsConfigHandler, renderTokenConfigHandler, onUpdateActor, onUpdateToken } from "./module/settings.js";
+import { HealthEstimate } from "./module/logic.js";
+import { getCharacters, onRenderChatMessage } from "./lib/HealthMonitor.js";
 
 /**
  * Preload templates and add it template to the HUD
@@ -134,20 +134,23 @@ Hooks.once("init", async function () {
  * Have to register Settings here, because doing so at init breaks i18n
  */
 Hooks.once("setup", function () {
-	prepareSystemSpecifics().then(registerSettings());
+	game.healthEstimate = new HealthEstimate();
+	game.healthEstimate.setup();
+	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
+	if (outputChat) {
+		Hooks.on("updateActor", onUpdateActor);
+		Hooks.on("updateToken", onUpdateToken);
+	}
 });
 
-Hooks.once("ready", function () {
-	updateSettings();
-	updateBreakSettings();
-	// new HealthEstimate();
+Hooks.once("canvasReady", function () {
+	game.healthEstimate.canvasReady();
 });
 
 /**
  * HP storing code for canvas load or token created
  */
 Hooks.on("canvasReady", function () {
-	new HealthEstimate();
 	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
 	getCharacters(tokens);
 });
@@ -160,63 +163,15 @@ Hooks.on("createToken", function (tokenDocument, options, userId) {
 });
 
 /**
- * spam in chat if token (NPC) is updated
- * only the USER that promoted the change will spam the message
- * start collectting all PNC hp information
- */
-Hooks.on("updateToken", (token, change, options, userId) => {
-	if (game.user.isGM && outputChat && canvas.scene) {
-		if (!breakOverlayRender(token.object) && token.object.id in current_hp_actor && !hideEstimate(token.object)) outputStageChange(token.object);
-	}
-});
-
-/**
- * spam in chat if the actor is updated
- * only the USER that promoted the change will spam the message
- * start collectting all PNC hp information
- */
-Hooks.on("updateActor", (actor, data, options, userId) => {
-	if (game.user.isGM && outputChat && canvas.scene) {
-		let token = canvas.tokens.placeables.find((e) => e.actor && e.actor.type === "character" && e.actor.id == actor.id);
-		if (token && !breakOverlayRender(token) && !hideEstimate(token) && token.id in current_hp_actor) outputStageChange(token);
-	}
-});
-
-/**
  * Chat Styling
  */
-Hooks.on("renderChatMessage", (app, html, data) => {
-	if (html.find(".hm_messageheal").length) {
-		html.css("background", "#06a406");
-		html.css("text-shadow", "-1px -1px 0 #000 , 1px -1px 0 #000 , -1px 1px 0 #000 , 1px 1px 0 #000");
-		html.css("color", "white");
-		html.css("text-align", "center");
-		html.css("font-size", "12px");
-		html.css("margin", "2px");
-		html.css("padding", "2px");
-		html.css("border", "2px solid #191813d6");
-		// html.find(".message-sender").text("");
-		// html.find(".message-metadata")[0].style.display = "none";
-	}
-	if (html.find(".hm_messagetaken").length) {
-		html.css("background", "#c50d19");
-		html.css("text-shadow", "-1px -1px 0 #000 , 1px -1px 0 #000 , -1px 1px 0 #000 , 1px 1px 0 #000");
-		html.css("color", "white");
-		html.css("text-align", "center");
-		html.css("font-size", "12px");
-		html.css("margin", "2px");
-		html.css("padding", "2px");
-		html.css("border", "2px solid #191813d6");
-		// html.find(".message-sender").text("");
-		// html.find(".message-metadata")[0].style.display = "none";
-	}
-});
+Hooks.on("renderChatMessage", onRenderChatMessage);
 
 Hooks.on("renderSettingsConfig", renderSettingsConfigHandler);
 Hooks.on("renderTokenConfig", renderTokenConfigHandler);
 
 Hooks.on("deleteActiveEffect", (activeEffect, options, userId) => {
-	if (activeEffect.icon == deathMarker) {
+	if (activeEffect.icon == game.healthEstimate.deathMarker) {
 		let tokens = canvas.tokens.placeables.filter((e) => e.actor && e.actor.id == activeEffect.parent.id);
 		for (let token of tokens) {
 			if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");

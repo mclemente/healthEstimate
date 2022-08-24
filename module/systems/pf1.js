@@ -40,8 +40,8 @@ const settings = () => {
 		},
 	};
 };
-const descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }) {
-	if (state.isDead) {
+const descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }) {
+	if (state.dead) {
 		return state.desc;
 	}
 	const hp = token.actor.system.attributes.hp;
