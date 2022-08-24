@@ -44,15 +44,7 @@ export let descriptions = function (descriptions, stage, token, state = { dead: 
 		return state.desc;
 	}
 	const type = token.actor.type;
-	if (type === vehicleType && !customStages) {
-		if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
-			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
-		} else {
-			descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
-		}
-		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
-	}
-	if (type === starshipType && !customStages) {
+	if ([vehicleType, starshipType].includes(type)) {
 		if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
 			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
 		} else {
