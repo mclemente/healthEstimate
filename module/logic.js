@@ -74,9 +74,7 @@ export class HealthEstimate {
 				default:
 					console.error("Alignment isn't supposed to be of value %o", alignment);
 			}
-		} else {
-			if (token.healthEstimate) token.healthEstimate.visible = false;
-		}
+		} else if (token.healthEstimate) token.healthEstimate.visible = false;
 	}
 
 	/**
