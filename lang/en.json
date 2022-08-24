@@ -46,6 +46,11 @@
 				}
 			},
 			"isNow": "is now",
+			"unknownEntity": {
+				"name": "Unknown Entity Name",
+				"hint": "Sets how a hidden character shall be called.",
+				"default": "Unknown Entity"
+			},
 			"alwaysShow": {
 				"name": "Always Show Estimates",
 				"hint": "Makes the estimates to always be shown instead of just when hovering a token."

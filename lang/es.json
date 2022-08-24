@@ -16,6 +16,11 @@
 				}
 			},
 			"isNow": "está ahora",
+			"unknownEntity": {
+				"name": "Nombre de la Entidad Desconocida",
+				"hint": "Establece cómo se llamará a un personaje oculto.",
+				"default": "Entidad Desconocida"
+			},
 			"showDescription": {
 				"name": "Mostrar Estimación: Usuarios",
 				"hint": "Mostrar Estimaciones a los siguientes usuarios.",
@@ -59,7 +64,7 @@
 			},
 			"outputChat": {
 				"name": "Mostrar Estimación en el Chat",
-				"hint": "Mostrar cualquier cambio de estimación en el chat. Los personajes marcados con la macro Hide Estimate serán mostrados como \"Unknown Entity\"."
+				"hint": "Mostrar cualquier cambio de estimación en el chat. Los personajes marcados con la macro Hide Estimate serán mostrados como \"Entidad Desconocida\"."
 			},
 			"addTemp": {
 				"name": "Añadir Salud Temporal",

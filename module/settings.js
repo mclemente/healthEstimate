@@ -101,6 +101,10 @@ export const registerSettings = function () {
 			}
 		},
 	});
+	addSetting("core.unknownEntity", {
+		type: String,
+		default: game.i18n.localize("healthEstimate.core.unknownEntity.default"),
+	});
 
 	/* Settings for the death menu */
 	addMenuSetting("core.deathState", {
@@ -427,16 +431,13 @@ export const registerSettings = function () {
  * @param {JQuery} html
  */
 export async function renderSettingsConfigHandler(settingsConfig, html) {
-	const useThreshold = game.settings.get("healthEstimate", "starfinder.useThreshold");
-	const useThresholdCheckbox = html.find('input[name="healthEstimate.starfinder.useThreshold"]');
-	const thresholdNamesInput = html.find('input[name="healthEstimate.starfinder.thresholdNames"]');
-	const vehicleNamesInput = html.find('input[name="healthEstimate.starfinder.vehicleNames"]');
-	disableCheckbox(thresholdNamesInput, !useThreshold);
-	disableCheckbox(vehicleNamesInput, useThreshold);
+	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
+	const outputChatCheckbox = html.find('input[name="healthEstimate.core.outputChat"]');
+	const unknownEntityInput = html.find('input[name="healthEstimate.core.unknownEntity"]');
+	disableCheckbox(unknownEntityInput, !outputChat);
 
-	useThresholdCheckbox.on("change", (event) => {
-		disableCheckbox(thresholdNamesInput, !event.target.checked);
-		disableCheckbox(vehicleNamesInput, event.target.checked);
+	outputChatCheckbox.on("change", (event) => {
+		disableCheckbox(unknownEntityInput, !event.target.checked);
 	});
 }
 

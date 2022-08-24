@@ -46,6 +46,11 @@
 				}
 			},
 			"isNow": "agora está",
+			"unknownEntity": {
+				"name": "Nome da Entidade Desconhecida",
+				"hint": "Define como um personagem ocultado pela macro deve ser chamado.",
+				"default": "Entidade Desconhecida"
+			},
 			"alwaysShow": {
 				"name": "Sempre Mostrar Estimativas",
 				"hint": "Faz com que as estimativas sempre apareçam em vez de só com o passar do mouse."
