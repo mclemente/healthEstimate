@@ -10,10 +10,12 @@ const fraction = function (token) {
 const settings = () => {
 	return {
 		"starfinder.useThreshold": {
+			config: false,
 			type: Boolean,
 			default: false,
 		},
 		"starfinder.thresholdNames": {
+			config: false,
 			type: String,
 			default: t("starfinder.thresholdNames.default"),
 		},
