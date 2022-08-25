@@ -31,6 +31,7 @@ const settings = () => {
 			default: false,
 		},
 		"starfinder.thresholdNames": {
+			config: false,
 			type: String,
 			default: t("starfinder.thresholdNames.default"),
 		},

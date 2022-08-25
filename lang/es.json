@@ -142,7 +142,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Usar Umbral de Vehículos",
-				"hint": "Si se activa este ajuste, las descripciones \"Estados de Umbral\" se usarán para vehículas sobre el umbral, por debajo, y a 0 PV respectivamente."
+				"hint": "Si se activa este ajuste, limita las etapas de \"Estados de Vehículos\" a 3."
 			},
 			"thresholdNames": {
 				"name": "Estados de Umbral",
@@ -151,7 +151,7 @@
 			},
 			"vehicleNames": {
 				"name": "Estados de Vehículos",
-				"hint": "Descripciones mostadas para naves estelares (siempre), y vehículos (si \"Usar Umbral de Vehículos\" está desactivado)",
+				"hint": "Descripciones mostadas para naves estelares (siempre), y vehículos.",
 				"default": "Destrozado, En Llamas, Humeante, Maltrecho, Magullado, Prístino"
 			},
 			"addStamina": {

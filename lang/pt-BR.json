@@ -194,7 +194,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Usar Limiar do Veículo",
-				"hint": "Se esta configuração estiver ativada, as descrições de \"Estágios de Veículos\" serão usadas para veículos acima do limiar, abaixo dele e com 0 PV, respectivamente."
+				"hint": "Se esta configuração estiver ativada, limite os estágios de \"Estágios de Veículo\" a 3."
 			},
 			"thresholdNames": {
 				"name": "Estágios de Limiar",
@@ -203,7 +203,7 @@
 			},
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descriptions shown for starships (always), and vehicles (if \"Use Vehicle Threshold\" is off)",
+				"hint": "Descrições mostradas para naves e veículos.",
 				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			},
 			"addStamina": {

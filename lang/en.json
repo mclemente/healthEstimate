@@ -193,7 +193,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Use Vehicle Threshold",
-				"hint": "If this setting is on, the \"Threshold Stages\" descriptions will be used for vehicles above threshold, below it, and at 0 HP respectively."
+				"hint": "If this setting is on, limit the stages of \"Vehicle Stages\" to 3."
 			},
 			"thresholdNames": {
 				"name": "Threshold Stages",
