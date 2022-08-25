@@ -13,6 +13,9 @@ export class HealthEstimate {
 		this.updateSettings();
 	}
 
+	/**
+	 * Sets all the hooks related to a game with a canvas enabled.
+	 */
 	canvasReady() {
 		this.actorsCurrentHP = {};
 		const alwaysShow = sGet("core.alwaysShow");
@@ -93,6 +96,11 @@ export class HealthEstimate {
 		return descriptions[stage];
 	}
 
+	/**
+	 * Returns the token's estimate's description, color and stroke outline.
+	 * @param {TokenDocument} token
+	 * @returns {Object}	All three values are Strings.
+	 */
 	getEstimation(token) {
 		try {
 			const fraction = this.getFraction(token);
