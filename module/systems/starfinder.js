@@ -42,12 +42,10 @@ const settings = () => {
 			default: true,
 		},
 		"starfinder.useThreshold": {
-			config: false,
 			type: Boolean,
 			default: false,
 		},
 		"starfinder.thresholdNames": {
-			config: false,
 			type: String,
 			default: t("starfinder.thresholdNames.default"),
 		},

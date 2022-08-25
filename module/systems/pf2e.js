@@ -34,12 +34,10 @@ const settings = () => {
 			default: true,
 		},
 		"starfinder.useThreshold": {
-			config: false,
 			type: Boolean,
 			default: false,
 		},
 		"starfinder.thresholdNames": {
-			config: false,
 			type: String,
 			default: t("starfinder.thresholdNames.default"),
 		},
@@ -61,7 +59,11 @@ const descriptions = function (descriptions, stage, token, state = { dead: false
 	}
 	const type = token.actor.type;
 	if (type === "vehicle" || type === "hazard") {
-		descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
+		if (type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
+		} else {
+			descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
+		}
 		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
 	}
 	return descriptions[stage];

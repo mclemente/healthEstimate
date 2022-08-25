@@ -49,12 +49,10 @@ const settings = () => {
 			default: true,
 		},
 		"starfinder.useThreshold": {
-			config: false,
 			type: Boolean,
 			default: false,
 		},
 		"starfinder.thresholdNames": {
-			config: false,
 			type: String,
 			default: t("od6s.thresholdNames.default"),
 			hint: t("od6s.thresholdNames.hint"),
