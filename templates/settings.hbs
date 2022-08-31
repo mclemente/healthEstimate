@@ -1,4 +1,4 @@
-<form autocomplete="off" style="padding: 0 2.5%" onsubmit="event.preventDefault()" style="display: flex;flex-direction: column;">
+<form autocomplete="off" onsubmit="event.preventDefault()" style="display: flex;flex-direction: column;">
 	<div class="form-group" style="align-items: flex-end;">
 		<label for="useColor" style="flex:none;margin-right: 3px">{{useColor.name}}</label>
 		<input type="checkbox" name="useColor" id="useColor" {{#if useColor.value}}checked="checked"{{/if}}>
@@ -70,7 +70,7 @@
 		</div>
 		<div style="flex:0; margin: 20px 10px 0 30px;">
 			<span class="sampleFrameHE">
-				<img src="./modules/healthEstimate/static/frame.png" alt="" style="margin-bottom: -106px">
+				{{!-- <img src="./modules/healthEstimate/static/frame.png" alt="" style="margin-bottom: -106px"> --}}
 				<div id="healthEstimateSample" class="healthEstimateSample" style="height: 106px;width: 106px">
 					<span style="display:flex; justify-content: center">
 						<span class="healthEstimateColor">Text&nbsp;</span>

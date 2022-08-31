@@ -1,9 +1,9 @@
 import { descriptions, t } from "../utils.js";
 
 const fraction = function (token) {
-	const hp = token.actor.data.data.attributes.hp;
+	const hp = token.actor.system.attributes.hp;
 	let temp = 0;
-	if (token.actor.data.type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+	if (token.actor.type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
 		if (hp.value > hp.dt) {
 			return 1;
 		} else if (hp.value > 0) {
@@ -11,7 +11,7 @@ const fraction = function (token) {
 		}
 		return 0;
 	}
-	if (token.actor.data.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
+	if (token.actor.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
 		temp = hp.temp;
 	}
 	return Math.min((temp + hp.value) / hp.max, 1);
@@ -31,6 +31,7 @@ const settings = () => {
 			default: false,
 		},
 		"starfinder.thresholdNames": {
+			config: false,
 			type: String,
 			default: t("starfinder.thresholdNames.default"),
 		},
@@ -42,6 +43,6 @@ const settings = () => {
 	};
 };
 
-const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0`;
+const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0`;
 
 export { fraction, settings, breakCondition, descriptions };

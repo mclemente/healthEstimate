@@ -158,7 +158,7 @@
 			"simpleRule": {
 				"name": "Schätzungs-Regel",
 				"hint": "Die JS-Formel für die Berechnung der Token-Schätzung. Verändere sie mit Vorsicht! Standardmäßig wird eine abnehmende Gesundheit angenommen, bspw. startest du mit 10/10 HP und gehst bis 0/10 HP herunter, sobald du Schaden nimmst.",
-				"default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
 			}
 		}
 	}

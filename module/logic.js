@@ -1,322 +1,204 @@
-import { breakOverlayRender, descriptionToShow, fractionFormula, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
+import { registerSettings } from "./settings.js";
+import { fractionFormula, prepareSystemSpecifics, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
 import { sGet, t } from "./utils.js";
 
-export let descriptions, deathStateName, showDead, useColor, smooth, NPCsJustDie, deathMarker, colors, outline, deadColor, deadOutline, perfectionism, outputChat;
-
-let current_hp_actor = {}; //store hp of PC
-
-export function getCharacters(actors) {
-	for (let actor of actors) {
-		if (breakOverlayRender(actor)) continue;
-		try {
-			const fraction = getFraction(actor);
-			if (typeof fraction != "number" || isNaN(fraction)) continue;
-			const stage = getStage(fraction);
-			current_hp_actor[actor.data._id] = { name: actor.document.data.name || actor.name, stage: stage, dead: isDead(actor, stage) };
-		} catch (err) {
-			console.error(`Health Estimate | Error on getCharacters(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.data.type, err);
-		}
-	}
-}
-
-export function outputStageChange(actors) {
-	for (let actor of actors) {
-		if (breakOverlayRender(actor)) continue;
-		if (!(actor.data._id in current_hp_actor)) continue;
-		try {
-			const fraction = getFraction(actor);
-			const stage = getStage(fraction);
-			const dead = isDead(actor, stage);
-			if (stage != current_hp_actor[actor.data._id].stage || dead != current_hp_actor[actor.data._id].dead) {
-				let name = current_hp_actor[actor.data._id].name;
-				if ((actor.document.getFlag("healthEstimate", "hideName") || actor.document.getFlag("healthEstimate", "hideHealthEstimate")) && actor.data.displayName == 0) {
-					name = "Unknown entity";
-				}
-				let css = "<span class='hm_messagetaken'>";
-				if (stage > current_hp_actor[actor.data._id].stage) {
-					css = "<span class='hm_messageheal'>";
-				}
-				let desc = descriptionToShow(
-					descriptions,
-					stage,
-					actor,
-					{
-						isDead: dead,
-						desc: deathStateName,
-					},
-					fraction
-				);
-				let chatData = {
-					content: css + name + " " + t("core.isNow") + " " + desc + ".</span>",
-				};
-				ChatMessage.create(chatData, {});
-				current_hp_actor[actor.data._id].stage = stage;
-				current_hp_actor[actor.data._id].dead = dead;
-			}
-		} catch (err) {
-			console.error(`Health Estimate | Error on outputStageChange(). Token Name: %o. Type: %o`, actor.name, actor.document.actor.data.type, err);
-		}
-	}
-}
-
-/**
- * Returns if a token is dead.
- * A token is dead if:
- * (a) is a NPC at 0 HP and the NPCsJustDie setting is enabled
- * (b) has been set as dead in combat (e.g. it has the skull icon, icon may vary from system to system) and the showDead setting is enabled
- * (c) has the healthEstimate.dead flag, which is set by a macro.
- * @param {TokenDocument} token
- * @param {Integer} stage
- * @returns {Boolean}
- */
-export function isDead(token, stage) {
-	return (
-		(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "treatAsPC")) ||
-		(showDead && tokenEffectsPath(token)) ||
-		token.document.getFlag("healthEstimate", "dead") ||
-		false
-	);
-}
-
-/**
- * Returns the current health fraction of the token.
- * @param {TokenDocument} token
- * @returns {Number}
- */
-function getFraction(token) {
-	return Math.min(fractionFormula(token), 1);
-}
-
-/**
- * Returns the current health stage of the token.
- * @param {Number} fraction
- * @returns {Number}
- */
-function getStage(fraction, customStages = []) {
-	const desc = customStages?.length ? customStages : descriptions;
-	return Math.max(0, perfectionism ? Math.ceil((desc.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((desc.length - 1) * fraction));
-}
-
-/**
- * Updates the variables if any setting was changed.
- */
-export function updateSettings() {
-	useColor = sGet("core.menuSettings.useColor");
-	descriptions = sGet("core.stateNames").split(/[,;]\s*/);
-	smooth = sGet("core.menuSettings.smoothGradient");
-	deathStateName = sGet("core.deathStateName");
-	showDead = sGet("core.deathState");
-	NPCsJustDie = sGet("core.NPCsJustDie");
-	deathMarker = sGet("core.deathMarker");
-	colors = sGet("core.variables.colors");
-	outline = sGet("core.variables.outline");
-	deadColor = sGet("core.variables.deadColor");
-	deadOutline = sGet("core.variables.deadOutline");
-	perfectionism = sGet("core.perfectionism");
-	outputChat = sGet("core.outputChat");
-
-	const margin = `${sGet("core.menuSettings.positionAdjustment")}em`;
-	const alignment = sGet("core.menuSettings.position");
-	document.documentElement.style.setProperty("--healthEstimate-margin", margin);
-	document.documentElement.style.setProperty("--healthEstimate-alignment", alignment);
-	document.documentElement.style.setProperty("--healthEstimate-text-size", sGet("core.menuSettings.fontSize"));
-}
-
-function hideEstimate(token) {
-	return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
-}
-
-/**
- * Creates the Overlay with the text on mouse over.
- */
-class HealthEstimateOverlay extends BasePlaceableHUD {
-	static get defaultOptions() {
-		const options = super.defaultOptions;
-		options.classes = options.classes.concat(["healthEstimate", "healthEstimateColor"]);
-		options.template = "modules/healthEstimate/templates/healthEstimate.hbs";
-		options.id = "healthEstimate";
-		return options;
-	}
-
-	/**
-	 * Sets the position of the overlay.
-	 * This override is needed because the overlay goes off-center on Hexagonal Rows grid types.
-	 * See https://github.com/mclemente/healthEstimate/issues/19 for visual examples.
-	 */
-	setPosition({ left, top, width, height, scale } = {}) {
-		if (canvas.grid.type === 2 || canvas.grid.type === 3) {
-			left = (left ?? this.object.x) - 6;
-		}
-		super.setPosition({ left, top, width, height, scale });
-	}
-
-	/**
-	 * This override is only here because Health Estimate spams the Console with Rendering logs.
-	 */
-	async _render(force = false, options = {}) {
-		// Do not render under certain conditions
-		const states = Application.RENDER_STATES;
-		this._priorState = this._state;
-		if ([states.CLOSING, states.RENDERING].includes(this._state)) return;
-
-		// Applications which are not currently rendered must be forced
-		if (!force && this._state <= states.NONE) return;
-
-		// Begin rendering the application
-		if ([states.NONE, states.CLOSED, states.ERROR].includes(this._state) && this.showRendering) {
-			console.log(`${vtt} | Rendering ${this.constructor.name}`);
-		}
-		this._state = states.RENDERING;
-
-		// Merge provided options with those supported by the Application class
-		foundry.utils.mergeObject(this.options, options, { insertKeys: false });
-
-		// Get the existing HTML element and application data used for rendering
-		const element = this.element;
-		const data = await this.getData(this.options);
-
-		// Store scroll positions
-		if (element.length && this.options.scrollY) this._saveScrollPositions(element);
-
-		// Render the inner content
-		const inner = await this._renderInner(data);
-		let html = inner;
-
-		// If the application already exists in the DOM, replace the inner content
-		if (element.length) this._replaceHTML(element, html);
-		// Otherwise render a new app
-		else {
-			// Wrap a popOut application in an outer frame
-			if (this.popOut) {
-				html = await this._renderOuter();
-				html.find(".window-content").append(inner);
-				ui.windows[this.appId] = this;
-			}
-
-			// Add the HTML to the DOM and record the element
-			this._injectHTML(html);
-		}
-
-		// Activate event listeners on the inner HTML
-		this._activateCoreListeners(inner);
-		this.activateListeners(inner);
-
-		// Set the application position (if it's not currently minimized)
-		if (!this._minimized) {
-			foundry.utils.mergeObject(this.position, options, { insertKeys: false });
-			this.setPosition(this.position);
-		}
-
-		// Apply focus to the application, maximizing it and bringing it to the top
-		if (options.focus === true) {
-			this.maximize().then(() => this.bringToTop());
-		}
-
-		// Dispatch Hooks for rendering the base and subclass applications
-		for (let cls of this.constructor._getInheritanceChain()) {
-			/**
-			 * A hook event that fires whenever this Application is rendered.
-			 * The hook provides the pending application HTML which will be added to the DOM.
-			 * Hooked functions may modify that HTML or attach interactive listeners to it.
-			 *
-			 * @function renderApplication
-			 * @memberof hookEvents
-			 * @param {Application} app		 The Application instance being rendered
-			 * @param {jQuery} html				 The inner HTML of the document that will be displayed and may be modified
-			 * @param {object} data				 The object of data used when rendering the application
-			 */
-			Hooks.call(`render${cls.name}`, this, html, data);
-		}
-
-		// Restore prior scroll positions
-		if (this.options.scrollY) this._restoreScrollPositions(html);
-		this._state = states.RENDERED;
-		this.setPosition();
-	}
-
-	getData() {
-		const data = super.getData();
-		data.status = this.estimation;
-		return data;
-	}
-}
+let alignment, colors, deadColor, deadOutline, deathStateName, descriptions, NPCsJustDie, outline, margin, perfectionism, showDead;
 
 export class HealthEstimate {
-	constructor() {
+	constructor() {}
+
+	setup() {
+		prepareSystemSpecifics().then(registerSettings());
 		updateBreakSettings();
-		canvas.hud.HealthEstimate = new HealthEstimateOverlay();
-		updateSettings();
-		this.initHooks();
+		this.updateSettings();
 	}
 
-	initHooks() {
+	/**
+	 * Sets all the hooks related to a game with a canvas enabled.
+	 */
+	canvasReady() {
+		this.actorsCurrentHP = {};
+		const alwaysShow = sGet("core.alwaysShow");
+		Hooks.on("refreshToken", (token) => {
+			this._handleOverlay(token, alwaysShow || token.hover);
+		});
 		Hooks.on("hoverToken", (token, hovered) => {
-			this._handleOverlay(token, hovered);
+			this._handleOverlay(token, alwaysShow || hovered);
 		});
-
-		Hooks.on("deleteToken", (...args) => {
-			canvas.hud.HealthEstimate.clear();
-		});
-
-		Hooks.on("updateToken", (scene, token, ...args) => {
-			if (canvas.hud.HealthEstimate !== undefined && canvas.hud.HealthEstimate.object) {
-				if (token._id === canvas.hud.HealthEstimate.object.id) {
-					canvas.hud.HealthEstimate.clear();
+		if (alwaysShow) canvas.scene.tokens.forEach((token) => token.object.refresh());
+		Hooks.on("updateActor", (actor, data, options, userId) => {
+			if (alwaysShow) {
+				//Get all the tokens on the off-chance there's two tokens of the same linked actor.
+				let tokens = canvas.tokens.placeables.filter((e) => e.actor && actor.id == e.actor.id);
+				for (let token of tokens) {
+					this._handleOverlay(token, true);
 				}
 			}
+		});
+		Hooks.on("updateToken", (token, change, options, userId) => {
+			if (alwaysShow) this._handleOverlay(token, true);
 		});
 	}
 
 	_handleOverlay(token, hovered) {
-		if (!token?.actor) {
-			return;
-		}
-		if (breakOverlayRender(token) || (!game.user.isGM && hideEstimate(token))) {
-			return;
-		}
-		const width = `${canvas.scene.data.grid * token.data.width}px`;
-		document.documentElement.style.setProperty("--healthEstimate-width", width);
+		if (!token?.actor) return;
+		if (game.healthEstimate.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
+		const width = canvas.scene.grid.size * token.document.width;
+		document.documentElement.style.setProperty("--healthEstimate-width", `${width}px`);
 
 		if (hovered) {
-			this._getEstimation(token);
-			canvas.hud.HealthEstimate.bind(token);
-		} else {
-			canvas.hud.HealthEstimate.clear();
-		}
+			if (!token.isVisible) return;
+			const { desc, color, stroke } = this.getEstimation(token);
+			if (!desc) return;
+			if (token.healthEstimate) token.healthEstimate.destroy();
+			token.healthEstimate = token.addChild(
+				new PIXI.Text(desc, {
+					fontSize: document.documentElement.style.getPropertyValue("--healthEstimate-text-size"),
+					fill: color,
+					stroke: stroke,
+					strokeThickness: 3,
+				})
+			);
+
+			const gridSize = canvas.scene.grid.size;
+			const tokenHeight = token.document.height;
+			token.healthEstimate.anchor.x = 0.5;
+			token.healthEstimate.anchor.y = margin;
+			token.healthEstimate.x = Math.floor(width / 2);
+			switch (alignment) {
+				case "start":
+					token.healthEstimate.y = -Math.floor((gridSize / 2) * tokenHeight);
+					break;
+				case "center":
+					break;
+				case "end":
+					token.healthEstimate.y = Math.floor((gridSize * tokenHeight) / 2);
+					break;
+				default:
+					console.error("Alignment isn't supposed to be of value %o", alignment);
+			}
+		} else if (token.healthEstimate) token.healthEstimate.visible = false;
 	}
 
-	_getEstimation(token) {
-		try {
-			const fraction = getFraction(token);
-			let customStages = token.document.getFlag("healthEstimate", "customStages") || "";
-			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
-			const stage = getStage(fraction, customStages || []);
-			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
-			let desc, color, stroke;
+	/**
+	 * Function handling which description to show. Can be overriden by a system-specific implementation
+	 * @param {String[]} descriptions
+	 * @param {Number} stage
+	 * @param {Token} token
+	 * @param {object} state
+	 * @param {Number} fraction
+	 * @returns {String}
+	 */
+	descriptionToShow(descriptions, stage, token, state = { dead: false, desc: "" }, fraction) {
+		if (state.dead) {
+			return state.desc;
+		}
+		return descriptions[stage];
+	}
 
-			desc = descriptionToShow(
+	/**
+	 * Returns the token's estimate's description, color and stroke outline.
+	 * @param {TokenDocument} token
+	 * @returns {Object}	All three values are Strings.
+	 */
+	getEstimation(token) {
+		try {
+			const fraction = this.getFraction(token);
+			if (perfectionism == 2 && fraction == 1) return;
+			let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
+			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
+			const stage = this.getStage(fraction, customStages || []);
+			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
+
+			let dead = this.isDead(token, stage);
+			let desc = this.descriptionToShow(
 				customStages.length ? customStages : descriptions,
 				stage,
 				token,
 				{
-					isDead: isDead(token, stage),
+					dead: dead,
 					desc: deathStateName,
 				},
 				fraction,
 				customStages.length ? true : false
 			);
-			color = colors[colorIndex];
-			stroke = outline[colorIndex];
-			if (isDead(token, stage)) {
+			let color = colors[colorIndex];
+			let stroke = outline[colorIndex];
+			if (dead) {
 				color = deadColor;
 				stroke = deadOutline;
 			}
 			document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
 			document.documentElement.style.setProperty("--healthEstimate-text-color", color);
-			if (hideEstimate(token)) desc += "*";
-			canvas.hud.HealthEstimate.estimation = { desc };
+			if (this.hideEstimate(token)) desc += "*";
+			return { desc, color, stroke };
+			// canvas.hud.HealthEstimate.estimation = { desc };
 		} catch (err) {
-			console.error(`Health Estimate | Error on HealthEstimate._getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.data.type, err);
+			console.error(`Health Estimate | Error on getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.type, err);
 		}
+	}
+
+	/**
+	 * Returns the current health fraction of the token.
+	 * @param {TokenDocument} token
+	 * @returns {Number}
+	 */
+	getFraction(token) {
+		return Math.min(fractionFormula(token), 1);
+	}
+
+	/**
+	 * Returns the current health stage of the token.
+	 * @param {Number} fraction
+	 * @returns {Number}
+	 */
+	getStage(fraction, customStages = []) {
+		const desc = customStages?.length ? customStages : descriptions;
+		return Math.max(0, perfectionism ? Math.ceil((desc.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((desc.length - 1) * fraction));
+	}
+	hideEstimate(token) {
+		return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
+	}
+
+	/**
+	 * Returns if a token is dead.
+	 * A token is dead if:
+	 * (a) is a NPC at 0 HP and the NPCsJustDie setting is enabled
+	 * (b) has been set as dead in combat (e.g. it has the skull icon, icon may vary from system to system) and the showDead setting is enabled
+	 * (c) has the healthEstimate.dead flag, which is set by a macro.
+	 * @param {TokenDocument} token
+	 * @param {Integer} stage
+	 * @returns {Boolean}
+	 */
+	isDead(token, stage) {
+		return (
+			(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "treatAsPC")) ||
+			(showDead && tokenEffectsPath(token)) ||
+			token.document.getFlag("healthEstimate", "dead") ||
+			false
+		);
+	}
+
+	/**
+	 * Variables for settings to avoid multiple system calls for them, since the estimate can be called really often.
+	 * Updates the variables if any setting was changed.
+	 */
+	updateSettings() {
+		descriptions = sGet("core.stateNames").split(/[,;]\s*/);
+		deathStateName = sGet("core.deathStateName");
+		showDead = sGet("core.deathState");
+		NPCsJustDie = sGet("core.NPCsJustDie");
+		this.deathMarker = sGet("core.deathMarker");
+		colors = sGet("core.variables.colors");
+		outline = sGet("core.variables.outline");
+		deadColor = sGet("core.variables.deadColor");
+		deadOutline = sGet("core.variables.deadOutline");
+		perfectionism = sGet("core.perfectionism");
+
+		alignment = sGet("core.menuSettings.position");
+		margin = sGet("core.menuSettings.positionAdjustment");
+		document.documentElement.style.setProperty("--healthEstimate-alignment", alignment);
+		document.documentElement.style.setProperty("--healthEstimate-margin", `${margin}em`);
+		document.documentElement.style.setProperty("--healthEstimate-text-size", sGet("core.menuSettings.fontSize"));
 	}
 }

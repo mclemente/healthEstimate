@@ -4,7 +4,7 @@
 			"custom": {
 				"FractionHP": {
 					"name": "Hit Points Attribute Data Path",
-					"hint": "Your system might be using another data path. If the estimate isn't showing correctly, input the data path to the correct attribute (e.g. actor.data.data.health)."
+					"hint": "Your system might be using another data path. If the estimate isn't showing correctly, input the data path to the correct attribute (e.g. actor.system.health)."
 				},
 				"FractionMath": {
 					"name": "Fraction Equation",
@@ -46,6 +46,15 @@
 				}
 			},
 			"isNow": "is now",
+			"unknownEntity": {
+				"name": "Unknown Entity Name",
+				"hint": "Sets how a hidden character shall be called.",
+				"default": "Unknown Entity"
+			},
+			"alwaysShow": {
+				"name": "Always Show Estimates",
+				"hint": "Makes the estimates to always be shown instead of just when hovering a token."
+			},
 			"showDescription": {
 				"name": "Show Estimates: Users",
 				"hint": "Show estimates to the following users.",
@@ -84,8 +93,13 @@
 				"hint": "The last stage of NPCs is replaced by the Death State Name."
 			},
 			"perfectionism": {
-				"name": "Perfectionism",
-				"hint": "Only show the best possible description when the target is in perfect state - not a single damage taken."
+				"name": "Behavior",
+				"hint": "Description = the last stage in the Stages setting.",
+				"choices": {
+					"0": "Show the description even when the target is damaged.",
+					"1": "Show the description when the target isn't damaged.",
+					"2": "Don't show the description when the target isn't damaged."
+				}
 			},
 			"outputChat": {
 				"name": "Output Estimate to Chat",
@@ -179,7 +193,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Use Vehicle Threshold",
-				"hint": "If this setting is on, the \"Threshold Stages\" descriptions will be used for vehicles above threshold, below it, and at 0 HP respectively."
+				"hint": "If this setting is on, limit the stages of \"Vehicle Stages\" to 3."
 			},
 			"thresholdNames": {
 				"name": "Threshold Stages",
@@ -188,7 +202,7 @@
 			},
 			"vehicleNames": {
 				"name": "Vehicle Stages",
-				"hint": "Descriptions shown for starships (always), and vehicles (if \"Use Vehicle Threshold\" is off)",
+				"hint": "Descriptions shown for starships (always), and vehicles.",
 				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			},
 			"addStamina": {
@@ -200,7 +214,7 @@
 			"simpleRule": {
 				"name": "Estimation Rule",
 				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage.",
-				"default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
 			}
 		},
 		"od6s": {

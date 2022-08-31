@@ -19,21 +19,21 @@ function ratio(node) {
 
 const fraction = function (token) {
 	if (token.actor.type === "entite") {
-		return ratio(token.actor.data.data.sante.endurance);
+		return ratio(token.actor.system.sante.endurance);
 	}
-	const ratioFatigue = 1 - ratio(token.actor.data.data.sante?.fatigue ?? missing) / 2;
-	const ratioVie = ratio(token.actor.data.data.sante?.vie ?? missing);
-	const ratioEndurance = 0.4 + ratio(token.actor.data.data.sante?.endurance ?? missing) * 0.6;
+	const ratioFatigue = 1 - ratio(token.actor.system.sante?.fatigue ?? missing) / 2;
+	const ratioVie = ratio(token.actor.system.sante?.vie ?? missing);
+	const ratioEndurance = 0.4 + ratio(token.actor.system.sante?.endurance ?? missing) * 0.6;
 	const ratioBlessure = 1 - ratio(estimationBlessures(token));
 
 	return Math.min(ratioBlessure, ratioEndurance, ratioFatigue, ratioVie);
 };
 
 function estimationBlessures(token) {
-	if (token.actor.data.data.blessures === undefined) {
+	if (token.actor.system.blessures === undefined) {
 		return missing;
 	}
-	const nodeBlessures = token.actor.data.data.blessures ?? missingBlessures;
+	const nodeBlessures = token.actor.system.blessures ?? missingBlessures;
 	const legeres = nodeBlessures.legeres.liste.filter((it) => it.active).length;
 	const graves = nodeBlessures.graves.liste.filter((it) => it.active).length;
 	const critiques = nodeBlessures.critiques.liste.filter((it) => it.active).length;

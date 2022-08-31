@@ -1,18 +1,19 @@
-import {t, descriptions} from '../utils.js';
+import { t, descriptions } from "../utils.js";
 
 const fraction = function (token) {
-	const type = token.actor.data.type;
+	const type = token.actor.type;
 	switch (type) {
 		case "npc":
 		case "creature":
-		case "character": {
-			const od6swounds = token.actor.data.data.wounds.value;
-			return 1 - (od6swounds / 6);
-		}
-		break;
-		case "vehicle": 
-		case "starship":{
-			const od6sdamagestring = token.actor.data.data.damage.value;
+		case "character":
+			{
+				const od6swounds = token.actor.system.wounds.value;
+				return 1 - od6swounds / 6;
+			}
+			break;
+		case "vehicle":
+		case "starship": {
+			const od6sdamagestring = token.actor.system.damage.value;
 			let od6sdamage;
 			switch (od6sdamagestring) {
 				case "OD6S.DAMAGE_NONE":
@@ -33,7 +34,7 @@ const fraction = function (token) {
 				case "OD6S.DAMAGE_DESTROYED":
 					od6sdamage = 5;
 			}
-			return 1 - (od6sdamage / 5);
+			return 1 - od6sdamage / 5;
 		}
 	}
 };
@@ -48,10 +49,12 @@ const settings = () => {
 			default: true,
 		},
 		"starfinder.useThreshold": {
+			config: false,
 			type: Boolean,
 			default: false,
 		},
 		"starfinder.thresholdNames": {
+			config: false,
 			type: String,
 			default: t("od6s.thresholdNames.default"),
 			hint: t("od6s.thresholdNames.hint"),
@@ -64,11 +67,9 @@ const settings = () => {
 	};
 };
 
+const breakCondition = `||token.actor.type === "container"`;
 
-const breakCondition = `||token.actor.data.type === "container"`;
-
-export {fraction, settings, breakCondition, descriptions};
-
+export { fraction, settings, breakCondition, descriptions };
 
 /*
 ==Vehicle Levels==

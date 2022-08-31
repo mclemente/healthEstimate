@@ -1,9 +1,6 @@
-import { isEmpty, sGet } from "./utils.js";
-import { addSetting } from "./settings.js";
-import { deathMarker } from "./logic.js";
+import { addSetting, isEmpty, sGet } from "./utils.js";
 
 export let fractionFormula;
-export let breakOverlayRender;
 export let systemSpecificSettings = {};
 /**
  * Name of the type of a vehicle.
@@ -12,28 +9,13 @@ export let systemSpecificSettings = {};
  */
 export let vehicleType = "vehicle";
 export let starshipType = "starship";
-/**
- * Function handling which description to show. Can be overriden by a system-specific implementation
- * @param {String[]} descriptions
- * @param {Number} stage
- * @param {Token} token
- * @param {object} state
- * @param {Number} fraction
- * @returns {String}
- */
-export let descriptionToShow = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
-	if (state.isDead) {
-		return state.desc;
-	}
-	return descriptions[stage];
-};
 
 /**
  * Path of the token's effects.
  * Useful for systems that change how it is handled (e.g. DSA5).
  */
 export function tokenEffectsPath(token) {
-	return Array.from(token.actor.effects.values()).some((x) => x.data.icon === deathMarker);
+	return Array.from(token.actor.effects.values()).some((x) => x.icon === game.healthEstimate.deathMarker);
 }
 
 const tempHPSetting = {
@@ -42,7 +24,7 @@ const tempHPSetting = {
 };
 
 let breakConditions = {
-	default: `game.keyboard.downKeys.has('AltLeft') || game.keyboard.downKeys.has('AltRight')`,
+	default: `false`,
 };
 
 function updateBreakConditions() {
@@ -53,7 +35,7 @@ function updateBreakConditions() {
 		return breakConditions[key];
 	}
 
-	breakOverlayRender = function (token) {
+	game.healthEstimate.breakOverlayRender = function (token) {
 		return new Function(
 			`token`,
 			`return (
@@ -108,7 +90,7 @@ export function prepareSystemSpecifics() {
 				breakConditions.system = currentSystem.breakCondition;
 			}
 			if (currentSystem.descriptions !== undefined) {
-				descriptionToShow = currentSystem.descriptions;
+				game.healthEstimate.descriptionToShow = currentSystem.descriptions;
 			}
 			if (currentSystem.tokenEffects !== undefined) {
 				tokenEffectsPath = currentSystem.tokenEffects;

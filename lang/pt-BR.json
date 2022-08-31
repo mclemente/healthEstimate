@@ -46,6 +46,15 @@
 				}
 			},
 			"isNow": "agora está",
+			"unknownEntity": {
+				"name": "Nome da Entidade Desconhecida",
+				"hint": "Define como um personagem ocultado pela macro deve ser chamado.",
+				"default": "Entidade Desconhecida"
+			},
+			"alwaysShow": {
+				"name": "Sempre Mostrar Estimativas",
+				"hint": "Faz com que as estimativas sempre apareçam em vez de só com o passar do mouse."
+			},
 			"showDescription": {
 				"name": "Mostrar Estimativas: Usuários",
 				"hint": "Mostra as estimativas para os seguintes usuários.",
@@ -84,8 +93,13 @@
 				"hint": "O último estágio de PNJs é substituído pela Descrição de Morte."
 			},
 			"perfectionism": {
-				"name": "Perfeccionismo",
-				"hint": "Mostra o melhor descritor possível apenas quando o alvo estiver sem qualquer dano."
+				"name": "Comportamento",
+				"hint": "Descritor = último estágio da configuração \"Estágios\".",
+				"choices": {
+					"0": "Mostrar o descritor quando o alvo está machucado.",
+					"1": "Mostrar o descritor quando o alvo não está machucado.",
+					"2": "Não mostrar o descritor quando o alvo está machucado."
+				}
 			},
 			"outputChat": {
 				"name": "Enviar Estimativa para o Chat",
@@ -180,7 +194,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Usar Limiar do Veículo",
-				"hint": "Se esta configuração estiver ativada, as descrições de \"Estágios de Veículos\" serão usadas para veículos acima do limiar, abaixo dele e com 0 PV, respectivamente."
+				"hint": "Se esta configuração estiver ativada, limite os estágios de \"Estágios de Veículo\" a 3."
 			},
 			"thresholdNames": {
 				"name": "Estágios de Limiar",
@@ -189,7 +203,7 @@
 			},
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descriptions shown for starships (always), and vehicles (if \"Use Vehicle Threshold\" is off)",
+				"hint": "Descrições mostradas para naves e veículos.",
 				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			},
 			"addStamina": {
@@ -201,7 +215,7 @@
 			"simpleRule": {
 				"name": "Estimation Rule",
 				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage.",
-				"default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
 			}
 		}
 	}

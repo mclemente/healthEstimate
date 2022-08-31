@@ -45,6 +45,23 @@
 	margin-bottom: 7px;
 }
 
+li.hm_message {
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+	color: white;
+	text-align: center;
+	font-size: 12px;
+	margin: 2px;
+	padding: 2px;
+	border: 2px solid #191813d6;
+}
+li.hm_messageheal {
+	background: #06a406;
+}
+
+li.hm_messagetaken {
+	background: #c50d19;
+}
+
 .numberHE {
 	width: calc(100% - 2px);
 	min-width: 20px;

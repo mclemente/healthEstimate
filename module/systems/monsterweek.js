@@ -1,9 +1,9 @@
-import {isEmpty} from '../utils.js';
+import { isEmpty } from "../utils.js";
 
 const fraction = function (token) {
-	const hp = token.actor.data.data.harm;
+	const hp = token.actor.system.harm;
 	return hp.value / hp.max;
 };
-const breakCondition = `||token.actor.data.type === "location"`;
+const breakCondition = `||token.actor.type === "location"`;
 
-export {fraction, breakCondition};
+export { fraction, breakCondition };

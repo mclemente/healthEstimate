@@ -1,26 +1,9 @@
-import { t } from "./utils.js";
+import { addSetting, t } from "./utils.js";
 import { updateBreakSettings } from "./systemSpecifics.js";
-import { updateSettings } from "./logic.js";
 import { HealthEstimateStyleSettings } from "./styleSettings.js";
 import { HealthEstimateDeathSettings } from "./deathSettings.js";
-import { injectConfig } from "./injectConfig.js";
-
-/**
- * Shorthand for game.settings.register().
- * Default data: {scope: "world", config: true}
- * @function addSetting
- * @param {string} key
- * @param {object} data
- */
-export function addSetting(key, data) {
-	const commonData = {
-		name: t(`${key}.name`),
-		hint: t(`${key}.hint`),
-		scope: "world",
-		config: true,
-	};
-	game.settings.register("healthEstimate", key, Object.assign(commonData, data));
-}
+import { injectConfig } from "../lib/injectConfig.js";
+import { outputStageChange } from "../lib/HealthMonitor.js";
 
 export const registerSettings = function () {
 	/**
@@ -55,6 +38,13 @@ export const registerSettings = function () {
 	});
 
 	/* Settings for the main settings menu */
+	addSetting("core.alwaysShow", {
+		type: Boolean,
+		default: false,
+		onChange: () => {
+			game.healthEstimate.updateSettings();
+		},
+	});
 	addSetting("core.showDescription", {
 		type: Number,
 		default: 0,
@@ -82,52 +72,67 @@ export const registerSettings = function () {
 	addSetting("core.stateNames", {
 		type: String,
 		default: t("core.stateNames.default"),
-		onChange: (s) => {
-			updateSettings();
+		onChange: () => {
+			game.healthEstimate.updateSettings();
 		},
 	});
 	addSetting("core.perfectionism", {
-		type: Boolean,
-		default: true,
-		onChange: (s) => {
-			updateSettings();
+		type: Number,
+		default: 1,
+		choices: {
+			0: t("core.perfectionism.choices.0"),
+			1: t("core.perfectionism.choices.1"),
+			2: t("core.perfectionism.choices.2"),
+		},
+		onChange: () => {
+			game.healthEstimate.updateSettings();
 		},
 	});
 	addSetting("core.outputChat", {
 		type: Boolean,
 		default: false,
-		onChange: (s) => {
-			updateSettings();
+		onChange: (value) => {
+			if (value) {
+				Hooks.on("updateActor", onUpdateActor);
+				Hooks.on("updateToken", onUpdateToken);
+			} else {
+				Hooks.off("updateActor", onUpdateActor);
+				Hooks.off("updateToken", onUpdateToken);
+			}
 		},
+	});
+	addSetting("core.unknownEntity", {
+		type: String,
+		default: game.i18n.localize("healthEstimate.core.unknownEntity.default"),
 	});
 
 	/* Settings for the death menu */
 	addMenuSetting("core.deathState", {
 		type: Boolean,
 		default: false,
-		onChange: (s) => {
-			updateSettings();
+		onChange: () => {
+			game.healthEstimate.updateSettings();
 		},
 	});
 	addMenuSetting("core.deathStateName", {
 		type: String,
 		default: t("core.deathStateName.default"),
-		onChange: (s) => {
-			updateSettings();
+		onChange: () => {
+			game.healthEstimate.updateSettings();
 		},
 	});
 	addMenuSetting("core.NPCsJustDie", {
 		type: Boolean,
 		default: true,
-		onChange: (s) => {
-			updateSettings();
+		onChange: () => {
+			game.healthEstimate.updateSettings();
 		},
 	});
 	addMenuSetting("core.deathMarker", {
 		type: String,
 		default: "icons/svg/skull.svg",
-		onChange: (s) => {
-			updateSettings();
+		onChange: () => {
+			game.healthEstimate.updateSettings();
 		},
 	});
 
@@ -422,6 +427,30 @@ export const registerSettings = function () {
  * @category GMOnly
  * @function
  * @async
+ * @param {SettingsConfig} settingsConfig
+ * @param {JQuery} html
+ */
+export async function renderSettingsConfigHandler(settingsConfig, html) {
+	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
+	const outputChatCheckbox = html.find('input[name="healthEstimate.core.outputChat"]');
+	const unknownEntityInput = html.find('input[name="healthEstimate.core.unknownEntity"]');
+	disableCheckbox(unknownEntityInput, !outputChat);
+
+	outputChatCheckbox.on("change", (event) => {
+		disableCheckbox(unknownEntityInput, !event.target.checked);
+	});
+}
+
+function disableCheckbox(checkbox, boolean) {
+	checkbox.prop("disabled", boolean);
+}
+
+/**
+ * Handler called when token configuration window is opened. Injects custom form html and deals
+ * with updating token.
+ * @category GMOnly
+ * @function
+ * @async
  * @param {TokenConfig} tokenConfig
  * @param {JQuery} html
  */
@@ -446,9 +475,9 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 		var hideName = tokenConfig.object.getFlag("healthEstimate", "hideName") ? "checked" : "";
 		var dontMarkDead = tokenConfig.object.getFlag("healthEstimate", "dontMarkDead") ? "checked" : "";
 	} else {
-		hideHealthEstimate = tokenConfig.token.getFlag("healthEstimate", "hideHealthEstimate") ? "checked" : "";
-		hideName = tokenConfig.token.getFlag("healthEstimate", "hideName") ? "checked" : "";
-		dontMarkDead = tokenConfig.token.getFlag("healthEstimate", "dontMarkDead") ? "checked" : "";
+		hideHealthEstimate = tokenConfig.token.flags?.healthEstimate?.hideHealthEstimate ? "checked" : "";
+		hideName = tokenConfig.token.flags?.healthEstimate?.hideName ? "checked" : "";
+		dontMarkDead = tokenConfig.token.flags?.healthEstimate?.dontMarkDead ? "checked" : "";
 	}
 	let data = {
 		hideHealthEstimate: hideHealthEstimate,
@@ -458,4 +487,18 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 
 	const insertHTML = await renderTemplate("modules/healthEstimate/templates/token-config.html", data);
 	posTab.append(insertHTML);
+}
+
+export function onUpdateActor(actor, data, options, userId) {
+	if (!game.user.isGM || !canvas.scene) return;
+	let token = canvas.tokens.placeables.find((e) => e.actor && e.actor.type === "character" && e.actor.id == actor.id);
+	if (token && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token) && token.id in game.healthEstimate.actorsCurrentHP)
+		outputStageChange(token);
+}
+
+export function onUpdateToken(token, change, options, userId) {
+	if (!game.user.isGM || !canvas.scene) return;
+	if (!game.healthEstimate.breakOverlayRender(token.object) && token.object.id in game.healthEstimate.actorsCurrentHP && !game.healthEstimate.hideEstimate(token.object)) {
+		outputStageChange(token.object);
+	}
 }

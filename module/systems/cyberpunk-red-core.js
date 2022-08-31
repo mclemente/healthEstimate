@@ -6,18 +6,18 @@ import { t } from "../utils.js";
  * So, instead of having two different estimates, it uses CPR's.
  **/
 const fraction = function (token) {
-	const hp = token.actor.data.data.derivedStats.hp;
+	const hp = token.actor.system.derivedStats.hp;
 	return hp.value / hp.max;
 };
 
 const breakCondition = `||token.actor.type === "blackIce" || token.actor.type === "container" || token.actor.type === "demon"`;
 
-let descriptions = function (descriptions, stage, token, state = { isDead: false, desc: "" }, fraction) {
-	if (state.isDead) {
+let descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }, fraction) {
+	if (state.dead) {
 		return state.desc;
 	}
 	if (game.settings.get("healthEstimate", "cyberpunk-red-core.useSystemStates")) {
-		return game.i18n.localize(`CPR.global.woundState.${token.actor.data.data.derivedStats.currentWoundState}`);
+		return game.i18n.localize(`CPR.global.woundState.${token.actor.system.derivedStats.currentWoundState}`);
 	}
 	return descriptions[stage];
 };

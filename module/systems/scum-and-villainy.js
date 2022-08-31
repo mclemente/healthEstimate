@@ -1,29 +1,30 @@
-import {isEmpty} from '../utils.js';
+import { isEmpty } from "../utils.js";
 
 const fraction = function (token) {
-	const hp = token.actor.data.data.harm;
-	let harmLevel = 0
+	const hp = token.actor.system.harm;
+	let harmLevel = 0;
 	for (let [key, value] of Object.entries(hp)) {
 		for (let entry of Object.values(value)) {
-			if (!isEmpty(entry)) {  //Testing for empty or whitespace
+			if (!isEmpty(entry)) {
+				//Testing for empty or whitespace
 				switch (key) {
-					case 'light':
+					case "light":
 						harmLevel += 1;
 						break;
-					case 'medium':
+					case "medium":
 						harmLevel += 3;
 						break;
-					case 'heavy':
+					case "heavy":
 						harmLevel += 9;
 						break;
-					case 'deadly':
+					case "deadly":
 						return 0;
 				}
 			}
 		}
 	}
-	return 1 - (harmLevel / 18);
+	return 1 - harmLevel / 18;
 };
-const breakCondition = `||token.actor.data.type === "ship"||token.actor.data.type === "\uD83D\uDD5B clock"||token.actor.data.type === "universe"`;
+const breakCondition = `||token.actor.type === "ship"||token.actor.type === "\uD83D\uDD5B clock"||token.actor.type === "universe"`;
 
-export {fraction, breakCondition};
+export { fraction, breakCondition };

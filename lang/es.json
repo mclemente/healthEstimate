@@ -16,6 +16,11 @@
 				}
 			},
 			"isNow": "está ahora",
+			"unknownEntity": {
+				"name": "Nombre de la Entidad Desconocida",
+				"hint": "Establece cómo se llamará a un personaje oculto.",
+				"default": "Entidad Desconocida"
+			},
 			"showDescription": {
 				"name": "Mostrar Estimación: Usuarios",
 				"hint": "Mostrar Estimaciones a los siguientes usuarios.",
@@ -59,7 +64,7 @@
 			},
 			"outputChat": {
 				"name": "Mostrar Estimación en el Chat",
-				"hint": "Mostrar cualquier cambio de estimación en el chat. Los personajes marcados con la macro Hide Estimate serán mostrados como \"Unknown Entity\"."
+				"hint": "Mostrar cualquier cambio de estimación en el chat. Los personajes marcados con la macro Hide Estimate serán mostrados como \"Entidad Desconocida\"."
 			},
 			"addTemp": {
 				"name": "Añadir Salud Temporal",
@@ -137,7 +142,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Usar Umbral de Vehículos",
-				"hint": "Si se activa este ajuste, las descripciones \"Estados de Umbral\" se usarán para vehículas sobre el umbral, por debajo, y a 0 PV respectivamente."
+				"hint": "Si se activa este ajuste, limita las etapas de \"Estados de Vehículos\" a 3."
 			},
 			"thresholdNames": {
 				"name": "Estados de Umbral",
@@ -146,7 +151,7 @@
 			},
 			"vehicleNames": {
 				"name": "Estados de Vehículos",
-				"hint": "Descripciones mostadas para naves estelares (siempre), y vehículos (si \"Usar Umbral de Vehículos\" está desactivado)",
+				"hint": "Descripciones mostadas para naves estelares (siempre), y vehículos.",
 				"default": "Destrozado, En Llamas, Humeante, Maltrecho, Magullado, Prístino"
 			},
 			"addStamina": {
@@ -158,7 +163,7 @@
 			"simpleRule": {
 				"name": "Regla de Estimación",
 				"hint": "La fórmula JS para calcular la fracción de salud que tiene el token. Alterar con precacución. Predeterminado asume una salud descendente simple, p.ej. comienzas con 10/10 en tu campo de salud y va bajando hasta 0/10 al recibir daño.",
-				"default": "const hp = token.actor.data.data.health; return hp.value / hp.max"
+				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
 			}
 		}
 	}

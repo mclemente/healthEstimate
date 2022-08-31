@@ -1,13 +1,13 @@
 const fraction = function (token) {
-	switch (token.actor.data.type) {
+	switch (token.actor.type) {
 		case "Accelerated": {
 			let hitCounter = 6;
-			for (let [key, value] of Object.entries(token.actor.data.data.health.cons)) {
+			for (let [key, value] of Object.entries(token.actor.system.health.cons)) {
 				if (value.value !== "") {
 					hitCounter -= 1;
 				}
 			}
-			for (let [key, value] of Object.entries(token.actor.data.data.health.stress)) {
+			for (let [key, value] of Object.entries(token.actor.system.health.stress)) {
 				hitCounter -= 1 * value;
 			}
 			return hitCounter / 6;
@@ -17,6 +17,6 @@ const fraction = function (token) {
 		}
 	}
 };
-const breakCondition = `||token.actor.data.type !== "Accelerated"`;
+const breakCondition = `||token.actor.type !== "Accelerated"`;
 
 export { fraction, breakCondition };

@@ -1,6 +1,5 @@
 const fraction = (token) => {
-	const data = token.actor.data;
-	const hp = data.data.derived.hp;
+	const hp = token.actor.system.derived.hp;
 	return hp.value / hp.max;
 };
 
@@ -21,8 +20,8 @@ const settings = () => {
 
 const breakCondition = `
 	|| game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') 
-	&& (token.actor.data.data.mech?.hp.max === 0
-	|| token.actor.data.data.hp?.max    === 0)
+	&& (token.actor.system.mech?.hp.max === 0
+	|| token.actor.system.hp?.max    === 0)
 `;
 
 export { fraction, settings, breakCondition };

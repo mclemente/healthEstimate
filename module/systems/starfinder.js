@@ -1,12 +1,12 @@
 import { descriptions } from "../utils.js";
 
 const fraction = function (token) {
-	const type = token.actor.data.type;
-	const hp = token.actor.data.data.attributes.hp;
+	const type = token.actor.type;
+	const hp = token.actor.system.attributes.hp;
 	switch (type) {
 		case "npc":
 		case "character": {
-			const sp = token.actor.data.data.attributes.sp;
+			const sp = token.actor.system.attributes.sp;
 			const addStamina = game.settings.get("healthEstimate", "starfinder.addStamina") ? 1 : 0;
 			const temp = game.settings.get("healthEstimate", "core.addTemp") && type === "character" ? hp.temp : 0;
 			return Math.min((hp.value + sp.value * addStamina + temp) / (hp.max + sp.max * addStamina), 1);
@@ -46,6 +46,7 @@ const settings = () => {
 			default: false,
 		},
 		"starfinder.thresholdNames": {
+			config: false,
 			type: String,
 			default: t("starfinder.thresholdNames.default"),
 		},
@@ -56,6 +57,6 @@ const settings = () => {
 	};
 };
 
-const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.data.data.attributes.hp.max === 0`;
+const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0`;
 
 export { fraction, settings, descriptions, breakCondition };

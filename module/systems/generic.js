@@ -2,9 +2,9 @@ import { getNestedData, sGet, t } from "../utils.js";
 
 const fraction = function (token) {
 	const hpPath = sGet("core.custom.FractionHP");
-	let hp = getNestedData(token, hpPath) || token.actor.data.data.attributes?.hp || token.actor.data.data.hp;
+	let hp = getNestedData(token, hpPath) || token.actor.system.attributes?.hp || token.actor.system.hp;
 	let temp = 0;
-	if (game.settings.get("healthEstimate", "core.addTemp") && token.actor.data.type === "character") {
+	if (game.settings.get("healthEstimate", "core.addTemp") && token.actor.type === "character") {
 		temp = hp.temp;
 	}
 	if (hp === undefined && hpPath === "") throw new Error(`The HP is undefined, try using the ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting.`);

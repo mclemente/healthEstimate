@@ -1,7 +1,7 @@
 import { isEmpty } from "../utils.js";
 
 const fraction = function (token) {
-	const hp = token.actor.data.data.harm;
+	const hp = token.actor.system.harm;
 	let harmLevel = 0;
 	for (let [key, value] of Object.entries(hp)) {
 		for (let entry of Object.values(value)) {
@@ -25,6 +25,6 @@ const fraction = function (token) {
 	}
 	return 1 - harmLevel / 18;
 };
-const breakCondition = `||token.actor.data.type === "npc"||token.actor.data.type === "crew"||token.actor.data.type === "\uD83D\uDD5B clock"||token.actor.data.type === "factions"`;
+const breakCondition = `||token.actor.type === "npc"||token.actor.type === "crew"||token.actor.type === "\uD83D\uDD5B clock"||token.actor.type === "factions"`;
 
 export { fraction, breakCondition };
