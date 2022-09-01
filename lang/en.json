@@ -154,7 +154,7 @@
 		},
 		"dnd5e": {
 			"vehicleNames": {
-				"hint": "Descriptions shown for vehicles if \"Use Vehicle Threshold\" is off",
+				"hint": "Descriptions shown for starships (always), and vehicles.",
 				"default": "Wrecked, Broken, Battered, Scratched, Pristine"
 			}
 		},
