@@ -55,11 +55,11 @@ li.hm_message {
 	border: 2px solid #191813d6;
 }
 li.hm_messageheal {
-	background: #06a406;
+	background: #06a406 !important;
 }
 
 li.hm_messagetaken {
-	background: #c50d19;
+	background: #c50d19 !important;
 }
 
 .numberHE {
