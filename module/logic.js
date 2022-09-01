@@ -2,7 +2,7 @@ import { registerSettings } from "./settings.js";
 import { fractionFormula, prepareSystemSpecifics, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
 import { sGet, t } from "./utils.js";
 
-let alignment, colors, deadColor, deadOutline, deathStateName, descriptions, NPCsJustDie, outline, margin, perfectionism, showDead;
+let alignment, colors, deadColor, deadOutline, NPCsJustDie, outline, margin, perfectionism, showDead;
 
 export class HealthEstimate {
 	constructor() {}
@@ -112,12 +112,12 @@ export class HealthEstimate {
 
 			let dead = this.isDead(token, stage);
 			let desc = this.descriptionToShow(
-				customStages.length ? customStages : descriptions,
+				customStages.length ? customStages : this.descriptions,
 				stage,
 				token,
 				{
 					dead: dead,
-					desc: deathStateName,
+					desc: this.deathStateName,
 				},
 				fraction,
 				customStages.length ? true : false
@@ -153,7 +153,7 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getStage(fraction, customStages = []) {
-		const desc = customStages?.length ? customStages : descriptions;
+		const desc = customStages?.length ? customStages : this.descriptions;
 		return Math.max(0, perfectionism ? Math.ceil((desc.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((desc.length - 1) * fraction));
 	}
 	hideEstimate(token) {
@@ -184,8 +184,8 @@ export class HealthEstimate {
 	 * Updates the variables if any setting was changed.
 	 */
 	updateSettings() {
-		descriptions = sGet("core.stateNames").split(/[,;]\s*/);
-		deathStateName = sGet("core.deathStateName");
+		this.descriptions = sGet("core.stateNames").split(/[,;]\s*/);
+		this.deathStateName = sGet("core.deathStateName");
 		showDead = sGet("core.deathState");
 		NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
