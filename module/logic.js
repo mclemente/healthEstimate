@@ -50,7 +50,7 @@ export class HealthEstimate {
 			if (!token.isVisible) return;
 			const { desc, color, stroke } = this.getEstimation(token);
 			if (!desc) return;
-			if (token.healthEstimate) token.healthEstimate.destroy();
+			if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 			token.healthEstimate = token.addChild(
 				new PIXI.Text(desc, {
 					fontSize: document.documentElement.style.getPropertyValue("--healthEstimate-text-size"),
