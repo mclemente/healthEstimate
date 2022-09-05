@@ -10,8 +10,8 @@
 					"name": "Equação da Fração",
 					"hint": "Seu sistema não é oficialmente suportado, então escolha a equação usada para calcular a fração da estimativa de vida.",
 					"choices": {
-						"0": "(Current HP)/(Max HP)",
-						"1": "(Max HP - Current HP)/(Max HP)"
+						"0": "(PV Atual)/(Pv Máx)",
+						"1": "(PV Máx - PV Atual)/(PV Máx)"
 					}
 				}
 			},
@@ -42,7 +42,7 @@
 				},
 				"hideEstimatesAndNames": {
 					"name": "Ocultar Estimativas e Nomes",
-					"hint": "Oculta as estimativas e os nomes dos tokens selecionados. "
+					"hint": "Oculta as estimativas e os nomes dos tokens selecionados."
 				}
 			},
 			"isNow": "agora está",
@@ -72,7 +72,7 @@
 			},
 			"stateNames": {
 				"name": "Estágios",
-				"hint": "Uma série de descritores organizados da pior para a melhor condição. A quantidade de descritores não possui limite máximo, o módulo se ajustará a porcentagem de vitalidade para mostrá-los proporcionalmente. Se for necessário um descritor para cobrir uma faixa maior de vitalidade, simplesmente copie-o várias vezes.",
+				"hint": "Uma série de descritores organizados da pior para a melhor condição.\nA quantidade de descritores não possui limite máximo, o módulo se ajustará a porcentagem de vitalidade para mostrá-los proporcionalmente.\nSe for necessário um descritor para cobrir uma faixa maior de vitalidade, simplesmente copie-o várias vezes.",
 				"default": "Inconsciente, Quase Morto, Gravemente Ferido, Ferido, Escoriado, Ileso"
 			},
 			"deathState": {
@@ -107,7 +107,7 @@
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
-				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra. Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
+				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra.\nCom essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Ocultar em tokens com 0 PV máximos",
@@ -148,21 +148,21 @@
 		},
 		"cyberpunk-red-core": {
 			"useSystemStates": {
-				"name": "Use Wound States",
-				"hint": "Ignores the Stages setting and uses the Cyberpunk RED Core's wound states."
+				"name": "Usar Estágios de Ferimento",
+				"hint": "Ignora a configuração de Estágios e usa os estágios de ferimentos do Cyberpunk RED Core."
 			}
 		},
 		"dnd5e": {
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descrições exibidas para veículos se \"Usar Limiar do Veículo\" estiver desativado",
+				"hint": "Descrições exibidas para veículos se \"Usar Limiar do Veículo\" estiver desativado.",
 				"default": "Destruído, Quebrado, Maltratado, Arranhado, Impecável"
 			}
 		},
 		"PF1": {
 			"addNonlethal": {
-				"name": "Use Nonlethal Damage",
-				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
+				"name": "Usar Dano Não Letal",
+				"hint": "Se habilitado, dano não letal será subtraído da vida atual para a estimativa."
 			},
 			"showExtra": {
 				"name": "Disabled & Dying",
@@ -181,8 +181,8 @@
 		},
 		"PF2E": {
 			"staminaToHp": {
-				"name": "Stamina to Estimate",
-				"hint": "Add Stamina Points to the estimate."
+				"name": "Pontos de Estamina na Estimativa",
+				"hint": "Adiciona Pontos de Estamina à estimativa."
 			}
 		},
 		"numenera": {
@@ -216,6 +216,18 @@
 				"name": "Estimation Rule",
 				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage.",
 				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
+			}
+		},
+		"od6s": {
+			"vehicleNames": {
+				"name": "Estágios de Veículos e Naves",
+				"hint": "Descrições mostradas para naves e veículos",
+				"default": "Destruído, Gravemente Danificado, Muito Danificado, Ligeiramente Danificado, Muito Ligeiramente Danificado, Não danificado"
+			},
+			"thresholdNames": {
+				"name": "Limiar de Estágios",
+				"default": "Destruído, Quebrado, Totalmente Funcional",
+				"hint": "A quantidade de estágios é limitada a 3, organizadas da pior para a melhor condição"
 			}
 		}
 	}
