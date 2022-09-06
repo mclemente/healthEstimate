@@ -53,7 +53,7 @@
 			},
 			"alwaysShow": {
 				"name": "Always Show Estimates",
-				"hint": "Makes the estimates to always be shown instead of just when hovering a token."
+				"hint": "Makes the estimates always visible instead of just when hovering over a token."
 			},
 			"showDescription": {
 				"name": "Show Estimates: Users",
@@ -94,7 +94,7 @@
 			},
 			"perfectionism": {
 				"name": "Behavior",
-				"hint": "Description = the last stage in the Stages setting.",
+				"hint": "Description is the last stage in the Stages setting.",
 				"choices": {
 					"0": "Show the description even when the target is damaged.",
 					"1": "Show the description when the target isn't damaged.",
