@@ -82,7 +82,50 @@
 					"name": "Ajustement de la position",
 					"hint": "La position est relative au cadre. Le nombre vous permet d'ajuster la position relative par rapport à sa position normale. Un nombre positif descend la description, un negatif la montre. La valeur par défaut est -1 et correspond à \"1 ligne en dessous de la position initiale\"."
 				}
-			}
+			},
+			"custom": {
+				"FractionHP": {
+					"name": "Chemin des donné d'attribut Points de vie",
+					"hint": "Votre système utilise peut-être un autre chemin de données. Si l'estimation ne s'affiche pas correctement, entrez le chemin de données dans l'attribut correct (par exemple actor.system.health)."
+				},
+				"FractionMath": {
+					"name": "Équation des fractions",
+					"hint": "L'équation de PV de votre système peut être différente de celle par défaut, choisissez l'équation utilisée pour estimer la fraction de santé.",
+					"choices": {
+						"1": "(PV max - PV actuel)/(PV max)",
+						"0": "(PV actuel)/(PV max)"
+					}
+				}
+			},
+			"keybinds": {
+				"markDead": {
+					"name": "Marquer comme mort"
+				},
+				"customEstimates": {
+					"name": "Estimations personnalisées"
+				},
+				"dontMarkDead": {
+					"name": "Ne pas marquer comme mort"
+				},
+				"hideEstimates": {
+					"name": "Cacher les estimations"
+				},
+				"hideNames": {
+					"name": "Cacher les noms"
+				},
+				"hideEstimatesAndNames": {
+					"name": "Cacher les estimations et les noms"
+				}
+			},
+			"unknownEntity": {
+				"name": "Nom de l'entité inconnue",
+				"hint": "Définit comment un caractère caché doit être appelé.",
+				"default": "Entité inconnue"
+			},
+			"alwaysShow": {
+				"name": "Toujours montrer les estimations"
+			},
+			"isNow": "est maintenant"
 		},
 		"dnd5e": {
 			"vehicleNames": {
