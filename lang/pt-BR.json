@@ -22,7 +22,7 @@
 				},
 				"customEstimates": {
 					"name": "Estimativas Personalizadas",
-					"hint": "Define estimativas personalizadas para os tokens selecionados. Mudará cada token selecionado para o valor de entrada. Deixá-lo em branco irá redefini-lo para o mesmo valor da configuração de Estágios.",
+					"hint": "Define estimativas personalizadas para os tokens selecionados. Deixe-a em branco para resetar.",
 					"options": {
 						"1": "Tokens e Atores",
 						"2": "Somente Tokens"
@@ -53,7 +53,7 @@
 			},
 			"alwaysShow": {
 				"name": "Sempre Mostrar Estimativas",
-				"hint": "Faz com que as estimativas sempre apareçam em vez de só com o passar do mouse."
+				"hint": "Torna as estimativas sempre visíveis em vez de só com o passar do mouse."
 			},
 			"showDescription": {
 				"name": "Mostrar Estimativas: Usuários",
@@ -94,7 +94,7 @@
 			},
 			"perfectionism": {
 				"name": "Comportamento",
-				"hint": "Descritor = último estágio da configuração \"Estágios\".",
+				"hint": "Descritor é o último estágio da configuração \"Estágios\".",
 				"choices": {
 					"0": "Mostrar o descritor quando o alvo está machucado.",
 					"1": "Mostrar o descritor quando o alvo não está machucado.",
