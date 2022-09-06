@@ -135,8 +135,7 @@
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Règle d'estimation",
-				"hint": "La formule JS pour calculer la proportion de santé que le token a. A modifier avec prudence. La valeur par défaut suppose une simple santé descendante, par exemple vous commencez avec 10/10 dans votre case santé et descendez à 0/10 lorsque vous subissez des dommages.",
-				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
+				"hint": "La formule JS pour calculer la proportion de santé que le token a. A modifier avec prudence. La valeur par défaut suppose une simple santé descendante, par exemple vous commencez avec 10/10 dans votre case santé et descendez à 0/10 lorsque vous subissez des dommages."
 			}
 		}
 	}
