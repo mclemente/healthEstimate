@@ -49,7 +49,7 @@
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Ne pas afficher pour les tokens à 0 PV Max",
-				"hint": "Utile pour les objets ayant un token"
+				"hint": "Utile pour les objets ayant un token."
 			},
 			"menuSettings": {
 				"fontSize": {
@@ -80,13 +80,13 @@
 				},
 				"positionAdjustment": {
 					"name": "Ajustement de la position",
-					"hint": "La position est relative au cadre. Le nombre vous permet d'ajuster la position relative par rapport à sa position normale.  Un nombre positif descend la description, un negatif la montre. La valeur par défaut est -1 et correspond à \"1 ligne en dessous de la position initiale\"."
+					"hint": "La position est relative au cadre. Le nombre vous permet d'ajuster la position relative par rapport à sa position normale. Un nombre positif descend la description, un negatif la montre. La valeur par défaut est -1 et correspond à \"1 ligne en dessous de la position initiale\"."
 				}
 			}
 		},
 		"dnd5e": {
 			"vehicleNames": {
-				"hint": "Descriptions shown for vehicles if \"Use Vehicle Threshold\" is off",
+				"hint": "Descriptions shown for vehicles if \"Use Vehicle Threshold\" is off.",
 				"default": "Détruit, Cassé, Cabossé, Éraflé, Neuf"
 			}
 		},
@@ -124,7 +124,7 @@
 			},
 			"vehicleNames": {
 				"name": "Étapes du véhicule",
-				"hint": "Descriptions indiquées pour les vaisseaux (toujours) et les véhicules (si \"Seuil d'utilisation des véhicules\" est désactivé)",
+				"hint": "Descriptions indiquées pour les vaisseaux (toujours) et les véhicules (si \"Seuil d'utilisation des véhicules\" est désactivé).",
 				"default": "Épave, En feu, Fumant, Endommagé, Rayé, Intacte"
 			},
 			"addStamina": {
