@@ -72,7 +72,7 @@
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Esconder en tokens con 0 PV máx.",
-				"hint": "Útil para objetos con tokens"
+				"hint": "Útil para objetos con tokens."
 			},
 			"menuSettings": {
 				"fontSize": {
@@ -105,6 +105,29 @@
 					"name": "Ajuste de Posición",
 					"hint": "La posición se establece relativa al marco. El número te permite afinar la posición relativa a su lugar normal. Números positivos lo empujan hacia abajo, negativos – más alto. El valor predeterminado de -1 lo establece en \"1 line above initial position\"."
 				}
+			},
+			"keybinds": {
+				"markDead": {
+					"name": "Marcar como muerto"
+				},
+				"dontMarkDead": {
+					"name": "No marcar como muerto"
+				},
+				"hideEstimates": {
+					"name": "Ocultar estimaciones"
+				},
+				"hideNames": {
+					"name": "Ocultar nombres"
+				},
+				"hideEstimatesAndNames": {
+					"name": "Ocultar estimaciones y nombres"
+				},
+				"customEstimates": {
+					"name": "Estimaciones personalizadas"
+				}
+			},
+			"alwaysShow": {
+				"name": "Mostrar siempre las estimaciones"
 			}
 		},
 		"dnd5e": {
