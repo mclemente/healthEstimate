@@ -1,1 +1,124 @@
-{}
+{
+	"healthEstimate": {
+		"core": {
+			"keybinds": {
+				"markDead": {
+					"name": "Merkitse kuolleeksi",
+					"hint": "Merkitsee kaikki valitut pelinappulat kuolleiksi. Jos kaikki valitut ovat jo kuolleita, ne palautetaan eläviksi."
+				},
+				"customEstimates": {
+					"name": "Mukautetut arviot",
+					"options": {
+						"1": "Pelinappulat & hahmot",
+						"2": "Vain pelinappulat"
+					},
+					"hint": "Asettaa valituille pelinappuloille mukautetut arviot. Se muuttaa jokaiseen valittuun pelinappulaan tämän arvoksi. Sen jättäminen tyhjäksi palauttaa sen samaan arvoon kuin Vaiheet-asetuksessa."
+				},
+				"dontMarkDead": {
+					"name": "Älä merkitse kuolleeksi",
+					"hint": "Ei merkitse EPH:ja kuolleiksi, kun niiden KP:t ovat 0 (esim. se näkyy tajuttomana). Tämä on hyödyllinen vain, jos käytät asetusta \"EPH:t kuolevat välittömästi\"."
+				},
+				"hideEstimates": {
+					"name": "Piilota arviot",
+					"hint": "Piilottaa valittujen pelinappuloiden arviot pelaajilta. Piilotetut arviot näyttävät PJ:lle *-merkin."
+				},
+				"hideNames": {
+					"name": "Piilota nimet",
+					"hint": "Piilottaa valittujen pelinappuloiden nimet, kun käytät asetusta \"Tulosta arvio keskusteluun\"."
+				},
+				"hideEstimatesAndNames": {
+					"name": "Piilota arviot ja nimet",
+					"hint": "Piilottaa sekä arviot että valittujen pelinappuloiden nimet."
+				}
+			},
+			"custom": {
+				"FractionHP": {
+					"name": "Kestopisteiden attribuutin tietopolku",
+					"hint": "Järjestelmäsi saattaa käyttää toista tietopolkua. Jos arvio ei näy oikein, syötä oikean attribuutin tietopolku (esim. actor.system.health)."
+				},
+				"FractionMath": {
+					"name": "Murtoluvun yhtälö",
+					"hint": "Järjestelmäsi KP-yhtälö saattaa olla erilainen kuin oletusarvo, valitse yhtälö, jota käytetään kestopisteiden murtoluvun arvioimiseen.",
+					"choices": {
+						"0": "(Nykyiset KP:t) ∕ (maks. KP:llä)",
+						"1": "(Maks. KP − nykyinen KO) ∕ (maks. KP)"
+					}
+				}
+			},
+			"isNow": "on nyt",
+			"unknownEntity": {
+				"default": "Tuntematon entiteetti"
+			},
+			"alwaysShow": {
+				"name": "Näytä arviot aina",
+				"hint": "Arviot näytetään aina, eikä vain kun osoitin on pelinappulan päällä."
+			},
+			"showDescription": {
+				"name": "Näytä arviot käyttäjille",
+				"hint": "Näytä arviot seuraaville käyttäjille.",
+				"choices": {
+					"all": "Kaikille",
+					"GM": "Pelinjohtajille",
+					"Players": "Pelaajille",
+					"NPC": "Ei-pelaajahahmoille",
+					"PC": "Pelaajahahmoille"
+				}
+			},
+			"showDescriptionTokenType": {
+				"hint": "Näytä seuraavien pelinappuloiden arviot."
+			},
+			"stateNames": {
+				"name": "Vaiheet",
+				"default": "Tajuton, Kuoleman kielissä, Pahasti loukkaantunut, Loukkaantunut, Tuskin loukkaantunut, Vahingoittumaton",
+				"hint": "Pelaajille näytettävä joukko kuvauksia, jotka on järjestetty huonoimmasta mahdollisesta terveydestä parhaaseen mahdolliseen.\nMahdollisten kuvausten määrää ei ole rajoitettu, moduuli säätää kestopisteprosenttia näyttääkseen ne suhteessa määrään.\nJos yhden kuvauksen on tarpeen kattaa suurempi vaihteluväli terveyttä kuin muiden, kopioi se yksinkertaisesti useaan kertaan."
+			},
+			"deathStateName": {
+				"default": "Kuollut",
+				"name": "Kuollut-tilan nimi",
+				"hint": "Pelaajille näytettävä kuvaus kun pelinappula on kuollut. Hakemisto-välilehdellä on makro, jolla merkitään yksi tai useampi pelinappula kuolleeksi."
+			},
+			"deathMarker": {
+				"name": "Kuolleen merkki"
+			},
+			"NPCsJustDie": {
+				"name": "EPH:t kuolevat välittömästi",
+				"hint": "EPH:jen viimeinen vaihe korvataan kuollut-tilan nimellä."
+			},
+			"perfectionism": {
+				"name": "Käyttäytyminen",
+				"hint": "Kuvaus on viimeinen vaihe Vaiheet-asetuksessa.",
+				"choices": {
+					"0": "Näytä kuvaus, vaikka kohde olisi vahingoittunut.",
+					"1": "Näytä kuvaus, kun kohde ei ole vahingoittunut.",
+					"2": "Älä näytä kuvausta, kun kohde ei ole vahingoittunut."
+				}
+			},
+			"outputChat": {
+				"name": "Tulosta arvio keskusteluun",
+				"hint": "Tulosta kaikki arvion muutokset keskusteluun. Piilota arvio -makrolla merkityt hahmot näytetään \"Tuntematon entiteetti\" tekstillä."
+			},
+			"addTemp": {
+				"name": "Lisää tilapäiset kestopisteet"
+			},
+			"menuSettings": {
+				"deadColor": {
+					"name": "Kuolleiden pelinappuloiden väri"
+				},
+				"outline": {
+					"name": "Ääriviiva",
+					"darken": "Tummenna",
+					"brighten": "Kirkasta"
+				},
+				"position": {
+					"name": "Sijainti",
+					"top": "Ylhäällä",
+					"middle": "Keskellä",
+					"bottom": "Alhaalla"
+				},
+				"positionAdjustment": {
+					"name": "Sijainnin säätö"
+				}
+			}
+		}
+	}
+}
