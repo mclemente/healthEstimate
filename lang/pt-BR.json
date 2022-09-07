@@ -48,7 +48,7 @@
 			"isNow": "agora está",
 			"unknownEntity": {
 				"name": "Nome da Entidade Desconhecida",
-				"hint": "Define como um personagem ocultado pela macro deve ser chamado.",
+				"hint": "Define como um personagem ocultado será chamado.",
 				"default": "Entidade Desconhecida"
 			},
 			"alwaysShow": {
@@ -77,11 +77,11 @@
 			},
 			"deathState": {
 				"name": "Condição Morto",
-				"hint": "Mostra o token como morto quando afetado por qualquer condição que use o ícone da opção Marcador de morte. Funciona independentemente da macro."
+				"hint": "Mostra o token como morto quando afetado por qualquer condição que use o ícone da opção Marcador de Morte. Funciona independentemente da macro."
 			},
 			"deathStateName": {
-				"name": "Descrição de Morte",
-				"hint": "A descrição mostrada aos jogadores quando o token está morto. A aba Pacotes de Compêndio possui uma macro para marcar tokens como mortos.",
+				"name": "Nome do Estado de Morte",
+				"hint": "A descrição mostrada aos jogadores quando o token está morto. A aba Compêndio possui uma macro para marcar um token (ou vários) como morto.",
 				"default": "Morto"
 			},
 			"deathMarker": {
@@ -90,24 +90,24 @@
 			},
 			"NPCsJustDie": {
 				"name": "PNJs morrem imediatamente",
-				"hint": "O último estágio de PNJs é substituído pela Descrição de Morte."
+				"hint": "O último estágio de PNJs é substituído pelo Nome do Estado de Morte."
 			},
 			"perfectionism": {
 				"name": "Comportamento",
 				"hint": "Descritor é o último estágio da configuração \"Estágios\".",
 				"choices": {
-					"0": "Mostrar o descritor quando o alvo está machucado.",
+					"0": "Mostrar o descritor até quando o alvo está machucado.",
 					"1": "Mostrar o descritor quando o alvo não está machucado.",
 					"2": "Não mostrar o descritor quando o alvo está machucado."
 				}
 			},
 			"outputChat": {
 				"name": "Enviar Estimativa para o Chat",
-				"hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro de Hide Character aparecem como \"Entitidade Desconhecida\"."
+				"hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro \"Hide Character\" aparecem como \"Entitidade Desconhecida\"."
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
-				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra.\nCom essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
+				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra.\nEx.: Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Ocultar em tokens com 0 PV máximos",
@@ -132,7 +132,7 @@
 				"outline": {
 					"name": "Contorno",
 					"darken": "Escuro",
-					"brighten": "Claro"
+					"brighten": "Clarear"
 				},
 				"position": {
 					"name": "Posição",
@@ -155,8 +155,8 @@
 		"dnd5e": {
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descrições exibidas para veículos se \"Usar Limiar do Veículo\" estiver desativado.",
-				"default": "Destruído, Quebrado, Maltratado, Arranhado, Impecável"
+				"hint": "Descrições exibidas para naves (sempre) e veículos.",
+				"default": "Destruído, Quebrado, Surrado, Arranhado, Impecável"
 			}
 		},
 		"PF1": {
@@ -165,18 +165,18 @@
 				"hint": "Se habilitado, dano não letal será subtraído da vida atual para a estimativa."
 			},
 			"showExtra": {
-				"name": "Disabled & Dying",
-				"hint": "Show \"Disabled\" and \"Dying\" descriptions"
+				"name": "Desabilitado e Morrendo",
+				"hint": "Mostrar descrições de \"Desabilitado\" e \"Morrendo\""
 			},
 			"disabledName": {
-				"name": "Disabled",
-				"hint": "Description to show when token is precisely at 0 HP or has more nonlethal damage than HP remaining",
-				"default": "Disabled"
+				"name": "Desabilitado",
+				"hint": "Descrição que será mostrada quando o token está com exatamente 0 PVs ou tem mais dano não letal do que PVs restantes",
+				"default": "Desabilitado"
 			},
 			"dyingName": {
-				"name": "Dying",
-				"hint": "Description to show when token is below 0 HP",
-				"default": "Dying"
+				"name": "Morrendo",
+				"hint": "Descrição para quando o token está com menos de 0 PVs",
+				"default": "Morrendo"
 			}
 		},
 		"PF2E": {
@@ -187,8 +187,8 @@
 		},
 		"numenera": {
 			"countPools": {
-				"name": "Count Empty Pools",
-				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted/replenished"
+				"name": "Considerar Soma de Valores Vazios",
+				"hint": "Considerar soma de valores vazias em vez da soma dos seus valores, com a estimativa sendo alterado somente quando a soma de valores for esgotado/repostos"
 			}
 		},
 		"starfinder": {
@@ -203,18 +203,18 @@
 			},
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descrições mostradas para naves e veículos.",
-				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
+				"hint": "Descrições exibidas para naves (sempre) e veículos.",
+				"default": "Destruído, Quebrado, Surrado, Arranhado, Impecável"
 			},
 			"addStamina": {
-				"name": "Account for Stamina",
-				"hint": "With this setting on Stamina will be added to HP for calculations."
+				"name": "Descrição para Estamina",
+				"hint": "Com esta opção selecionada, Estamina será adicionada aos PVs para o cálculo."
 			}
 		},
 		"worldbuilding": {
 			"simpleRule": {
-				"name": "Estimation Rule",
-				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
+				"name": "Regra de Estimativa",
+				"hint": "A fórmula JS para calcular a fração de vida do token. Altere com cautela. O padrão assume uma simples decadência de vida, por exemplo, você começa com 10/10 no seu campo de vida e reduz para 0/10 quando tomar dano."
 			}
 		},
 		"od6s": {
