@@ -47,14 +47,16 @@
 			},
 			"isNow": "on nyt",
 			"unknownEntity": {
-				"default": "Tuntematon entiteetti"
+				"default": "Tuntematon entiteetti",
+				"name": "Tuntemattoman entiteetin nimi",
+				"hint": "Asettaa, miten piilotettua hahmoa kutsutaan."
 			},
 			"alwaysShow": {
 				"name": "Näytä arviot aina",
 				"hint": "Arviot näytetään aina, eikä vain kun osoitin on pelinappulan päällä."
 			},
 			"showDescription": {
-				"name": "Näytä arviot käyttäjille",
+				"name": "Näytä arviot: käyttäjät",
 				"hint": "Näytä arviot seuraaville käyttäjille.",
 				"choices": {
 					"all": "Kaikille",
@@ -65,7 +67,8 @@
 				}
 			},
 			"showDescriptionTokenType": {
-				"hint": "Näytä seuraavien pelinappuloiden arviot."
+				"hint": "Näytä seuraavien pelinappuloiden arviot.",
+				"name": "Näytä arviot: pelinappulat"
 			},
 			"stateNames": {
 				"name": "Vaiheet",
