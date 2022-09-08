@@ -187,7 +187,7 @@
 		"numenera": {
 			"countPools": {
 				"name": "Count Empty Pools",
-				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted/replenished"
+				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted or replenished."
 			}
 		},
 		"starfinder": {
@@ -207,7 +207,7 @@
 			},
 			"addStamina": {
 				"name": "Account for Stamina",
-				"hint": "With this setting on Stamina will be added to HP for calculations."
+				"hint": "With this setting on, Stamina will be added to HP for calculations."
 			}
 		},
 		"worldbuilding": {
