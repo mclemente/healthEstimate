@@ -103,7 +103,7 @@
 			},
 			"outputChat": {
 				"name": "Enviar Estimativa para o Chat",
-				"hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro \"Hide Character\" aparecem como \"Entitidade Desconhecida\"."
+				"hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro \\\"Hide Character\\\" aparecem como \"Entitidade Desconhecida\"."
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
@@ -187,8 +187,8 @@
 		},
 		"numenera": {
 			"countPools": {
-				"name": "Considerar Soma de Valores Vazios",
-				"hint": "Considerar soma de valores vazias em vez da soma dos seus valores, com a estimativa sendo alterado somente quando a soma de valores for esgotado/repostos"
+				"name": "Contar Reservas Vazias",
+				"hint": "Conta reservas vazias em vez da soma dos seus valores, com a estimativa sendo alterada somente quando uma reserva for esgotada ou recuperada."
 			}
 		},
 		"starfinder": {
@@ -207,14 +207,14 @@
 				"default": "Destruído, Quebrado, Surrado, Arranhado, Impecável"
 			},
 			"addStamina": {
-				"name": "Descrição para Estamina",
+				"name": "Contar Estamina",
 				"hint": "Com esta opção selecionada, Estamina será adicionada aos PVs para o cálculo."
 			}
 		},
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Regra de Estimativa",
-				"hint": "A fórmula JS para calcular a fração de vida do token. Altere com cautela. O padrão assume uma simples decadência de vida, por exemplo, você começa com 10/10 no seu campo de vida e reduz para 0/10 quando tomar dano."
+				"hint": "A fórmula JS para calcular a fração de vida do token. Altere com cautela. O padrão assume uma vida decrescente simples, por exemplo, você começa com 10/10 no seu campo de vida e reduz para 0/10 quando tomar dano."
 			}
 		},
 		"od6s": {
