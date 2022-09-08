@@ -85,7 +85,7 @@
 			},
 			"custom": {
 				"FractionHP": {
-					"name": "Chemin des donné d'attribut Points de vie",
+					"name": "Chemin des données de Points de vie",
 					"hint": "Votre système utilise peut-être un autre chemin de données. Si l'estimation ne s'affiche pas correctement, entrez le chemin de données dans l'attribut correct (par exemple actor.system.health)."
 				},
 				"FractionMath": {
@@ -99,22 +99,32 @@
 			},
 			"keybinds": {
 				"markDead": {
-					"name": "Marquer comme mort"
+					"name": "Marquer comme mort",
+					"hint": "Marque tous les jetons sélectionnés comme morts. Si tous les jetons sélectionnés sont déjà morts, ils seront remis en vie."
 				},
 				"customEstimates": {
-					"name": "Estimations personnalisées"
+					"name": "Estimations personnalisées",
+					"options": {
+						"1": "Jetons et acteurs",
+						"2": "Seulement des jetons"
+					},
+					"hint": "Définit les estimations personnalisées pour les jetons sélectionnés. Laissez-le vide pour le réinitialiser."
 				},
 				"dontMarkDead": {
-					"name": "Ne pas marquer comme mort"
+					"name": "Ne pas marquer comme mort",
+					"hint": "Permet aux PNJ de ne pas être affichés comme morts lorsque leurs PV atteignent 0 (par exemple, ils seront affichés comme inconscients). Ceci n'est utile que si vous utilisez le paramètre \"Les PNJ meurent immédiatement\"."
 				},
 				"hideEstimates": {
-					"name": "Cacher les estimations"
+					"name": "Cacher les estimations",
+					"hint": "Cache les estimations des jetons sélectionnés aux joueurs. Les estimations cachées afficheront un \"*\" pour le MJ."
 				},
 				"hideNames": {
-					"name": "Cacher les noms"
+					"name": "Cacher les noms",
+					"hint": "Masque les noms des jetons sélectionnés lorsque vous utilisez le paramètre \"Afficher les estimations dans le chat\"."
 				},
 				"hideEstimatesAndNames": {
-					"name": "Cacher les estimations et les noms"
+					"name": "Cacher les estimations et les noms",
+					"hint": "Masque à la fois les estimations et les noms des jetons sélectionnés."
 				}
 			},
 			"unknownEntity": {
