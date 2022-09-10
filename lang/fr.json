@@ -41,7 +41,12 @@
 			},
 			"perfectionism": {
 				"name": "Perfectioniste",
-				"hint": "Afficher la meilleure description possible uniquement si aucun dégat n'a été subit."
+				"hint": "La description est le dernier stade dans le réglage des stades.",
+				"choices": {
+					"0": "Montrer la description même lorsque la cible est blessée.",
+					"1": "Montrer la description lorsque la cible n'est pas blessée.",
+					"2": "Ne pas montrer la description lorsque la cible n'est pas blessée."
+				}
 			},
 			"addTemp": {
 				"name": "Ajout de PV Temporaires",
@@ -86,7 +91,7 @@
 			"custom": {
 				"FractionHP": {
 					"name": "Chemin des données de Points de vie",
-					"hint": "Votre système utilise peut-être un autre chemin de données. Si l'estimation ne s'affiche pas correctement, entrez le chemin de données dans l'attribut correct (par exemple actor.system.health)."
+					"hint": "Votre système utilise peut-être un autre chemin de données. Si l'estimation ne s'affiche pas correctement, entrez le chemin de données dans l'attribut correct (ex : actor.system.health)."
 				},
 				"FractionMath": {
 					"name": "Équation des fractions",
@@ -129,13 +134,32 @@
 			},
 			"unknownEntity": {
 				"name": "Nom de l'entité inconnue",
-				"hint": "Définit comment un caractère caché doit être appelé.",
+				"hint": "Définir comment un personnage caché doit être appelé.",
 				"default": "Entité inconnue"
 			},
 			"alwaysShow": {
-				"name": "Toujours montrer les estimations"
+				"name": "Toujours montrer les estimations",
+				"hint": "rendre les estimations toujours visibles au lieu de ne l'être qu'au survol du jeton."
 			},
-			"isNow": "est maintenant"
+			"isNow": "est maintenant",
+			"showDescription": {
+				"name": "Montrer les estimations : Utilisateurs",
+				"hint": "Montrer les estimations aux utilisateurs suivants.",
+				"choices": {
+					"all": "Tous",
+					"GM": "Maîtres de jeu",
+					"Players": "Joueurs",
+					"NPC": "Personnages non joueurs",
+					"PC": "Personnages joueurs"
+				}
+			},
+			"showDescriptionTokenType": {
+				"name": "Montrer les estimations : Jetons",
+				"hint": "Montrer les estimations des jetons suivants."
+			},
+			"outputChat": {
+				"name": "Résultat de l'estimation dans la conversation"
+			}
 		},
 		"dnd5e": {
 			"vehicleNames": {
