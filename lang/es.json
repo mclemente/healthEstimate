@@ -72,7 +72,7 @@
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Esconder en tokens con 0 PV máx.",
-				"hint": "Útil para objetos con tokens"
+				"hint": "Útil para objetos con tokens."
 			},
 			"menuSettings": {
 				"fontSize": {
@@ -105,6 +105,29 @@
 					"name": "Ajuste de Posición",
 					"hint": "La posición se establece relativa al marco. El número te permite afinar la posición relativa a su lugar normal. Números positivos lo empujan hacia abajo, negativos – más alto. El valor predeterminado de -1 lo establece en \"1 line above initial position\"."
 				}
+			},
+			"keybinds": {
+				"markDead": {
+					"name": "Marcar como muerto"
+				},
+				"dontMarkDead": {
+					"name": "No marcar como muerto"
+				},
+				"hideEstimates": {
+					"name": "Ocultar estimaciones"
+				},
+				"hideNames": {
+					"name": "Ocultar nombres"
+				},
+				"hideEstimatesAndNames": {
+					"name": "Ocultar estimaciones y nombres"
+				},
+				"customEstimates": {
+					"name": "Estimaciones personalizadas"
+				}
+			},
+			"alwaysShow": {
+				"name": "Mostrar siempre las estimaciones"
 			}
 		},
 		"dnd5e": {
@@ -162,8 +185,7 @@
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Regla de Estimación",
-				"hint": "La fórmula JS para calcular la fracción de salud que tiene el token. Alterar con precacución. Predeterminado asume una salud descendente simple, p.ej. comienzas con 10/10 en tu campo de salud y va bajando hasta 0/10 al recibir daño.",
-				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
+				"hint": "La fórmula JS para calcular la fracción de salud que tiene el token. Alterar con precacución. Predeterminado asume una salud descendente simple, p.ej. comienzas con 10/10 en tu campo de salud y va bajando hasta 0/10 al recibir daño."
 			}
 		}
 	}

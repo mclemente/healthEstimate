@@ -22,7 +22,7 @@
 				},
 				"customEstimates": {
 					"name": "Custom Estimates",
-					"hint": "Sets custom estimates for the selected tokens. It will change every selected token to the input value. Leaving it as blank will reset it to the same value as the Stages setting.",
+					"hint": "Sets custom estimates for the selected tokens. Leave it blank to reset it.",
 					"options": {
 						"1": "Tokens & Actors",
 						"2": "Only Tokens"
@@ -53,7 +53,7 @@
 			},
 			"alwaysShow": {
 				"name": "Always Show Estimates",
-				"hint": "Makes the estimates to always be shown instead of just when hovering a token."
+				"hint": "Makes the estimates always visible instead of just when hovering over a token."
 			},
 			"showDescription": {
 				"name": "Show Estimates: Users",
@@ -94,7 +94,7 @@
 			},
 			"perfectionism": {
 				"name": "Behavior",
-				"hint": "Description = the last stage in the Stages setting.",
+				"hint": "Description is the last stage in the Stages setting.",
 				"choices": {
 					"0": "Show the description even when the target is damaged.",
 					"1": "Show the description when the target isn't damaged.",
@@ -111,7 +111,7 @@
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Hide on tokens with 0 max HP",
-				"hint": "Useful for objects with tokens"
+				"hint": "Useful for objects with tokens."
 			},
 			"menuSettings": {
 				"fontSize": {
@@ -187,7 +187,7 @@
 		"numenera": {
 			"countPools": {
 				"name": "Count Empty Pools",
-				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted/replenished"
+				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted or replenished."
 			}
 		},
 		"starfinder": {
@@ -207,14 +207,13 @@
 			},
 			"addStamina": {
 				"name": "Account for Stamina",
-				"hint": "With this setting on Stamina will be added to HP for calculations."
+				"hint": "With this setting on, Stamina will be added to HP for calculations."
 			}
 		},
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Estimation Rule",
-				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage.",
-				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
+				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
 			}
 		},
 		"od6s": {

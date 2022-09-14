@@ -100,6 +100,12 @@
 					"name": "Position Anpassung",
 					"hint": "Die Position ist relativ zum Rahmen. Die Zahl lässt dich die Position relativ zum normalen Platz anpassen. Positive Zahlen setzen sie tiefer, nagative höher. Der Standardwert von -1 setzt sie auf \"1 Zeile über der ursprünglichen Position\"."
 				}
+			},
+			"keybinds": {
+				"markDead": {
+					"name": "Als tot markieren",
+					"hint": "Markiert alle ausgewählten Tokens als tot. Wenn alle ausgewählten Tokens bereits tot sind, werden sie auf lebendig zurückgesetzt."
+				}
 			}
 		},
 		"dnd5e": {
@@ -157,8 +163,7 @@
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Schätzungs-Regel",
-				"hint": "Die JS-Formel für die Berechnung der Token-Schätzung. Verändere sie mit Vorsicht! Standardmäßig wird eine abnehmende Gesundheit angenommen, bspw. startest du mit 10/10 HP und gehst bis 0/10 HP herunter, sobald du Schaden nimmst.",
-				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
+				"hint": "Die JS-Formel für die Berechnung der Token-Schätzung. Verändere sie mit Vorsicht! Standardmäßig wird eine abnehmende Gesundheit angenommen, bspw. startest du mit 10/10 HP und gehst bis 0/10 HP herunter, sobald du Schaden nimmst."
 			}
 		}
 	}

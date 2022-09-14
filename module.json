@@ -8,11 +8,22 @@
 			"name": "MClemente",
 			"discord": "mclemente#5524"
 		},
-		{ "name": "Shylight" }
+		{
+			"name": "Shylight"
+		}
 	],
-	"scripts": ["lib/chroma.min.js", "lib/grapick.min.js", "lib/spectrum.min.js"],
-	"esmodules": ["healthEstimate.js"],
-	"styles": ["css/healthEstimate.css", "lib/spectrum.min.css"],
+	"scripts": [
+		"lib/chroma.min.js",
+		"lib/grapick.min.js",
+		"lib/spectrum.min.js"
+	],
+	"esmodules": [
+		"healthEstimate.js"
+	],
+	"styles": [
+		"css/healthEstimate.css",
+		"lib/spectrum.min.css"
+	],
 	"packs": [
 		{
 			"name": "deathmacro",
@@ -62,6 +73,11 @@
 			"lang": "de",
 			"name": "Deutsch",
 			"path": "lang/de.json"
+		},
+		{
+			"lang": "fi",
+			"name": "Suomi",
+			"path": "lang/fi.json"
 		}
 	],
 	"url": "https://github.com/mclemente/healthEstimate",

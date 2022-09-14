@@ -3,15 +3,15 @@
 		"core": {
 			"custom": {
 				"FractionHP": {
-					"name": "Atributo de Pontos de Vida",
-					"hint": "Seu sistema não é oficialmente suportado, então pode estar usando um atributo diferente do padrão. Só mude isto se a estimativa não estiver aparecendo e você souber o que está fazendo."
+					"name": "Caminho de Dados do Atributo de Pontos de Vida",
+					"hint": "Seu sistema pode estar usando um outro caminho de dados. Se a estimativa não estiver aparecendo corretamente, informe o caminho de dados para o atributo correto (ex.: actor.system.health)."
 				},
 				"FractionMath": {
 					"name": "Equação da Fração",
-					"hint": "Seu sistema não é oficialmente suportado, então escolha a equação usada para calcular a fração da estimativa de vida.",
+					"hint": "A equação de pontos de vida do seu sistema pode ser diferente do padrão, escolha a equação usada para calcular a fração da estimativa de vida.",
 					"choices": {
-						"0": "(Current HP)/(Max HP)",
-						"1": "(Max HP - Current HP)/(Max HP)"
+						"0": "(PV Atual)/(PV Máx.)",
+						"1": "(PV Máx. - PV Atual)/(PV Máx.)"
 					}
 				}
 			},
@@ -22,7 +22,7 @@
 				},
 				"customEstimates": {
 					"name": "Estimativas Personalizadas",
-					"hint": "Define estimativas personalizadas para os tokens selecionados. Mudará cada token selecionado para o valor de entrada. Deixá-lo em branco irá redefini-lo para o mesmo valor da configuração de Estágios.",
+					"hint": "Define estimativas personalizadas para os tokens selecionados. Deixe-a em branco para resetar.",
 					"options": {
 						"1": "Tokens e Atores",
 						"2": "Somente Tokens"
@@ -42,18 +42,18 @@
 				},
 				"hideEstimatesAndNames": {
 					"name": "Ocultar Estimativas e Nomes",
-					"hint": "Oculta as estimativas e os nomes dos tokens selecionados. "
+					"hint": "Oculta as estimativas e os nomes dos tokens selecionados."
 				}
 			},
 			"isNow": "agora está",
 			"unknownEntity": {
 				"name": "Nome da Entidade Desconhecida",
-				"hint": "Define como um personagem ocultado pela macro deve ser chamado.",
+				"hint": "Define como um personagem ocultado será chamado.",
 				"default": "Entidade Desconhecida"
 			},
 			"alwaysShow": {
 				"name": "Sempre Mostrar Estimativas",
-				"hint": "Faz com que as estimativas sempre apareçam em vez de só com o passar do mouse."
+				"hint": "Torna as estimativas sempre visíveis em vez de só com o passar do mouse."
 			},
 			"showDescription": {
 				"name": "Mostrar Estimativas: Usuários",
@@ -72,16 +72,16 @@
 			},
 			"stateNames": {
 				"name": "Estágios",
-				"hint": "Uma série de descritores organizados da pior para a melhor condição. A quantidade de descritores não possui limite máximo, o módulo se ajustará a porcentagem de vitalidade para mostrá-los proporcionalmente. Se for necessário um descritor para cobrir uma faixa maior de vitalidade, simplesmente copie-o várias vezes.",
+				"hint": "Uma série de descritores organizados da pior para a melhor condição.\nA quantidade de descritores não possui limite máximo, o módulo se ajustará a porcentagem de vitalidade para mostrá-los proporcionalmente.\nSe for necessário um descritor para cobrir uma faixa maior de vitalidade, simplesmente copie-o várias vezes.",
 				"default": "Inconsciente, Quase Morto, Gravemente Ferido, Ferido, Escoriado, Ileso"
 			},
 			"deathState": {
 				"name": "Condição Morto",
-				"hint": "Mostra o token como morto quando afetado por qualquer condição que use o ícone da opção Marcador de morte. Funciona independentemente da macro."
+				"hint": "Mostra o token como morto quando afetado por qualquer condição que use o ícone da opção Marcador de Morte. Funciona independentemente da macro."
 			},
 			"deathStateName": {
-				"name": "Descrição de Morte",
-				"hint": "A descrição mostrada aos jogadores quando o token está morto. A aba Pacotes de Compêndio possui uma macro para marcar tokens como mortos.",
+				"name": "Nome do Estado de Morte",
+				"hint": "A descrição mostrada aos jogadores quando o token está morto. A aba Compêndio possui uma macro para marcar um token (ou vários) como morto.",
 				"default": "Morto"
 			},
 			"deathMarker": {
@@ -90,24 +90,24 @@
 			},
 			"NPCsJustDie": {
 				"name": "PNJs morrem imediatamente",
-				"hint": "O último estágio de PNJs é substituído pela Descrição de Morte."
+				"hint": "O último estágio de PNJs é substituído pelo Nome do Estado de Morte."
 			},
 			"perfectionism": {
 				"name": "Comportamento",
-				"hint": "Descritor = último estágio da configuração \"Estágios\".",
+				"hint": "Descritor é o último estágio da configuração \"Estágios\".",
 				"choices": {
-					"0": "Mostrar o descritor quando o alvo está machucado.",
+					"0": "Mostrar o descritor até quando o alvo está machucado.",
 					"1": "Mostrar o descritor quando o alvo não está machucado.",
 					"2": "Não mostrar o descritor quando o alvo está machucado."
 				}
 			},
 			"outputChat": {
 				"name": "Enviar Estimativa para o Chat",
-				"hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro de Hide Character aparecem como \"Entitidade Desconhecida\"."
+				"hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro \\\"Hide Character\\\" aparecem como \"Entitidade Desconhecida\"."
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
-				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra. Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
+				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra.\nEx.: Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Ocultar em tokens com 0 PV máximos",
@@ -132,7 +132,7 @@
 				"outline": {
 					"name": "Contorno",
 					"darken": "Escuro",
-					"brighten": "Claro"
+					"brighten": "Clarear"
 				},
 				"position": {
 					"name": "Posição",
@@ -148,47 +148,47 @@
 		},
 		"cyberpunk-red-core": {
 			"useSystemStates": {
-				"name": "Use Wound States",
-				"hint": "Ignores the Stages setting and uses the Cyberpunk RED Core's wound states."
+				"name": "Usar Estágios de Ferimento",
+				"hint": "Ignora a configuração de Estágios e usa os estágios de ferimentos do Cyberpunk RED Core."
 			}
 		},
 		"dnd5e": {
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descrições exibidas para veículos se \"Usar Limiar do Veículo\" estiver desativado",
-				"default": "Destruído, Quebrado, Maltratado, Arranhado, Impecável"
+				"hint": "Descrições exibidas para naves (sempre) e veículos.",
+				"default": "Destruído, Quebrado, Surrado, Arranhado, Impecável"
 			}
 		},
 		"PF1": {
 			"addNonlethal": {
-				"name": "Use Nonlethal Damage",
-				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
+				"name": "Usar Dano Não Letal",
+				"hint": "Se habilitado, dano não letal será subtraído da vida atual para a estimativa."
 			},
 			"showExtra": {
-				"name": "Disabled & Dying",
-				"hint": "Show \"Disabled\" and \"Dying\" descriptions"
+				"name": "Desabilitado e Morrendo",
+				"hint": "Mostrar descrições de \"Desabilitado\" e \"Morrendo\""
 			},
 			"disabledName": {
-				"name": "Disabled",
-				"hint": "Description to show when token is precisely at 0 HP or has more nonlethal damage than HP remaining",
-				"default": "Disabled"
+				"name": "Desabilitado",
+				"hint": "Descrição que será mostrada quando o token está com exatamente 0 PVs ou tem mais dano não letal do que PVs restantes",
+				"default": "Desabilitado"
 			},
 			"dyingName": {
-				"name": "Dying",
-				"hint": "Description to show when token is below 0 HP",
-				"default": "Dying"
+				"name": "Morrendo",
+				"hint": "Descrição para quando o token está com menos de 0 PVs",
+				"default": "Morrendo"
 			}
 		},
 		"PF2E": {
 			"staminaToHp": {
-				"name": "Stamina to Estimate",
-				"hint": "Add Stamina Points to the estimate."
+				"name": "Pontos de Estamina na Estimativa",
+				"hint": "Adiciona Pontos de Estamina à estimativa."
 			}
 		},
 		"numenera": {
 			"countPools": {
-				"name": "Count Empty Pools",
-				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted/replenished"
+				"name": "Contar Reservas Vazias",
+				"hint": "Conta reservas vazias em vez da soma dos seus valores, com a estimativa sendo alterada somente quando uma reserva for esgotada ou recuperada."
 			}
 		},
 		"starfinder": {
@@ -203,19 +203,30 @@
 			},
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descrições mostradas para naves e veículos.",
-				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
+				"hint": "Descrições exibidas para naves (sempre) e veículos.",
+				"default": "Destruído, Quebrado, Surrado, Arranhado, Impecável"
 			},
 			"addStamina": {
-				"name": "Account for Stamina",
-				"hint": "With this setting on Stamina will be added to HP for calculations."
+				"name": "Contar Estamina",
+				"hint": "Com esta opção selecionada, Estamina será adicionada aos PVs para o cálculo."
 			}
 		},
 		"worldbuilding": {
 			"simpleRule": {
-				"name": "Estimation Rule",
-				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage.",
-				"default": "const hp = token.actor.system.health; return hp.value / hp.max"
+				"name": "Regra de Estimativa",
+				"hint": "A fórmula JS para calcular a fração de vida do token. Altere com cautela. O padrão assume uma vida decrescente simples, por exemplo, você começa com 10/10 no seu campo de vida e reduz para 0/10 quando tomar dano."
+			}
+		},
+		"od6s": {
+			"vehicleNames": {
+				"name": "Estágios de Veículos e Naves",
+				"hint": "Descrições mostradas para naves e veículos",
+				"default": "Destruído, Gravemente Danificado, Muito Danificado, Ligeiramente Danificado, Muito Ligeiramente Danificado, Não danificado"
+			},
+			"thresholdNames": {
+				"name": "Limiar de Estágios",
+				"default": "Destruído, Quebrado, Totalmente Funcional",
+				"hint": "A quantidade de estágios é limitada a 3, organizadas da pior para a melhor condição"
 			}
 		}
 	}
