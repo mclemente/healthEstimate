@@ -43,7 +43,8 @@ export class HealthEstimate {
 	_handleOverlay(token, hovered) {
 		if (!token?.actor) return;
 		if (game.healthEstimate.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
-		const width = canvas.scene.grid.size * token.document.width;
+		const gridSize = canvas.scene.grid.size;
+		const width = gridSize * token.document.width;
 		document.documentElement.style.setProperty("--healthEstimate-width", `${width}px`);
 
 		if (hovered) {
@@ -60,20 +61,17 @@ export class HealthEstimate {
 				})
 			);
 
-			const gridSize = canvas.scene.grid.size;
-			const tokenHeight = token.document.height;
 			token.healthEstimate.anchor.x = 0.5;
 			token.healthEstimate.anchor.y = margin;
 			token.healthEstimate.x = Math.floor(width / 2);
 			switch (alignment) {
 				case "start":
-					token.healthEstimate.y = -Math.floor((gridSize / 2) * tokenHeight);
+					token.healthEstimate.y = -Math.floor(gridSize / 2);
 					break;
 				case "center":
 					break;
 				case "end":
-					token.healthEstimate.y = Math.floor((gridSize * tokenHeight) / 2);
-					break;
+					token.healthEstimate.y = Math.floor(gridSize / 2);
 				default:
 					console.error("Alignment isn't supposed to be of value %o", alignment);
 			}
