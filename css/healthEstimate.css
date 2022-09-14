@@ -7,6 +7,10 @@
 	--healthEstimate-width: 100px;
 }
 
+.healthEstimate.deadColor input[type="text"].color {
+  flex: 3;
+}
+
 #healthEstimate {
 	display: grid;
 	font-size: var(--healthEstimate-text-size);

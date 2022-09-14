@@ -84,11 +84,9 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		const gradientPositions = game.settings.get(`healthEstimate`, `core.menuSettings.gradient`);
 		const mode = document.getElementById(`mode`);
 
-		this.deadColor = document.getElementById("deadColor");
-		this.deadColor.value = sGet("core.menuSettings.deadColor");
+		this.deadColor = document.querySelectorAll("input[data-edit=deadColor]")[0];
 		this.deadOutline = sGet("core.variables.deadOutline");
 
-		// this.deadColor = sGet('core.menuSettings.deadColor');
 		this.outlineMode = document.getElementById("outlineMode");
 		this.outlineIntensity = document.getElementById("outlineIntensity");
 		this.fontSize = document.getElementById("fontSize");
@@ -119,16 +117,8 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			this.updateGradientFunction();
 		});
 
-		$(this.deadColor).spectrum({
-			// color: sGet('core.menuSettings.deadColor'),
-			preferredFormat: "hex",
-			move: function (color) {
-				this.deadColor.value = color.toHexString();
-				this.updateSample();
-			}.bind(this),
-			cancel: function () {
-				this.updateSample();
-			}.bind(this),
+		this.deadColor.addEventListener("change", (ev) => {
+			this.updateSample();
 		});
 
 		this.gp.on("change", (complete) => {
@@ -248,18 +238,18 @@ export class HealthEstimateStyleSettings extends FormApplication {
 
 	/**
 	 * Executes on form submission
-	 * @param {Event} e - the form submission event
-	 * @param {Object} d - the form data
+	 * @param {Event} event - the form submission event
+	 * @param {Object} formData - the form data
 	 */
-	async _updateObject(e, d) {
-		const iterableSettings = Object.keys(d).filter((key) => key.indexOf("outline") === -1);
+	async _updateObject(event, formData) {
+		const iterableSettings = Object.keys(formData).filter((key) => key.indexOf("outline") === -1);
 
 		for (let key of iterableSettings) {
-			sSet(`core.menuSettings.${key}`, d[key]);
+			sSet(`core.menuSettings.${key}`, formData[key]);
 		}
 
-		let deadColor = d.deadColor;
-		if (!d.useColor) {
+		let deadColor = formData.deadColor;
+		if (!formData.useColor) {
 			this.gradColors = ["#FFF"];
 			this.outlColors = ["#000"];
 			this.deadOutline = "#000";
@@ -271,8 +261,8 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
 		});
 		sSet(`core.menuSettings.outline`, {
-			mode: d.outlineMode,
-			multiplier: d.outlineIntensity,
+			mode: formData.outlineMode,
+			multiplier: formData.outlineIntensity,
 		});
 
 		sSet(`core.variables.colors`, this.gradColors);

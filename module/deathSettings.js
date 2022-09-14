@@ -59,13 +59,13 @@ export class HealthEstimateDeathSettings extends FormApplication {
 
 	/**
 	 * Executes on form submission
-	 * @param {Event} e - the form submission event
-	 * @param {Object} d - the form data
+	 * @param {Event} event - the form submission event
+	 * @param {Object} formData - the form data
 	 */
-	async _updateObject(e, d) {
-		const iterableSettings = Object.keys(d);
+	async _updateObject(event, formData) {
+		const iterableSettings = Object.keys(formData);
 		for (let key of iterableSettings) {
-			sSet(`core.${key}`, d[key]);
+			sSet(`core.${key}`, formData[key]);
 		}
 	}
 }
