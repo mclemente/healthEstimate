@@ -22,9 +22,10 @@ export class HealthEstimateDeathSettings extends FormApplication {
 
 	getData(options) {
 		function prepSetting(key) {
-			let data = settingData(`core.${key}`);
+			const path = `core.${key}`;
+			let data = settingData(path);
 			return {
-				value: sGet(`core.${key}`),
+				value: sGet(path),
 				name: data.name,
 				hint: data.hint,
 			};
@@ -36,6 +37,24 @@ export class HealthEstimateDeathSettings extends FormApplication {
 			NPCsJustDie: prepSetting("NPCsJustDie"),
 			deathMarker: prepSetting("deathMarker"),
 		};
+	}
+
+	async activateListeners(html) {
+		super.activateListeners(html);
+		html.find("button").on("click", async (event) => {
+			if (event.currentTarget?.dataset?.action === "reset") {
+				async function resetToDefault(key) {
+					const path = `core.${key}`;
+					await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
+				}
+
+				await resetToDefault("deathState");
+				await resetToDefault("deathStateName");
+				await resetToDefault("NPCsJustDie");
+				await resetToDefault("deathMarker");
+				this.close();
+			}
+		});
 	}
 
 	/**

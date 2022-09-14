@@ -18,7 +18,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		return mergeObject(super.defaultOptions, {
 			id: "healthestimate-style-form",
 			title: "Health Estimate Style Settings",
-			template: "./modules/healthEstimate/templates/settings.hbs",
+			template: "./modules/healthEstimate/templates/styleSettings.hbs",
 			classes: ["sheet"],
 			width: 640,
 			height: "fit-content",
@@ -76,7 +76,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			positionAdjustment: prepSetting("positionAdjustment"),
 			position: prepSelection("position"),
 			mode: prepSelection("mode"),
-			outline: prepSelection("outline", "mode"),
+			outline: prepSelection("outline"),
 		};
 	}
 
@@ -222,6 +222,28 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			sampleItems[i].style.setProperty("--healthEstimate-text-color", this.gradColors[position]);
 			sampleItems[i].style.setProperty("--healthEstimate-stroke-color", this.outlColors[position]);
 		}
+	}
+
+	async activateListeners(html) {
+		super.activateListeners(html);
+		html.find("button").on("click", async (event) => {
+			if (event.currentTarget?.dataset?.action === "reset") {
+				async function resetToDefault(key) {
+					const path = `core.menuSettings.${key}`;
+					await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
+				}
+
+				await resetToDefault("useColor");
+				await resetToDefault("smoothGradient");
+				await resetToDefault("deadColor");
+				await resetToDefault("fontSize");
+				await resetToDefault("positionAdjustment");
+				await resetToDefault("position");
+				await resetToDefault("mode");
+				await resetToDefault("outline");
+				this.close();
+			}
+		});
 	}
 
 	/**
