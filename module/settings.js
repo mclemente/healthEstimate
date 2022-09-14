@@ -41,8 +41,9 @@ export const registerSettings = function () {
 	addSetting("core.alwaysShow", {
 		type: Boolean,
 		default: false,
-		onChange: () => {
-			game.healthEstimate.updateSettings();
+		onChange: (value) => {
+			game.healthEstimate.alwaysShow = value;
+			canvas.scene.tokens.forEach((token) => token.object.refresh());
 		},
 	});
 	addSetting("core.showDescription", {

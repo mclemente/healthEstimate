@@ -18,16 +18,16 @@ export class HealthEstimate {
 	 */
 	canvasReady() {
 		this.actorsCurrentHP = {};
-		const alwaysShow = sGet("core.alwaysShow");
+		this.alwaysShow = sGet("core.alwaysShow");
 		Hooks.on("refreshToken", (token) => {
-			this._handleOverlay(token, alwaysShow || token.hover);
+			this._handleOverlay(token, this.alwaysShow || token.hover);
 		});
 		Hooks.on("hoverToken", (token, hovered) => {
-			this._handleOverlay(token, alwaysShow || hovered);
+			this._handleOverlay(token, this.alwaysShow || hovered);
 		});
-		if (alwaysShow) canvas.scene.tokens.forEach((token) => token.object.refresh());
-		Hooks.on("updateActor", (actor, data, options, userId) => {
-			if (alwaysShow) {
+		if (this.alwaysShow) canvas.scene.tokens.forEach((token) => token.object.refresh());
+		Hooks.on("updateActor", (actor, updates, options, userId) => {
+			if (this.alwaysShow) {
 				//Get all the tokens on the off-chance there's two tokens of the same linked actor.
 				let tokens = canvas.tokens.placeables.filter((e) => e.actor && actor.id == e.actor.id);
 				for (let token of tokens) {
@@ -35,8 +35,8 @@ export class HealthEstimate {
 				}
 			}
 		});
-		Hooks.on("updateToken", (token, change, options, userId) => {
-			if (alwaysShow) this._handleOverlay(token, true);
+		Hooks.on("updateToken", (tokenDocument, updates, options, userId) => {
+			if (this.alwaysShow) this._handleOverlay(tokenDocument.object, true);
 		});
 	}
 
