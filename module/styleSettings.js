@@ -84,7 +84,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		const gradientPositions = game.settings.get(`healthEstimate`, `core.menuSettings.gradient`);
 		const mode = document.getElementById(`mode`);
 
-		this.deadColor = document.querySelectorAll("input[data-edit=deadColor]")[0];
+		this.deadColor = document.querySelector("input[data-edit=deadColor]");
 		this.deadOutline = sGet("core.variables.deadOutline");
 
 		this.outlineMode = document.getElementById("outlineMode");
