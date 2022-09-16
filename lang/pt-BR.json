@@ -152,6 +152,10 @@
 					"name": "Configuração de Estilo",
 					"plural": "Configurações de Estilo"
 				}
+			},
+			"combatOnly": {
+				"hint": "Mostra as estimativas apenas quando um combate estiver ativo.",
+				"name": "Mostrar apenas em combate"
 			}
 		},
 		"cyberpunk-red-core": {
