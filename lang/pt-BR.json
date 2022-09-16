@@ -142,7 +142,15 @@
 				},
 				"positionAdjustment": {
 					"name": "Ajustes de posição",
-					"hint": "A posição é definida conforme o quadro. O número permite ajustá-la em relação a seu posicionamento normal. Números positivos empurram para baixo, negativos para cima. O valor padrão de -1 é definido como \"uma linha acima da posição inicial\"."
+					"hint": "A posição é definida conforme o quadro. O número permite ajustá-la em relação a seu posicionamento normal. Números positivos empurram para cima; negativos para baixo. O valor padrão de -1 é definido como \"uma linha abaixo da posição inicial\"."
+				},
+				"deathSettings": {
+					"name": "Configuração de Morte",
+					"plural": "Configurações de Morte"
+				},
+				"styleSettings": {
+					"name": "Configuração de Estilo",
+					"plural": "Configurações de Estilo"
 				}
 			}
 		},
