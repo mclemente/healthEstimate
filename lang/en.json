@@ -55,6 +55,10 @@
 				"name": "Always Show Estimates",
 				"hint": "Makes the estimates always visible instead of just when hovering over a token."
 			},
+			"combatOnly": {
+				"name": "Show Only on Combat",
+				"hint": "Shows the estimates only when a combat is active."
+			},
 			"showDescription": {
 				"name": "Show Estimates: Users",
 				"hint": "Show estimates to the following users.",
