@@ -72,6 +72,7 @@ export class HealthEstimate {
 					break;
 				case "end":
 					token.healthEstimate.y = Math.floor(gridSize / 2);
+					break;
 				default:
 					console.error("Alignment isn't supposed to be of value %o", alignment);
 			}
