@@ -1,4 +1,5 @@
-import { sGet, sSet, settingData } from "./utils.js";
+import { disableCheckbox } from "./settings.js";
+import { sGet, sSet, settingData, t } from "./utils.js";
 
 export class HealthEstimateDeathSettings extends FormApplication {
 	constructor(object, options = {}) {
@@ -11,7 +12,7 @@ export class HealthEstimateDeathSettings extends FormApplication {
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "healthestimate-death-form",
-			title: "Health Estimate Death Settings",
+			title: `Health Estimate: ${t("core.menuSettings.deathSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/deathSettings.hbs",
 			classes: ["sheet"],
 			width: 640,
@@ -41,6 +42,19 @@ export class HealthEstimateDeathSettings extends FormApplication {
 
 	async activateListeners(html) {
 		super.activateListeners(html);
+		const deathState = game.settings.get("healthEstimate", "core.deathState");
+		const deathStateBox = html.find('input[name="deathState"]');
+		const deathStateNameInput = html.find('input[name="deathStateName"]');
+		const NPCsJustDieInput = html.find('input[name="NPCsJustDie"]');
+		const deathMarkerInput = html.find('input[name="deathMarker"]');
+		disableCheckbox(deathStateNameInput, !deathState);
+		disableCheckbox(NPCsJustDieInput, !deathState);
+		disableCheckbox(deathMarkerInput, !deathState);
+		deathStateBox.on("change", (event) => {
+			disableCheckbox(deathStateNameInput, !event.target.checked);
+			disableCheckbox(NPCsJustDieInput, !event.target.checked);
+			disableCheckbox(deathMarkerInput, !event.target.checked);
+		});
 		html.find("button").on("click", async (event) => {
 			if (event.currentTarget?.dataset?.action === "reset") {
 				async function resetToDefault(key) {

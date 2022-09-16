@@ -1,4 +1,4 @@
-import { sGet, sSet, settingData } from "./utils.js";
+import { sGet, sSet, settingData, t } from "./utils.js";
 
 export class HealthEstimateStyleSettings extends FormApplication {
 	constructor(object, options = {}) {
@@ -17,7 +17,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "healthestimate-style-form",
-			title: "Health Estimate Style Settings",
+			title: `Health Estimate: ${t("core.menuSettings.styleSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/styleSettings.hbs",
 			classes: ["sheet"],
 			width: 640,

@@ -2,15 +2,20 @@ import { registerSettings } from "./settings.js";
 import { fractionFormula, prepareSystemSpecifics, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
 import { sGet, t } from "./utils.js";
 
-let alignment, colors, deadColor, deadOutline, NPCsJustDie, outline, margin, perfectionism, showDead;
+let alignment, colors, deadColor, deadOutline, outline, margin;
 
 export class HealthEstimate {
 	constructor() {}
 
+	//Hooks
 	setup() {
 		prepareSystemSpecifics().then(registerSettings());
 		updateBreakSettings();
 		this.updateSettings();
+	}
+
+	canvasInit(canvas) {
+		this.combatRunning = this.isCombatRunning();
 	}
 
 	/**
@@ -18,12 +23,15 @@ export class HealthEstimate {
 	 */
 	canvasReady() {
 		this.actorsCurrentHP = {};
+		this.combatOnly = sGet("core.combatOnly");
+		if (this.combatOnly) this.combatHooks(this.combatOnly);
 		this.alwaysShow = sGet("core.alwaysShow");
+		this.combatRunning = this.isCombatRunning();
 		Hooks.on("refreshToken", (token) => {
-			this._handleOverlay(token, this.alwaysShow || token.hover);
+			this._handleOverlay(token, this.showCondition(token.hover));
 		});
 		Hooks.on("hoverToken", (token, hovered) => {
-			this._handleOverlay(token, this.alwaysShow || hovered);
+			this._handleOverlay(token, this.showCondition(hovered));
 		});
 		if (this.alwaysShow) canvas.scene.tokens.forEach((token) => token.object.refresh());
 		Hooks.on("updateActor", (actor, updates, options, userId) => {
@@ -38,8 +46,29 @@ export class HealthEstimate {
 		Hooks.on("updateToken", (tokenDocument, updates, options, userId) => {
 			if (this.alwaysShow) this._handleOverlay(tokenDocument.object, true);
 		});
+		Hooks.on("canvasInit", this.canvasInit.bind(this));
 	}
 
+	//combatStart, deleteCombat and combatHooks target the global Health Estimate object because Hooks.off doesn't interact correctly with "this.funcion.bind(this)"
+	combatStart(combat, updateData) {
+		if (game.healthEstimate.combatStart) game.healthEstimate.combatRunning = true;
+	}
+
+	deleteCombat(combat, options, userId) {
+		if (game.healthEstimate.combatStart) game.healthEstimate.combatRunning = this.isCombatRunning();
+	}
+
+	combatHooks(value) {
+		if (value) {
+			Hooks.on("combatStart", game.healthEstimate.combatStart);
+			Hooks.on("deleteCombat", game.healthEstimate.deleteCombat);
+		} else {
+			Hooks.off("combatStart", game.healthEstimate.combatStart);
+			Hooks.off("deleteCombat", game.healthEstimate.deleteCombat);
+		}
+	}
+
+	//Helpers
 	_handleOverlay(token, hovered) {
 		if (!token?.actor) return;
 		if (game.healthEstimate.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
@@ -74,7 +103,7 @@ export class HealthEstimate {
 					token.healthEstimate.y = Math.floor(gridSize / 2);
 					break;
 				default:
-					console.error("Alignment isn't supposed to be of value %o", alignment);
+					console.error(`Health Estimate | Style Setting: Position isn't supposed to be of value "${alignment}".`);
 			}
 		} else if (token.healthEstimate) token.healthEstimate.visible = false;
 	}
@@ -103,7 +132,7 @@ export class HealthEstimate {
 	getEstimation(token) {
 		try {
 			const fraction = this.getFraction(token);
-			if (perfectionism == 2 && fraction == 1) return;
+			if (this.perfectionism == 2 && fraction == 1) return;
 			let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
 			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
 			const stage = this.getStage(fraction, customStages || []);
@@ -133,7 +162,7 @@ export class HealthEstimate {
 			return { desc, color, stroke };
 			// canvas.hud.HealthEstimate.estimation = { desc };
 		} catch (err) {
-			console.error(`Health Estimate | Error on getEstimation(). Token Name: %o. Type: %o`, token.name, token.document.actor.type, err);
+			console.error(`Health Estimate | Error on getEstimation(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
 		}
 	}
 
@@ -153,10 +182,15 @@ export class HealthEstimate {
 	 */
 	getStage(fraction, customStages = []) {
 		const desc = customStages?.length ? customStages : this.descriptions;
-		return Math.max(0, perfectionism ? Math.ceil((desc.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((desc.length - 1) * fraction));
+		return Math.max(0, this.perfectionism ? Math.ceil((desc.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((desc.length - 1) * fraction));
 	}
+
 	hideEstimate(token) {
 		return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
+	}
+
+	isCombatRunning() {
+		return [...game.combats].some((combat) => combat.started);
 	}
 
 	/**
@@ -171,11 +205,16 @@ export class HealthEstimate {
 	 */
 	isDead(token, stage) {
 		return (
-			(NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "treatAsPC")) ||
-			(showDead && tokenEffectsPath(token)) ||
+			(this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "treatAsPC")) ||
+			(this.showDead && tokenEffectsPath(token)) ||
 			token.document.getFlag("healthEstimate", "dead") ||
 			false
 		);
+	}
+
+	showCondition(hovered) {
+		const combatTrigger = this.combatOnly && this.combatRunning;
+		return (this.alwaysShow && combatTrigger) || (this.alwaysShow && !this.combatOnly) || (hovered && combatTrigger) || (hovered && !this.combatOnly);
 	}
 
 	/**
@@ -185,14 +224,14 @@ export class HealthEstimate {
 	updateSettings() {
 		this.descriptions = sGet("core.stateNames").split(/[,;]\s*/);
 		this.deathStateName = sGet("core.deathStateName");
-		showDead = sGet("core.deathState");
-		NPCsJustDie = sGet("core.NPCsJustDie");
+		this.showDead = sGet("core.deathState");
+		this.NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
 		colors = sGet("core.variables.colors");
 		outline = sGet("core.variables.outline");
 		deadColor = sGet("core.variables.deadColor");
 		deadOutline = sGet("core.variables.deadOutline");
-		perfectionism = sGet("core.perfectionism");
+		this.perfectionism = sGet("core.perfectionism");
 
 		alignment = sGet("core.menuSettings.position");
 		margin = sGet("core.menuSettings.positionAdjustment");

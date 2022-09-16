@@ -23,15 +23,15 @@ export const registerSettings = function () {
 	}
 
 	game.settings.registerMenu("healthEstimate", "styleSettings", {
-		name: "Style Settings",
-		label: "Style Settings",
+		name: t("core.menuSettings.styleSettings.plural"),
+		label: t("core.menuSettings.styleSettings.plural"),
 		icon: "fas fa-palette",
 		type: HealthEstimateStyleSettings,
 		restricted: true,
 	});
 	game.settings.registerMenu("healthEstimate", "deathSettings", {
-		name: "Death Settings",
-		label: "Death Settings",
+		name: t("core.menuSettings.deathSettings.plural"),
+		label: t("core.menuSettings.deathSettings.plural"),
 		icon: "fas fa-skull",
 		type: HealthEstimateDeathSettings,
 		restricted: true,
@@ -44,6 +44,14 @@ export const registerSettings = function () {
 		onChange: (value) => {
 			game.healthEstimate.alwaysShow = value;
 			canvas.scene.tokens.forEach((token) => token.object.refresh());
+		},
+	});
+	addSetting("core.combatOnly", {
+		type: Boolean,
+		default: false,
+		onChange: (value) => {
+			game.healthEstimate.combatOnly = value;
+			game.healthEstimate.combatHooks(value);
 		},
 	});
 	addSetting("core.showDescription", {
@@ -73,8 +81,8 @@ export const registerSettings = function () {
 	addSetting("core.stateNames", {
 		type: String,
 		default: t("core.stateNames.default"),
-		onChange: () => {
-			game.healthEstimate.updateSettings();
+		onChange: (value) => {
+			game.healthEstimate.descriptions = value.split(/[,;]\s*/);
 		},
 	});
 	addSetting("core.perfectionism", {
@@ -85,8 +93,8 @@ export const registerSettings = function () {
 			1: t("core.perfectionism.choices.1"),
 			2: t("core.perfectionism.choices.2"),
 		},
-		onChange: () => {
-			game.healthEstimate.updateSettings();
+		onChange: (value) => {
+			game.healthEstimate.perfectionism = value;
 		},
 	});
 	addSetting("core.outputChat", {
@@ -111,29 +119,29 @@ export const registerSettings = function () {
 	addMenuSetting("core.deathState", {
 		type: Boolean,
 		default: false,
-		onChange: () => {
-			game.healthEstimate.updateSettings();
+		onChange: (value) => {
+			game.healthEstimate.showDead = value;
 		},
 	});
 	addMenuSetting("core.deathStateName", {
 		type: String,
 		default: t("core.deathStateName.default"),
-		onChange: () => {
-			game.healthEstimate.updateSettings();
+		onChange: (value) => {
+			game.healthEstimate.deathStateName = value;
 		},
 	});
 	addMenuSetting("core.NPCsJustDie", {
 		type: Boolean,
 		default: true,
-		onChange: () => {
-			game.healthEstimate.updateSettings();
+		onChange: (value) => {
+			game.healthEstimate.NPCsJustDie = value;
 		},
 	});
 	addMenuSetting("core.deathMarker", {
 		type: String,
 		default: "icons/svg/skull.svg",
-		onChange: () => {
-			game.healthEstimate.updateSettings();
+		onChange: (value) => {
+			game.healthEstimate.deathMarker = value;
 		},
 	});
 
@@ -442,7 +450,7 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 	});
 }
 
-function disableCheckbox(checkbox, boolean) {
+export function disableCheckbox(checkbox, boolean) {
 	checkbox.prop("disabled", boolean);
 }
 
