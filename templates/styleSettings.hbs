@@ -40,8 +40,10 @@
 							<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
 						{{/each}}
 					</select>
+				{{/with}}
+				{{#with outlineIntensity}}
 					<span style="flex:0;margin-top:0.1em;font-size: 17px">&nbsp;×&nbsp;</span>
-					<input type="number" step="0.1" min="0" value="{{multiplier}}" name="outlineIntensity"
+					<input type="number" step="0.1" min="0" value="{{this.value}}" name="outlineIntensity"
 							id="outlineIntensity"
 							class="numberHE"
 							style="flex: 0 0 4em">

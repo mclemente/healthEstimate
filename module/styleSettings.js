@@ -77,6 +77,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			position: prepSelection("position"),
 			mode: prepSelection("mode"),
 			outline: prepSelection("outline"),
+			outlineIntensity: prepSetting("outlineIntensity"),
 		};
 	}
 
@@ -231,6 +232,7 @@ export class HealthEstimateStyleSettings extends FormApplication {
 				await resetToDefault("position");
 				await resetToDefault("mode");
 				await resetToDefault("outline");
+				await resetToDefault("outlineIntensity");
 				this.close();
 			}
 		});
@@ -260,10 +262,8 @@ export class HealthEstimateStyleSettings extends FormApplication {
 			colors: this.gp.handlers.map((a) => a.color),
 			positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
 		});
-		sSet(`core.menuSettings.outline`, {
-			mode: formData.outlineMode,
-			multiplier: formData.outlineIntensity,
-		});
+		sSet(`core.menuSettings.outline`, formData.outlineMode);
+		sSet(`core.menuSettings.outlineIntensity`, formData.outlineIntensity);
 
 		sSet(`core.variables.colors`, this.gradColors);
 		sSet(`core.variables.outline`, this.outlColors);

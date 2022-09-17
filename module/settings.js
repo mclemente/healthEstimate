@@ -176,15 +176,16 @@ export const registerSettings = function () {
 		default: "#990000",
 	});
 	addMenuSetting("core.menuSettings.outline", {
-		type: Object,
-		default: {
-			mode: "darken",
-			multiplier: 3,
-		},
+		type: String,
+		default: "darken",
 		choices: {
 			darken: t("core.menuSettings.outline.darken"),
 			brighten: t("core.menuSettings.outline.brighten"),
 		},
+	});
+	addMenuSetting("core.menuSettings.outlineIntensity", {
+		type: Number,
+		default: 3,
 	});
 	addMenuSetting("core.menuSettings.position", {
 		type: String,
