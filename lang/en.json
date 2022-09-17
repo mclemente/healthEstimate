@@ -107,7 +107,7 @@
 			},
 			"outputChat": {
 				"name": "Output Estimate to Chat",
-				"hint": "Output any estimate changes to chat. Characters flagged with the Hide Estimate macro will be shown as description of the {setting} setting."
+				"hint": "Output any estimate changes to chat. Characters flagged with the Hide Estimate macro will be shown as the description of the {setting} setting."
 			},
 			"addTemp": {
 				"name": "Add Temporary Health",
