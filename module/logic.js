@@ -127,40 +127,43 @@ export class HealthEstimate {
 	/**
 	 * Returns the token's estimate's description, color and stroke outline.
 	 * @param {TokenDocument} token
-	 * @returns {Object}	All three values are Strings.
+	 * @returns {{String, String, String}}	All three values are Strings.
 	 */
 	getEstimation(token) {
 		try {
+			let desc = "",
+				color = "",
+				stroke = "";
 			const fraction = this.getFraction(token);
-			if (this.perfectionism == 2 && fraction == 1) return;
-			let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
-			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
-			const stage = this.getStage(fraction, customStages || []);
-			const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
+			if (!(this.perfectionism == 2 && fraction == 1)) {
+				let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
+				if (customStages.length) customStages = customStages.split(/[,;]\s*/);
+				const stage = this.getStage(fraction, customStages || []);
+				const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
 
-			let dead = this.isDead(token, stage);
-			let desc = this.descriptionToShow(
-				customStages.length ? customStages : this.descriptions,
-				stage,
-				token,
-				{
-					dead: dead,
-					desc: this.deathStateName,
-				},
-				fraction,
-				customStages.length ? true : false
-			);
-			let color = colors[colorIndex];
-			let stroke = outline[colorIndex];
-			if (dead) {
-				color = deadColor;
-				stroke = deadOutline;
+				let dead = this.isDead(token, stage);
+				desc = this.descriptionToShow(
+					customStages.length ? customStages : this.descriptions,
+					stage,
+					token,
+					{
+						dead: dead,
+						desc: this.deathStateName,
+					},
+					fraction,
+					customStages.length ? true : false
+				);
+				color = colors[colorIndex];
+				stroke = outline[colorIndex];
+				if (dead) {
+					color = deadColor;
+					stroke = deadOutline;
+				}
+				document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
+				document.documentElement.style.setProperty("--healthEstimate-text-color", color);
+				if (this.hideEstimate(token)) desc += "*";
 			}
-			document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
-			document.documentElement.style.setProperty("--healthEstimate-text-color", color);
-			if (this.hideEstimate(token)) desc += "*";
 			return { desc, color, stroke };
-			// canvas.hud.HealthEstimate.estimation = { desc };
 		} catch (err) {
 			console.error(`Health Estimate | Error on getEstimation(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
 		}
