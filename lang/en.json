@@ -30,7 +30,7 @@
 				},
 				"dontMarkDead": {
 					"name": "Don't Mark as Dead",
-					"hint": "Makes NPCs to not be shown as Dead when its HP reaches 0 (e.g. it'll show Unconscious). This is only useful if you're using the \"NPCs die immediately\" setting."
+					"hint": "Makes NPCs to not be shown as Dead when its HP reaches 0 (e.g. it'll show Unconscious). This is only useful if you're using the {setting} setting."
 				},
 				"hideEstimates": {
 					"name": "Hide Estimates",
@@ -38,7 +38,7 @@
 				},
 				"hideNames": {
 					"name": "Hide Names",
-					"hint": "Hides the names of selected tokens when you're using the \"Output Estimate to Chat\" setting."
+					"hint": "Hides the names of selected tokens when you're using the {setting} setting."
 				},
 				"hideEstimatesAndNames": {
 					"name": "Hide Estimates and Names",
@@ -81,7 +81,7 @@
 			},
 			"deathState": {
 				"name": "Death State on Condition",
-				"hint": "Show token as dead when it's been affected by any condition that uses the icon set on the Death Marker setting. Works independently from the macro."
+				"hint": "Show token as defined on the {setting} setting when it has been affected by any condition that uses the icon set on the {setting2} setting. Works independently from the macro."
 			},
 			"deathStateName": {
 				"name": "Death State Name",
@@ -107,7 +107,7 @@
 			},
 			"outputChat": {
 				"name": "Output Estimate to Chat",
-				"hint": "Output any estimate changes to chat. Characters flagged with the Hide Estimate macro will be shown as \"Unknown Entity\"."
+				"hint": "Output any estimate changes to chat. Characters flagged with the Hide Estimate macro will be shown as description of the {setting} setting."
 			},
 			"addTemp": {
 				"name": "Add Temporary Health",
@@ -176,18 +176,18 @@
 				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
 			},
 			"showExtra": {
-				"name": "Disabled & Dying",
-				"hint": "Show \"Disabled\" and \"Dying\" descriptions"
+				"name": "Show {condition1} & {condition2}",
+				"hint": "Shows the {condition1} and {condition2} descriptions when their prerequisites are fulfilled."
 			},
 			"disabledName": {
-				"name": "Disabled",
-				"hint": "Description to show when token is precisely at 0 HP or has more nonlethal damage than HP remaining",
-				"default": "Disabled"
+				"name": "Staggered Stage",
+				"hint": "Shows when a token is precisely at 0 HP, has nonlethal damage exactly equal to its current hit points, or is affected by the Staggered condition.",
+				"default": "Staggered"
 			},
 			"dyingName": {
-				"name": "Dying",
-				"hint": "Description to show when token is below 0 HP",
-				"default": "Dying"
+				"name": "Unconscious Stage",
+				"hint": "Shows when a token has more nonlethal damage than HP.",
+				"default": "Unconscious"
 			}
 		},
 		"PF2E": {
