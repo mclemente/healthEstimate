@@ -1,11 +1,64 @@
 import { renderSettingsConfigHandler, renderTokenConfigHandler, onUpdateActor, onUpdateToken } from "./module/settings.js";
 import { HealthEstimate } from "./module/logic.js";
 import { getCharacters, onRenderChatMessage } from "./lib/HealthMonitor.js";
+import { f, t } from "./module/utils.js";
 
 /**
  * Preload templates and add it template to the HUD
  */
-Hooks.once("init", async function () {
+Hooks.once("init", async function () {});
+
+/**
+ * Have to register Settings here, because doing so at init breaks i18n
+ */
+Hooks.once("setup", function () {
+	setKeybinds();
+	game.healthEstimate = new HealthEstimate();
+	game.healthEstimate.setup();
+	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
+	if (outputChat) {
+		Hooks.on("updateActor", onUpdateActor);
+		Hooks.on("updateToken", onUpdateToken);
+	}
+});
+
+Hooks.once("canvasReady", function () {
+	game.healthEstimate.canvasReady();
+});
+
+/**
+ * HP storing code for canvas load or token created
+ */
+Hooks.on("canvasReady", function () {
+	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
+	getCharacters(tokens);
+});
+
+Hooks.on("createToken", function (tokenDocument, options, userId) {
+	const customStages = tokenDocument.actor.getFlag("healthEstimate", "customStages");
+	if (customStages?.length) tokenDocument.setFlag("healthEstimate", "customStages", customStages);
+	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
+	getCharacters(tokens);
+});
+
+/**
+ * Chat Styling
+ */
+Hooks.on("renderChatMessage", onRenderChatMessage);
+
+Hooks.on("renderSettingsConfig", renderSettingsConfigHandler);
+Hooks.on("renderTokenConfig", renderTokenConfigHandler);
+
+Hooks.on("deleteActiveEffect", (activeEffect, options, userId) => {
+	if (activeEffect.icon == game.healthEstimate.deathMarker) {
+		let tokens = canvas.tokens.placeables.filter((e) => e.actor && e.actor.id == activeEffect.parent.id);
+		for (let token of tokens) {
+			if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");
+		}
+	}
+});
+
+function setKeybinds() {
 	game.keybindings.register("healthEstimate", "markDead", {
 		name: "healthEstimate.core.keybinds.markDead.name",
 		hint: "healthEstimate.core.keybinds.markDead.hint",
@@ -20,7 +73,7 @@ Hooks.once("init", async function () {
 	});
 	game.keybindings.register("healthEstimate", "dontMarkDead", {
 		name: "healthEstimate.core.keybinds.dontMarkDead.name",
-		hint: "healthEstimate.core.keybinds.dontMarkDead.hint",
+		hint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
 		onDown: () => {
 			for (let e of canvas.tokens.controlled) {
 				let hasAlive = !e.document.getFlag("healthEstimate", "treatAsPC");
@@ -46,7 +99,7 @@ Hooks.once("init", async function () {
 	});
 	game.keybindings.register("healthEstimate", "hideNames", {
 		name: "healthEstimate.core.keybinds.hideNames.name",
-		hint: "healthEstimate.core.keybinds.hideNames.hint",
+		hint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
 		onDown: () => {
 			for (let e of canvas.tokens.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideName");
@@ -128,53 +181,4 @@ Hooks.once("init", async function () {
 		restricted: true,
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
-});
-
-/**
- * Have to register Settings here, because doing so at init breaks i18n
- */
-Hooks.once("setup", function () {
-	game.healthEstimate = new HealthEstimate();
-	game.healthEstimate.setup();
-	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
-	if (outputChat) {
-		Hooks.on("updateActor", onUpdateActor);
-		Hooks.on("updateToken", onUpdateToken);
-	}
-});
-
-Hooks.once("canvasReady", function () {
-	game.healthEstimate.canvasReady();
-});
-
-/**
- * HP storing code for canvas load or token created
- */
-Hooks.on("canvasReady", function () {
-	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
-	getCharacters(tokens);
-});
-
-Hooks.on("createToken", function (tokenDocument, options, userId) {
-	const customStages = tokenDocument.actor.getFlag("healthEstimate", "customStages");
-	if (customStages?.length) tokenDocument.setFlag("healthEstimate", "customStages", customStages);
-	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
-	getCharacters(tokens);
-});
-
-/**
- * Chat Styling
- */
-Hooks.on("renderChatMessage", onRenderChatMessage);
-
-Hooks.on("renderSettingsConfig", renderSettingsConfigHandler);
-Hooks.on("renderTokenConfig", renderTokenConfigHandler);
-
-Hooks.on("deleteActiveEffect", (activeEffect, options, userId) => {
-	if (activeEffect.icon == game.healthEstimate.deathMarker) {
-		let tokens = canvas.tokens.placeables.filter((e) => e.actor && e.actor.id == activeEffect.parent.id);
-		for (let token of tokens) {
-			if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");
-		}
-	}
-});
+}

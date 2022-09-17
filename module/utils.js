@@ -59,6 +59,9 @@ export let descriptions = function (descriptions, stage, token, state = { dead: 
 export function t(key) {
 	return game.i18n.localize(`healthEstimate.${key}`);
 }
+export function f(key, data = {}) {
+	return game.i18n.format(`healthEstimate.${key}`, data);
+}
 
 // extracts data from an object, and a string path,
 // it has no depth search limit

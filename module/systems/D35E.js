@@ -1,4 +1,4 @@
-import { t } from "../utils.js";
+import { t, f } from "../utils.js";
 
 const fraction = function (token) {
 	const hp = token.actor.system.attributes.hp;
@@ -27,6 +27,8 @@ const settings = () => {
 			default: true,
 		},
 		"PF1.showExtra": {
+			name: f("PF1.showExtra.name", { condition1: t("PF1.disabledName.default"), condition2: t("PF1.dyingName.default") }),
+			hint: f("PF1.showExtra.hint", { condition1: t("PF1.disabledName.default"), condition2: t("PF1.dyingName.default") }),
 			type: Boolean,
 			default: true,
 		},
@@ -41,19 +43,21 @@ const settings = () => {
 	};
 };
 const descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }) {
-	const hp = token.actor.system.attributes.hp;
-
-	if (hp.nonlethal >= hp.value && hp.value > 0) {
-		return game.settings.get("healthEstimate", "PF1.disabledName");
-	}
 	if (state.dead) {
 		return state.desc;
 	}
-	if (game.settings.get("healthEstimate", "PF1.showExtra") && hp.value < 1) {
-		if (hp.value === 0) {
+	const hp = token.actor.system.attributes.hp;
+	let addTemp = 0;
+	if (game.settings.get("healthEstimate", "core.addTemp")) {
+		addTemp = hp.temp;
+	}
+	const totalHp = hp.value + addTemp;
+	if (game.settings.get("healthEstimate", "PF1.showExtra")) {
+		if (totalHp === 0 || totalHp == hp.nonlethal || Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("PF1.CondStaggered"))) {
 			return game.settings.get("healthEstimate", "PF1.disabledName");
+		} else if (hp.nonlethal > totalHp) {
+			return game.settings.get("healthEstimate", "PF1.dyingName");
 		}
-		return game.settings.get("healthEstimate", "PF1.dyingName");
 	}
 	return descriptions[stage];
 };

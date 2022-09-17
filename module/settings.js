@@ -1,4 +1,4 @@
-import { addSetting, t } from "./utils.js";
+import { addSetting, t, f } from "./utils.js";
 import { updateBreakSettings } from "./systemSpecifics.js";
 import { HealthEstimateStyleSettings } from "./styleSettings.js";
 import { HealthEstimateDeathSettings } from "./deathSettings.js";
@@ -98,6 +98,7 @@ export const registerSettings = function () {
 		},
 	});
 	addSetting("core.outputChat", {
+		hint: f("core.outputChat.hint", { setting: t("core.unknownEntity.name") }),
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
@@ -117,6 +118,7 @@ export const registerSettings = function () {
 
 	/* Settings for the death menu */
 	addMenuSetting("core.deathState", {
+		hint: f("core.deathState.hint", { setting: t("core.deathStateName.name"), setting2: t("core.deathMarker.name") }),
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
@@ -139,7 +141,7 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.deathMarker", {
 		type: String,
-		default: "icons/svg/skull.svg",
+		default: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon || "icons/svg/skull.svg",
 		onChange: (value) => {
 			game.healthEstimate.deathMarker = value;
 		},
@@ -449,6 +451,20 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 	outputChatCheckbox.on("change", (event) => {
 		disableCheckbox(unknownEntityInput, !event.target.checked);
 	});
+
+	if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
+		const showExtra = game.settings.get("healthEstimate", "PF1.showExtra");
+		const showExtraCheckbox = html.find('input[name="healthEstimate.PF1.showExtra"]');
+		const disabledNameInput = html.find('input[name="healthEstimate.PF1.disabledName"]');
+		const dyingNameInput = html.find('input[name="healthEstimate.PF1.dyingName"]');
+		disableCheckbox(disabledNameInput, !showExtra);
+		disableCheckbox(dyingNameInput, !showExtra);
+
+		showExtraCheckbox.on("change", (event) => {
+			disableCheckbox(disabledNameInput, !event.target.checked);
+			disableCheckbox(dyingNameInput, !event.target.checked);
+		});
+	}
 }
 
 export function disableCheckbox(checkbox, boolean) {
