@@ -1,0 +1,60 @@
+<form autocomplete="off" style="padding: 0 2.5%" onsubmit="event.preventDefault()" style="display: flex;flex-direction: column;">
+	<div class="form-group">
+		{{#with perfectionism}}
+			<label for="perfectionism">{{localize name}}</label>
+			<select name="perfectionism" class="form-fileds" id="perfectionism">
+				{{#each select}}
+					<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+				{{/each}}
+			</select>
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with alwaysShow}}
+			<label for="alwaysShow">{{localize name}}</label>
+			<input type="checkbox" name="alwaysShow" id="alwaysShow" {{#if value}}checked="checked"{{/if}}>
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with combatOnly}}
+			<label for="combatOnly">{{localize name}}</label>
+			<input type="checkbox" name="combatOnly" id="combatOnly" {{#if value}}checked="checked"{{/if}}>
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with showDescription}}
+			<label for="showDescription">{{localize name}}</label>
+			<select name="showDescription" class="form-fileds" id="showDescription">
+				{{#each select}}
+					<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+				{{/each}}
+			</select>
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with showDescriptionTokenType}}
+			<label for="showDescriptionTokenType">{{localize name}}</label>
+			<select name="showDescriptionTokenType" class="form-fileds" id="showDescriptionTokenType">
+				{{#each select}}
+					<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+				{{/each}}
+			</select>
+			<p class="notes">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<footer class="sheet-footer flexrow" style="margin-top: auto">
+<!--		<button type="button" name="reset">-->
+<!--			<i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}-->
+<!--		</button>-->
+		<button type="submit" name="submit">
+			<i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}
+		</button>
+		<button type="button" data-action="reset">
+			<i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}
+		</button>
+	</footer>
+</form>
