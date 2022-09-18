@@ -221,6 +221,9 @@ export const registerSettings = function () {
 	addMenuSetting("core.menuSettings.positionAdjustment", {
 		type: Number,
 		default: -1,
+		onChange: (value) => {
+			game.healthEstimate.margin = value;
+		},
 	});
 	addMenuSetting("core.menuSettings.fontSize", {
 		type: String,
@@ -337,6 +340,9 @@ export const registerSettings = function () {
 			"#05ff00",
 			"#00ff00",
 		],
+		onChange: (value) => {
+			game.healthEstimate.colors = value;
+		},
 	});
 	addMenuSetting("core.variables.outline", {
 		type: Array,
@@ -442,14 +448,23 @@ export const registerSettings = function () {
 			"#006600",
 			"#006600",
 		],
+		onChange: (value) => {
+			game.healthEstimate.outline = value;
+		},
 	});
 	addMenuSetting("core.variables.deadColor", {
 		type: String,
 		default: "#990000",
+		onChange: (value) => {
+			game.healthEstimate.deadColor = value;
+		},
 	});
 	addMenuSetting("core.variables.deadOutline", {
 		type: String,
 		default: "#340000",
+		onChange: (value) => {
+			game.healthEstimate.deadOutline = value;
+		},
 	});
 };
 

@@ -2,8 +2,6 @@ import { registerSettings } from "./settings.js";
 import { fractionFormula, prepareSystemSpecifics, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
 import { sGet, t } from "./utils.js";
 
-let colors, deadColor, deadOutline, outline, margin;
-
 export class HealthEstimate {
 	constructor() {}
 
@@ -108,7 +106,7 @@ export class HealthEstimate {
 
 			token.healthEstimate.anchor.x = 0.5;
 			if (!this.scaleToZoom || (this.scaleToZoom && zoomLevel >= 1)) {
-				token.healthEstimate.anchor.y = margin;
+				token.healthEstimate.anchor.y = this.margin;
 			}
 			token.healthEstimate.x = Math.floor(width / 2);
 			switch (this.alignment) {
@@ -157,7 +155,7 @@ export class HealthEstimate {
 				let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
 				if (customStages.length) customStages = customStages.split(/[,;]\s*/);
 				const stage = this.getStage(fraction, customStages || []);
-				const colorIndex = Math.max(0, Math.ceil((colors.length - 1) * fraction));
+				const colorIndex = Math.max(0, Math.ceil((this.colors.length - 1) * fraction));
 
 				let dead = this.isDead(token, stage);
 				desc = this.descriptionToShow(
@@ -171,11 +169,11 @@ export class HealthEstimate {
 					fraction,
 					customStages.length ? true : false
 				);
-				color = colors[colorIndex];
-				stroke = outline[colorIndex];
+				color = this.colors[colorIndex];
+				stroke = this.outline[colorIndex];
 				if (dead) {
-					color = deadColor;
-					stroke = deadOutline;
+					color = this.deadColor;
+					stroke = this.deadOutline;
 				}
 				if (this.hideEstimate(token)) desc += "*";
 			}
@@ -246,15 +244,16 @@ export class HealthEstimate {
 		this.showDead = sGet("core.deathState");
 		this.NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
-		colors = sGet("core.variables.colors");
-		outline = sGet("core.variables.outline");
-		deadColor = sGet("core.variables.deadColor");
-		deadOutline = sGet("core.variables.deadOutline");
 		this.perfectionism = sGet("core.perfectionism");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 
 		this.alignment = sGet("core.menuSettings.position");
-		margin = sGet("core.menuSettings.positionAdjustment");
+		this.margin = sGet("core.menuSettings.positionAdjustment");
 		this.fontSize = sGet("core.menuSettings.fontSize");
+
+		this.colors = sGet("core.variables.colors");
+		this.outline = sGet("core.variables.outline");
+		this.deadColor = sGet("core.variables.deadColor");
+		this.deadOutline = sGet("core.variables.deadOutline");
 	}
 }

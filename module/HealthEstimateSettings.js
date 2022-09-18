@@ -425,7 +425,5 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		sSet(`core.variables.outline`, this.outlColors);
 		sSet(`core.variables.deadColor`, deadColor);
 		sSet(`core.variables.deadOutline`, this.deadOutline);
-
-		setTimeout(game.healthEstimate.updateSettings, 50);
 	}
 }
