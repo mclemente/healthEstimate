@@ -72,7 +72,7 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "healthestimate-behavior-form",
-			title: `Health Estimate: ${t("core.menuSettings.deathSettings.plural")}`,
+			title: `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/behaviorSettings.hbs",
 		});
 	}
@@ -245,14 +245,6 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.positionAdjustment = document.getElementById("positionAdjustment");
 		this.smoothGradient = document.getElementById("smoothGradient");
 		this.gradEx = document.getElementById("gradientExampleHE");
-		this.scaleToZoom = game.settings.get(`healthEstimate`, `core.menuSettings.scaleToZoom`);
-		if (this.scaleToZoom) {
-			this.positionAdjustment.disabled = true;
-		}
-		const scaleToZoomInput = document.getElementById("scaleToZoom");
-		scaleToZoomInput.addEventListener("change", (ev) => {
-			this.positionAdjustment.disabled = ev.target.checked;
-		});
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",
