@@ -7,7 +7,7 @@ export class HealthEstimateSettings extends FormApplication {
 	 */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			classes: ["sheet"],
+			classes: ["sheet", "healthEstimateForm"],
 			width: 640,
 			height: "fit-content",
 			closeOnSubmit: true,
@@ -186,6 +186,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			mode: this.prepSelection("mode"),
 			outline: this.prepSelection("outline"),
 			outlineIntensity: this.prepSetting("outlineIntensity"),
+			scaleToZoom: this.prepSetting("scaleToZoom"),
 		};
 	}
 
@@ -244,6 +245,14 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.positionAdjustment = document.getElementById("positionAdjustment");
 		this.smoothGradient = document.getElementById("smoothGradient");
 		this.gradEx = document.getElementById("gradientExampleHE");
+		this.scaleToZoom = game.settings.get(`healthEstimate`, `core.menuSettings.scaleToZoom`);
+		if (this.scaleToZoom) {
+			this.positionAdjustment.disabled = true;
+		}
+		const scaleToZoomInput = document.getElementById("scaleToZoom");
+		scaleToZoomInput.addEventListener("change", (ev) => {
+			this.positionAdjustment.disabled = ev.target.checked;
+		});
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",

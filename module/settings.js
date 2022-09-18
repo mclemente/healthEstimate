@@ -161,6 +161,14 @@ export const registerSettings = function () {
 		type: Boolean,
 		default: true,
 	});
+	addMenuSetting("core.menuSettings.scaleToZoom", {
+		hint: f("core.menuSettings.scaleToZoom.hint", { setting: t("core.menuSettings.fontSize.name"), setting2: t("core.menuSettings.position.name") }),
+		type: Boolean,
+		default: false,
+		onChange: (value) => {
+			game.healthEstimate.scaleToZoom = value;
+		},
+	});
 	addMenuSetting("core.menuSettings.smoothGradient", {
 		type: Boolean,
 		default: true,

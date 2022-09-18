@@ -8,7 +8,15 @@
 }
 
 .healthEstimate.deadColor input[type="text"].color {
-  flex: 3;
+	flex: 2.97;
+}
+
+.healthEstimate.deadColor input[type="color"][data-edit][data-edit] {
+	flex: 1.4;
+}
+
+.healthEstimateForm input[type="number"] {
+	text-align: center;
 }
 
 #healthEstimate {

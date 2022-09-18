@@ -4,6 +4,11 @@
 		<input type="checkbox" name="useColor" id="useColor" {{#if useColor.value}}checked="checked"{{/if}}>
 		<p class="notes">{{useColor.hint}}</p>
 	</div>
+	<div class="form-group" style="align-items: flex-end;">
+		<label for="scaleToZoom" style="flex:none;margin-right: 3px">{{scaleToZoom.name}}</label>
+		<input type="checkbox" name="scaleToZoom" id="scaleToZoom" {{#if scaleToZoom.value}}checked="checked"{{/if}}>
+		<p class="notes">{{scaleToZoom.hint}}</p>
+	</div>
 	<div class="form-group">
 		{{#with smoothGradient}}
 			<label for="smoothGradient">{{localize name}}</label>
@@ -11,7 +16,7 @@
 			<p class="notes">{{localize hint}}</p>
 		{{/with}}
 	</div>
-	<div class="form-group">
+	<div class="form-group" style="margin-bottom: 7px;">
 		<span style="flex-direction: column">
 			<div id="gradientExampleHE"></div>
 			<div id="gradientControlsHE"></div>
@@ -52,7 +57,7 @@
 			<div class="form-group">
 				{{#with fontSize}}
 					<label for="fontSize">{{localize name}}</label>
-					<input type="text" value="{{value}}" name="fontSize" id="fontSize">
+					<input style="flex: 2.98;"" type="text" value="{{value}}" name="fontSize" id="fontSize">
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>

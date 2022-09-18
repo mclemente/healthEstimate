@@ -81,9 +81,26 @@ export class HealthEstimate {
 			const { desc, color, stroke } = this.getEstimation(token);
 			if (!desc) return;
 			if (token.healthEstimate?._texture) token.healthEstimate.destroy();
+
+			const zoomLevel = Math.min(1, canvas.stage.scale.x);
+			let fontSize = document.documentElement.style.getPropertyValue("--healthEstimate-text-size");
+			if (this.scaleToZoom && zoomLevel < 1) {
+				if (isNaN(Number(fontSize.replace("px", "")))) {
+					const cssValues = {
+						"x-small": 10,
+						small: 13,
+						medium: 16,
+						large: 18,
+						"x-large": 24,
+					};
+					fontSize = cssValues[fontSize] || 24;
+				} else fontSize = fontSize.replace("px", "");
+				fontSize = `${24 * (1 / zoomLevel)}px`;
+			}
+
 			token.healthEstimate = token.addChild(
 				new PIXI.Text(desc, {
-					fontSize: document.documentElement.style.getPropertyValue("--healthEstimate-text-size"),
+					fontSize: fontSize,
 					fill: color,
 					stroke: stroke,
 					strokeThickness: 3,
@@ -91,7 +108,9 @@ export class HealthEstimate {
 			);
 
 			token.healthEstimate.anchor.x = 0.5;
-			token.healthEstimate.anchor.y = margin;
+			if (!this.scaleToZoom || (this.scaleToZoom && zoomLevel >= 1)) {
+				token.healthEstimate.anchor.y = margin;
+			}
 			token.healthEstimate.x = Math.floor(width / 2);
 			switch (alignment) {
 				case "start":
@@ -235,6 +254,7 @@ export class HealthEstimate {
 		deadColor = sGet("core.variables.deadColor");
 		deadOutline = sGet("core.variables.deadOutline");
 		this.perfectionism = sGet("core.perfectionism");
+		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 
 		alignment = sGet("core.menuSettings.position");
 		margin = sGet("core.menuSettings.positionAdjustment");
