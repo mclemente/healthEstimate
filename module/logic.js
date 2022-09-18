@@ -2,7 +2,7 @@ import { registerSettings } from "./settings.js";
 import { fractionFormula, prepareSystemSpecifics, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
 import { sGet, t } from "./utils.js";
 
-let alignment, colors, deadColor, deadOutline, outline, margin;
+let colors, deadColor, deadOutline, outline, margin;
 
 export class HealthEstimate {
 	constructor() {}
@@ -74,7 +74,6 @@ export class HealthEstimate {
 		if (game.healthEstimate.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
 		const gridSize = canvas.scene.grid.size;
 		const width = gridSize * token.document.width;
-		document.documentElement.style.setProperty("--healthEstimate-width", `${width}px`);
 
 		if (hovered) {
 			if (!token.isVisible) return;
@@ -83,7 +82,7 @@ export class HealthEstimate {
 			if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 
 			const zoomLevel = Math.min(1, canvas.stage.scale.x);
-			let fontSize = document.documentElement.style.getPropertyValue("--healthEstimate-text-size");
+			let fontSize = this.fontSize;
 			if (this.scaleToZoom && zoomLevel < 1) {
 				if (isNaN(Number(fontSize.replace("px", "")))) {
 					const cssValues = {
@@ -112,7 +111,7 @@ export class HealthEstimate {
 				token.healthEstimate.anchor.y = margin;
 			}
 			token.healthEstimate.x = Math.floor(width / 2);
-			switch (alignment) {
+			switch (this.alignment) {
 				case "start":
 					token.healthEstimate.y = -Math.floor(gridSize / 2);
 					break;
@@ -122,7 +121,7 @@ export class HealthEstimate {
 					token.healthEstimate.y = Math.floor(gridSize / 2);
 					break;
 				default:
-					console.error(`Health Estimate | Style Setting: Position isn't supposed to be of value "${alignment}".`);
+					console.error(`Health Estimate | Style Setting: Position isn't supposed to be of value "${this.alignment}".`);
 			}
 		} else if (token.healthEstimate) token.healthEstimate.visible = false;
 	}
@@ -178,8 +177,6 @@ export class HealthEstimate {
 					color = deadColor;
 					stroke = deadOutline;
 				}
-				document.documentElement.style.setProperty("--healthEstimate-stroke-color", stroke);
-				document.documentElement.style.setProperty("--healthEstimate-text-color", color);
 				if (this.hideEstimate(token)) desc += "*";
 			}
 			return { desc, color, stroke };
@@ -256,10 +253,8 @@ export class HealthEstimate {
 		this.perfectionism = sGet("core.perfectionism");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 
-		alignment = sGet("core.menuSettings.position");
+		this.alignment = sGet("core.menuSettings.position");
 		margin = sGet("core.menuSettings.positionAdjustment");
-		document.documentElement.style.setProperty("--healthEstimate-alignment", alignment);
-		document.documentElement.style.setProperty("--healthEstimate-margin", `${margin}em`);
-		document.documentElement.style.setProperty("--healthEstimate-text-size", sGet("core.menuSettings.fontSize"));
+		this.fontSize = sGet("core.menuSettings.fontSize");
 	}
 }

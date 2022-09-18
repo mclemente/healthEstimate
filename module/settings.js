@@ -214,6 +214,9 @@ export const registerSettings = function () {
 			center: t("core.menuSettings.position.middle"),
 			end: t("core.menuSettings.position.bottom"),
 		},
+		onChange: (value) => {
+			game.healthEstimate.alignment = value;
+		},
 	});
 	addMenuSetting("core.menuSettings.positionAdjustment", {
 		type: Number,
@@ -222,8 +225,8 @@ export const registerSettings = function () {
 	addMenuSetting("core.menuSettings.fontSize", {
 		type: String,
 		default: "x-large",
-		onChange: (s) => {
-			document.documentElement.style.setProperty("--healthEstimate-text-size", s);
+		onChange: (value) => {
+			game.healthEstimate.fontSize = value;
 		},
 	});
 

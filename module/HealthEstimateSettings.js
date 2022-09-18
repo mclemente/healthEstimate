@@ -348,9 +348,12 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 	updateSample() {
 		const sample = document.getElementById("healthEstimateSample");
 		this.deadOutline = this.outlFn(this.deadColor.value);
-		sample.style.setProperty("--healthEstimate-text-size", this.fontSize.value);
-		document.documentElement.style.setProperty("--healthEstimate-text-color", this.deadColor.value);
-		document.documentElement.style.setProperty("--healthEstimate-stroke-color", this.deadOutline);
+		sample.style.setProperty("font-size", this.fontSize.value);
+		const deadSample = document.getElementById("healthEstimateSample").children[0];
+		deadSample.style.color = this.deadColor.value;
+		deadSample.style.textShadow = `-1px -1px 1px ${this.deadOutline}, 0 -1px 1px ${this.deadOutline}, 1px -1px 1px ${this.deadOutline},
+		1px 0 1px ${this.deadOutline}, 1px 1px 1px ${this.deadOutline}, 0 1px 1px ${this.deadOutline},
+		-1px 1px 1px ${this.deadOutline}, -1px 0 1px ${this.deadOutline}`;
 		for (let i = 0; i <= 6; i++) {
 			const index = Math.round(this.gradLength * ((i - 1) / 5));
 			const position = Math.max(index - 1, 0);
