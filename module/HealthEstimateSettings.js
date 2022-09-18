@@ -187,6 +187,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			outline: this.prepSelection("outline"),
 			outlineIntensity: this.prepSetting("outlineIntensity"),
 			scaleToZoom: this.prepSetting("scaleToZoom"),
+			deadText: game.settings.get("healthEstimate", "core.deathStateName"),
 		};
 	}
 
@@ -340,28 +341,21 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 					background-color:${this.gradColors[i]};
 				"></span>`;
 		}
-		// (chroma.bezier(colors).scale().domain(positions).mode('cmyk'))(i / 100).hex()
 		this.gradEx.innerHTML = gradString;
 		this.updateSample();
 	}
 
 	updateSample() {
 		const sample = document.getElementById("healthEstimateSample");
-		const sampleItems = sample.children[0].children;
-
 		this.deadOutline = this.outlFn(this.deadColor.value);
-
 		sample.style.setProperty("--healthEstimate-text-size", this.fontSize.value);
-		// sample.style.setProperty("--healthEstimate-alignment", this.textPosition.value);
-		// sample.style.setProperty("--healthEstimate-margin", `${this.positionAdjustment.value}em`);
-		sampleItems[0].style.setProperty("--healthEstimate-text-color", this.deadColor.value);
-		sampleItems[0].style.setProperty("--healthEstimate-stroke-color", this.deadOutline);
-
-		for (let i = 1; i <= 6; i++) {
-			const position = Math.max(Math.round(this.gradLength * ((i - 1) / 5)) - 1, 0);
-
-			sampleItems[i].style.setProperty("--healthEstimate-text-color", this.gradColors[position]);
-			sampleItems[i].style.setProperty("--healthEstimate-stroke-color", this.outlColors[position]);
+		document.documentElement.style.setProperty("--healthEstimate-text-color", this.deadColor.value);
+		document.documentElement.style.setProperty("--healthEstimate-stroke-color", this.deadOutline);
+		for (let i = 0; i <= 6; i++) {
+			const index = Math.round(this.gradLength * ((i - 1) / 5));
+			const position = Math.max(index - 1, 0);
+			document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}`, this.gradColors[position]);
+			document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}-outline`, this.outlColors[position]);
 		}
 	}
 
@@ -383,6 +377,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 				await resetToDefault("mode");
 				await resetToDefault("outline");
 				await resetToDefault("outlineIntensity");
+				await resetToDefault("scaleToZoom");
 				this.close();
 			}
 		});

@@ -5,6 +5,58 @@
 	--healthEstimate-alignment: start;
 	--healthEstimate-margin: -1em;
 	--healthEstimate-width: 100px;
+	--healthEstimate-keyframe-0: white;
+	--healthEstimate-keyframe-0-outline: white;
+	--healthEstimate-keyframe-20: white;
+	--healthEstimate-keyframe-40: black;
+	--healthEstimate-keyframe-65: black;
+	--healthEstimate-keyframe-80: black;
+	--healthEstimate-keyframe-100: black;
+}
+
+@-webkit-keyframes healthEstimate-animation {
+	0% {
+		color: var(--healthEstimate-keyframe-0);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-0-outline), 0 -1px 1px var(--healthEstimate-keyframe-0-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-0-outline), 1px 0 1px var(--healthEstimate-keyframe-0-outline), 1px 1px 1px var(--healthEstimate-keyframe-0-outline),
+			0 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 0 1px var(--healthEstimate-keyframe-0)-outline;
+	}
+	20% {
+		color: var(--healthEstimate-keyframe-20);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-20-outline), 0 -1px 1px var(--healthEstimate-keyframe-20-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-20-outline), 1px 0 1px var(--healthEstimate-keyframe-20-outline), 1px 1px 1px var(--healthEstimate-keyframe-20-outline),
+			0 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 0 1px var(--healthEstimate-keyframe-20-outline);
+	}
+	40% {
+		color: var(--healthEstimate-keyframe-40);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-40-outline), 0 -1px 1px var(--healthEstimate-keyframe-40-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-40-outline), 1px 0 1px var(--healthEstimate-keyframe-40-outline), 1px 1px 1px var(--healthEstimate-keyframe-40-outline),
+			0 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 0 1px var(--healthEstimate-keyframe-40-outline);
+	}
+	60% {
+		color: var(--healthEstimate-keyframe-60);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-60-outline), 0 -1px 1px var(--healthEstimate-keyframe-60-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-60-outline), 1px 0 1px var(--healthEstimate-keyframe-60-outline), 1px 1px 1px var(--healthEstimate-keyframe-60-outline),
+			0 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 0 1px var(--healthEstimate-keyframe-60-outline);
+	}
+	80% {
+		color: var(--healthEstimate-keyframe-80);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-80-outline), 0 -1px 1px var(--healthEstimate-keyframe-80-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-80-outline), 1px 0 1px var(--healthEstimate-keyframe-80-outline), 1px 1px 1px var(--healthEstimate-keyframe-80-outline),
+			0 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 0 1px var(--healthEstimate-keyframe-80-outline);
+	}
+	100% {
+		color: var(--healthEstimate-keyframe-100);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-100-outline), 0 -1px 1px var(--healthEstimate-keyframe-100-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-100-outline), 1px 0 1px var(--healthEstimate-keyframe-100-outline), 1px 1px 1px var(--healthEstimate-keyframe-100-outline),
+			0 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 0 1px var(--healthEstimate-keyframe-100-outline);
+	}
+}
+
+.healthEstimateAnimate {
+	-webkit-animation-name: healthEstimate-animation;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-duration: 2s;
 }
 
 .healthEstimate.deadColor input[type="text"].color {
@@ -37,7 +89,7 @@
 	grid-auto-rows: auto;
 	align-content: var(--healthEstimate-alignment);
 	justify-content: unsafe center;
-	margin-top: var(--healthEstimate-margin);
+	/* margin-top: var(--healthEstimate-margin); */
 }
 
 .healthEstimateColor {
@@ -95,10 +147,6 @@ li.hm_messagetaken {
 .numberHE::-webkit-outer-spin-button {
 	font-size: 1.3em;
 	opacity: 1;
-}
-
-.sampleFrameHE {
-	pointer-events: none;
 }
 
 .gradient-settings {
