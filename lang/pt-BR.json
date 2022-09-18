@@ -30,7 +30,7 @@
 				},
 				"dontMarkDead": {
 					"name": "Não Marcar como Morto",
-					"hint": "Faz com que PNJs não sejam mostrados como Morto quando seus PV chegarem a 0 (por exemplo, ele mostrará Inconsciente). Isso só é útil se você usar a configuração \"PNJs morrem imediatamente\"."
+					"hint": "Faz com que PNJs não sejam mostrados como Morto quando seus PV chegarem a 0 (por exemplo, ele mostrará Inconsciente). Isso só é útil se você usar a configuração {setting}."
 				},
 				"hideEstimates": {
 					"name": "Ocultar Estimativas",
@@ -38,7 +38,7 @@
 				},
 				"hideNames": {
 					"name": "Ocultar Nomes",
-					"hint": "Oculta os nomes de tokens selecionados para os jogadores quando estiver utilizando a configuração \"Enviar Estimativa para o Chat\"."
+					"hint": "Oculta os nomes de tokens selecionados para os jogadores quando estiver utilizando a configuração {setting}."
 				},
 				"hideEstimatesAndNames": {
 					"name": "Ocultar Estimativas e Nomes",
@@ -77,7 +77,7 @@
 			},
 			"deathState": {
 				"name": "Condição Morto",
-				"hint": "Mostra o token como morto quando afetado por qualquer condição que use o ícone da opção Marcador de Morte. Funciona independentemente da macro."
+				"hint": "Mostra o token como defino na configuração {setting} quando afetado por qualquer condição que use o ícone da configuração {setting2}. Funciona independentemente da macro."
 			},
 			"deathStateName": {
 				"name": "Nome do Estado de Morte",
@@ -103,7 +103,7 @@
 			},
 			"outputChat": {
 				"name": "Enviar Estimativa para o Chat",
-				"hint": "Envie quaisquer mudanças nas estimativas para o chat. Personagens marcados com a macro \\\"Hide Character\\\" aparecem como \"Entitidade Desconhecida\"."
+				"hint": "Envia mudanças nas estimativas ao chat. Personagens marcados com a macro \\\"Hide Character\\\" aparecem como a descrição da configuração {setting}."
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
@@ -151,7 +151,19 @@
 				"styleSettings": {
 					"name": "Configuração de Estilo",
 					"plural": "Configurações de Estilo"
+				},
+				"behaviorSettings": {
+					"name": "Configuração de Comportamento",
+					"plural": "Configurações de Comportamento"
+				},
+				"scaleToZoom": {
+					"name": "Escalar para o nível de zoom",
+					"hint": "Escala a estimativa de acordo com a distância do zoom. Detalhes: {setting} não aceitará \"larger\" e \"smaller\" como valores font-size de CSS e o valor de {setting2} será ignorado."
 				}
+			},
+			"combatOnly": {
+				"hint": "Mostra as estimativas apenas quando um combate estiver ativo.",
+				"name": "Mostrar apenas em combate"
 			}
 		},
 		"cyberpunk-red-core": {
@@ -173,18 +185,18 @@
 				"hint": "Se habilitado, dano não letal será subtraído da vida atual para a estimativa."
 			},
 			"showExtra": {
-				"name": "Desabilitado e Morrendo",
-				"hint": "Mostrar descrições de \"Desabilitado\" e \"Morrendo\""
+				"name": "Mostrar {condition1} e {condition2}",
+				"hint": "Mostra as descrições de {condition1} e {condition2} quando seus pré-requisitos forem preenchidos."
 			},
 			"disabledName": {
-				"name": "Desabilitado",
-				"hint": "Descrição que será mostrada quando o token está com exatamente 0 PVs ou tem mais dano não letal do que PVs restantes",
+				"name": "Estágio: Desabilitado",
+				"hint": "Aparece quando um token estiver com exatamente 0 PVs, tiver dano não letal exatamente igual aos PVs restantes, ou está afetado pela condição Desabilitado.",
 				"default": "Desabilitado"
 			},
 			"dyingName": {
-				"name": "Morrendo",
-				"hint": "Descrição para quando o token está com menos de 0 PVs",
-				"default": "Morrendo"
+				"name": "Estágio: Inconsciente",
+				"hint": "Aparece quando um token tem mais dano não-letal do que PV restantes.",
+				"default": "Inconsciente"
 			}
 		},
 		"PF2E": {
