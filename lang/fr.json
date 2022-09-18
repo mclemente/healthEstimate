@@ -159,6 +159,10 @@
 			},
 			"outputChat": {
 				"name": "Résultat de l'estimation dans la conversation"
+			},
+			"combatOnly": {
+				"name": "Montrer seulement en combat",
+				"hint": "Montrer les estimations seulement quand un combat est actif."
 			}
 		},
 		"dnd5e": {
