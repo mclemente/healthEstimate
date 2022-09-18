@@ -1,7 +1,6 @@
 import { addSetting, t, f } from "./utils.js";
 import { updateBreakSettings } from "./systemSpecifics.js";
-import { HealthEstimateStyleSettings } from "./styleSettings.js";
-import { HealthEstimateDeathSettings } from "./deathSettings.js";
+import { HealthEstimateBehaviorSettings, HealthEstimateDeathSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
 import { injectConfig } from "../lib/injectConfig.js";
 import { outputStageChange } from "../lib/HealthMonitor.js";
 
@@ -22,6 +21,13 @@ export const registerSettings = function () {
 		game.settings.register("healthEstimate", key, Object.assign(commonData, data));
 	}
 
+	game.settings.registerMenu("healthEstimate", "behaviorSettings", {
+		name: t("core.menuSettings.behaviorSettings.plural"),
+		label: t("core.menuSettings.behaviorSettings.plural"),
+		icon: "fas fa-gear",
+		type: HealthEstimateBehaviorSettings,
+		restricted: true,
+	});
 	game.settings.registerMenu("healthEstimate", "styleSettings", {
 		name: t("core.menuSettings.styleSettings.plural"),
 		label: t("core.menuSettings.styleSettings.plural"),
@@ -38,63 +44,12 @@ export const registerSettings = function () {
 	});
 
 	/* Settings for the main settings menu */
-	addSetting("core.alwaysShow", {
-		type: Boolean,
-		default: false,
-		onChange: (value) => {
-			game.healthEstimate.alwaysShow = value;
-			canvas.scene.tokens.forEach((token) => token.object.refresh());
-		},
-	});
-	addSetting("core.combatOnly", {
-		type: Boolean,
-		default: false,
-		onChange: (value) => {
-			game.healthEstimate.combatOnly = value;
-			game.healthEstimate.combatHooks(value);
-		},
-	});
-	addSetting("core.showDescription", {
-		type: Number,
-		default: 0,
-		choices: {
-			0: t("core.showDescription.choices.all"),
-			1: t("core.showDescription.choices.GM"),
-			2: t("core.showDescription.choices.Players"),
-		},
-		onChange: () => {
-			updateBreakSettings();
-		},
-	});
-	addSetting("core.showDescriptionTokenType", {
-		type: Number,
-		default: 0,
-		choices: {
-			0: t("core.showDescription.choices.all"),
-			1: t("core.showDescription.choices.PC"),
-			2: t("core.showDescription.choices.NPC"),
-		},
-		onChange: () => {
-			updateBreakSettings();
-		},
-	});
+
 	addSetting("core.stateNames", {
 		type: String,
 		default: t("core.stateNames.default"),
 		onChange: (value) => {
 			game.healthEstimate.descriptions = value.split(/[,;]\s*/);
-		},
-	});
-	addSetting("core.perfectionism", {
-		type: Number,
-		default: 1,
-		choices: {
-			0: t("core.perfectionism.choices.0"),
-			1: t("core.perfectionism.choices.1"),
-			2: t("core.perfectionism.choices.2"),
-		},
-		onChange: (value) => {
-			game.healthEstimate.perfectionism = value;
 		},
 	});
 	addSetting("core.outputChat", {
@@ -114,6 +69,60 @@ export const registerSettings = function () {
 	addSetting("core.unknownEntity", {
 		type: String,
 		default: game.i18n.localize("healthEstimate.core.unknownEntity.default"),
+	});
+
+	/* Settings for the behavior menu */
+	addMenuSetting("core.perfectionism", {
+		type: Number,
+		default: 1,
+		choices: {
+			0: t("core.perfectionism.choices.0"),
+			1: t("core.perfectionism.choices.1"),
+			2: t("core.perfectionism.choices.2"),
+		},
+		onChange: (value) => {
+			game.healthEstimate.perfectionism = value;
+		},
+	});
+	addMenuSetting("core.alwaysShow", {
+		type: Boolean,
+		default: false,
+		onChange: (value) => {
+			game.healthEstimate.alwaysShow = value;
+			canvas.scene.tokens.forEach((token) => token.object.refresh());
+		},
+	});
+	addMenuSetting("core.combatOnly", {
+		type: Boolean,
+		default: false,
+		onChange: (value) => {
+			game.healthEstimate.combatOnly = value;
+			game.healthEstimate.combatHooks(value);
+		},
+	});
+	addMenuSetting("core.showDescription", {
+		type: Number,
+		default: 0,
+		choices: {
+			0: t("core.showDescription.choices.all"),
+			1: t("core.showDescription.choices.GM"),
+			2: t("core.showDescription.choices.Players"),
+		},
+		onChange: () => {
+			updateBreakSettings();
+		},
+	});
+	addMenuSetting("core.showDescriptionTokenType", {
+		type: Number,
+		default: 0,
+		choices: {
+			0: t("core.showDescription.choices.all"),
+			1: t("core.showDescription.choices.PC"),
+			2: t("core.showDescription.choices.NPC"),
+		},
+		onChange: () => {
+			updateBreakSettings();
+		},
 	});
 
 	/* Settings for the death menu */

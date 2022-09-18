@@ -118,6 +118,10 @@
 				"hint": "Useful for objects with tokens."
 			},
 			"menuSettings": {
+				"behaviorSettings": {
+					"name": "Behavior Setting",
+					"plural": "Behavior Settings"
+				},
 				"deathSettings": {
 					"name": "Death Setting",
 					"plural": "Death Settings"

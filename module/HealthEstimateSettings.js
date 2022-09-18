@@ -1,6 +1,162 @@
+import { disableCheckbox } from "./settings.js";
 import { sGet, sSet, settingData, t } from "./utils.js";
 
-export class HealthEstimateStyleSettings extends FormApplication {
+export class HealthEstimateSettings extends FormApplication {
+	/**
+	 * Default Options for this FormApplication
+	 */
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			classes: ["sheet"],
+			width: 640,
+			height: "fit-content",
+			closeOnSubmit: true,
+		});
+	}
+
+	prepSelection(key, param = false) {
+		const path = `core.${key}`;
+		let data = settingData(path);
+		let current = "";
+		let result = {
+			select: [],
+			name: data.name,
+			hint: data.hint,
+		};
+
+		if (param) {
+			let currentObject = sGet(path);
+			current = currentObject[param];
+			// for (let [k, v] of Object.entries((currentObject))) {
+			// 	result[k] = v
+			// }
+			Object.assign(result, currentObject);
+		} else {
+			current = sGet(path);
+		}
+
+		for (let [k, v] of Object.entries(data.choices)) {
+			result.select.push({
+				key: k,
+				value: v,
+				selected: k == current,
+			});
+		}
+		return result;
+	}
+
+	prepSetting(key) {
+		const path = `core.${key}`;
+		let data = settingData(path);
+		return {
+			value: sGet(path),
+			name: data.name,
+			hint: data.hint,
+		};
+	}
+
+	/**
+	 * Executes on form submission
+	 * @param {Event} event - the form submission event
+	 * @param {Object} formData - the form data
+	 */
+	async _updateObject(event, formData) {
+		const iterableSettings = Object.keys(formData);
+		for (let key of iterableSettings) {
+			sSet(`core.${key}`, formData[key]);
+		}
+	}
+}
+
+export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			id: "healthestimate-behavior-form",
+			title: `Health Estimate: ${t("core.menuSettings.deathSettings.plural")}`,
+			template: "./modules/healthEstimate/templates/behaviorSettings.hbs",
+		});
+	}
+
+	getData(options) {
+		return {
+			perfectionism: this.prepSelection("perfectionism"),
+			alwaysShow: this.prepSetting("alwaysShow"),
+			combatOnly: this.prepSetting("combatOnly"),
+			showDescription: this.prepSelection("showDescription"),
+			showDescriptionTokenType: this.prepSelection("showDescriptionTokenType"),
+		};
+	}
+
+	async activateListeners(html) {
+		super.activateListeners(html);
+		html.find("button").on("click", async (event) => {
+			if (event.currentTarget?.dataset?.action === "reset") {
+				async function resetToDefault(key) {
+					const path = `core.${key}`;
+					await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
+				}
+				await resetToDefault("perfectionism");
+				await resetToDefault("alwaysShow");
+				await resetToDefault("combatOnly");
+				await resetToDefault("showDescription");
+				await resetToDefault("showDescriptionTokenType");
+				this.close();
+			}
+		});
+	}
+}
+
+export class HealthEstimateDeathSettings extends HealthEstimateSettings {
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			id: "healthestimate-death-form",
+			title: `Health Estimate: ${t("core.menuSettings.deathSettings.plural")}`,
+			template: "./modules/healthEstimate/templates/deathSettings.hbs",
+		});
+	}
+
+	getData(options) {
+		return {
+			deathState: this.prepSetting("deathState"),
+			deathStateName: this.prepSetting("deathStateName"),
+			NPCsJustDie: this.prepSetting("NPCsJustDie"),
+			deathMarker: this.prepSetting("deathMarker"),
+		};
+	}
+
+	async activateListeners(html) {
+		super.activateListeners(html);
+		const deathState = game.settings.get("healthEstimate", "core.deathState");
+		const deathStateBox = html.find('input[name="deathState"]');
+		const deathStateNameInput = html.find('input[name="deathStateName"]');
+		const NPCsJustDieInput = html.find('input[name="NPCsJustDie"]');
+		const deathMarkerInput = html.find('input[name="deathMarker"]');
+		disableCheckbox(deathStateNameInput, !deathState);
+		disableCheckbox(NPCsJustDieInput, !deathState);
+		disableCheckbox(deathMarkerInput, !deathState);
+		deathStateBox.on("change", (event) => {
+			disableCheckbox(deathStateNameInput, !event.target.checked);
+			disableCheckbox(NPCsJustDieInput, !event.target.checked);
+			disableCheckbox(deathMarkerInput, !event.target.checked);
+		});
+		html.find("button").on("click", async (event) => {
+			if (event.currentTarget?.dataset?.action === "reset") {
+				async function resetToDefault(key) {
+					const path = `core.${key}`;
+					await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
+				}
+
+				await resetToDefault("deathState");
+				await resetToDefault("deathStateName");
+				await resetToDefault("NPCsJustDie");
+				await resetToDefault("deathMarker");
+				this.close();
+			}
+		});
+	}
+}
+
+export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 	constructor(object, options = {}) {
 		super(object, options);
 		this.gradFn = new Function();
@@ -11,73 +167,66 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		});
 	}
 
-	/**
-	 * Default Options for this FormApplication
-	 */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "healthestimate-style-form",
 			title: `Health Estimate: ${t("core.menuSettings.styleSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/styleSettings.hbs",
-			classes: ["sheet"],
-			width: 640,
-			height: "fit-content",
-			closeOnSubmit: true,
 		});
 	}
 
 	getData(options) {
-		function prepSelection(key, param = false) {
-			const path = `core.menuSettings.${key}`;
-			let data = settingData(path);
-			let current = "";
-			let result = {
-				select: [],
-				name: data.name,
-				hint: data.hint,
-			};
-
-			if (param) {
-				let currentObject = sGet(path);
-				current = currentObject[param];
-				// for (let [k, v] of Object.entries((currentObject))) {
-				// 	result[k] = v
-				// }
-				Object.assign(result, currentObject);
-			} else {
-				current = sGet(path);
-			}
-
-			for (let [k, v] of Object.entries(data.choices)) {
-				result.select.push({
-					key: k,
-					value: v,
-					selected: k === current,
-				});
-			}
-			return result;
-		}
-
-		function prepSetting(key) {
-			const path = `core.menuSettings.${key}`;
-			let data = settingData(path);
-			return {
-				value: sGet(path),
-				name: data.name,
-				hint: data.hint,
-			};
-		}
-
 		return {
-			useColor: prepSetting("useColor"),
-			smoothGradient: prepSetting("smoothGradient"),
-			deadColor: prepSetting("deadColor"),
-			fontSize: prepSetting("fontSize"),
-			positionAdjustment: prepSetting("positionAdjustment"),
-			position: prepSelection("position"),
-			mode: prepSelection("mode"),
-			outline: prepSelection("outline"),
-			outlineIntensity: prepSetting("outlineIntensity"),
+			useColor: this.prepSetting("useColor"),
+			smoothGradient: this.prepSetting("smoothGradient"),
+			deadColor: this.prepSetting("deadColor"),
+			fontSize: this.prepSetting("fontSize"),
+			positionAdjustment: this.prepSetting("positionAdjustment"),
+			position: this.prepSelection("position"),
+			mode: this.prepSelection("mode"),
+			outline: this.prepSelection("outline"),
+			outlineIntensity: this.prepSetting("outlineIntensity"),
+		};
+	}
+
+	prepSelection(key, param = false) {
+		const path = `core.menuSettings.${key}`;
+		let data = settingData(path);
+		let current = "";
+		let result = {
+			select: [],
+			name: data.name,
+			hint: data.hint,
+		};
+
+		if (param) {
+			let currentObject = sGet(path);
+			current = currentObject[param];
+			// for (let [k, v] of Object.entries((currentObject))) {
+			// 	result[k] = v
+			// }
+			Object.assign(result, currentObject);
+		} else {
+			current = sGet(path);
+		}
+
+		for (let [k, v] of Object.entries(data.choices)) {
+			result.select.push({
+				key: k,
+				value: v,
+				selected: k == current,
+			});
+		}
+		return result;
+	}
+
+	prepSetting(key) {
+		const path = `core.menuSettings.${key}`;
+		let data = settingData(path);
+		return {
+			value: sGet(path),
+			name: data.name,
+			hint: data.hint,
 		};
 	}
 
@@ -238,11 +387,6 @@ export class HealthEstimateStyleSettings extends FormApplication {
 		});
 	}
 
-	/**
-	 * Executes on form submission
-	 * @param {Event} event - the form submission event
-	 * @param {Object} formData - the form data
-	 */
 	async _updateObject(event, formData) {
 		const iterableSettings = Object.keys(formData).filter((key) => key.indexOf("outline") === -1);
 
