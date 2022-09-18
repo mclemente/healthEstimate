@@ -151,6 +151,14 @@
 				"styleSettings": {
 					"name": "Configuração de Estilo",
 					"plural": "Configurações de Estilo"
+				},
+				"behaviorSettings": {
+					"name": "Configuração de Comportamento",
+					"plural": "Configurações de Comportamento"
+				},
+				"scaleToZoom": {
+					"name": "Escalar para o nível de zoom",
+					"hint": "Escala a estimativa de acordo com a distância do zoom. Detalhes: {setting} não aceitará \"larger\" e \"smaller\" como valores font-size de CSS e o valor de {setting2} será ignorado."
 				}
 			},
 			"combatOnly": {
