@@ -359,6 +359,14 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		}
 	}
 
+	clearDocument() {
+		for (let i = 0; i <= 6; i++) {
+			const index = Math.round(this.gradLength * ((i - 1) / 5));
+			document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}`, null);
+			document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}-outline`, null);
+		}
+	}
+
 	async activateListeners(html) {
 		super.activateListeners(html);
 		html.find("button").on("click", async (event) => {
@@ -381,6 +389,11 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 				this.close();
 			}
 		});
+	}
+
+	async close(options = {}) {
+		this.clearDocument();
+		super.close(options);
 	}
 
 	async _updateObject(event, formData) {
