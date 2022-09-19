@@ -95,7 +95,7 @@
 				},
 				"FractionMath": {
 					"name": "Équation des fractions",
-					"hint": "L'équation de PV de votre système peut être différente de celle par défaut, choisissez l'équation utilisée pour estimer la fraction de santé.",
+					"hint": "L'équation de PV de votre système peut être différente de celle par défaut, choisissez l'équation utilisée pour estimer la fraction santé.",
 					"choices": {
 						"1": "(PV max - PV actuel)/(PV max)",
 						"0": "(PV actuel)/(PV max)"
@@ -139,7 +139,7 @@
 			},
 			"alwaysShow": {
 				"name": "Toujours montrer les estimations",
-				"hint": "rendre les estimations toujours visibles au lieu de ne l'être qu'au survol du jeton."
+				"hint": "Rendre les estimations toujours visibles au lieu de ne l'être qu'au survol du jeton."
 			},
 			"isNow": "est maintenant",
 			"showDescription": {
