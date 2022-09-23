@@ -49,11 +49,11 @@ export class HealthEstimate {
 
 	//combatStart, deleteCombat and combatHooks target the global Health Estimate object because Hooks.off doesn't interact correctly with "this.funcion.bind(this)"
 	combatStart(combat, updateData) {
-		if (game.healthEstimate.combatStart) game.healthEstimate.combatRunning = true;
+		game.healthEstimate.combatRunning = true;
 	}
 
 	deleteCombat(combat, options, userId) {
-		if (game.healthEstimate.combatStart) game.healthEstimate.combatRunning = this.isCombatRunning();
+		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 	}
 
 	combatHooks(value) {
