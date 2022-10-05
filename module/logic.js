@@ -101,6 +101,7 @@ export class HealthEstimate {
 					fill: color,
 					stroke: stroke,
 					strokeThickness: 3,
+					padding: 5,
 				})
 			);
 
