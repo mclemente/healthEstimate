@@ -24,7 +24,7 @@
 			},
 			"deathState": {
 				"name": "État Mort sous condition",
-				"hint": "Indiquer que le token est mort lorsqu'il a été marqué d'une condition spécifique. Fonctionne indépendamment de la macro."
+				"hint": "Afficher l'acteur comme indiqué sur le réglage {setting} lorsqu'il a été affligé d'un état spécifique qui utilise le jeu d'icônes sur le réglage {setting2}. Fonctionne indépendamment de la macro."
 			},
 			"deathStateName": {
 				"name": "Nom de l'État de Mort",
@@ -85,7 +85,23 @@
 				},
 				"positionAdjustment": {
 					"name": "Ajustement de la position",
-					"hint": "La position est relative au cadre. Le nombre vous permet d'ajuster la position relative par rapport à sa position normale. Un nombre positif descend la description, un negatif la montre. La valeur par défaut est -1 et correspond à \"1 ligne en dessous de la position initiale\"."
+					"hint": "La position est fixée relativement au cadre. Le nombre vous permet d'ajuster la position relative par rapport à sa position normale. Un nombre positif pourr plus haut, un négatif la descend. La valeur par défaut est de -1 et correspond à \"1 ligne en dessous de la position initiale\"."
+				},
+				"scaleToZoom": {
+					"name": "Mettre l'estimation à l'échelle pour Zoomer",
+					"hint": "Met l'estimation à l'échelle sur la distance du zoom. Avertissements : {setting} n'acceptera les valeurs \"larger\" et\"smaller\", etle nombre de {setting2} sera ignoré."
+				},
+				"deathSettings": {
+					"name": "Réglage de la mort",
+					"plural": "Réglages de la mort"
+				},
+				"styleSettings": {
+					"name": "Réglage du style",
+					"plural": "Réglages du style"
+				},
+				"behaviorSettings": {
+					"name": "Réglage du comportement",
+					"plural": "Réglages du comportement"
 				}
 			},
 			"custom": {
@@ -95,7 +111,7 @@
 				},
 				"FractionMath": {
 					"name": "Équation des fractions",
-					"hint": "L'équation de PV de votre système peut être différente de celle par défaut, choisissez l'équation utilisée pour estimer la fraction de santé.",
+					"hint": "L'équation de PV de votre système peut être différente de celle par défaut, choisissez l'équation utilisée pour estimer la fraction santé.",
 					"choices": {
 						"1": "(PV max - PV actuel)/(PV max)",
 						"0": "(PV actuel)/(PV max)"
@@ -139,7 +155,7 @@
 			},
 			"alwaysShow": {
 				"name": "Toujours montrer les estimations",
-				"hint": "rendre les estimations toujours visibles au lieu de ne l'être qu'au survol du jeton."
+				"hint": "Rendre les estimations toujours visibles au lieu de ne l'être qu'au survol du jeton."
 			},
 			"isNow": "est maintenant",
 			"showDescription": {
@@ -158,7 +174,12 @@
 				"hint": "Montrer les estimations des jetons suivants."
 			},
 			"outputChat": {
-				"name": "Résultat de l'estimation dans la conversation"
+				"name": "Résultat de l'estimation dans la conversation",
+				"hint": "Sortir tout changement d'état dans la conversation. Les personnages affligés avec la macro Cacher l'estimation seront affichés par la description du réglage {setting}."
+			},
+			"combatOnly": {
+				"name": "Montrer seulement en combat",
+				"hint": "Montrer les estimations seulement quand un combat est actif."
 			}
 		},
 		"dnd5e": {
@@ -169,50 +190,78 @@
 		},
 		"PF1": {
 			"showExtra": {
-				"name": "Hors-combat & Mourant",
-				"hint": "Voir les descriptions pour \"Hors-combat\" et \"Mourant\""
+				"name": "Affiche {condition1} & {condition2}",
+				"hint": "affiche les descriptions des {condition1} and {condition2} lorsque les prérequis sont remplis."
 			},
 			"disabledName": {
-				"name": "Hors-combat",
-				"hint": "Description pour afficher lorsque le token est précisément à 0 PV",
-				"default": "Hors-combat"
+				"name": "Stade chancelant",
+				"hint": "Affiche lorsqu'un jeton est précisément à 0 PV, a reçu des dégâts non létaux exactement égaux au nombre de points de vie actuels ou qu'il est affecté par l'état Chancelant.",
+				"default": "Chancelant"
 			},
 			"dyingName": {
-				"name": "Mourant",
-				"hint": "Description pour afficher lorsque le token est en dessous de 0 PV",
-				"default": "Mourant"
+				"name": "Stade inconscient",
+				"hint": "Affiche lorsque le jeton a plus de dégâts non létaux que de PV.",
+				"default": "Inconscient"
+			},
+			"addNonlethal": {
+				"name": "Utilise les dégâts non létaux",
+				"hint": "S'il est activé, les dégâts non létaux seront soustraits de la santé actuelle pour l'estimation."
 			}
 		},
 		"numenera": {
 			"countPools": {
 				"name": "Compter les réserves vides",
-				"hint": "Compter les réserves vides au lieu de la somme de leurs valeurs, l'estimation ne changeant que lorsqu'une réserve est épuisée/remplie"
+				"hint": "Compter les réserves vides au lieu de la somme de leurs valeurs, l'estimation ne changeant que lorsqu'une réserve est épuisée ou remplie."
 			}
 		},
 		"starfinder": {
 			"useThreshold": {
-				"name": "Seuil d'utilisation des véhicules",
-				"hint": "Si ce paramètre est activé, les descriptions \"Étapes du seuil\" seront utilisées pour les véhicules au-dessus du seuil, en dessous de celui-ci et à 0 PV respectivement."
+				"name": "Utiliser le Seuil de Rupture des véhicules",
+				"hint": "Si ce paramètre est activé, limitez les \"stades des véhicules\" à 3."
 			},
 			"thresholdNames": {
-				"name": "Étapes des seuils",
-				"hint": "Le nombre d'étapes est limité à 3, classées du pire au meilleur",
-				"default": "Naufragé, Cassé, Pleinement fonctionnel"
+				"name": "Stades des Seuils de Rupture",
+				"hint": "Le nombre de stades est limité à 3, en partant du pire vers le meilleur",
+				"default": "Détruit, Brisé, Pleinement fonctionnel"
 			},
 			"vehicleNames": {
-				"name": "Étapes du véhicule",
-				"hint": "Descriptions indiquées pour les vaisseaux (toujours) et les véhicules (si \"Seuil d'utilisation des véhicules\" est désactivé).",
-				"default": "Épave, En feu, Fumant, Endommagé, Rayé, Intacte"
+				"name": "Stades du véhicule",
+				"hint": "Descriptions données pour les vaisseaux (toujours) et les véhicules.",
+				"default": "Détruit, En feu, Fumant, Endommagé, Rayé, Intact"
 			},
 			"addStamina": {
-				"name": "Ajout de l'endurance",
-				"hint": "Avec ce réglage l'Endurance sera ajoutée au PV pour les calculs."
+				"name": "Compte de l'Endurance",
+				"hint": "Avec ce réglage l'Endurance sera ajoutée aux PV pour les calculs."
 			}
 		},
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Règle d'estimation",
-				"hint": "La formule JS pour calculer la proportion de santé que le token a. A modifier avec prudence. La valeur par défaut suppose une simple santé descendante, par exemple vous commencez avec 10/10 dans votre case santé et descendez à 0/10 lorsque vous subissez des dommages."
+				"hint": "La formule JS pour calculer la fraction de santé que le jeton possède. À modifier avec prudence. La valeur par défaut suppose une simple santé descendante, par exemple vous commencez avec 10/10 pour descendre à 0/10 en subissant des dégâts."
+			}
+		},
+		"od6s": {
+			"vehicleNames": {
+				"name": "Stades des véhicules et vaisseaux spatiaux",
+				"hint": "Descriptions fournies pour les vaisseaux spatiaux et les véhicules",
+				"default": "Détruit, Sévèrement abimé, Lourdement abimé, Légèrement abimé, Très légèrement abimé, Intact"
+			},
+			"thresholdNames": {
+				"name": "Stades des seuils de rupture",
+				"hint": "Le montant des stades est limité à 3, classés du pire état jusqu'au meilleur",
+				"default": "Détruit, Brisé, Parfaitement opérationnel"
+			}
+		},
+		"cyberpunk-red-core": {
+			"useSystemStates": {
+				"name": "Utilise les états de blessure",
+				"hint": "Ignore les réglages des stades et utilise les états de blessure du jeu Cyberpunk Red."
+			}
+		},
+		"PF2E": {
+			"staminaToHp": {
+				"name": "Vitalité à estimer",
+				"hint": "Ajoute les points d'Endurance à l'estimation."
 			}
 		}
 	}
