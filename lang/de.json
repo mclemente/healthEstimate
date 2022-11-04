@@ -105,7 +105,36 @@
 				"markDead": {
 					"name": "Als tot markieren",
 					"hint": "Markiert alle ausgewählten Tokens als tot. Wenn alle ausgewählten Tokens bereits tot sind, werden sie auf lebendig zurückgesetzt."
+				},
+				"customEstimates": {
+					"options": {
+						"1": "Token & Akteure",
+						"2": "Nur Token"
+					},
+					"hint": "Legt benutzerdefinierte Schätzungen für die ausgewählten Token fest. Lass es leer, um es zurückzusetzen."
+				},
+				"dontMarkDead": {
+					"name": "Nicht als tot markieren",
+					"hint": "Sorgt dafür, dass NSCs nicht als tot angezeigt werden, wenn ihre TP 0 erreichen (sie werden z.B. als bewusstlos angezeigt). Dies ist nur sinnvoll, wenn du die Setting {Setting} verwendest."
+				},
+				"hideEstimates": {
+					"name": "Schätzungen verbergen",
+					"hint": "Versteckt die Schätzungen der ausgewählten Token vor den Spielern. Versteckte Schätzungen zeigen ein \"*\" für den SL."
+				},
+				"hideNames": {
+					"name": "Namen verbergen"
+				},
+				"hideEstimatesAndNames": {
+					"name": "Verberge Schätzungen und Namen",
+					"hint": "Blendet sowohl die Schätzungen als auch die Namen der ausgewählten Token aus."
 				}
+			},
+			"alwaysShow": {
+				"hint": "Macht die Schätzungen immer sichtbar, statt nur dann, wenn du den Mauszeiger über ein Token bewegst."
+			},
+			"combatOnly": {
+				"name": "Nur im Kampf anzeigen",
+				"hint": "Zeigt die Schätzungen nur an, wenn ein Kampf stattfindet."
 			}
 		},
 		"dnd5e": {
