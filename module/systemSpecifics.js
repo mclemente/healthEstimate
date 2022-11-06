@@ -40,8 +40,8 @@ function updateBreakConditions() {
 			`token`,
 			`return (
 				${prep("default")}
-				${prep("onlyGM")} 
-				${prep("onlyNotGM")} 
+				${prep("onlyGM")}
+				${prep("onlyNotGM")}
 				${prep("onlyNPCs")}
 				${prep("onlyPCs")}
 				${prep("system")}
@@ -72,7 +72,7 @@ export function prepareSystemSpecifics() {
 		// prettier-ignore
 		const systems = [
 			"age-system", "alienrpg", "archmage", "band-of-blades", "blades-in-the-dark", "CoC7", "cyberpunk-red-core",
-			"D35E", "dnd5e", "ds4", "dsa5", "dungeonworld", "fate", , "foundryvtt-reve-de-dragon",
+			"D35E", "dnd5e", "ds4", "dsa5", "dungeonworld", "fate", "forbidden-lands", "foundryvtt-reve-de-dragon",
 			"lancer", "monsterweek", "numenera", "ose", "od6s", "pbta", "pf1", "pf2e", "ryuutama",
 			"scum-and-villainy", "shadowrun5e", "splittermond", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum",
 			"tor2e","tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
