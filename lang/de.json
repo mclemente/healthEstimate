@@ -99,6 +99,9 @@
 				"positionAdjustment": {
 					"name": "Position Anpassung",
 					"hint": "Die Position ist relativ zum Rahmen. Die Zahl lässt dich die Position relativ zum normalen Platz anpassen. Positive Zahlen setzen sie tiefer, nagative höher. Der Standardwert von -1 setzt sie auf \"1 Zeile über der ursprünglichen Position\"."
+				},
+				"styleSettings": {
+					"name": "Stil Einstellungen"
 				}
 			},
 			"keybinds": {
