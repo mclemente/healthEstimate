@@ -95,14 +95,15 @@ export class HealthEstimate {
 				fontSize = `${24 * (1 / zoomLevel)}px`;
 			}
 
+			const userTextStyle = {
+				fontSize: fontSize,
+				fill: color,
+				stroke: stroke,
+				strokeThickness: 3,
+				padding: 5,
+			};
 			token.healthEstimate = token.addChild(
-				new PIXI.Text(desc, {
-					fontSize: fontSize,
-					fill: color,
-					stroke: stroke,
-					strokeThickness: 3,
-					padding: 5,
-				})
+				new PIXI.Text(desc, mergeObject(CONFIG.canvasTextStyle, userTextStyle))
 			);
 
 			token.healthEstimate.anchor.x = 0.5;
