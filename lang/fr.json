@@ -121,15 +121,15 @@
 			"keybinds": {
 				"markDead": {
 					"name": "Marquer comme mort",
-					"hint": "Marque tous les jetons sélectionnés comme morts. Si tous les jetons sélectionnés sont déjà morts, ils seront remis en vie."
+					"hint": "Marque tous les tokens sélectionnés comme morts. Si tous les tokens sélectionnés sont déjà morts, ils seront remis en vie."
 				},
 				"customEstimates": {
 					"name": "Estimations personnalisées",
 					"options": {
-						"1": "Jetons et acteurs",
-						"2": "Seulement des jetons"
+						"1": "Tokens et Acteurs",
+						"2": "Seulement des tokens"
 					},
-					"hint": "Définit les estimations personnalisées pour les jetons sélectionnés. Laissez-le vide pour le réinitialiser."
+					"hint": "Définit les estimations personnalisées pour les tokens sélectionnés. Laissez-le vide pour le réinitialiser."
 				},
 				"dontMarkDead": {
 					"name": "Ne pas marquer comme mort",
@@ -137,15 +137,15 @@
 				},
 				"hideEstimates": {
 					"name": "Cacher les estimations",
-					"hint": "Cache les estimations des jetons sélectionnés aux joueurs. Les estimations cachées afficheront un \"*\" pour le MJ."
+					"hint": "Cache les estimations des tokens sélectionnés aux joueurs. Les estimations cachées afficheront un \"*\" pour le MJ."
 				},
 				"hideNames": {
 					"name": "Cacher les noms",
-					"hint": "Masque les noms des jetons sélectionnés lorsque vous utilisez le paramètre \"Afficher les estimations dans le chat\"."
+					"hint": "Masque les noms des tokens sélectionnés lorsque vous utilisez le paramètre \"Afficher les estimations dans le chat\"."
 				},
 				"hideEstimatesAndNames": {
 					"name": "Cacher les estimations et les noms",
-					"hint": "Masque à la fois les estimations et les noms des jetons sélectionnés."
+					"hint": "Masque à la fois les estimations et les noms des tokens sélectionnés."
 				}
 			},
 			"unknownEntity": {
@@ -155,7 +155,7 @@
 			},
 			"alwaysShow": {
 				"name": "Toujours montrer les estimations",
-				"hint": "Rendre les estimations toujours visibles au lieu de ne l'être qu'au survol du jeton."
+				"hint": "Rendre les estimations toujours visibles au lieu de ne l'être qu'au survol du token."
 			},
 			"isNow": "est maintenant",
 			"showDescription": {
@@ -170,8 +170,8 @@
 				}
 			},
 			"showDescriptionTokenType": {
-				"name": "Montrer les estimations : Jetons",
-				"hint": "Montrer les estimations des jetons suivants."
+				"name": "Montrer les estimations : Tokens",
+				"hint": "Montrer les estimations des tokens suivants."
 			},
 			"outputChat": {
 				"name": "Résultat de l'estimation dans la conversation",
@@ -195,12 +195,12 @@
 			},
 			"disabledName": {
 				"name": "Stade chancelant",
-				"hint": "Affiche lorsqu'un jeton est précisément à 0 PV, a reçu des dégâts non létaux exactement égaux au nombre de points de vie actuels ou qu'il est affecté par l'état Chancelant.",
+				"hint": "Affiche lorsqu'un token est précisément à 0 PV, a reçu des dégâts non létaux exactement égaux au nombre de points de vie actuels ou qu'il est affecté par l'état Chancelant.",
 				"default": "Chancelant"
 			},
 			"dyingName": {
 				"name": "Stade inconscient",
-				"hint": "Affiche lorsque le jeton a plus de dégâts non létaux que de PV.",
+				"hint": "Affiche lorsque le token a plus de dégâts non létaux que de PV.",
 				"default": "Inconscient"
 			},
 			"addNonlethal": {
@@ -237,7 +237,7 @@
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Règle d'estimation",
-				"hint": "La formule JS pour calculer la fraction de santé que le jeton possède. À modifier avec prudence. La valeur par défaut suppose une simple santé descendante, par exemple vous commencez avec 10/10 pour descendre à 0/10 en subissant des dégâts."
+				"hint": "La formule JS pour calculer la fraction de santé que le token possède. À modifier avec prudence. La valeur par défaut suppose une simple santé descendante, par exemple vous commencez avec 10/10 pour descendre à 0/10 en subissant des dégâts."
 			}
 		},
 		"od6s": {
