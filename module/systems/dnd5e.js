@@ -36,6 +36,6 @@ const settings = () => {
 	};
 };
 
-const breakCondition = `||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0`;
+const breakCondition = `|| token.actor.type == 'group' || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`; 
 
 export { fraction, settings, breakCondition, descriptions };
