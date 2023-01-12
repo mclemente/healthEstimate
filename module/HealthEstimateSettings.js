@@ -284,7 +284,11 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.smoothGradient.addEventListener("change", () => {
 			this.updateGradient();
 		});
-		for (let el of [this.fontSize, this.textPosition, this.positionAdjustment]) {
+		this.fontSize.addEventListener("change", () => {
+			if (!isNaN("x") && this.fontSize.value <= 0) this.fontSize.value = "1";
+			this.updateSample();
+		});
+		for (let el of [this.textPosition, this.positionAdjustment]) {
 			el.addEventListener("change", () => {
 				this.updateSample();
 			});
