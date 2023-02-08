@@ -90,8 +90,8 @@ function setKeybinds() {
 			for (let e of canvas.tokens.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate is hidden from players.`);
-				else ui.notifications.info(`${e.actor.name}'s health estimate is shown to players.`);
+				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate is hidden from players.`, { console: false });
+				else ui.notifications.info(`${e.actor.name}'s health estimate is shown to players.`, { console: false });
 			}
 		},
 		restricted: true,
@@ -104,8 +104,8 @@ function setKeybinds() {
 			for (let e of canvas.tokens.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideName", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.name}'s name is hidden from players.`);
-				else ui.notifications.info(`${e.actor.name}'s name is shown to players.`);
+				if (hidden) ui.notifications.info(`${e.actor.name}'s name is hidden from players.`, { console: false });
+				else ui.notifications.info(`${e.actor.name}'s name is shown to players.`, { console: false });
 			}
 		},
 		restricted: true,
@@ -119,8 +119,8 @@ function setKeybinds() {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate") && !e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
 				e.document.setFlag("healthEstimate", "hideName", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate and name are hidden from players.`);
-				else ui.notifications.info(`${e.actor.name}'s health estimate and name are shown to players.`);
+				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate and name are hidden from players.`, { console: false });
+				else ui.notifications.info(`${e.actor.name}'s health estimate and name are shown to players.`, { console: false });
 			}
 		},
 		restricted: true,
@@ -131,7 +131,7 @@ function setKeybinds() {
 		hint: "healthEstimate.core.keybinds.customEstimates.hint",
 		onDown: (rgs) => {
 			if (!canvas.tokens.controlled.length) {
-				ui.notifications.warn(`You haven't selected any tokens.`);
+				ui.notifications.warn(`You haven't selected any tokens.`, { console: false });
 				return;
 			}
 

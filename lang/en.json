@@ -247,6 +247,12 @@
 				"hint": "The amount of stages is limited to 3, arranged from worst to best condition",
 				"default": "Wrecked, Broken, Fully Functional"
 			}
+		},
+		"swade": {
+			"defaultWildCardMaxWounds": {
+				"name": "Default Wild Card's Max Wounds",
+				"hint": "This is used to calculate the default max wounds a NPC flagged as Wild Card would have for estimations. Ignores negative values."
+			}
 		}
 	}
 }
