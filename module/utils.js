@@ -1,4 +1,4 @@
-import { vehicleType, starshipType } from "./systemSpecifics.js";
+import { starshipType, vehicleType } from "./systemSpecifics.js";
 
 export const REG = {
 	// searches if the string is one path
@@ -40,13 +40,12 @@ export function isEmpty(string) {
  * @returns {String}
  */
 export let descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }, fraction, customStages) {
-	if (state.dead) {
-		return state.desc;
-	}
 	const type = token.actor.type;
 	if ([vehicleType, starshipType].includes(type)) {
 		descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
 		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
+	} else if (state.dead) {
+		return state.desc;
 	}
 	return descriptions[stage];
 };
