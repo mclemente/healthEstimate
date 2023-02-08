@@ -32,4 +32,5 @@ const settings = () => {
 	};
 };
 
-export { fraction, breakCondition, descriptions, settings };
+// export { fraction, breakCondition, descriptions, settings };
+export { fraction, breakCondition };
