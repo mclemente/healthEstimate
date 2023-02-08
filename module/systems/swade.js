@@ -7,7 +7,7 @@ const fraction = function (token) {
 		case "npc":
 		case "vehicle":
 			if (!token.actor.system.wildcard) {
-				var frac = (hp.max - hp.value) / (1 + hp.max);
+				var frac = (1 + hp.max - hp.value) / (1 + hp.max);
 				break;
 			}
 		// don't break if NPC is Wild Card
