@@ -174,7 +174,7 @@
 		},
 		"dnd5e": {
 			"vehicleNames": {
-				"hint": "Descriptions shown for starships (always), and vehicles.",
+				"hint": "Descriptions shown for vehicles.",
 				"default": "Wrecked, Broken, Battered, Scratched, Pristine"
 			}
 		},
@@ -222,7 +222,7 @@
 			},
 			"vehicleNames": {
 				"name": "Vehicle Stages",
-				"hint": "Descriptions shown for starships (always), and vehicles.",
+				"hint": "Descriptions shown for starships and vehicles.",
 				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			},
 			"addStamina": {
@@ -238,8 +238,8 @@
 		},
 		"od6s": {
 			"vehicleNames": {
-				"name": "Vehicle and Starship Stages",
-				"hint": "Descriptions shown for starships and vehicles",
+				"name": "Vehicle Stages",
+				"hint": "Descriptions shown for starships and vehicles.",
 				"default": "Destroyed, Severely Damaged, Heavily Damaged, Lightly Damaged, Very Lightly Damaged, Undamaged"
 			},
 			"thresholdNames": {
@@ -252,6 +252,11 @@
 			"defaultWildCardMaxWounds": {
 				"name": "Default Wild Card's Max Wounds",
 				"hint": "This is used to calculate the default max wounds a NPC flagged as Wild Card would have for estimations. Ignores negative values."
+			},
+			"vehicleNames": {
+				"name": "Vehicle Stages",
+				"hint": "Descriptions shown for vehicles.",
+				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			}
 		}
 	}
