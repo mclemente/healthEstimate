@@ -184,7 +184,7 @@
 		},
 		"dnd5e": {
 			"vehicleNames": {
-				"hint": "Descriptions shown for vehicles if \"Use Vehicle Threshold\" is off.",
+				"hint": "Les descriptions indiquées concernent les véhicules.",
 				"default": "Détruit, Cassé, Cabossé, Éraflé, Neuf"
 			}
 		},
@@ -226,7 +226,7 @@
 			},
 			"vehicleNames": {
 				"name": "Stades du véhicule",
-				"hint": "Descriptions données pour les vaisseaux (toujours) et les véhicules.",
+				"hint": "Descriptions fournies pour les vaisseaux spatiaux et les véhicules.",
 				"default": "Détruit, En feu, Fumant, Endommagé, Rayé, Intact"
 			},
 			"addStamina": {
@@ -242,8 +242,8 @@
 		},
 		"od6s": {
 			"vehicleNames": {
-				"name": "Stades des véhicules et vaisseaux spatiaux",
-				"hint": "Descriptions fournies pour les vaisseaux spatiaux et les véhicules",
+				"name": "Stades du véhicule",
+				"hint": "Descriptions fournies pour les vaisseaux spatiaux et les véhicules.",
 				"default": "Détruit, Sévèrement abimé, Lourdement abimé, Légèrement abimé, Très légèrement abimé, Intact"
 			},
 			"thresholdNames": {
@@ -262,6 +262,17 @@
 			"staminaToHp": {
 				"name": "Vitalité à estimer",
 				"hint": "Ajoute les points d'Endurance à l'estimation."
+			}
+		},
+		"swade": {
+			"vehicleNames": {
+				"hint": "Les descriptions indiquées concernent les véhicules.",
+				"name": "Stades du véhicule",
+				"default": "Détruit, En feu, Fumant, Endommagé, Rayé, Intact"
+			},
+			"defaultWildCardMaxWounds": {
+				"name": "Blessures maximales du joker par défaut",
+				"hint": "Ceci est utilisé pour calculer les blessures maximales par défaut qu'un PNJ marqué comme Joker aura pour les estimations. Ignore les valeurs négatives."
 			}
 		}
 	}
