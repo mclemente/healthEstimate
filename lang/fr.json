@@ -191,7 +191,7 @@
 		"PF1": {
 			"showExtra": {
 				"name": "Affiche {condition1} & {condition2}",
-				"hint": "affiche les descriptions des {condition1} and {condition2} lorsque les prérequis sont remplis."
+				"hint": "Affiche les descriptions des {condition1} and {condition2} lorsque les prérequis sont remplis."
 			},
 			"disabledName": {
 				"name": "Stade chancelant",
