@@ -272,7 +272,7 @@
 			},
 			"defaultWildCardMaxWounds": {
 				"name": "Blessures maximales du joker par défaut",
-				"hint": "Ceci est utilisé pour calculer les blessures maximales par défaut qu'un PNJ marqué comme Joker aura pour les estimations. Ignore les valeurs négatives."
+				"hint": "Ceci est utilisé pour calculer les blessures maximales par défaut qu'un PNJ marqué comme Joker aura pour les estimations."
 			}
 		}
 	}

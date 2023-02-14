@@ -1,29 +1,13 @@
 import { descriptions, sGet, t } from "../utils.js";
 
 const fraction = function (token) {
-	const type = token.actor.type;
 	const hp = token.actor.system.wounds;
-	switch (type) {
-		case "npc":
-		case "vehicle":
-			if (!token.actor.system.wildcard) {
-				var frac = (1 + hp.max - hp.value) / (1 + hp.max);
-				break;
-			}
-		// don't break if NPC is Wild Card
-		case "character":
-			const defaultWildCardMaxWounds = Math.max(sGet("swade.defaultWildCardMaxWounds"), 0);
-			const maxHP = 1 + (hp.max || defaultWildCardMaxWounds);
-			frac = (maxHP - hp.value) / maxHP;
-			break;
-		default:
-			console.warn(`Health Estimate | Token "${token.name}" has an unknown type (${token.actor.type}).`);
+	let maxHP = Math.max(hp.max, 1);
+	if (token.actor.system.wildcard) {
+		const defaultWildCardMaxWounds = sGet("swade.defaultWildCardMaxWounds");
+		maxHP = 1 + Math.max(hp.max || defaultWildCardMaxWounds, 1);
 	}
-	if (isNaN(frac)) {
-		return 1;
-	}
-	if (frac == -Infinity) return 0;
-	return frac;
+	return (maxHP - hp.value) / maxHP;
 };
 
 const tokenEffects = function (token) {
@@ -35,6 +19,10 @@ const settings = () => {
 		"swade.defaultWildCardMaxWounds": {
 			type: Number,
 			default: 3,
+			range: {
+				min: 1,
+				max: 10,
+			},
 		},
 		"starfinder.vehicleNames": {
 			type: String,
