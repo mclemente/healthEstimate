@@ -69,36 +69,26 @@ export function updateBreakSettings() {
  */
 export function prepareSystemSpecifics() {
 	return new Promise((resolve, reject) => {
-		// prettier-ignore
-		const systems = [
-			"age-system", "alienrpg", "archmage", "band-of-blades", "blades-in-the-dark", "CoC7", "cyberpunk-red-core",
-			"D35E", "dnd5e", "ds4", "dsa5", "dungeonworld", "fate", "forbidden-lands", "foundryvtt-reve-de-dragon",
-			"lancer", "monsterweek", "numenera", "ose", "od6s", "pbta", "pf1", "pf2e", "ryuutama",
-			"scum-and-villainy", "shadowrun5e", "splittermond", "starfinder", "starwarsffg", "sw5e", "swade", "symbaroum",
-			"tor2e","tormenta20", "trpg", "twodsix", "uesrpg-d100", "wfrp4e", "worldbuilding"
-		];
-		let importString = systems.includes(game.system.id) ? `./systems/${game.system.id}.js` : `./systems/generic.js`;
-		import(importString).then((currentSystem) => {
-			fractionFormula = currentSystem.fraction;
-			if (currentSystem.settings !== undefined) {
-				systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings());
-				for (let [key, data] of Object.entries(systemSpecificSettings)) {
-					addSetting(key, data);
+		const systems =
+			/age-system|alienrpg|archmage|band-of-blades|blades-in-the-dark|CoC7|custom-system-builder|cyberpunk-red-core|D35E|dnd5e|ds4|dsa5|dungeonworld|fate|forbidden-lands|foundryvtt-reve-de-dragon|lancer|monsterweek|numenera|ose|od6s|pbta|pf1|pf2e|ryuutama|scum-and-villainy|shadowrun5e|splittermond|starfinder|starwarsffg|sw5e|swade|symbaroum|tor2e|tormenta20|trpg|twodsix|uesrpg-d100|wfrp4e|worldbuilding/;
+		let system = systems.exec(game.system.id);
+		system = system ? system[0] : "generic";
+		import(`./systems/${system}.js`)
+			.catch((e) => reject(`./systems/${system}.js not found.`))
+			.then((currentSystem) => {
+				fractionFormula = currentSystem.fraction;
+				if (currentSystem.settings !== undefined) {
+					systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings());
+					for (let [key, data] of Object.entries(systemSpecificSettings)) {
+						addSetting(key, data);
+					}
 				}
-			}
-			if (currentSystem.breakCondition !== undefined) {
-				breakConditions.system = currentSystem.breakCondition;
-			}
-			if (currentSystem.descriptions !== undefined) {
-				game.healthEstimate.descriptionToShow = currentSystem.descriptions;
-			}
-			if (currentSystem.tokenEffects !== undefined) {
-				tokenEffectsPath = currentSystem.tokenEffects;
-			}
-			if (currentSystem.vehicleType !== undefined) {
-				vehicleType = currentSystem.vehicleType;
-			}
-			resolve("success");
-		});
+				if (currentSystem.breakCondition !== undefined) breakConditions.system = currentSystem.breakCondition;
+				if (currentSystem.descriptions !== undefined) game.healthEstimate.descriptionToShow = currentSystem.descriptions;
+				if (currentSystem.tokenEffects !== undefined) tokenEffectsPath = currentSystem.tokenEffects;
+				if (currentSystem.vehicleType !== undefined) vehicleType = currentSystem.vehicleType;
+				if (currentSystem.hooks !== undefined) currentSystem.hooks();
+				resolve("success");
+			});
 	});
 }

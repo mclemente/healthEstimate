@@ -166,6 +166,15 @@
 				}
 			}
 		},
+		"custom-system-builder": {
+			"FractionHP": {
+				"hint": "This will probably {dataPath1} or {dataPath2}."
+			},
+			"tempHP": {
+				"name": "Temporary Hit Points Attribute Data Path",
+				"hint": "Leave it blank if the system doesn't have one or if you don't want it to be added to the estimation."
+			}
+		},
 		"cyberpunk-red-core": {
 			"useSystemStates": {
 				"name": "Use Wound States",
