@@ -1,5 +1,5 @@
 import { disableCheckbox } from "./settings.js";
-import { sGet, sSet, settingData, t } from "./utils.js";
+import { settingData, sGet, sSet, t } from "./utils.js";
 
 export class HealthEstimateSettings extends FormApplication {
 	/**
