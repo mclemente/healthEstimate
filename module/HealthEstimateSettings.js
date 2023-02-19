@@ -126,19 +126,6 @@ export class HealthEstimateDeathSettings extends HealthEstimateSettings {
 
 	async activateListeners(html) {
 		super.activateListeners(html);
-		const deathState = game.settings.get("healthEstimate", "core.deathState");
-		const deathStateBox = html.find('input[name="deathState"]');
-		const deathStateNameInput = html.find('input[name="deathStateName"]');
-		const NPCsJustDieInput = html.find('input[name="NPCsJustDie"]');
-		const deathMarkerInput = html.find('input[name="deathMarker"]');
-		disableCheckbox(deathStateNameInput, !deathState);
-		disableCheckbox(NPCsJustDieInput, !deathState);
-		disableCheckbox(deathMarkerInput, !deathState);
-		deathStateBox.on("change", (event) => {
-			disableCheckbox(deathStateNameInput, !event.target.checked);
-			disableCheckbox(NPCsJustDieInput, !event.target.checked);
-			disableCheckbox(deathMarkerInput, !event.target.checked);
-		});
 		html.find("button").on("click", async (event) => {
 			if (event.currentTarget?.dataset?.action === "reset") {
 				async function resetToDefault(key) {
@@ -318,7 +305,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			"color=false",
 			`let res = []
 			if (color) {
-				res = chroma(color).${outlineHandler}(${outlineAmount}).hex() 
+				res = chroma(color).${outlineHandler}(${outlineAmount}).hex()
 			} else {
 				for (c of this.gradColors) {
 					res.push(chroma(c).${outlineHandler}(${outlineAmount}).hex())
