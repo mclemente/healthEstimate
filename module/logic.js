@@ -248,6 +248,7 @@ export class HealthEstimate {
 		this.perfectionism = sGet("core.perfectionism");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 
+		this.smoothGradient = sGet("core.menuSettings.smoothGradient");
 
 		this.alignment = sGet("core.menuSettings.position");
 		this.margin = sGet("core.menuSettings.positionAdjustment");
