@@ -174,7 +174,7 @@
 		},
 		"dnd5e": {
 			"vehicleNames": {
-				"hint": "Descriptions shown for starships (always), and vehicles.",
+				"hint": "载具健康状况描述",
 				"default": "Wrecked, Broken, Battered, Scratched, Pristine"
 			}
 		},
@@ -193,9 +193,9 @@
 				"default": "Staggered"
 			},
 			"dyingName": {
-				"name": "濒死",
-				"hint": "当指示物的 HP 低于 0 时显示的描述",
-				"default": "濒死"
+				"name": "失去意识",
+				"hint": "当指示物受到高于 HP 的非致命伤害时显示此描述",
+				"default": "失去意识"
 			}
 		},
 		"PF2E": {
@@ -222,7 +222,7 @@
 			},
 			"vehicleNames": {
 				"name": "载具阶段",
-				"hint": "总是为飞船显示的描述，如果“使用载具阈值”被禁用则也为载具显示。",
+				"hint": "飞船和载具的描述",
 				"default": "毁坏, 着火, 冒烟, 受创, 刮擦, 完好"
 			},
 			"addStamina": {
@@ -238,14 +238,30 @@
 		},
 		"od6s": {
 			"vehicleNames": {
-				"name": "Vehicle and Starship Stages",
-				"hint": "Descriptions shown for starships and vehicles",
+				"name": "载具",
+				"hint": "为飞船和载具显示的描述",
 				"default": "Destroyed, Severely Damaged, Heavily Damaged, Lightly Damaged, Very Lightly Damaged, Undamaged"
 			},
 			"thresholdNames": {
 				"name": "Threshold Stages",
 				"hint": "The amount of stages is limited to 3, arranged from worst to best condition",
 				"default": "Wrecked, Broken, Fully Functional"
+			}
+		},
+		"swade": {
+			"vehicleNames": {
+				"hint": "载具的描述",
+				"default": "毁坏，烧毁，冒烟，散架，擦伤，完好",
+				"name": "载具"
+			}
+		},
+		"custom-system-builder": {
+			"tempHP": {
+				"hint": "如果系统没有此功能、或你不希望它出现在生命预测中时，此项留空。",
+				"name": "临时生命值数据路径"
+			},
+			"FractionHP": {
+				"hint": "这大概是{dataPath1}或{dataPath2}"
 			}
 		}
 	}
