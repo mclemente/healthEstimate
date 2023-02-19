@@ -274,6 +274,15 @@
 				"name": "Blessures maximales du joker par défaut",
 				"hint": "Ceci est utilisé pour calculer les blessures maximales par défaut qu'un PNJ marqué comme Joker aura pour les estimations."
 			}
+		},
+		"custom-system-builder": {
+			"tempHP": {
+				"name": "Chemin des données d'attribution des Points de vie temporaires",
+				"hint": "Laissez-le vide si le système n'en a pas ou si vous ne voulez pas qu'il soit ajouté à l'estimation."
+			},
+			"FractionHP": {
+				"hint": "Ce sera probablement {dataPath1} ou {dataPath2}."
+			}
 		}
 	}
 }
