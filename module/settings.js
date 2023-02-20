@@ -1,8 +1,8 @@
-import { addSetting, t, f } from "./utils.js";
-import { updateBreakSettings } from "./systemSpecifics.js";
-import { HealthEstimateBehaviorSettings, HealthEstimateDeathSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
-import { injectConfig } from "../lib/injectConfig.js";
 import { outputStageChange } from "../lib/HealthMonitor.js";
+import { injectConfig } from "../lib/injectConfig.js";
+import { HealthEstimateBehaviorSettings, HealthEstimateDeathSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
+import { updateBreakSettings } from "./systemSpecifics.js";
+import { addSetting, f, t } from "./utils.js";
 
 export const registerSettings = function () {
 	/**
