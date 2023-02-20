@@ -73,6 +73,7 @@ export const registerSettings = function () {
 
 	/* Settings for the behavior menu */
 	addMenuSetting("core.perfectionism", {
+		hint: f("core.perfectionism.hint", { setting1: t("core.stateNames.name"), setting2: t("core.menuSettings.smoothGradient.name") }),
 		type: Number,
 		default: 1,
 		choices: {
@@ -81,7 +82,7 @@ export const registerSettings = function () {
 			2: t("core.perfectionism.choices.2"),
 		},
 		onChange: (value) => {
-			game.healthEstimate.perfectionism = value;
+			game.healthEstimate.perfectionism = Number(value);
 		},
 	});
 	addMenuSetting("core.alwaysShow", {
