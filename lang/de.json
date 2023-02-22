@@ -55,11 +55,11 @@
 			},
 			"perfectionism": {
 				"name": "Perfektionismus",
-				"hint": "Zeige die bestmögliche Beschreibung nur an, wenn das Ziel in perfektem Zustand ist (es keinen Schaden erhalten hat).",
+				"hint": "Stellt ein, wie die bestmögliche Stufe, die letzte Stufe in der Option \"{setting1}\", angezeigt wird. Wenn die Option \"{setting2}\" ausgeschaltet ist und du möchtest, dass jede Stufe eine eigene Farbe hat, dann möchtest du wahrscheinlich nicht die erste Auswahlmöglichkeit benutzen.",
 				"choices": {
 					"0": "Zeige die Beschreibung selbst wenn das Ziel beschädigt ist.",
-					"1": "Zeige die Beschreibung wenn das Ziel nicht beschädigt ist.",
-					"2": "Zeige die Beschreibung nicht wenn das Ziel nicht beschädigt ist."
+					"1": "Zeige die Beschreibung nur, wenn das Ziel nicht beschädigt ist.",
+					"2": "Verstecke die Beschreibung komplett."
 				}
 			},
 			"outputChat": {
