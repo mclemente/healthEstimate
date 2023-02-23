@@ -70,8 +70,6 @@ export class HealthEstimate {
 	_handleOverlay(token, hovered) {
 		if (!token?.actor) return;
 		if (game.healthEstimate.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
-		const gridSize = canvas.scene.grid.size;
-		const width = gridSize * token.document.width;
 
 		if (hovered) {
 			if (!token.isVisible) return;
@@ -109,15 +107,16 @@ export class HealthEstimate {
 			if (!this.scaleToZoom || (this.scaleToZoom && zoomLevel >= 1)) {
 				token.healthEstimate.anchor.y = this.margin;
 			}
+			const width = canvas.scene.grid.size * token.document.width;
 			token.healthEstimate.x = Math.floor(width / 2);
 			switch (this.alignment) {
 				case "start":
-					token.healthEstimate.y = -Math.floor(gridSize / 2);
+					token.healthEstimate.y = -50;
 					break;
 				case "center":
 					break;
 				case "end":
-					token.healthEstimate.y = Math.floor(gridSize / 2);
+					token.healthEstimate.y = 50;
 					break;
 				default:
 					console.error(`Health Estimate | Style Setting: Position isn't supposed to be of value "${this.alignment}".`);
