@@ -107,7 +107,9 @@ export class HealthEstimate {
 			if (!this.scaleToZoom || (this.scaleToZoom && zoomLevel >= 1)) {
 				token.healthEstimate.anchor.y = this.margin;
 			}
-			const width = canvas.scene.grid.size * token.document.width;
+			const gridSize = canvas.scene.grid.size;
+			const width = gridSize * token.document.width;
+			const height = gridSize * token.document.height;
 			token.healthEstimate.x = Math.floor(width / 2);
 			switch (this.alignment) {
 				case "start":
@@ -116,7 +118,7 @@ export class HealthEstimate {
 				case "center":
 					break;
 				case "end":
-					token.healthEstimate.y = 50;
+					token.healthEstimate.y = height;
 					break;
 				default:
 					console.error(`Health Estimate | Style Setting: Position isn't supposed to be of value "${this.alignment}".`);
