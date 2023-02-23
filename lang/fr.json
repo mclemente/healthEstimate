@@ -41,11 +41,11 @@
 			},
 			"perfectionism": {
 				"name": "Perfectioniste",
-				"hint": "La description est le dernier stade dans le réglage des stades.",
+				"hint": "Régler la manière dont le meilleur stade est affiché. Le meilleur stade est le dernier dans le réglage {setting}. Suggestion pour les utilisateurs qui ont désactive {setting2} : si vous aviez l'intention pour chaque stade d'être égal à une couleur, n'utilisez pas le premier choix.",
 				"choices": {
-					"0": "Montrer la description même lorsque la cible est blessée.",
-					"1": "Montrer la description lorsque la cible n'est pas blessée.",
-					"2": "Ne pas montrer la description lorsque la cible n'est pas blessée."
+					"0": "Montrer même lorsque la cible a subi des dégâts.",
+					"1": "Montrer seulement lorsque la cible n'a pas subi de dégâts.",
+					"2": "Cacher complètement."
 				}
 			},
 			"addTemp": {
