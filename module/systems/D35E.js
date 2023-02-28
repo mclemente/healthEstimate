@@ -1,4 +1,4 @@
-import { t, f } from "../utils.js";
+import { f, t } from "../utils.js";
 
 const fraction = function (token) {
 	const hp = token.actor.system.attributes.hp;
@@ -53,7 +53,11 @@ const descriptions = function (descriptions, stage, token, state = { dead: false
 	}
 	const totalHp = hp.value + addTemp;
 	if (game.settings.get("healthEstimate", "PF1.showExtra")) {
-		if (totalHp === 0 || totalHp == hp.nonlethal || Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("PF1.CondStaggered"))) {
+		if (
+			totalHp === 0 ||
+			(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
+			Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize(`${game.system.id.toUpperCase()}.CondStaggered`))
+		) {
 			return game.settings.get("healthEstimate", "PF1.disabledName");
 		} else if (hp.nonlethal > totalHp) {
 			return game.settings.get("healthEstimate", "PF1.dyingName");

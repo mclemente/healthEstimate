@@ -39,7 +39,7 @@ export function isEmpty(string) {
  * @param state
  * @returns {String}
  */
-export let descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }, fraction, customStages) {
+export let descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }, fraction) {
 	const type = token.actor.type;
 	if ([vehicleType, starshipType].includes(type)) {
 		descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
