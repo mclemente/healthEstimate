@@ -1,4 +1,4 @@
-import { t } from "../utils.js";
+import { f, t } from "../utils.js";
 
 const fraction = function (token) {
 	const type = token.actor.type;
