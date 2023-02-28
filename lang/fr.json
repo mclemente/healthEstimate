@@ -262,6 +262,9 @@
 			"staminaToHp": {
 				"name": "Vitalité à estimer",
 				"hint": "Ajoute les points d'Endurance à l'estimation."
+			},
+			"hideVehicleHP": {
+				"hint": "Ne pas afficher l'estimation pour les véhicules."
 			}
 		},
 		"swade": {
