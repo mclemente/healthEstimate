@@ -1,4 +1,4 @@
-import { t, descriptions } from "../utils.js";
+import { descriptions, t } from "../utils.js";
 
 const fraction = function (token) {
 	const type = token.actor.type;
@@ -47,17 +47,6 @@ const settings = () => {
 		"core.breakOnZeroMaxHP": {
 			type: Boolean,
 			default: true,
-		},
-		"starfinder.useThreshold": {
-			config: false,
-			type: Boolean,
-			default: false,
-		},
-		"starfinder.thresholdNames": {
-			config: false,
-			type: String,
-			default: t("od6s.thresholdNames.default"),
-			hint: t("od6s.thresholdNames.hint"),
 		},
 		"starfinder.vehicleNames": {
 			type: String,

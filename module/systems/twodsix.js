@@ -17,7 +17,7 @@ const settings = () => {
 	return {
 		"starfinder.vehicleNames": {
 			type: String,
-			default: t("starfinder.vehicleNames.default"),
+			hint: t("dnd5e.vehicleNames.hint"),
 		},
 	};
 };

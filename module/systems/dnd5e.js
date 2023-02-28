@@ -18,16 +18,6 @@ const settings = () => {
 			type: Boolean,
 			default: true,
 		},
-		"starfinder.useThreshold": {
-			config: false,
-			type: Boolean,
-			default: false,
-		},
-		"starfinder.thresholdNames": {
-			config: false,
-			type: String,
-			default: t("starfinder.thresholdNames.default"),
-		},
 		"starfinder.vehicleNames": {
 			type: String,
 			default: t("dnd5e.vehicleNames.default"),
@@ -36,6 +26,6 @@ const settings = () => {
 	};
 };
 
-const breakCondition = `|| token.actor.type == 'group' || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`; 
+const breakCondition = `|| token.actor.type == 'group' || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
 
 export { fraction, settings, breakCondition, descriptions };

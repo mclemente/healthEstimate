@@ -211,6 +211,17 @@
 			"staminaToHp": {
 				"name": "Stamina to Estimate",
 				"hint": "Add Stamina Points to the estimate."
+			},
+			"hideHazardHP": {
+				"name": "Hide Hazard's Estimate",
+				"hint": "Hides the estimate from Hazards."
+			},
+			"hideVehicleHP": {
+				"name": "Hide Vehicle's Estimate",
+				"hint": "Hides the estimate from Vehicles."
+			},
+			"useThreshold": {
+				"hint": "Estimates the health of Vehicles as three stages, so it is recommended to reduce the number of stages of the {setting} setting to three if you toggle this setting on."
 			}
 		},
 		"numenera": {
@@ -222,7 +233,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Use Vehicle Threshold",
-				"hint": "If this setting is on, limit the stages of \"Vehicle Stages\" to 3."
+				"hint": "Vehicles Use the stages set on {setting1} setting. Otherwise, vehicles will use the same description as the {setting2} setting.."
 			},
 			"thresholdNames": {
 				"name": "Threshold Stages",
@@ -231,7 +242,7 @@
 			},
 			"vehicleNames": {
 				"name": "Vehicle Stages",
-				"hint": "Descriptions shown for starships and vehicles.",
+				"hint": "Descriptions shown for drones, starships and vehicles.",
 				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
 			},
 			"addStamina": {
@@ -250,11 +261,6 @@
 				"name": "Vehicle Stages",
 				"hint": "Descriptions shown for starships and vehicles.",
 				"default": "Destroyed, Severely Damaged, Heavily Damaged, Lightly Damaged, Very Lightly Damaged, Undamaged"
-			},
-			"thresholdNames": {
-				"name": "Threshold Stages",
-				"hint": "The amount of stages is limited to 3, arranged from worst to best condition",
-				"default": "Wrecked, Broken, Fully Functional"
 			}
 		},
 		"swade": {

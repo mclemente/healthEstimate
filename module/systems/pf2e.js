@@ -1,26 +1,15 @@
-import { t } from "../utils.js";
+import { f, t } from "../utils.js";
 
 const fraction = function (token) {
-	const hp = token.actor.system.attributes.hp;
-	let temp = 0;
+	const data = token.actor.system.attributes;
+	const hp = data.hp;
+	let temp = game.settings.get("healthEstimate", "core.addTemp") && hp.temp ? hp.temp : 0;
 	if (token.actor.type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
-		if (hp.value > hp.brokenThreshold) {
-			return 1;
-		} else if (hp.value > 0) {
-			return 0.5;
-		}
+		if (hp.value > hp.brokenThreshold) return 1;
+		else if (hp.value > 0) return 0.5;
 		return 0;
 	}
-	if (token.actor.type === "loot") {
-		return;
-	}
-	let sp = { value: 0, max: 0 };
-	if (game.settings.get("pf2e", "staminaVariant") && game.settings.get("healthEstimate", "PF2E.staminaToHp") && token.actor.system.attributes.sp) {
-		sp = token.actor.system.attributes.sp;
-	}
-	if (game.settings.get("healthEstimate", "core.addTemp") && token.actor.type === "character") {
-		temp = hp.temp;
-	}
+	let sp = game.settings.get("pf2e", "staminaVariant") && game.settings.get("healthEstimate", "PF2E.staminaToHp") && data.sp ? data.sp : { value: 0, max: 0 };
 	return Math.min((hp.value + sp.value + temp) / (hp.max + sp.max), 1);
 };
 const settings = () => {
@@ -34,6 +23,7 @@ const settings = () => {
 			default: true,
 		},
 		"starfinder.useThreshold": {
+			hint: f("PF2E.useThreshold.hint", { setting: t("starfinder.vehicleNames.name") }),
 			type: Boolean,
 			default: false,
 		},
@@ -51,6 +41,14 @@ const settings = () => {
 			type: Boolean,
 			default: true,
 		},
+		"PF2E.hideHazardHP": {
+			type: Boolean,
+			default: true,
+		},
+		"PF2E.hideVehicleHP": {
+			type: Boolean,
+			default: false,
+		},
 	};
 };
 
@@ -67,6 +65,8 @@ const descriptions = function (descriptions, stage, token, state = { dead: false
 };
 
 const breakCondition = `
+	|| token.actor.type === 'vehicle' && game.settings.get('healthEstimate', 'PF2E.hideVehicleHP')
+	|| token.actor.type === 'hazard' && game.settings.get('healthEstimate', 'PF2E.hideHazardHP')
 	|| token.actor.type === 'loot'
 	|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)
 `;

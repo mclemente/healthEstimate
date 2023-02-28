@@ -26,11 +26,11 @@ const fraction = function (token) {
 const descriptions = function (descriptions, stage, token, state = { dead: false, desc: "" }, fraction) {
 	const type = token.actor.type;
 	if (["starship", "vehicle", "drone"].includes(type)) {
-		descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
+		if (type == "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+			descriptions = game.settings.get("healthEstimate", "starfinder.thresholdNames").split(/[,;]\s*/);
+		} else descriptions = game.settings.get("healthEstimate", "starfinder.vehicleNames").split(/[,;]\s*/);
 		stage = Math.max(0, Math.ceil((descriptions.length - 1) * fraction));
-	} else if (state.dead) {
-		return state.desc;
-	}
+	} else if (state.dead) return state.desc;
 	return descriptions[stage];
 };
 
@@ -49,11 +49,11 @@ const settings = () => {
 			default: true,
 		},
 		"starfinder.useThreshold": {
+			hint: f("starfinder.useThreshold.hint", { setting1: t("starfinder.thresholdNames.name"), setting2: t("starfinder.vehicleNames.name") }),
 			type: Boolean,
 			default: false,
 		},
 		"starfinder.thresholdNames": {
-			config: false,
 			type: String,
 			default: t("starfinder.thresholdNames.default"),
 		},
