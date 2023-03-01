@@ -217,7 +217,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Utiliser le Seuil de Rupture des véhicules",
-				"hint": "Si ce paramètre est activé, limitez les \"stades des véhicules\" à 3."
+				"hint": "Les véhicules utilise les stades réglés sur le réglage {setting1}. Autrement, les véhicules utiliseront la même description que le réglage {setting2}."
 			},
 			"thresholdNames": {
 				"name": "Stades des Seuils de Rupture",
@@ -264,7 +264,15 @@
 				"hint": "Ajoute les points d'Endurance à l'estimation."
 			},
 			"hideVehicleHP": {
-				"hint": "Ne pas afficher l'estimation pour les véhicules."
+				"hint": "Ne pas afficher l'estimation pour les véhicules.",
+				"name": "Cacher l'estimation des véhicules"
+			},
+			"hideHazardHP": {
+				"name": "Cacher l'estimation sur les pièges",
+				"hint": "Cache l'estimation provenant des pièges."
+			},
+			"useThreshold": {
+				"hint": "Estime la santé des véhicules à trois stades, de sorte qu'il est recommandé de réduire le nombre de stade du réglage {setting} à trois si vous activez ce réglage."
 			}
 		},
 		"swade": {
