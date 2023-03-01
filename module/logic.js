@@ -148,10 +148,10 @@ export class HealthEstimate {
 	 * @returns {{String, String, String}}	All three values are Strings.
 	 */
 	getEstimation(token) {
-		let desc = "",
-			color = "",
-			stroke = "";
 		try {
+			let desc = "",
+				color = "",
+				stroke = "";
 			const fraction = this.getFraction(token);
 			if (!(this.perfectionism == 2 && fraction == 1)) {
 				let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
@@ -167,7 +167,8 @@ export class HealthEstimate {
 						dead: dead,
 						desc: this.deathStateName,
 					},
-					fraction
+					fraction,
+					customStages.length ? true : false
 				);
 				if (this.smoothGradient) var colorIndex = Math.max(0, Math.ceil((this.colors.length - 1) * fraction));
 				else if (this.perfectionism) colorIndex = stage;
@@ -180,10 +181,9 @@ export class HealthEstimate {
 				}
 				if (this.hideEstimate(token)) desc += "*";
 			}
+			return { desc, color, stroke };
 		} catch (err) {
 			console.error(`Health Estimate | Error on getEstimation(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
-		} finally {
-			return { desc, color, stroke };
 		}
 	}
 
