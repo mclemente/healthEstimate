@@ -59,7 +59,7 @@
 			"menuSettings": {
 				"fontSize": {
 					"name": "Taille de la police",
-					"hint": "Accepte toute propriété valable pour CSS font-size"
+					"hint": "Accepte toute propriété CSS valable pour la taille de police"
 				},
 				"useColor": {
 					"name": "Utiliser couleur",
@@ -217,7 +217,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Utiliser le Seuil de Rupture des véhicules",
-				"hint": "Les véhicules utilise les stades réglés sur le réglage {setting1}. Autrement, les véhicules utiliseront la même description que le réglage {setting2}."
+				"hint": "Les véhicules utilisent les stades réglés sur le réglage {setting1}. Autrement, les véhicules utiliseront la même description que le réglage {setting2}."
 			},
 			"thresholdNames": {
 				"name": "Stades des Seuils de Rupture",
@@ -226,7 +226,7 @@
 			},
 			"vehicleNames": {
 				"name": "Stades du véhicule",
-				"hint": "Descriptions fournies pour les vaisseaux spatiaux et les véhicules.",
+				"hint": "Descriptions fournies pour les drones, les vaisseaux spatiaux et les véhicules.",
 				"default": "Détruit, En feu, Fumant, Endommagé, Rayé, Intact"
 			},
 			"addStamina": {
@@ -264,8 +264,8 @@
 				"hint": "Ajoute les points d'Endurance à l'estimation."
 			},
 			"hideVehicleHP": {
-				"hint": "Ne pas afficher l'estimation pour les véhicules.",
-				"name": "Cacher l'estimation des véhicules"
+				"hint": "Cache l'estimation pour les véhicules.",
+				"name": "Cacher l'estimation sur les véhicules"
 			},
 			"hideHazardHP": {
 				"name": "Cacher l'estimation sur les pièges",
