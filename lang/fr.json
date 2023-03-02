@@ -40,12 +40,12 @@
 				"hint": "Si activé, la description la plus basse dans la liste des descriptions ne sera pas affichée pour les PNJs. A la place, ceux-ci seront marqués avec l'état \"Mort\" directement."
 			},
 			"perfectionism": {
-				"name": "Perfectioniste",
+				"name": "Meilleure présentation de la scène",
 				"hint": "Régler la manière dont le meilleur stade est affiché. Le meilleur stade est le dernier dans le réglage {setting}. Suggestion pour les utilisateurs qui ont désactive {setting2} : si vous aviez l'intention pour chaque stade d'être égal à une couleur, n'utilisez pas le premier choix.",
 				"choices": {
-					"0": "Montrer même lorsque la cible a subi des dégâts.",
-					"1": "Montrer seulement lorsque la cible n'a pas subi de dégâts.",
-					"2": "Cacher complètement."
+					"0": "Montrer même lorsque la cible a subi des dégâts",
+					"1": "Montrer seulement lorsque la cible n'a pas subi de dégâts",
+					"2": "Cacher complètement"
 				}
 			},
 			"addTemp": {
@@ -284,6 +284,10 @@
 			"defaultWildCardMaxWounds": {
 				"name": "Blessures maximales du joker par défaut",
 				"hint": "Ceci est utilisé pour calculer les blessures maximales par défaut qu'un PNJ marqué comme Joker aura pour les estimations."
+			},
+			"showIncap": {
+				"name": "{incap} Effet de statut",
+				"hint": "Les jetons avec l'effet de statut {incap} seront affichés comme {incap} au lieu de leurs estimations réelles. Cela ne fonctionne pas pour les jetons qui sont des véhicules ou morts."
 			}
 		},
 		"custom-system-builder": {
