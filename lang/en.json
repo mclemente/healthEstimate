@@ -97,12 +97,12 @@
 				"hint": "The last stage of NPCs is replaced by the Death State Name."
 			},
 			"perfectionism": {
-				"name": "Behavior",
+				"name": "Best Stage Display",
 				"hint": "Set how the best stage is displayed. The best stage is the last stage in the {setting1} setting. Suggestion for users that have {setting2} disabled: if you intended for each stage to be equal to one color, don't use the first choice.",
 				"choices": {
-					"0": "Show even when the target is damaged.",
-					"1": "Show only when the target isn't damaged.",
-					"2": "Hide completely."
+					"0": "Show even when the target is damaged",
+					"1": "Show only when the target isn't damaged",
+					"2": "Hide completely"
 				}
 			},
 			"outputChat": {
