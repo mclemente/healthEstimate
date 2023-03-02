@@ -272,6 +272,10 @@
 				"name": "Vehicle Stages",
 				"hint": "Descriptions shown for vehicles.",
 				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
+			},
+			"showIncap": {
+				"name": "{incap} Status Effect",
+				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their actual estimates. Doesn't work for tokens that are vehicles or dead."
 			}
 		}
 	}
