@@ -47,9 +47,9 @@
 			},
 			"isNow": "现在是",
 			"unknownEntity": {
-				"name": "Unknown Entity Name",
-				"hint": "Sets how a hidden character shall be called.",
-				"default": "Unknown Entity"
+				"name": "不明实体",
+				"hint": "设置隐藏角色如何呼出。",
+				"default": "不明实体"
 			},
 			"alwaysShow": {
 				"name": "总是显示健康状况",
@@ -97,8 +97,8 @@
 				"hint": "开启这个选项，描述列表中最差的一项便不会为NPC们显示， 他们会被显示为死亡。"
 			},
 			"perfectionism": {
-				"name": "完美主义",
-				"hint": "决定何时显示",
+				"name": "显示最佳阶段",
+				"hint": "决定何时显示最佳阶段。最佳阶段即是{setting1}中最后一项。若用户禁用了{setting2}：如果希望所有阶段颜色相同，不要使用第一个选项。",
 				"choices": {
 					"0": "当目标受伤时显示",
 					"1": "当目标未受伤时显示",
@@ -158,7 +158,7 @@
 				},
 				"positionAdjustment": {
 					"name": "位置调整",
-					"hint": "与方框的相对位置。数字用以调整相对位置。 正数会使其下移，负数上升。默认值 -1 意为 “初始位置上一行”"
+					"hint": "与方框的相对位置。数字用以调整相对位置。 正数会使其上移，负数下降。默认值 -1 意为 “初始位置之下的一行”"
 				},
 				"scaleToZoom": {
 					"name": "调整健康状况缩放",
@@ -168,29 +168,29 @@
 		},
 		"cyberpunk-red-core": {
 			"useSystemStates": {
-				"name": "Use Wound States",
-				"hint": "Ignores the Stages setting and uses the Cyberpunk RED Core's wound states."
+				"name": "使用受损阶段",
+				"hint": "忽略阶段设置并使用Cyberpunk RED核心的受损状态。"
 			}
 		},
 		"dnd5e": {
 			"vehicleNames": {
 				"hint": "载具健康状况描述",
-				"default": "Wrecked, Broken, Battered, Scratched, Pristine"
+				"default": "毁坏, 破损, 受创, 刮擦, 完好"
 			}
 		},
 		"PF1": {
 			"addNonlethal": {
-				"name": "Use Nonlethal Damage",
-				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
+				"name": "使用非致命伤害",
+				"hint": "启用时，非致命伤害将从当前生命值估算中扣除。"
 			},
 			"showExtra": {
-				"name": "Show {condition1} & {condition2}",
-				"hint": "Shows the {condition1} and {condition2} descriptions when their prerequisites are fulfilled."
+				"name": "显示{condition1} & {condition2}",
+				"hint": "满足先决条件时显示{condition1}和{condition2}的描述。"
 			},
 			"disabledName": {
-				"name": "瘫痪",
-				"hint": "Shows when a token is precisely at 0 HP, has nonlethal damage exactly equal to its current hit points, or is affected by the Staggered condition.",
-				"default": "Staggered"
+				"name": "瘫痪阶段",
+				"hint": "一个指示物刚好0生命值且受到的非致命伤害等于它当前生命值、或处于瘫痪状态时，进行显示。",
+				"default": "瘫痪"
 			},
 			"dyingName": {
 				"name": "失去意识",
@@ -202,6 +202,17 @@
 			"staminaToHp": {
 				"name": "显示耐力值",
 				"hint": "将耐力值加到健康状况内"
+			},
+			"useThreshold": {
+				"hint": "使用三阶段估算载具生命值。若开启，建议到{setting}中将阶段更改为三段。"
+			},
+			"hideHazardHP": {
+				"name": "隐藏危害的生命值估算",
+				"hint": "隐藏危害的生命值估算"
+			},
+			"hideVehicleHP": {
+				"name": "隐藏载具估算",
+				"hint": "隐藏载具的生命值估算。"
 			}
 		},
 		"numenera": {
@@ -213,7 +224,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "使用载具阈值",
-				"hint": "启用该选项后，将会使用“阈值阶段”中的文本来分别描述在阈值之上、之下和 0 HP 时的载具状态。"
+				"hint": "载具使用{setting1}设置中的阶段。否则载具将使用和{setting2}相同的阶段描述…"
 			},
 			"thresholdNames": {
 				"name": "阈值阶段",
@@ -240,7 +251,7 @@
 			"vehicleNames": {
 				"name": "载具",
 				"hint": "为飞船和载具显示的描述",
-				"default": "Destroyed, Severely Damaged, Heavily Damaged, Lightly Damaged, Very Lightly Damaged, Undamaged"
+				"default": "摧毁, 严重受损, 重度受损, 轻微受损, 擦伤, 无伤"
 			},
 			"thresholdNames": {
 				"name": "Threshold Stages",
@@ -253,6 +264,14 @@
 				"hint": "载具的描述",
 				"default": "毁坏，烧毁，冒烟，散架，擦伤，完好",
 				"name": "载具"
+			},
+			"showIncap": {
+				"name": "{incap}状态效果",
+				"hint": "带有{incap}状态效果的指示物将被显示为{incap}而非实际生命估算。对载具或死亡指示物无效。"
+			},
+			"defaultWildCardMaxWounds": {
+				"name": "Wild Card默认最大受伤值",
+				"hint": "此选项用于计算被标记为Wild Card的NPC的默认最大受伤值。"
 			}
 		},
 		"custom-system-builder": {
