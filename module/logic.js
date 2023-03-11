@@ -74,7 +74,7 @@ export class HealthEstimate {
 		if (hovered) {
 			if (!token.isVisible) return;
 			const { desc, color, stroke } = this.getEstimation(token);
-			if (!desc) return;
+			if (typeof desc == "undefined") return;
 			if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 
 			const zoomLevel = Math.min(1, canvas.stage.scale.x);
