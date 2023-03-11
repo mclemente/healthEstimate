@@ -50,6 +50,7 @@ export const registerSettings = function () {
 		default: t("core.stateNames.default"),
 		onChange: (value) => {
 			game.healthEstimate.descriptions = value.split(/[,;]\s*/);
+			canvas.scene.tokens.forEach((token) => token.object.refresh());
 		},
 	});
 	addSetting("core.outputChat", {
@@ -83,6 +84,7 @@ export const registerSettings = function () {
 		},
 		onChange: (value) => {
 			game.healthEstimate.perfectionism = Number(value);
+			canvas.scene.tokens.forEach((token) => token.object.refresh());
 		},
 	});
 	addMenuSetting("core.alwaysShow", {

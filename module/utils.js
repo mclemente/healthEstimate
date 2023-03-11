@@ -87,8 +87,8 @@ export function getNestedData(data, path) {
  * @param {string} key
  * @param value
  */
-export function sSet(key, value) {
-	game.settings.set("healthEstimate", key, value);
+export async function sSet(key, value) {
+	await game.settings.set("healthEstimate", key, value);
 }
 
 /**

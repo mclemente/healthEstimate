@@ -1,4 +1,3 @@
-import { disableCheckbox } from "./settings.js";
 import { settingData, sGet, sSet, t } from "./utils.js";
 
 export class HealthEstimateSettings extends FormApplication {
@@ -63,7 +62,7 @@ export class HealthEstimateSettings extends FormApplication {
 	async _updateObject(event, formData) {
 		const iterableSettings = Object.keys(formData);
 		for (let key of iterableSettings) {
-			sSet(`core.${key}`, formData[key]);
+			await sSet(`core.${key}`, formData[key]);
 		}
 	}
 }
@@ -89,19 +88,17 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 
 	async activateListeners(html) {
 		super.activateListeners(html);
-		html.find("button").on("click", async (event) => {
-			if (event.currentTarget?.dataset?.action === "reset") {
-				async function resetToDefault(key) {
-					const path = `core.${key}`;
-					await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
-				}
-				await resetToDefault("perfectionism");
-				await resetToDefault("alwaysShow");
-				await resetToDefault("combatOnly");
-				await resetToDefault("showDescription");
-				await resetToDefault("showDescriptionTokenType");
-				this.close();
+		html.find("button[name=reset]").on("click", async (event) => {
+			async function resetToDefault(key) {
+				const path = `core.${key}`;
+				await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
 			}
+			await resetToDefault("perfectionism");
+			await resetToDefault("alwaysShow");
+			await resetToDefault("combatOnly");
+			await resetToDefault("showDescription");
+			await resetToDefault("showDescriptionTokenType");
+			this.close();
 		});
 	}
 }
@@ -126,19 +123,17 @@ export class HealthEstimateDeathSettings extends HealthEstimateSettings {
 
 	async activateListeners(html) {
 		super.activateListeners(html);
-		html.find("button").on("click", async (event) => {
-			if (event.currentTarget?.dataset?.action === "reset") {
-				async function resetToDefault(key) {
-					const path = `core.${key}`;
-					await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
-				}
-
-				await resetToDefault("deathState");
-				await resetToDefault("deathStateName");
-				await resetToDefault("NPCsJustDie");
-				await resetToDefault("deathMarker");
-				this.close();
+		html.find("button[name=reset]").on("click", async (event) => {
+			async function resetToDefault(key) {
+				const path = `core.${key}`;
+				await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
 			}
+
+			await resetToDefault("deathState");
+			await resetToDefault("deathStateName");
+			await resetToDefault("NPCsJustDie");
+			await resetToDefault("deathMarker");
+			this.close();
 		});
 	}
 }
@@ -363,25 +358,22 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 
 	async activateListeners(html) {
 		super.activateListeners(html);
-		html.find("button").on("click", async (event) => {
-			if (event.currentTarget?.dataset?.action === "reset") {
-				async function resetToDefault(key) {
-					const path = `core.menuSettings.${key}`;
-					await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
-				}
-
-				await resetToDefault("useColor");
-				await resetToDefault("smoothGradient");
-				await resetToDefault("deadColor");
-				await resetToDefault("fontSize");
-				await resetToDefault("positionAdjustment");
-				await resetToDefault("position");
-				await resetToDefault("mode");
-				await resetToDefault("outline");
-				await resetToDefault("outlineIntensity");
-				await resetToDefault("scaleToZoom");
-				this.close();
+		html.find("button[name=reset]").on("click", async (event) => {
+			async function resetToDefault(key) {
+				const path = `core.menuSettings.${key}`;
+				await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
 			}
+			await resetToDefault("useColor");
+			await resetToDefault("smoothGradient");
+			await resetToDefault("deadColor");
+			await resetToDefault("fontSize");
+			await resetToDefault("positionAdjustment");
+			await resetToDefault("position");
+			await resetToDefault("mode");
+			await resetToDefault("outline");
+			await resetToDefault("outlineIntensity");
+			await resetToDefault("scaleToZoom");
+			this.close();
 		});
 	}
 
@@ -391,30 +383,29 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 	}
 
 	async _updateObject(event, formData) {
-		const iterableSettings = Object.keys(formData).filter((key) => key.indexOf("outline") === -1);
+		if (event.type === "submit") {
+			const iterableSettings = Object.keys(formData).filter((key) => key.indexOf("outline") === -1);
+			for (let key of iterableSettings) {
+				await sSet(`core.menuSettings.${key}`, formData[key]);
+			}
+			let deadColor = formData.deadColor;
+			if (!formData.useColor) {
+				this.gradColors = ["#FFF"];
+				this.outlColors = ["#000"];
+				this.deadOutline = "#000";
+				deadColor = "#FFF";
+			}
+			await sSet(`core.menuSettings.gradient`, {
+				colors: this.gp.handlers.map((a) => a.color),
+				positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
+			});
+			await sSet(`core.menuSettings.outline`, formData.outlineMode);
+			await sSet(`core.menuSettings.outlineIntensity`, formData.outlineIntensity);
 
-		for (let key of iterableSettings) {
-			sSet(`core.menuSettings.${key}`, formData[key]);
+			await sSet(`core.variables.colors`, this.gradColors);
+			await sSet(`core.variables.outline`, this.outlColors);
+			await sSet(`core.variables.deadColor`, deadColor);
+			await sSet(`core.variables.deadOutline`, this.deadOutline);
 		}
-
-		let deadColor = formData.deadColor;
-		if (!formData.useColor) {
-			this.gradColors = ["#FFF"];
-			this.outlColors = ["#000"];
-			this.deadOutline = "#000";
-			deadColor = "#FFF";
-		}
-
-		sSet(`core.menuSettings.gradient`, {
-			colors: this.gp.handlers.map((a) => a.color),
-			positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
-		});
-		sSet(`core.menuSettings.outline`, formData.outlineMode);
-		sSet(`core.menuSettings.outlineIntensity`, formData.outlineIntensity);
-
-		sSet(`core.variables.colors`, this.gradColors);
-		sSet(`core.variables.outline`, this.outlColors);
-		sSet(`core.variables.deadColor`, deadColor);
-		sSet(`core.variables.deadOutline`, this.deadOutline);
 	}
 }

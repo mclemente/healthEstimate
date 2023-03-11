@@ -157,25 +157,17 @@ export class HealthEstimate {
 				let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
 				if (customStages.length) customStages = customStages.split(/[,;]\s*/);
 				const stage = this.getStage(fraction, customStages || []);
-
-				let dead = this.isDead(token, stage);
-				desc = this.descriptionToShow(
-					customStages.length ? customStages : this.descriptions,
-					stage,
-					token,
-					{
-						dead: dead,
-						desc: this.deathStateName,
-					},
-					fraction,
-					customStages.length ? true : false
-				);
+				const state = {
+					dead: this.isDead(token, stage),
+					desc: this.deathStateName,
+				};
+				desc = this.descriptionToShow(customStages.length ? customStages : this.descriptions, stage, token, state, fraction);
 				if (this.smoothGradient) var colorIndex = Math.max(0, Math.ceil((this.colors.length - 1) * fraction));
 				else if (this.perfectionism) colorIndex = stage;
 				else colorIndex = Math.max(0, Math.floor((this.colors.length - 1) * fraction));
 				color = this.colors[colorIndex];
 				stroke = this.outline[colorIndex];
-				if (dead) {
+				if (state.dead) {
 					color = this.deadColor;
 					stroke = this.deadOutline;
 				}
