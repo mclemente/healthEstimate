@@ -6,11 +6,12 @@
 
 ## Adding Support to a System
 
-Get your system's id (`game.system.id`), go to the [module/systems](module/systems) folder and create a JS file with the system's id as the name. E.g. `dnd5e.js`.
+Get the system's id (`game.system.id`), go to the [module/systems](module/systems) folder, and create a JS file with the system's id as the name. E.g. `dnd5e.js`.
 
 ### Example File
 
-Here's an example file:
+<details>
+	<summary>Here's an example file:</summary>
 
 ```js
 //These are shorthand functions that call game.i18n.format and game.i18n.localize. They're hardcoded to Health Estimate's localization keys.
@@ -75,3 +76,5 @@ const tokenEffects = function (token) {
 // Most system files are formatted to export all the constants at the end of file. Be sure to change it as you change the file.
 export { fraction, settings, descriptions, breakCondition, tokenEffects };
 ```
+
+</details>
