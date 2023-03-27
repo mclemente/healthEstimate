@@ -70,7 +70,7 @@ export function updateBreakSettings() {
 export function prepareSystemSpecifics() {
 	return new Promise((resolve, reject) => {
 		const systems =
-			/age-system|alienrpg|archmage|band-of-blades|blades-in-the-dark|CoC7|custom-system-builder|cyberpunk-red-core|D35E|dnd5e|ds4|dsa5|dungeonworld|fate|forbidden-lands|foundryvtt-reve-de-dragon|lancer|monsterweek|numenera|ose|od6s|pbta|pf1|pf2e|ryuutama|scum-and-villainy|shadowrun5e|splittermond|sfrpg|starwarsffg|swade|symbaroum|tor2e|tormenta20|trpg|twodsix|uesrpg-d100|wfrp4e|worldbuilding/;
+			/age-system|alienrpg|archmage|band-of-blades|blades-in-the-dark|CoC7|custom-system-builder|cyberpunk-red-core|cyphersystem|D35E|dnd5e|ds4|dsa5|dungeonworld|fate|forbidden-lands|foundryvtt-reve-de-dragon|lancer|monsterweek|numenera|ose|od6s|pbta|pf1|pf2e|ryuutama|scum-and-villainy|shadowrun5e|splittermond|sfrpg|starwarsffg|swade|symbaroum|tor2e|tormenta20|trpg|twodsix|uesrpg-d100|wfrp4e|worldbuilding/;
 		let system = systems.exec(game.system.id);
 		system = system ? system[0] : "generic";
 		import(`./systems/${system}.js`)
