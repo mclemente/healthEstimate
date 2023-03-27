@@ -18,7 +18,7 @@ Hooks.once("setup", async function () {
 	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
 	if (outputChat) {
 		Hooks.on("updateActor", onUpdateActor);
-		Hooks.on("updateToken", onUpdateToken);
+		if (!game.version > 11) Hooks.on("updateToken", onUpdateToken);
 	}
 });
 

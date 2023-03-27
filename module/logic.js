@@ -41,9 +41,11 @@ export class HealthEstimate {
 				}
 			}
 		});
-		Hooks.on("updateToken", (tokenDocument, updates, options, userId) => {
-			if (this.alwaysShow) this._handleOverlay(tokenDocument.object, true);
-		});
+		if (!game.version > 11) {
+			Hooks.on("updateToken", (tokenDocument, updates, options, userId) => {
+				if (this.alwaysShow) this._handleOverlay(tokenDocument.object, true);
+			});
+		}
 		Hooks.on("canvasInit", this.canvasInit.bind(this));
 	}
 
@@ -156,12 +158,13 @@ export class HealthEstimate {
 			if (!(this.perfectionism == 2 && fraction == 1)) {
 				let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
 				if (customStages.length) customStages = customStages.split(/[,;]\s*/);
+				const descriptions = customStages.length ? customStages : this.descriptions;
 				const stage = this.getStage(fraction, customStages || []);
 				const state = {
 					dead: this.isDead(token, stage),
 					desc: this.deathStateName,
 				};
-				desc = this.descriptionToShow(customStages.length ? customStages : this.descriptions, stage, token, state, fraction);
+				desc = this.descriptionToShow(descriptions, stage, token, state, fraction);
 				if (this.smoothGradient) var colorIndex = Math.max(0, Math.ceil((this.colors.length - 1) * fraction));
 				else if (this.perfectionism) colorIndex = stage;
 				else colorIndex = Math.max(0, Math.floor((this.colors.length - 1) * fraction));
