@@ -1,20 +1,20 @@
 # Contributing to Health Estimate
 
-- [Contributing to Health Estimate](#contributing-to-health-estimate)
-  - [Adding Support to a System](#adding-support-to-a-system)
-    - [Example File](#example-file)
+-   [Contributing to Health Estimate](#contributing-to-health-estimate)
+    -   [Adding Support to a System](#adding-support-to-a-system)
+        -   [Example File](#example-file)
 
 ## Adding Support to a System
 
-1. Get your system's id (`game.system.id`).
-2. Go to the [module/systemSpecifics.js](./module/systemSpecifics.js#L73) file and add the system's id to the list.
-3. Go to the [module/systems](module/systems) folder and create a JS file with system's id as the name. E.g. `dnd5e.js`.
+Get your system's id (`game.system.id`), go to the [module/systems](module/systems) folder and create a JS file with the system's id as the name. E.g. `dnd5e.js`.
 
 ### Example File
+
 Here's an example file:
 
 ```js
-import { f, t } from "../utils.js"; //These are shorthand functions that call game.i18n.format and game.i18n.localize. WARNING: they're hardcoded to Health Estimate's localization keys.
+//These are shorthand functions that call game.i18n.format and game.i18n.localize. They're hardcoded to Health Estimate's localization keys.
+import { f, t } from "../utils.js";
 
 // The fraction calculating function. This is the only required function in the file.
 const fraction = function (token) {

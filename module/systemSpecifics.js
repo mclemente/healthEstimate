@@ -64,15 +64,17 @@ export function updateBreakSettings() {
 
 /**
  * Gets system specifics, such as its hp attribute and other settings.
- * currentSystem.settings is a function because doing it otherwise causes l18n calls fire before they're initialized.
+ * currentSystem.settings is a function because doing it otherwise causes l18n calls to fire before they're initialized.
  * @returns {Promise}
  */
-export function prepareSystemSpecifics() {
-	return new Promise((resolve, reject) => {
-		const systems =
-			/age-system|alienrpg|archmage|band-of-blades|blades-in-the-dark|CoC7|custom-system-builder|cyberpunk-red-core|cyphersystem|D35E|dnd5e|ds4|dsa5|dungeonworld|fate|forbidden-lands|foundryvtt-reve-de-dragon|lancer|monsterweek|numenera|ose|od6s|pbta|pf1|pf2e|ryuutama|scum-and-villainy|shadowrun5e|splittermond|sfrpg|starwarsffg|swade|symbaroum|tor2e|tormenta20|trpg|twodsix|uesrpg-d100|wfrp4e|worldbuilding/;
-		let system = systems.exec(game.system.id);
-		system = system ? system[0] : "generic";
+export async function prepareSystemSpecifics() {
+	return new Promise(async (resolve, reject) => {
+		const files = (await FilePicker.browse(...new FilePicker()._inferCurrentDirectory("modules/healthEstimate/module/systems"))).files;
+		if (!files.length) reject("FilePicker hasn't found any system files.");
+		for (let file in files) {
+			files[file] = files[file].match(/(?<=systems\/)(.*)(?=.js)/)[0];
+		}
+		const system = files.includes(game.system.id) ? game.system.id : "generic";
 		import(`./systems/${system}.js`)
 			.catch((e) => reject(`./systems/${system}.js not found.`))
 			.then((currentSystem) => {

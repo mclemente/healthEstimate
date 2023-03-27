@@ -6,8 +6,8 @@ export class HealthEstimate {
 	constructor() {}
 
 	//Hooks
-	setup() {
-		prepareSystemSpecifics().then(registerSettings());
+	async setup() {
+		await prepareSystemSpecifics().then(registerSettings());
 		updateBreakSettings();
 		this.updateSettings();
 	}
