@@ -89,6 +89,12 @@ li.hm_message {
 	padding: 2px;
 	border: 2px solid #191813d6;
 }
+li.hm_message header.message-header {
+	display: none;
+}
+li.hm_message:hover header.message-header {
+	display: flex;
+}
 li.hm_messageheal {
 	background: #06a406 !important;
 }
