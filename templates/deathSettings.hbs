@@ -1,4 +1,4 @@
-<form autocomplete="off" onsubmit="event.preventDefault()" style="display: flex;flex-direction: column;">
+<form autocomplete="off" onsubmit="event.preventDefault()">
 	<div class="form-group">
 		{{#with deathState}}
 			<label for="deathState">{{localize name}}</label>
@@ -27,10 +27,7 @@
 			<p class="notes">{{localize hint}}</p>
 		{{/with}}
 	</div>
-	<footer class="sheet-footer flexrow" style="margin-top: auto">
-<!--		<button type="button" name="reset">-->
-<!--			<i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}-->
-<!--		</button>-->
+	<footer class="sheet-footer flexrow">
 		<button type="submit" name="submit">
 			<i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}
 		</button>

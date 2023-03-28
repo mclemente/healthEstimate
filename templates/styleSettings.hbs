@@ -1,11 +1,11 @@
-<form autocomplete="off" onsubmit="event.preventDefault()" style="display: flex;flex-direction: column;">
-	<div class="form-group" style="align-items: flex-end;">
-		<label for="useColor" style="flex:none;margin-right: 3px">{{useColor.name}}</label>
+<form autocomplete="off" onsubmit="event.preventDefault()">
+	<div class="form-group">
+		<label for="useColor">{{useColor.name}}</label>
 		<input type="checkbox" name="useColor" id="useColor" {{#if useColor.value}}checked="checked"{{/if}}>
 		<p class="notes">{{useColor.hint}}</p>
 	</div>
-	<div class="form-group" style="align-items: flex-end;">
-		<label for="scaleToZoom" style="flex:none;margin-right: 3px">{{scaleToZoom.name}}</label>
+	<div class="form-group">
+		<label for="scaleToZoom">{{scaleToZoom.name}}</label>
 		<input type="checkbox" name="scaleToZoom" id="scaleToZoom" {{#if scaleToZoom.value}}checked="checked"{{/if}}>
 		<p class="notes">{{scaleToZoom.hint}}</p>
 	</div>
@@ -16,8 +16,8 @@
 			<p class="notes">{{localize hint}}</p>
 		{{/with}}
 	</div>
-	<div class="form-group" style="margin-bottom: 7px;">
-		<span style="flex-direction: column">
+	<div class="form-group gradient">
+		<span>
 			<div id="gradientExampleHE"></div>
 			<div id="gradientControlsHE"></div>
 		</span>
@@ -37,7 +37,8 @@
 	</div>
 	<div class="form-group">
 		<span class="sampleFrameHE">
-			<div id="healthEstimateSample" class="healthEstimateSample" style="display:flex">
+			{{!-- <img src="./modules/healthEstimate/static/frame.png" alt="" style="margin-bottom: -106px"> --}}
+			<div id="healthEstimateSample" class="healthEstimateSample">
 				<span class="healthEstimateColor">{{deadText}}&nbsp;</span>
 				<span class="healthEstimateAnimate">Sample</span>
 			</div>
@@ -48,43 +49,41 @@
 			<div class="form-group">
 				{{#with outline}}
 					<label for="outline">{{localize name}}</label>
-					<select name="outlineMode" class="form-fileds" id="outlineMode" style="flex:2.2">
+					<select name="outlineMode" class="form-fileds normalBox" id="outlineMode">
 						{{#each select}}
 							<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
 						{{/each}}
 					</select>
 				{{/with}}
 				{{#with outlineIntensity}}
-					<span style="flex:0;margin-top:0.1em;font-size: 17px">&nbsp;×&nbsp;</span>
+					<span class="smallBox">&nbsp;×&nbsp;</span>
 					<input type="number" step="0.1" min="0" value="{{this.value}}" name="outlineIntensity"
 							id="outlineIntensity"
-							class="numberHE"
-							style="flex: 0 0 4em">
+							class="numberHE">
 				{{/with}}
 			</div>
 			<div class="form-group">
 				{{#with fontSize}}
 					<label for="fontSize">{{localize name}}</label>
-					<input style="flex: 2.98;"" type="text" value="{{value}}" name="fontSize" id="fontSize">
+					<input class="bigBox" type="text" value="{{value}}" name="fontSize" id="fontSize">
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
 			<div class="form-group">
 				<label for="positionAdjustment">{{localize position.name}}</label>
-				<select name="position" class="form-fileds" id="position" style="flex:2.2">
+				<select name="position" class="form-fileds normalBox" id="position">
 					{{#each position.select}}
 						<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
 					{{/each}}
 				</select>
-				<span style="flex:0;margin-top:0.1em;font-size: 17px">&nbsp;×&nbsp;</span>
+				<span class="smallBox">&nbsp;×&nbsp;</span>
 				<input type="number" step="0.1" value="{{positionAdjustment.value}}" name="positionAdjustment" id="positionAdjustment"
-						class="numberHE"
-						style="flex: 0 0 4em">
+						class="numberHE">
 				<p class="notes">{{localize positionAdjustment.hint}}</p>
 			</div>
 		</div>
 	</div>
-	<footer class="sheet-footer flexrow" style="margin-top: auto">
+	<footer class="sheet-footer flexrow">
 		<button type="submit" name="submit">
 			<i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}
 		</button>

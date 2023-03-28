@@ -1,3 +1,41 @@
+@keyframes healthEstimate-animation {
+	0% {
+		color: var(--healthEstimate-keyframe-0);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-0-outline), 0 -1px 1px var(--healthEstimate-keyframe-0-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-0-outline), 1px 0 1px var(--healthEstimate-keyframe-0-outline), 1px 1px 1px var(--healthEstimate-keyframe-0-outline),
+			0 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 0 1px var(--healthEstimate-keyframe-0)-outline;
+	}
+	20% {
+		color: var(--healthEstimate-keyframe-20);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-20-outline), 0 -1px 1px var(--healthEstimate-keyframe-20-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-20-outline), 1px 0 1px var(--healthEstimate-keyframe-20-outline), 1px 1px 1px var(--healthEstimate-keyframe-20-outline),
+			0 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 0 1px var(--healthEstimate-keyframe-20-outline);
+	}
+	40% {
+		color: var(--healthEstimate-keyframe-40);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-40-outline), 0 -1px 1px var(--healthEstimate-keyframe-40-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-40-outline), 1px 0 1px var(--healthEstimate-keyframe-40-outline), 1px 1px 1px var(--healthEstimate-keyframe-40-outline),
+			0 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 0 1px var(--healthEstimate-keyframe-40-outline);
+	}
+	60% {
+		color: var(--healthEstimate-keyframe-60);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-60-outline), 0 -1px 1px var(--healthEstimate-keyframe-60-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-60-outline), 1px 0 1px var(--healthEstimate-keyframe-60-outline), 1px 1px 1px var(--healthEstimate-keyframe-60-outline),
+			0 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 0 1px var(--healthEstimate-keyframe-60-outline);
+	}
+	80% {
+		color: var(--healthEstimate-keyframe-80);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-80-outline), 0 -1px 1px var(--healthEstimate-keyframe-80-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-80-outline), 1px 0 1px var(--healthEstimate-keyframe-80-outline), 1px 1px 1px var(--healthEstimate-keyframe-80-outline),
+			0 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 0 1px var(--healthEstimate-keyframe-80-outline);
+	}
+	100% {
+		color: var(--healthEstimate-keyframe-100);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-100-outline), 0 -1px 1px var(--healthEstimate-keyframe-100-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-100-outline), 1px 0 1px var(--healthEstimate-keyframe-100-outline), 1px 1px 1px var(--healthEstimate-keyframe-100-outline),
+			0 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 0 1px var(--healthEstimate-keyframe-100-outline);
+	}
+}
 @-webkit-keyframes healthEstimate-animation {
 	0% {
 		color: var(--healthEstimate-keyframe-0);
@@ -38,6 +76,9 @@
 }
 
 .healthEstimateAnimate {
+	animation-name: healthEstimate-animation;
+	animation-iteration-count: infinite;
+	animation-duration: 2s;
 	-webkit-animation-name: healthEstimate-animation;
 	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-duration: 2s;
@@ -47,12 +88,64 @@
 	flex: 2.97;
 }
 
-.healthEstimate.deadColor input[type="color"][data-edit][data-edit] {
+.healthEstimate.deadColor input[type="color"][data-edit] {
 	flex: 1.4;
+}
+
+.healthEstimateForm form {
+	display: flex;
+	flex-direction: column;
+}
+
+.healthEstimateForm .form-group.gradient {
+	margin-bottom: 7px;
 }
 
 .healthEstimateForm input[type="number"] {
 	text-align: center;
+}
+
+.healthEstimateForm .estimation-types div.value {
+	width: 2rem;
+	margin: auto;
+}
+.healthEstimateForm .estimation-types input {
+	background: none;
+}
+.healthEstimateForm .estimation-types input[type="text"],
+.healthEstimateForm .estimation-types input[type="number"] {
+	border: none;
+	border-bottom: 1px solid var(--color-border-light-tertiary);
+	border-radius: 0;
+}
+.healthEstimateForm .estimation-types input[type="text"]:focus,
+.healthEstimateForm .estimation-types input[type="number"]:focus {
+	clip-path: inset(1px 1px -15px 1px);
+}
+.healthEstimateForm .delete-cell {
+	text-align: center;
+}
+
+.healthEstimateForm .numberHE {
+	flex: 0 0 4em;
+}
+.healthEstimateForm .bigBox {
+	flex: 2.55;
+}
+.healthEstimateForm .normalBox {
+	flex: 2;
+}
+.healthEstimateForm .smallBox {
+	flex: 0;
+	margin-top: 0.1em;
+	font-size: 17px;
+}
+.healthEstimateForm .sampleFrameHE img {
+	margin-bottom: -106px;
+}
+
+.healthEstimateForm textarea {
+	resize: vertical;
 }
 
 #healthEstimate {
@@ -67,6 +160,7 @@
 }
 
 .healthEstimateSample {
+	display: flex;
 	justify-content: center;
 }
 
