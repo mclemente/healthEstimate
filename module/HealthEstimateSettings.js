@@ -1,12 +1,16 @@
 import { settingData, sGet, sSet, t } from "./utils.js";
 
-export class HealthEstimateSettings extends FormApplication {
+class HealthEstimateSettings extends FormApplication {
+	constructor(object, options = {}) {
+		super(object, options);
+		this.path = "core";
+	}
 	/**
 	 * Default Options for this FormApplication
 	 */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			classes: ["sheet", "healthEstimateForm"],
+			classes: ["form", "healthEstimateForm"],
 			width: 640,
 			height: "fit-content",
 			closeOnSubmit: true,
@@ -14,7 +18,7 @@ export class HealthEstimateSettings extends FormApplication {
 	}
 
 	prepSelection(key, param = false) {
-		const path = `core.${key}`;
+		const path = this.path + `.${key}`;
 		let data = settingData(path);
 		let current = "";
 		let result = {
@@ -45,7 +49,7 @@ export class HealthEstimateSettings extends FormApplication {
 	}
 
 	prepSetting(key) {
-		const path = `core.${key}`;
+		const path = this.path + `.${key}`;
 		let data = settingData(path);
 		return {
 			value: sGet(path),
@@ -68,11 +72,17 @@ export class HealthEstimateSettings extends FormApplication {
 }
 
 export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
+	constructor(object, options = {}) {
+		super(object, options);
+		this.estimations = sGet("core.estimations");
+	}
+
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			id: "healthestimate-behavior-form",
 			title: `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/behaviorSettings.hbs",
+			height: "auto",
+			tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "behavior" }],
 		});
 	}
 
@@ -83,6 +93,13 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 			combatOnly: this.prepSetting("combatOnly"),
 			showDescription: this.prepSelection("showDescription"),
 			showDescriptionTokenType: this.prepSelection("showDescriptionTokenType"),
+
+			deathState: this.prepSetting("deathState"),
+			deathStateName: this.prepSetting("deathStateName"),
+			NPCsJustDie: this.prepSetting("NPCsJustDie"),
+			deathMarker: this.prepSetting("deathMarker"),
+
+			estimations: this.estimations,
 		};
 	}
 
@@ -98,26 +115,78 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 			await resetToDefault("combatOnly");
 			await resetToDefault("showDescription");
 			await resetToDefault("showDescriptionTokenType");
-			this.close();
+
+			await resetToDefault("deathState");
+			await resetToDefault("deathStateName");
+			await resetToDefault("NPCsJustDie");
+			await resetToDefault("deathMarker");
+
+			await resetToDefault("estimations");
+			this.render();
 		});
+
+		// Handle all changes for estimations
+		html.find("button[data-action=estimation-add]").on("click", () => {
+			this.estimations.push({ label: "Custom", value: 100 });
+			this.render();
+		});
+
+		for (const element of html[0].querySelectorAll("[data-action=estimation-delete]")) {
+			element.addEventListener("click", async (event) => {
+				const idx = event.target?.dataset.idx;
+				if (idx) this.estimations.splice(Number(idx), 1);
+				this.render();
+			});
+		}
+	}
+
+	_getSubmitData(updateData) {
+		const original = super._getSubmitData(updateData);
+		const data = expandObject(original);
+		// if ("estimations" in data && !!data.estimations && typeof data.estimations === "object") {
+		// 	data.estimations = Object.values(data.estimations);
+		// }
+		const sortable = Object.keys(data.estimations)
+			.sort(function (a, b) {
+				return data.estimations[a].value - data.estimations[b].value;
+			})
+			.map((key) => data.estimations[key]);
+		data.estimations = sortable;
+		return data;
+	}
+
+	async _updateObject(event, formData) {
+		const iterableSettings = Object.keys(formData);
+		formData.estimations = [
+			{
+				rule: "default",
+				estimates: formData.estimations,
+			},
+		];
+		for (let key of iterableSettings) {
+			await sSet(`core.${key}`, formData[key]);
+		}
 	}
 }
 
-export class HealthEstimateDeathSettings extends HealthEstimateSettings {
+export class EstimationSettings extends HealthEstimateSettings {
+	constructor(object, options = {}) {
+		super(object, options);
+		this.estimations = sGet("core.estimations");
+	}
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			id: "healthestimate-death-form",
-			title: `Health Estimate: ${t("core.menuSettings.deathSettings.plural")}`,
-			template: "./modules/healthEstimate/templates/deathSettings.hbs",
+			title: `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`,
+			template: "./modules/healthEstimate/templates/EstimationSettings.hbs",
+			height: "auto",
+			tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "behavior" }],
+			resizable: true,
 		});
 	}
 
 	getData(options) {
 		return {
-			deathState: this.prepSetting("deathState"),
-			deathStateName: this.prepSetting("deathStateName"),
-			NPCsJustDie: this.prepSetting("NPCsJustDie"),
-			deathMarker: this.prepSetting("deathMarker"),
+			estimations: this.estimations,
 		};
 	}
 
@@ -128,19 +197,71 @@ export class HealthEstimateDeathSettings extends HealthEstimateSettings {
 				const path = `core.${key}`;
 				await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
 			}
-
-			await resetToDefault("deathState");
-			await resetToDefault("deathStateName");
-			await resetToDefault("NPCsJustDie");
-			await resetToDefault("deathMarker");
-			this.close();
+			await resetToDefault("estimations");
+			this.estimations = sGet("core.estimations");
+			this.render();
 		});
+
+		html.find("a[data-action=add-table]").on("click", () => {
+			this.estimations.push({
+				name: "",
+				rule: "",
+				estimates: [
+					{
+						label: "Worst", //TODO: localize
+						value: 0,
+					},
+					{
+						label: "Best", //TODO: localize
+						value: 100,
+					},
+				],
+			});
+			this.render();
+		});
+
+		// Handle all changes for estimations
+		html.find("button[data-action=estimation-add]").on("click", (event) => {
+			const idx = event.target?.dataset.idx;
+			this.estimations[idx].estimates.push({ label: "Custom", value: 100 });
+			this.render();
+		});
+
+		for (const element of html[0].querySelectorAll("[data-action=estimation-delete]")) {
+			element.addEventListener("click", async (event) => {
+				const table = event.target?.dataset.table;
+				const idx = event.target?.dataset.idx;
+				if (idx) this.estimations[table].estimates.splice(Number(idx), 1);
+				this.render();
+			});
+		}
+	}
+
+	_getSubmitData(updateData) {
+		const original = super._getSubmitData(updateData);
+		const data = expandObject(original);
+		let estimations = [];
+		for (var key in data.estimations) {
+			const estimates = data.estimations[key].estimates;
+			const sortable = Object.keys(estimates)
+				.sort(function (a, b) {
+					return estimates[a].value - estimates[b].value;
+				})
+				.map((kkey) => estimates[kkey]);
+			estimations.push({
+				name: data.estimations[key].name,
+				rule: data.estimations[key].rule,
+				estimates: sortable,
+			});
+		}
+		return { estimations };
 	}
 }
 
 export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 	constructor(object, options = {}) {
 		super(object, options);
+		this.path = "core.menuSettings";
 		this.gradFn = new Function();
 		this.gradColors = [];
 		Hooks.once("renderHealthEstimateStyleSettings", this.initHooks.bind(this));
@@ -151,7 +272,6 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			id: "healthestimate-style-form",
 			title: `Health Estimate: ${t("core.menuSettings.styleSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/styleSettings.hbs",
 		});
@@ -170,47 +290,6 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			outlineIntensity: this.prepSetting("outlineIntensity"),
 			scaleToZoom: this.prepSetting("scaleToZoom"),
 			deadText: game.settings.get("healthEstimate", "core.deathStateName"),
-		};
-	}
-
-	prepSelection(key, param = false) {
-		const path = `core.menuSettings.${key}`;
-		let data = settingData(path);
-		let current = "";
-		let result = {
-			select: [],
-			name: data.name,
-			hint: data.hint,
-		};
-
-		if (param) {
-			let currentObject = sGet(path);
-			current = currentObject[param];
-			// for (let [k, v] of Object.entries((currentObject))) {
-			// 	result[k] = v
-			// }
-			Object.assign(result, currentObject);
-		} else {
-			current = sGet(path);
-		}
-
-		for (let [k, v] of Object.entries(data.choices)) {
-			result.select.push({
-				key: k,
-				value: v,
-				selected: k == current,
-			});
-		}
-		return result;
-	}
-
-	prepSetting(key) {
-		const path = `core.menuSettings.${key}`;
-		let data = settingData(path);
-		return {
-			value: sGet(path),
-			name: data.name,
-			hint: data.hint,
 		};
 	}
 
@@ -327,6 +406,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 					background-color:${this.gradColors[i]};
 				"></span>`;
 		}
+		// (chroma.bezier(colors).scale().domain(positions).mode('cmyk'))(i / 100).hex()
 		this.gradEx.innerHTML = gradString;
 		this.updateSample();
 	}

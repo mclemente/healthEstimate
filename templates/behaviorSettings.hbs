@@ -1,55 +1,123 @@
-<form autocomplete="off" onsubmit="event.preventDefault()" style="display: flex;flex-direction: column;">
-	<div class="form-group">
-		{{#with perfectionism}}
-			<label for="perfectionism">{{localize name}}</label>
-			<select name="perfectionism" class="form-fileds" id="perfectionism">
-				{{#each select}}
-					<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+<form autocomplete="off" onsubmit="event.preventDefault()">
+	<nav class="sheet-tabs tabs">
+        <a class="item" data-tab="behavior">BEHAVIOR !TODO</a>
+        <a class="item" data-tab="death">DEATH !TODO</a>
+        <a class="item" data-tab="stages">STAGES !TODO</a>
+    </nav>
+
+	<section class="content" >
+		<div class="tab" data-tab="behavior">
+			<div class="form-group">
+				{{#with perfectionism}}
+					<label for="perfectionism">{{localize name}}</label>
+					<select name="perfectionism" class="form-fileds" id="perfectionism">
+						{{#each select}}
+							<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+						{{/each}}
+					</select>
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+			<label>{{localize "healthEstimate.core.stateNames.name"}}</label>
+			<p class="notes">{{localize "healthEstimate.core.stateNames.hint"}}</p>
+			<div class="form-group">
+				{{#with alwaysShow}}
+					<label for="alwaysShow">{{localize name}}</label>
+					<input type="checkbox" name="alwaysShow" id="alwaysShow"  {{#if value}}checked="checked"{{/if}}>
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+			<div class="form-group">
+				{{#with combatOnly}}
+					<label for="combatOnly">{{localize name}}</label>
+					<input type="checkbox" name="combatOnly" id="combatOnly" {{#if value}}checked="checked"{{/if}}>
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+			<div class="form-group">
+				{{#with showDescription}}
+					<label for="showDescription">{{localize name}}</label>
+					<select name="showDescription" class="form-fileds" id="showDescription">
+						{{#each select}}
+							<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+						{{/each}}
+					</select>
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+			<div class="form-group">
+				{{#with showDescriptionTokenType}}
+					<label for="showDescriptionTokenType">{{localize name}}</label>
+					<select name="showDescriptionTokenType" class="form-fileds" id="showDescriptionTokenType">
+						{{#each select}}
+							<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+						{{/each}}
+					</select>
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+		</div>
+
+		<div class="tab" data-tab="death">
+			<div class="form-group">
+				{{#with deathState}}
+					<label for="deathState">{{localize name}}</label>
+					<input type="checkbox" name="deathState" id="deathState" {{#if value}}checked="checked"{{/if}}>
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+			<div class="form-group">
+				{{#with deathStateName}}
+					<label for="deathStateName">{{localize name}}</label>
+					<input type="text" name="deathStateName" id="deathStateName" value="{{value}}">
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+			<div class="form-group">
+				{{#with NPCsJustDie}}
+					<label for="NPCsJustDie">{{localize name}}</label>
+					<input type="checkbox" name="NPCsJustDie" id="NPCsJustDie" {{#if value}}checked="checked"{{/if}}>
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+			<div class="form-group">
+				{{#with deathMarker}}
+					<label for="deathMarker">{{localize name}}</label>
+					<input type="text" name="deathMarker" id="deathMarker" value="{{value}}">
+					<p class="notes">{{localize hint}}</p>
+				{{/with}}
+			</div>
+		</div>
+
+		<div class="tab" data-tab="stages">
+			<label>{{localize "healthEstimate.core.stateNames.name"}}</label>
+			<p class="notes">{{localize "healthEstimate.core.stateNames.hint"}}</p>
+			{{#if estimations}}
+				{{#each estimations as |estimation idx|}}
+				<table class="estimation-types">
+					<tr>
+						<th>Label</th>
+						<th>Estimation (%)</th>
+						<th class="delete-cell"></th>
+					</tr>
+					{{#each estimation.estimates as |est idx|}}
+						<tr>
+							<td><input name="estimations.{{idx}}.label" type="text" value="{{est.label}}" /></td>
+							<td>
+								<div class="value">
+									<input name="estimations.{{idx}}.value" type="number" min="0" max="100" value="{{est.value}}" />
+								</div>
+							</td>
+							<td class="delete-cell"><a class="delete-button"><i class="fas fa-times" data-action="estimation-delete" data-idx="{{idx}}" /></a></td>
+						</tr>
+					{{/each}}
+				</table>
 				{{/each}}
-			</select>
-			<p class="notes">{{localize hint}}</p>
-		{{/with}}
-	</div>
-	<div class="form-group">
-		{{#with alwaysShow}}
-			<label for="alwaysShow">{{localize name}}</label>
-			<input type="checkbox" name="alwaysShow" id="alwaysShow" {{#if value}}checked="checked"{{/if}}>
-			<p class="notes">{{localize hint}}</p>
-		{{/with}}
-	</div>
-	<div class="form-group">
-		{{#with combatOnly}}
-			<label for="combatOnly">{{localize name}}</label>
-			<input type="checkbox" name="combatOnly" id="combatOnly" {{#if value}}checked="checked"{{/if}}>
-			<p class="notes">{{localize hint}}</p>
-		{{/with}}
-	</div>
-	<div class="form-group">
-		{{#with showDescription}}
-			<label for="showDescription">{{localize name}}</label>
-			<select name="showDescription" class="form-fileds" id="showDescription">
-				{{#each select}}
-					<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
-				{{/each}}
-			</select>
-			<p class="notes">{{localize hint}}</p>
-		{{/with}}
-	</div>
-	<div class="form-group">
-		{{#with showDescriptionTokenType}}
-			<label for="showDescriptionTokenType">{{localize name}}</label>
-			<select name="showDescriptionTokenType" class="form-fileds" id="showDescriptionTokenType">
-				{{#each select}}
-					<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
-				{{/each}}
-			</select>
-			<p class="notes">{{localize hint}}</p>
-		{{/with}}
-	</div>
-	<footer class="sheet-footer flexrow" style="margin-top: auto">
-<!--		<button type="button" name="reset">-->
-<!--			<i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}-->
-<!--		</button>-->
+			{{/if}}
+			<button type="button" data-action="estimation-add"><i class="far fa-plus"></i>Add Estimation</button>
+		</div>
+	</section>
+	<footer class="sheet-footer flexrow">
 		<button type="submit" name="submit">
 			<i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}
 		</button>

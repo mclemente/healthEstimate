@@ -1,0 +1,66 @@
+<form autocomplete="off" onsubmit="event.preventDefault()">
+	<nav class="sheet-tabs tabs">
+		{{#each estimations as |estimation idx|}}
+			<a class="item" data-tab="{{idx}}">
+				{{#if (eq idx 0)}}Default !TODO
+				{{else}}{{#if estimation.name}}{{estimation.name}}{{else}}{{idx}}{{/if}}
+				{{/if}}
+			</a>
+		{{/each}}
+		<a class="item lastItem" data-action="add-table" data-tooltip="Add !TODO">
+			<i class="far fa-plus"></i>
+		</a>
+	</nav>
+
+	<section class="content">
+		{{#each estimations as |estimation idx|}}
+			<div class="tab" data-tab="{{idx}}">
+				{{#if (ne idx 0)}}
+					<label for="estimations.{{idx}}.name">Name !TODO</label>
+					<input name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
+				{{else}}<input style="display: none;" name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
+				{{/if}}
+
+				{{#if (ne idx 0)}}
+					<label for="estimations.{{idx}}.name">JS Rule !TODO</label>
+					<textarea name="estimations.{{idx}}.rule" value="{{estimation.rule}}"></textarea>
+				{{else}}<input style="display: none;" name="estimations.{{idx}}.rule" type="text" value="{{estimation.rule}}" />
+				{{/if}}
+				<table class="estimation-types">
+					<tr>
+						<th>Label !TODO</th>
+						<th>Estimation (%) !TODO</th>
+						<th class="delete-cell"></th>
+					</tr>
+					{{#each estimation.estimates as |est id|}}
+						<tr>
+							<td><input name="estimations.{{idx}}.estimates.{{id}}.label" type="text" value="{{est.label}}" /></td>
+							<td>
+								<div class="value">
+									<input name="estimations.{{idx}}.estimates.{{id}}.value" type="number" min="0" max="100" value="{{est.value}}" />
+								</div>
+							</td>
+							<td class="delete-cell" data-tooltip="Delete !TODO"><a class="delete-button"><i
+										class="fas fa-times"
+										data-action="estimation-delete"
+										data-table="{{idx}}"
+										data-idx="{{id}}"
+									></i></a></td>
+						</tr>
+					{{/each}}
+				</table>
+				<button type="button" style="margin-bottom: 0.5em;" data-action="estimation-add" data-idx="{{idx}}"><i class="far fa-plus"></i>Add Estimation</button>
+			</div>
+		{{/each}}
+	</section>
+	<footer class="sheet-footer flexrow">
+		<button type="submit" name="submit">
+			<i class="far fa-save"></i>
+			{{localize "SETTINGS.Save"}}
+		</button>
+		<button type="button" name="reset" data-action="reset">
+			<i class="fas fa-undo"></i>
+			{{localize "SETTINGS.Reset"}}
+		</button>
+	</footer>
+</form>
