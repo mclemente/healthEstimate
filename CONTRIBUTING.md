@@ -6,7 +6,9 @@
 
 ## Adding Support to a System
 
-Get the system's id (`game.system.id`), go to the [module/systems](module/systems) folder, and create a JS file with the system's id as the name. E.g. `dnd5e.js`.
+1. Get your system's id (`game.system.id`).
+2. Go to the [module/systemSpecifics.js](./module/systemSpecifics.js#L73) file and add the system's id to the list.
+3. Go to the [module/systems](module/systems) folder and create a JS file with system's id as the name. E.g. `dnd5e.js`.
 
 ### Example File
 
