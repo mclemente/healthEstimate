@@ -80,8 +80,7 @@ export async function prepareSystemSpecifics() {
 			.then((currentSystem) => {
 				fractionFormula = currentSystem.fraction;
 				if (currentSystem.settings !== undefined) {
-					systemSpecificSettings = Object.assign(systemSpecificSettings, currentSystem.settings());
-					for (let [key, data] of Object.entries(systemSpecificSettings)) {
+					for (let [key, data] of Object.entries(currentSystem.settings())) {
 						addSetting(key, data);
 					}
 				}
