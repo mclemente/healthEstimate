@@ -158,8 +158,8 @@ export class HealthEstimate {
 			if (!(this.perfectionism == 2 && fraction == 1)) {
 				let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
 				if (customStages.length) customStages = customStages.split(/[,;]\s*/);
-				const descriptions = customStages.length ? customStages : this.descriptions;
 				const stage = this.getStage(fraction, customStages || []);
+				const descriptions = customStages.length ? customStages : this.estimations;
 				const state = {
 					dead: this.isDead(token, stage),
 					desc: this.deathStateName,
@@ -197,8 +197,8 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getStage(fraction, customStages = []) {
-		const desc = customStages?.length ? customStages : this.descriptions;
-		return Math.max(0, this.perfectionism ? Math.ceil((desc.length - 2 + Math.floor(fraction)) * fraction) : Math.ceil((desc.length - 1) * fraction));
+		const desc = customStages?.length ? customStages : this.estimations;
+		return Math.max(0, this.perfectionism ? Math.ceil((desc.length - 2) * fraction) : Math.ceil((desc.length - 1) * fraction));
 	}
 
 	hideEstimate(token) {
@@ -239,6 +239,7 @@ export class HealthEstimate {
 	 */
 	updateSettings() {
 		this.descriptions = sGet("core.stateNames").split(/[,;]\s*/);
+		this.estimations = sGet("core.estimations");
 		this.deathStateName = sGet("core.deathStateName");
 		this.showDead = sGet("core.deathState");
 		this.NPCsJustDie = sGet("core.NPCsJustDie");

@@ -1,6 +1,6 @@
 import { outputStageChange } from "../lib/HealthMonitor.js";
 import { injectConfig } from "../lib/injectConfig.js";
-import { HealthEstimateBehaviorSettings, HealthEstimateDeathSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
+import { EstimationSettings, HealthEstimateBehaviorSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
 import { updateBreakSettings } from "./systemSpecifics.js";
 import { addSetting, f, t } from "./utils.js";
 
@@ -28,18 +28,18 @@ export const registerSettings = function () {
 		type: HealthEstimateBehaviorSettings,
 		restricted: true,
 	});
+	game.settings.registerMenu("healthEstimate", "estimationSettings", {
+		name: "Estimation Settings",
+		label: "Estimation Settings",
+		icon: "fas fa-gear",
+		type: EstimationSettings,
+		restricted: true,
+	});
 	game.settings.registerMenu("healthEstimate", "styleSettings", {
 		name: t("core.menuSettings.styleSettings.plural"),
 		label: t("core.menuSettings.styleSettings.plural"),
 		icon: "fas fa-palette",
 		type: HealthEstimateStyleSettings,
-		restricted: true,
-	});
-	game.settings.registerMenu("healthEstimate", "deathSettings", {
-		name: t("core.menuSettings.deathSettings.plural"),
-		label: t("core.menuSettings.deathSettings.plural"),
-		icon: "fas fa-skull",
-		type: HealthEstimateDeathSettings,
 		restricted: true,
 	});
 
@@ -51,6 +51,26 @@ export const registerSettings = function () {
 		onChange: (value) => {
 			game.healthEstimate.descriptions = value.split(/[,;]\s*/);
 			canvas.scene.tokens.forEach((token) => token.object.refresh());
+		},
+	});
+	addMenuSetting("core.estimations", {
+		type: Array,
+		default: [
+			{
+				name: "",
+				rule: "default",
+				estimates: [
+					{ value: 0, label: "Unconscious" },
+					{ value: 20, label: "Near Death" },
+					{ value: 40, label: "Badly Injured" },
+					{ value: 60, label: "Injured" },
+					{ value: 80, label: "Barely Injured" },
+					{ value: 100, label: "Uninjured" },
+				],
+			},
+		],
+		onChange: (value) => {
+			game.healthEstimate.estimations = value;
 		},
 	});
 	addSetting("core.outputChat", {
