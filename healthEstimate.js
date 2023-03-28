@@ -11,10 +11,10 @@ Hooks.once("init", async function () {});
 /**
  * Have to register Settings here, because doing so at init breaks i18n
  */
-Hooks.once("setup", async function () {
+Hooks.once("setup", function () {
 	setKeybinds();
 	game.healthEstimate = new HealthEstimate();
-	await game.healthEstimate.setup();
+	game.healthEstimate.setup();
 	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
 	if (outputChat) {
 		Hooks.on("updateActor", onUpdateActor);
