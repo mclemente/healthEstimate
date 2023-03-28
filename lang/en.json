@@ -181,6 +181,16 @@
 				"hint": "Ignores the Stages setting and uses the Cyberpunk RED Core's wound states."
 			}
 		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "Health level for Impaired PCs",
+				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Impaired on the Death Track"
+			},
+			"debilitated": {
+				"name": "Health level for Debilitated PCs",
+				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Debilitated on the Death Track"
+			}
+		},
 		"dnd5e": {
 			"vehicleNames": {
 				"hint": "Descriptions shown for vehicles.",
