@@ -10,7 +10,7 @@ class HealthEstimateSettings extends FormApplication {
 	 */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			classes: ["form", "healthEstimateForm"],
+			classes: ["form", "healthEstimate"],
 			width: 640,
 			height: "fit-content",
 			closeOnSubmit: true,
@@ -74,7 +74,6 @@ class HealthEstimateSettings extends FormApplication {
 export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 	constructor(object, options = {}) {
 		super(object, options);
-		this.estimations = sGet("core.estimations");
 	}
 
 	static get defaultOptions() {
@@ -98,8 +97,6 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 			deathStateName: this.prepSetting("deathStateName"),
 			NPCsJustDie: this.prepSetting("NPCsJustDie"),
 			deathMarker: this.prepSetting("deathMarker"),
-
-			estimations: this.estimations,
 		};
 	}
 
@@ -120,49 +117,12 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 			await resetToDefault("deathStateName");
 			await resetToDefault("NPCsJustDie");
 			await resetToDefault("deathMarker");
-
-			await resetToDefault("estimations");
 			this.render();
 		});
-
-		// Handle all changes for estimations
-		html.find("button[data-action=estimation-add]").on("click", () => {
-			this.estimations.push({ label: "Custom", value: 100 });
-			this.render();
-		});
-
-		for (const element of html[0].querySelectorAll("[data-action=estimation-delete]")) {
-			element.addEventListener("click", async (event) => {
-				const idx = event.target?.dataset.idx;
-				if (idx) this.estimations.splice(Number(idx), 1);
-				this.render();
-			});
-		}
-	}
-
-	_getSubmitData(updateData) {
-		const original = super._getSubmitData(updateData);
-		const data = expandObject(original);
-		// if ("estimations" in data && !!data.estimations && typeof data.estimations === "object") {
-		// 	data.estimations = Object.values(data.estimations);
-		// }
-		const sortable = Object.keys(data.estimations)
-			.sort(function (a, b) {
-				return data.estimations[a].value - data.estimations[b].value;
-			})
-			.map((key) => data.estimations[key]);
-		data.estimations = sortable;
-		return data;
 	}
 
 	async _updateObject(event, formData) {
 		const iterableSettings = Object.keys(formData);
-		formData.estimations = [
-			{
-				rule: "default",
-				estimates: formData.estimations,
-			},
-		];
 		for (let key of iterableSettings) {
 			await sSet(`core.${key}`, formData[key]);
 		}
@@ -172,11 +132,12 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 export class EstimationSettings extends HealthEstimateSettings {
 	constructor(object, options = {}) {
 		super(object, options);
-		this.estimations = sGet("core.estimations");
+		this.estimations = duplicate(sGet("core.estimations"));
+		this.changeTabs = 0;
 	}
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			title: `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`,
+			title: `Health Estimate: Estimations !TODO`,
 			template: "./modules/healthEstimate/templates/EstimationSettings.hbs",
 			height: "auto",
 			tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "behavior" }],
@@ -188,6 +149,18 @@ export class EstimationSettings extends HealthEstimateSettings {
 		return {
 			estimations: this.estimations,
 		};
+	}
+
+	_activateCoreListeners(html) {
+		super._activateCoreListeners(html);
+		if (this.changeTabs) {
+			this._changeTabs((this.estimations.length - 1).toString());
+			this.changeTabs = 0;
+		}
+	}
+
+	_changeTabs(tabName) {
+		if (tabName !== this._tabs[0].active) this._tabs[0].activate(tabName, { triggerCallback: true });
 	}
 
 	async activateListeners(html) {
@@ -202,7 +175,9 @@ export class EstimationSettings extends HealthEstimateSettings {
 			this.render();
 		});
 
-		html.find("a[data-action=add-table]").on("click", () => {
+		// Handle all changes to tables
+		html.find("a[data-action=add-table]").on("click", (event) => {
+			this.changeTabs = this.estimations.length;
 			this.estimations.push({
 				name: "",
 				rule: "",
@@ -219,14 +194,30 @@ export class EstimationSettings extends HealthEstimateSettings {
 			});
 			this.render();
 		});
+		html.find("button[data-action=table-delete]").on("click", (event) => {
+			const idx = event.target?.dataset.idx;
+			this.estimations.splice(Number(idx), 1);
+			this.changeTabs = this.estimations.length;
+			this.render();
+		});
+		html.find("button[data-action=change-prio]").on("click", (event) => {
+			const prio = event.target?.dataset.prio == "increase" ? -1 : 1;
+			const idx = event.target?.dataset.idx;
+			function arraymove(arr, fromIndex, toIndex) {
+				var element = arr[fromIndex];
+				arr.splice(fromIndex, 1);
+				arr.splice(toIndex, 0, element);
+			}
+			arraymove(this.estimations, idx, idx + prio);
+			this.render();
+		});
 
 		// Handle all changes for estimations
-		html.find("button[data-action=estimation-add]").on("click", (event) => {
+		html.find("[data-action=estimation-add]").on("click", (event) => {
 			const idx = event.target?.dataset.idx;
 			this.estimations[idx].estimates.push({ label: "Custom", value: 100 });
 			this.render();
 		});
-
 		for (const element of html[0].querySelectorAll("[data-action=estimation-delete]")) {
 			element.addEventListener("click", async (event) => {
 				const table = event.target?.dataset.table;
