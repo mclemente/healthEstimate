@@ -35,6 +35,7 @@ const fraction = function (token) {
     }
 };
 
+// New module configuration settings specific to this module
 const settings = () => {
 	return {
 		"cyphersystem.impaired": {
@@ -48,4 +49,7 @@ const settings = () => {
 	};
 };
 
-export { fraction, settings };
+// Only show Health Estimate on the following Actor types
+const breakCondition = `|| ![ 'pc', 'npc', 'companion','community' ].includes(token.actor.type)`;
+
+export { fraction, settings, breakCondition };
