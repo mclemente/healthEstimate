@@ -77,6 +77,7 @@ export class HealthEstimate {
 			if (!token.isVisible) return;
 			const { desc, color, stroke } = this.getEstimation(token);
 			if (!desc) return;
+
 			if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 
 			const zoomLevel = Math.min(1, canvas.stage.scale.x);
@@ -144,6 +145,25 @@ export class HealthEstimate {
 		return descriptions[stage];
 	}
 
+	getTokenEstimate(token) {
+		for (var estimation of this.estimations) {
+			if (["default", ""].includes(estimation.rule)) continue;
+			let test = function (token) {
+				return new Function(`token`, `const type = token.actor.type; return ${estimation.rule}`)(token);
+			};
+			if (test(token)) return estimation;
+		}
+		return this.estimations[0];
+	}
+
+	getStage2(token, fraction) {
+		const estimates = this.getTokenEstimate(token).estimates;
+		fraction *= 100;
+		if (this.perfectionism == 1 && fraction == 1) estimates.pop();
+		const closest = estimates.find((e) => e.value >= fraction);
+		return closest;
+	}
+
 	/**
 	 * Returns the token's estimate's description, color and stroke outline.
 	 * @param {TokenDocument} token
@@ -159,11 +179,15 @@ export class HealthEstimate {
 				let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
 				if (customStages.length) customStages = customStages.split(/[,;]\s*/);
 				const stage = this.getStage(fraction, customStages || []);
-				const descriptions = customStages.length ? customStages : this.estimations;
+				const descriptions = this.estimations;
+
+				console.log(this.getStage2(token, fraction));
+				// const descriptions = customStages.length ? customStages : this.estimations;
 				const state = {
 					dead: this.isDead(token, stage),
 					desc: this.deathStateName,
 				};
+
 				desc = this.descriptionToShow(descriptions, stage, token, state, fraction);
 				if (this.smoothGradient) var colorIndex = Math.max(0, Math.ceil((this.colors.length - 1) * fraction));
 				else if (this.perfectionism) colorIndex = stage;
@@ -197,7 +221,8 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getStage(fraction, customStages = []) {
-		const desc = customStages?.length ? customStages : this.estimations;
+		// const desc = customStages?.length ? customStages : this.estimations;
+		const desc = this.estimations;
 		return Math.max(0, this.perfectionism ? Math.ceil((desc.length - 2) * fraction) : Math.ceil((desc.length - 1) * fraction));
 	}
 
