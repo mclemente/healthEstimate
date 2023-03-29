@@ -72,10 +72,6 @@ class HealthEstimateSettings extends FormApplication {
 }
 
 export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
-	constructor(object, options = {}) {
-		super(object, options);
-	}
-
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			title: `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`,
@@ -132,13 +128,14 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 export class EstimationSettings extends HealthEstimateSettings {
 	constructor(object, options = {}) {
 		super(object, options);
-		this.estimations = duplicate(sGet("core.estimations"));
+		this.estimations = deepClone(sGet("core.estimations"));
 		this.changeTabs = 0;
 	}
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			title: `Health Estimate: Estimations !TODO`,
+			title: `Health Estimate: ${t("core.estimationSettings.title")}`,
 			template: "./modules/healthEstimate/templates/EstimationSettings.hbs",
+			classes: ["form", "healthEstimate", "estimationSettings"],
 			height: "auto",
 			tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "behavior" }],
 			resizable: true,
@@ -151,16 +148,17 @@ export class EstimationSettings extends HealthEstimateSettings {
 		};
 	}
 
+	/**
+	 * This is the earliest method called after render() where changing tabs can be called
+	 * @param {*} html
+	 */
 	_activateCoreListeners(html) {
 		super._activateCoreListeners(html);
 		if (this.changeTabs) {
-			this._changeTabs((this.estimations.length - 1).toString());
+			const tabName = this.changeTabs.toString();
+			if (tabName !== this._tabs[0].active) this._tabs[0].activate(tabName);
 			this.changeTabs = 0;
 		}
-	}
-
-	_changeTabs(tabName) {
-		if (tabName !== this._tabs[0].active) this._tabs[0].activate(tabName, { triggerCallback: true });
 	}
 
 	async activateListeners(html) {
@@ -183,11 +181,11 @@ export class EstimationSettings extends HealthEstimateSettings {
 				rule: "",
 				estimates: [
 					{
-						label: "Worst", //TODO: localize
+						label: t("core.estimates.worst"),
 						value: 0,
 					},
 					{
-						label: "Best", //TODO: localize
+						label: t("core.estimates.best"),
 						value: 100,
 					},
 				],
@@ -195,33 +193,37 @@ export class EstimationSettings extends HealthEstimateSettings {
 			this.render();
 		});
 		html.find("button[data-action=table-delete]").on("click", (event) => {
-			const idx = event.target?.dataset.idx;
-			this.estimations.splice(Number(idx), 1);
-			this.changeTabs = this.estimations.length;
+			const idx = Number(event.target?.dataset.idx);
+			this.estimations.splice(idx, 1);
+			this.changeTabs = this.estimations.length - 1;
 			this.render();
 		});
 		html.find("button[data-action=change-prio]").on("click", (event) => {
 			const prio = event.target?.dataset.prio == "increase" ? -1 : 1;
-			const idx = event.target?.dataset.idx;
+			const idx = Number(event.target?.dataset.idx);
 			function arraymove(arr, fromIndex, toIndex) {
 				var element = arr[fromIndex];
 				arr.splice(fromIndex, 1);
 				arr.splice(toIndex, 0, element);
 			}
 			arraymove(this.estimations, idx, idx + prio);
+			this.changeTabs = idx + prio;
 			this.render();
 		});
 
 		// Handle all changes for estimations
 		html.find("[data-action=estimation-add]").on("click", (event) => {
-			const idx = event.target?.dataset.idx;
+			// Fix for clicking either the A or I tag
+			if (event.target.tagName == "A") {
+				var idx = Number(event.target?.children[0].dataset.idx);
+			} else idx = Number(event.target?.dataset.idx);
 			this.estimations[idx].estimates.push({ label: "Custom", value: 100 });
 			this.render();
 		});
 		for (const element of html[0].querySelectorAll("[data-action=estimation-delete]")) {
 			element.addEventListener("click", async (event) => {
 				const table = event.target?.dataset.table;
-				const idx = event.target?.dataset.idx;
+				const idx = Number(event.target?.dataset.idx);
 				if (idx) this.estimations[table].estimates.splice(Number(idx), 1);
 				this.render();
 			});
@@ -383,7 +385,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 	updateGradient() {
 		const colors = this.gp.handlers.map((a) => a.color);
 		const colorPositions = this.gp.handlers.map((a) => Math.round(a.position) / 100);
-		this.gradLength = this.smoothGradient.checked ? 100 : sGet("core.stateNames").split(/[,;]\s*/).length;
+		this.gradLength = this.smoothGradient.checked ? 100 : sGet("core.estimations")[0].estimates.length;
 		const width = 100 / this.gradLength;
 		this.gradColors = this.gradFn(this.gradLength, colors, colorPositions);
 		this.outlColors = this.outlFn();

@@ -15,6 +15,21 @@
 					}
 				}
 			},
+			"estimates": {
+				"worst": "Worst",
+				"best": "Best"
+			},
+			"estimationSettings": {
+				"title": "Estimation Settings",
+				"AddEstimate": "Add Estimate",
+				"addTable": "Add Table",
+				"default": "Default",
+				"deleteTable": "Delete Table",
+				"estimate": "Estimate",
+				"jsRule": "JS Rule",
+				"prioDecrease": "Decrease Priority",
+				"prioIncrease": "Increase Priority"
+			},
 			"keybinds": {
 				"markDead": {
 					"name": "Mark as Dead",

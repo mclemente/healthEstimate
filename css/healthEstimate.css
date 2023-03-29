@@ -119,6 +119,7 @@
 .form.healthEstimate .estimation-types input[type="number"]:focus {
 	clip-path: inset(1px 1px -15px 1px);
 }
+.form.healthEstimate .add-cell,
 .form.healthEstimate .delete-cell {
 	text-align: center;
 }
@@ -163,6 +164,13 @@
 	border: none;
 	color: var(--color-text-dark-secondary);
 	resize: none;
+}
+.form.healthEstimate .estimation-buttons {
+	margin-bottom: 0.5em;
+}
+.form.healthEstimate.estimationSettings th:first-of-type {
+	padding-left: 3px;
+	text-align: left;
 }
 #healthEstimate {
 	display: grid;

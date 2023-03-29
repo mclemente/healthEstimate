@@ -7,37 +7,41 @@
 	<nav class="sheet-tabs tabs">
 		{{#each estimations as |estimation idx|}}
 			<a class="item" data-tab="{{idx}}">
-				{{#if (eq idx 0)}}Default !TODO
+				{{#if (eq idx 0)}}{{localize "healthEstimate.core.estimationSettings.default"}}
 				{{else}}{{#if estimation.name}}{{estimation.name}}{{else}}{{idx}}{{/if}}
 				{{/if}}
 			</a>
 		{{/each}}
-		<a class="item lastItem" data-action="add-table" data-tooltip="Add !TODO">
+		<a class="item lastItem" data-action="add-table">
 			<i class="far fa-plus"></i>
+			{{localize "healthEstimate.core.estimationSettings.addTable"}}
 		</a>
 	</nav>
 
 	<section class="content">
 		{{#each estimations as |estimation idx|}}
 			<div class="tab" data-tab="{{idx}}">
-				<div class="form-group">
-					<label for="estimations.{{idx}}.name">Name !TODO</label>
-					{{#if (ne idx 0)}}
+				{{#if (eq idx 0)}}
+					<div class="form-group" style="display: none">
 						<input name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
-					{{else}}<input disabled name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
-					{{/if}}
-				</div>
-				<div class="form-group">
-					<label for="estimations.{{idx}}.name">JS Rule !TODO</label>
-					{{#if (ne idx 0)}}
+					</div>
+					<div class="form-group" style="display: none">
 						<textarea name="estimations.{{idx}}.rule">{{estimation.rule}}</textarea>
-					{{else}}<textarea disabled name="estimations.{{idx}}.rule">{{estimation.rule}}</textarea>
-					{{/if}}
-				</div>
+					</div>
+				{{else}}
+					<div class="form-group">
+						<label for="estimations.{{idx}}.name">{{localize "Name"}}</label>
+						<input name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
+					</div>
+					<div class="form-group">
+						<label for="estimations.{{idx}}.name">{{localize "healthEstimate.core.estimationSettings.addTable"}}</label>
+						<textarea name="estimations.{{idx}}.rule">{{estimation.rule}}</textarea>
+					</div>
+				{{/if}}
 				<table class="estimation-types">
 					<tr>
-						<th>Label !TODO</th>
-						<th>Estimation (%) !TODO</th>
+						<th>{{localize "healthEstimate.core.estimationSettings.estimate"}}</th>
+						<th>%</th>
 						<th class="delete-cell"></th>
 					</tr>
 					{{#each estimation.estimates as |est id|}}
@@ -48,35 +52,47 @@
 									<input name="estimations.{{idx}}.estimates.{{id}}.value" type="number" min="0" max="100" value="{{est.value}}" />
 								</div>
 							</td>
-							<td class="delete-cell" data-tooltip="Delete !TODO"><a class="delete-button"><i
-										class="fas fa-times"
-										data-action="estimation-delete"
-										data-table="{{idx}}"
-										data-idx="{{id}}"
-									></i></a></td>
-
+							<td class="delete-cell">
+								<a class="delete-button" data-action="estimation-delete">
+									<i class="fas fa-times" data-table="{{idx}}" data-idx="{{id}}"></i>
+								</a>
+							</td>
 						</tr>
 					{{/each}}
 					<tr>
-						<td colspan="3" class="delete-cell"> <a><i class="fas fa-plus" data-action="estimation-add" data-idx="{{idx}}"></i></a></td>
+						<td colspan="3" class="add-cell">
+							<a data-action="estimation-add"><i class="fas fa-plus" data-idx="{{idx}}"></i> {{localize "healthEstimate.core.estimationSettings.AddEstimate"}}</a>
+						</td>
 					</tr>
 				</table>
 				{{#if (ne idx 0)}}
-					<div class="flexrow" style="margin-bottom: 0.5em;">
+					<div class="flexrow estimation-buttons">
 						{{#if (eq idx 1)}}
 							<button disabled type="button"><i class="far fa-chevron-left"></i></button>
 						{{else}}
-							<button type="button" data-tooltip="Increase Priority" data-action="change-prio" data-prio="increase" data-idx="{{idx}}"><i
-									class="far fa-chevron-left"
-								></i></button>
+							<button
+								type="button"
+								data-tooltip="{{localize 'healthEstimate.core.estimationSettings.prioIncrease'}}"
+								data-action="change-prio"
+								data-prio="increase"
+								data-idx="{{idx}}"
+							>
+								<i class="far fa-chevron-left"></i>
+							</button>
 						{{/if}}
-						<button type="button" data-action="table-delete" data-idx="{{idx}}"><i class="fas fa-trash"></i>Delete Table</button>
+						<button type="button" data-action="table-delete" data-idx="{{idx}}"><i class="fas fa-trash"></i>
+							{{localize "healthEstimate.core.estimationSettings.deleteTable"}}
+						</button>
 						{{#if @last}}
 							<button disabled type="button"><i class="far fa-chevron-right"></i></button>
 						{{else}}
-							<button type="button" data-tooltip="Reduce Priority" data-action="change-prio" data-prio="reduce" data-idx="{{idx}}"><i
-									class="far fa-chevron-right"
-								></i></button>
+							<button
+								type="button"
+								data-tooltip="{{localize 'healthEstimate.core.estimationSettings.prioDecrease'}}"
+								data-action="change-prio"
+								data-prio="reduce"
+								data-idx="{{idx}}"
+							><i class="far fa-chevron-right"></i></button>
 						{{/if}}
 					</div>
 				{{/if}}
