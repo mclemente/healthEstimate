@@ -15,8 +15,7 @@ Hooks.once("setup", function () {
 	setKeybinds();
 	game.healthEstimate = new HealthEstimate();
 	game.healthEstimate.setup();
-	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
-	if (outputChat) {
+	if (game.settings.get("healthEstimate", "core.outputChat")) {
 		Hooks.on("updateActor", onUpdateActor);
 		if (!game.version > 11) Hooks.on("updateToken", onUpdateToken);
 	}
@@ -39,6 +38,11 @@ Hooks.on("createToken", function (tokenDocument, options, userId) {
 	if (customStages?.length) tokenDocument.setFlag("healthEstimate", "customStages", customStages);
 	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
 	getCharacters(tokens);
+});
+
+Hooks.on("deleteActor", function (actorDocument, options, userId) {
+	let tokens = canvas.tokens?.placeables.filter((e) => e.document.actorId === actorDocument.id);
+	tokens.forEach((token) => token.refresh());
 });
 
 /**
