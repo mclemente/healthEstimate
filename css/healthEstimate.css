@@ -74,7 +74,6 @@
 			0 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 0 1px var(--healthEstimate-keyframe-100-outline);
 	}
 }
-
 .healthEstimateAnimate {
 	animation-name: healthEstimate-animation;
 	animation-iteration-count: infinite;
@@ -83,71 +82,88 @@
 	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-duration: 2s;
 }
-
 .healthEstimate.deadColor input[type="text"].color {
 	flex: 2.97;
 }
-
 .healthEstimate.deadColor input[type="color"][data-edit] {
 	flex: 1.4;
 }
-
-.healthEstimateForm form {
+.form.healthEstimate button:disabled {
+	cursor: default;
+	color: -internal-light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+}
+.form.healthEstimate form {
 	display: flex;
 	flex-direction: column;
 }
-
-.healthEstimateForm .form-group.gradient {
+.form.healthEstimate .form-group.gradient {
 	margin-bottom: 7px;
 }
-
-.healthEstimateForm input[type="number"] {
+.form.healthEstimate input[type="number"] {
 	text-align: center;
 }
-
-.healthEstimateForm .estimation-types div.value {
+.form.healthEstimate .estimation-types div.value {
 	width: 2rem;
 	margin: auto;
 }
-.healthEstimateForm .estimation-types input {
+.form.healthEstimate .estimation-types input {
 	background: none;
 }
-.healthEstimateForm .estimation-types input[type="text"],
-.healthEstimateForm .estimation-types input[type="number"] {
+.form.healthEstimate .estimation-types input[type="text"],
+.form.healthEstimate .estimation-types input[type="number"] {
 	border: none;
 	border-bottom: 1px solid var(--color-border-light-tertiary);
 	border-radius: 0;
 }
-.healthEstimateForm .estimation-types input[type="text"]:focus,
-.healthEstimateForm .estimation-types input[type="number"]:focus {
+.form.healthEstimate .estimation-types input[type="text"]:focus,
+.form.healthEstimate .estimation-types input[type="number"]:focus {
 	clip-path: inset(1px 1px -15px 1px);
 }
-.healthEstimateForm .delete-cell {
+.form.healthEstimate .delete-cell {
 	text-align: center;
 }
-
-.healthEstimateForm .numberHE {
+.form.healthEstimate .numberHE {
 	flex: 0 0 4em;
 }
-.healthEstimateForm .bigBox {
+.form.healthEstimate .bigBox {
 	flex: 2.55;
 }
-.healthEstimateForm .normalBox {
+.form.healthEstimate .normalBox {
 	flex: 2;
 }
-.healthEstimateForm .smallBox {
+.form.healthEstimate .smallBox {
 	flex: 0;
 	margin-top: 0.1em;
 	font-size: 17px;
 }
-.healthEstimateForm .sampleFrameHE img {
+.form.healthEstimate .sampleFrameHE img {
 	margin-bottom: -106px;
 }
-
-.healthEstimateForm textarea {
+.form.healthEstimate textarea {
 	resize: vertical;
+	width: calc(100% - 2px);
+	min-width: 20px;
+	height: var(--form-field-height);
+	background: rgba(0, 0, 0, 0.05);
+	padding: 1px 3px;
+	margin: 0;
+	color: var(--color-text-dark-primary);
+	font-family: inherit;
+	font-size: inherit;
+	text-align: inherit;
+	line-height: inherit;
+	border: 1px solid var(--color-border-light-tertiary);
+	border-radius: 3px;
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
 }
-
+.form.healthEstimate textarea:disabled {
+	border: none;
+	color: var(--color-text-dark-secondary);
+	resize: none;
+}
 #healthEstimate {
 	display: grid;
 	font-size: var(--healthEstimate-text-size);
@@ -158,22 +174,18 @@
 	margin-top: var(--healthEstimate-margin);
 	width: var(--healthEstimate-width) !important;
 }
-
 .healthEstimateSample {
 	display: flex;
 	justify-content: center;
 }
-
 #gradientExampleHE {
 	margin: 15px 0 -30px;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==");
 	line-height: 0;
 }
-
 #gradientControlsHE {
 	margin-bottom: 7px;
 }
-
 li.hm_message {
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 	margin: 2px;
@@ -195,11 +207,9 @@ li.hm_message:hover header.message-header {
 li.hm_messageheal {
 	background: #06a406 !important;
 }
-
 li.hm_messagetaken {
 	background: #c50d19 !important;
 }
-
 .numberHE {
 	width: calc(100% - 2px);
 	min-width: 20px;
@@ -216,13 +226,11 @@ li.hm_messagetaken {
 	border-radius: 3px;
 	user-select: text;
 }
-
 .numberHE::-webkit-inner-spin-button,
 .numberHE::-webkit-outer-spin-button {
 	font-size: 1.3em;
 	opacity: 1;
 }
-
 .gradient-settings {
 	display: flex;
 	flex: 0 !important;
@@ -231,40 +239,35 @@ li.hm_messagetaken {
 	margin-left: 10px;
 	padding-top: 7px;
 }
-
 .sp-preview {
 	width: 30px;
 	height: 20px;
 	margin-right: 5px;
 }
-
 .sp-replacer {
 	padding: 4px;
 	flex: initial !important;
 }
-
 .grp-handler .sp-dd {
 	display: none;
 }
-
 .grp-handler .sp-preview {
 	width: 11px;
 	height: 11px;
 	margin-right: 0;
 	border-radius: 11px;
 }
-
 .grp-handler .sp-preview-inner {
 	border-radius: 11px;
 }
-
 .grp-handler .sp-replacer {
 	padding: 1px;
 	margin-left: -6px;
 	border-radius: 15px;
 }
-
-/*.grp-wrapper {}*/
+/*.grp-wrapper {
+}
+*/
 .grp-preview {
 	position: absolute;
 	top: 0;
@@ -274,7 +277,6 @@ li.hm_messagetaken {
 	cursor: crosshair;
 	background-image: none !important;
 }
-
 .grp-handler {
 	width: 4px;
 	margin-left: -2px;
@@ -283,7 +285,6 @@ li.hm_messagetaken {
 	-moz-user-select: none;
 	height: 100%;
 }
-
 .grp-handler-close {
 	color: rgba(0, 0, 0, 0.4);
 	border-radius: 100%;
@@ -297,31 +298,25 @@ li.hm_messagetaken {
 	font-size: 21px;
 	cursor: pointer;
 }
-
 .grp-handler-close-c {
 	position: absolute;
 	top: -17px;
 }
-
 .grp-handler-drag {
 	background-color: rgba(0, 0, 0, 0.5);
 	cursor: col-resize;
 	width: 100%;
 	height: 100%;
 }
-
 .grp-handler-selected .grp-handler-drag {
 	background-color: rgba(255, 255, 255, 0.5);
 }
-
 .grp-handler-cp-c {
 	display: none;
 }
-
 .grp-handler-selected .grp-handler-cp-c {
 	display: block;
 }
-
 .grp-handler-cp-wrap {
 	width: 15px;
 	height: 15px;
@@ -332,7 +327,6 @@ li.hm_messagetaken {
 	border-radius: 100%;
 	cursor: pointer;
 }
-
 .grp-handler-cp-wrap input[type="color"] {
 	opacity: 0;
 	cursor: pointer;

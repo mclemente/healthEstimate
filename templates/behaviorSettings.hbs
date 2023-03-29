@@ -2,7 +2,6 @@
 	<nav class="sheet-tabs tabs">
         <a class="item" data-tab="behavior">BEHAVIOR !TODO</a>
         <a class="item" data-tab="death">DEATH !TODO</a>
-        <a class="item" data-tab="stages">STAGES !TODO</a>
     </nav>
 
 	<section class="content" >
@@ -18,8 +17,6 @@
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
-			<label>{{localize "healthEstimate.core.stateNames.name"}}</label>
-			<p class="notes">{{localize "healthEstimate.core.stateNames.hint"}}</p>
 			<div class="form-group">
 				{{#with alwaysShow}}
 					<label for="alwaysShow">{{localize name}}</label>
@@ -87,34 +84,6 @@
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
-		</div>
-
-		<div class="tab" data-tab="stages">
-			<label>{{localize "healthEstimate.core.stateNames.name"}}</label>
-			<p class="notes">{{localize "healthEstimate.core.stateNames.hint"}}</p>
-			{{#if estimations}}
-				{{#each estimations as |estimation idx|}}
-				<table class="estimation-types">
-					<tr>
-						<th>Label</th>
-						<th>Estimation (%)</th>
-						<th class="delete-cell"></th>
-					</tr>
-					{{#each estimation.estimates as |est idx|}}
-						<tr>
-							<td><input name="estimations.{{idx}}.label" type="text" value="{{est.label}}" /></td>
-							<td>
-								<div class="value">
-									<input name="estimations.{{idx}}.value" type="number" min="0" max="100" value="{{est.value}}" />
-								</div>
-							</td>
-							<td class="delete-cell"><a class="delete-button"><i class="fas fa-times" data-action="estimation-delete" data-idx="{{idx}}" /></a></td>
-						</tr>
-					{{/each}}
-				</table>
-				{{/each}}
-			{{/if}}
-			<button type="button" data-action="estimation-add"><i class="far fa-plus"></i>Add Estimation</button>
 		</div>
 	</section>
 	<footer class="sheet-footer flexrow">
