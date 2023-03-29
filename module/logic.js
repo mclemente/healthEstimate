@@ -70,6 +70,7 @@ export class HealthEstimate {
 
 	//Helpers
 	_handleOverlay(token, hovered) {
+		if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 		if (!token?.actor) return;
 		if (game.healthEstimate.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
 
@@ -78,32 +79,8 @@ export class HealthEstimate {
 			const { desc, color, stroke } = this.getEstimation(token);
 			if (!desc) return;
 
-			if (token.healthEstimate?._texture) token.healthEstimate.destroy();
-
 			const zoomLevel = Math.min(1, canvas.stage.scale.x);
-			let fontSize = this.fontSize;
-			if (this.scaleToZoom && zoomLevel < 1) {
-				if (isNaN(Number(fontSize.replace("px", "")))) {
-					const cssValues = {
-						"x-small": 10,
-						small: 13,
-						medium: 16,
-						large: 18,
-						"x-large": 24,
-					};
-					fontSize = cssValues[fontSize] || 24;
-				} else fontSize = fontSize.replace("px", "");
-				fontSize = `${24 * (1 / zoomLevel)}px`;
-			}
-
-			const userTextStyle = {
-				fontSize: fontSize,
-				fontFamily: CONFIG.canvasTextStyle.fontFamily,
-				fill: color,
-				stroke: stroke,
-				strokeThickness: 3,
-				padding: 5,
-			};
+			const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
 			token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
 
 			token.healthEstimate.anchor.x = 0.5;
@@ -129,6 +106,32 @@ export class HealthEstimate {
 		} else if (token.healthEstimate) token.healthEstimate.visible = false;
 	}
 
+	_getUserTextStyle(zoomLevel, color, stroke) {
+		let fontSize = this.fontSize;
+		if (this.scaleToZoom && zoomLevel < 1) {
+			if (isNaN(Number(fontSize.replace("px", "")))) {
+				const cssValues = {
+					"x-small": 10,
+					small: 13,
+					medium: 16,
+					large: 18,
+					"x-large": 24,
+				};
+				fontSize = cssValues[fontSize] || 24;
+			} else fontSize = fontSize.replace("px", "");
+			fontSize = `${24 * (1 / zoomLevel)}px`;
+		}
+
+		return {
+			fontSize: fontSize,
+			fontFamily: CONFIG.canvasTextStyle.fontFamily,
+			fill: color,
+			stroke: stroke,
+			strokeThickness: 3,
+			padding: 5,
+		};
+	}
+
 	/**
 	 * Function handling which description to show. Can be overriden by a system-specific implementation
 	 * @param {String[]} descriptions
@@ -145,7 +148,13 @@ export class HealthEstimate {
 		return descriptions[stage];
 	}
 
+	/**
+	 * Returns an array of estimates related to the token.
+	 * @param {TokenDocument} token
+	 * @returns {{[Object]}}
+	 */
 	getTokenEstimate(token) {
+		//TODO prioritize Custom Stages
 		for (var estimation of this.estimations) {
 			if (["default", ""].includes(estimation.rule)) continue;
 			let test = function (token) {
@@ -156,50 +165,59 @@ export class HealthEstimate {
 		return this.estimations[0];
 	}
 
+	/**
+	 * @typedef {Object} Estimate
+	 * @property {string} label
+	 * @property {number} value
+	 */
+
+	/**
+	 * Returns the estimate and its index.
+	 * @param {TokenDocument} token
+	 * @param {Number} fraction
+	 * @returns {{estimate: Estimate, index: number}}
+	 */
 	getStage2(token, fraction) {
-		const estimates = this.getTokenEstimate(token).estimates;
+		// deepClone here otherwise changes will reflect locally on the setting (e.g. the isDead conditional)
+		const estimates = deepClone(this.getTokenEstimate(token).estimates);
 		fraction *= 100;
-		if (this.perfectionism == 1 && fraction == 1) estimates.pop();
-		const closest = estimates.find((e) => e.value >= fraction);
-		return closest;
+		// !TODO add a setting choice between > and >=
+		const logic = (e) => e.value >= fraction;
+		const estimate = estimates.find(logic) ?? { value: fraction, label: "" };
+		const index = estimates.findIndex(logic);
+		return { estimate, index };
 	}
 
 	/**
 	 * Returns the token's estimate's description, color and stroke outline.
 	 * @param {TokenDocument} token
-	 * @returns {{String, String, String}}	All three values are Strings.
+	 * @returns {{desc: String, color: String, stroke: String}}
 	 */
 	getEstimation(token) {
 		try {
-			let desc = "",
-				color = "",
-				stroke = "";
 			const fraction = this.getFraction(token);
-			if (!(this.perfectionism == 2 && fraction == 1)) {
-				let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
-				if (customStages.length) customStages = customStages.split(/[,;]\s*/);
-				const stage = this.getStage(fraction, customStages || []);
-				const descriptions = this.estimations;
+			// !TODO change customStages to use Estimation Builder
+			let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
+			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
+			const stage = this.getStage(fraction, customStages || []);
+			const descriptions = this.estimations;
 
-				console.log(this.getStage2(token, fraction));
-				// const descriptions = customStages.length ? customStages : this.estimations;
-				const state = {
-					dead: this.isDead(token, stage),
-					desc: this.deathStateName,
-				};
+			const { estimate, index } = this.getStage2(token, fraction);
+			// const descriptions = customStages.length ? customStages : this.estimations;
+			const isDead = this.isDead(token, estimate.value);
 
-				desc = this.descriptionToShow(descriptions, stage, token, state, fraction);
-				if (this.smoothGradient) var colorIndex = Math.max(0, Math.ceil((this.colors.length - 1) * fraction));
-				else if (this.perfectionism) colorIndex = stage;
-				else colorIndex = Math.max(0, Math.floor((this.colors.length - 1) * fraction));
+			// desc = this.descriptionToShow(descriptions, stage, token, state, fraction);
+			const colorIndex = this.smoothGradient ? Math.max(0, Math.ceil((this.colors.length - 1) * fraction)) : index;
+			if (isDead) {
+				estimate.label = this.deathStateName;
+				var color = this.deadColor;
+				var stroke = this.deadOutline;
+			} else {
 				color = this.colors[colorIndex];
 				stroke = this.outline[colorIndex];
-				if (state.dead) {
-					color = this.deadColor;
-					stroke = this.deadOutline;
-				}
-				if (this.hideEstimate(token)) desc += "*";
 			}
+			if (this.hideEstimate(token)) var desc = estimate.label + "*";
+			else desc = estimate.label;
 			return { desc, color, stroke };
 		} catch (err) {
 			console.error(`Health Estimate | Error on getEstimation(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
