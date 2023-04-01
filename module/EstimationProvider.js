@@ -19,6 +19,7 @@ const breakOnZeroMaxHP = {
 export const providerKeys = {
 	"age-system": "AgeSystem",
 	"band-of-blades": "bandOfBlades",
+	"blade-runner": "bladeRunner",
 	"blades-in-the-dark": "bladesInTheDark",
 	"custom-system-builder": "CustomSystemBuilder",
 	"cyberpunk-red-core": "cyberpunkRed",
@@ -115,7 +116,7 @@ export class GenericEstimationProvider extends EstimationProvider {
 		const hpPath = sGet("core.custom.FractionHP");
 		let hp = getNestedData(token, hpPath) || token.actor.system.attributes?.hp || token.actor.system.hp;
 		let temp = 0;
-		if (game.settings.get("healthEstimate", "core.addTemp")) temp = hp?.temp || 0;
+		if (sGet("core.addTemp")) temp = hp?.temp || 0;
 
 		if (hp === undefined && hpPath === "") throw new Error(`The HP is undefined, try using the ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting.`);
 		else if (hp === undefined) throw new Error(`The ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting ("${hpPath}") is wrong.`);
@@ -183,7 +184,7 @@ export class archmageEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;
 		let temp = 0;
-		if (token.actor.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
+		if (token.actor.type === "character" && sGet("core.addTemp")) {
 			temp = hp.temp;
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);
@@ -230,6 +231,13 @@ export class bandOfBladesEstimationProvider extends EstimationProvider {
 
 	get breakCondition() {
 		return `||token.actor.type === "role"||token.actor.type === "chosen"||token.actor.type === "minion"||token.actor.type === "\uD83D\uDD5B clock"`;
+	}
+}
+
+export class bladeRunnerEstimationProvider extends EstimationProvider {
+	fraction(token) {
+		const hp = token.actor.system.health;
+		return hp.value / hp.max;
 	}
 }
 
@@ -361,10 +369,10 @@ export class cyphersystemEstimationProvider extends EstimationProvider {
 
 			switch (actor.system.combat.damageTrack.state) {
 				case "Impaired":
-					limit = game.settings.get("healthEstimate", "cyphersystem.impaired");
+					limit = sGet("cyphersystem.impaired");
 					break;
 				case "Debilitated":
-					limit = game.settings.get("healthEstimate", "cyphersystem.debilitated");
+					limit = sGet("cyphersystem.debilitated");
 					break;
 			}
 			return Math.min(result, limit);
@@ -398,7 +406,7 @@ export class D35EEstimationProvider extends EstimationProvider {
 		this.customLogic = `
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
-		if (game.settings.get("healthEstimate", "core.addTemp")) {
+		if (sGet("core.addTemp")) {
 			addTemp = hp.temp;
 		}
 		const totalHp = hp.value + addTemp;`;
@@ -408,7 +416,7 @@ export class D35EEstimationProvider extends EstimationProvider {
 				name: game.i18n.localize("D35E.CondStaggered"),
 				ignoreColor: true,
 				rule: `
-					game.settings.get("healthEstimate", "PF1.showExtra") &&
+					sGet("PF1.showExtra") &&
 					(totalHp === 0 ||
 						(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
 						Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("D35E.CondStaggered")))`,
@@ -417,7 +425,7 @@ export class D35EEstimationProvider extends EstimationProvider {
 			{
 				name: t("PF1.dyingName.name"),
 				ignoreColor: true,
-				rule: `game.settings.get("healthEstimate", "PF1.showExtra") && hp.nonlethal > totalHp`,
+				rule: `sGet("PF1.showExtra") && hp.nonlethal > totalHp`,
 				estimates: [{ value: 100, label: t("core.estimates.states.0") }],
 			},
 		];
@@ -427,10 +435,10 @@ export class D35EEstimationProvider extends EstimationProvider {
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
 		let addNonlethal = 0;
-		if (game.settings.get("healthEstimate", "core.addTemp")) {
+		if (sGet("core.addTemp")) {
 			addTemp = hp.temp;
 		}
-		if (game.settings.get("healthEstimate", "PF1.addNonlethal")) {
+		if (sGet("PF1.addNonlethal")) {
 			addNonlethal = hp.nonlethal;
 		}
 		return (hp.value - addNonlethal + addTemp) / hp.max;
@@ -489,7 +497,7 @@ export class dnd5eEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;
 		let temp = 0;
-		if (token.actor.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
+		if (token.actor.type === "character" && sGet("core.addTemp")) {
 			temp = hp.temp;
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);
@@ -667,7 +675,7 @@ export class numeneraEstimationProvider extends EstimationProvider {
 			const might = token.actor.system.stats.might;
 			const speed = token.actor.system.stats.speed;
 			const intellect = token.actor.system.stats.intellect;
-			if (game.settings.get("healthEstimate", "numenera.countPools")) {
+			if (sGet("numenera.countPools")) {
 				let fullPools = 3;
 				for (let pool of [might, speed, intellect]) {
 					if (pool.pool.current === 0) {
@@ -794,7 +802,7 @@ export class pf1EstimationProvider extends EstimationProvider {
 		this.customLogic = `
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
-		if (game.settings.get("healthEstimate", "core.addTemp")) {
+		if (sGet("core.addTemp")) {
 			addTemp = hp.temp;
 		}
 		const totalHp = hp.value + addTemp;`;
@@ -804,7 +812,7 @@ export class pf1EstimationProvider extends EstimationProvider {
 				name: game.i18n.localize("PF1.CondStaggered"),
 				ignoreColor: true,
 				rule: `
-					game.settings.get("healthEstimate", "PF1.showExtra") &&
+					sGet("PF1.showExtra") &&
 					(totalHp === 0 ||
 						(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
 						Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("PF1.CondStaggered")))`,
@@ -813,7 +821,7 @@ export class pf1EstimationProvider extends EstimationProvider {
 			{
 				name: t("PF1.dyingName.name"),
 				ignoreColor: true,
-				rule: `game.settings.get("healthEstimate", "PF1.showExtra") && hp.nonlethal > totalHp`,
+				rule: `sGet("PF1.showExtra") && hp.nonlethal > totalHp`,
 				estimates: [{ value: 100, label: t("PF1.dyingName.default") }],
 			},
 		];
@@ -823,10 +831,10 @@ export class pf1EstimationProvider extends EstimationProvider {
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
 		let addNonlethal = 0;
-		if (game.settings.get("healthEstimate", "core.addTemp")) {
+		if (sGet("core.addTemp")) {
 			addTemp = hp.temp;
 		}
-		if (game.settings.get("healthEstimate", "PF1.addNonlethal")) {
+		if (sGet("PF1.addNonlethal")) {
 			addNonlethal = hp.nonlethal;
 		}
 		return (hp.value - addNonlethal + addTemp) / hp.max;
@@ -869,7 +877,7 @@ export class pf2eEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "Vehicle Threshold",
-				rule: `type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")`,
+				rule: `type === "vehicle" && sGet("starfinder.useThreshold")`,
 				estimates: [
 					{ value: 0, label: t("core.estimates.thresholds.0") },
 					{ value: 50, label: t("core.estimates.thresholds.1") },
@@ -894,13 +902,13 @@ export class pf2eEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const data = token.actor.system.attributes;
 		const hp = data.hp;
-		let temp = game.settings.get("healthEstimate", "core.addTemp") && hp.temp ? hp.temp : 0;
-		if (token.actor.type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+		let temp = sGet("core.addTemp") && hp.temp ? hp.temp : 0;
+		if (token.actor.type === "vehicle" && sGet("starfinder.useThreshold")) {
 			if (hp.value > hp.brokenThreshold) return 1;
 			else if (hp.value > 0) return 0.5;
 			return 0;
 		}
-		let sp = game.settings.get("pf2e", "staminaVariant") && game.settings.get("healthEstimate", "PF2E.staminaToHp") && data.sp ? data.sp : { value: 0, max: 0 };
+		let sp = game.settings.get("pf2e", "staminaVariant") && sGet("PF2E.staminaToHp") && data.sp ? data.sp : { value: 0, max: 0 };
 		return Math.min((hp.value + sp.value + temp) / (hp.max + sp.max), 1);
 	}
 
@@ -997,7 +1005,7 @@ export class sfrpgEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "Vehicle Threshold",
-				rule: `type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")`,
+				rule: `type === "vehicle" && sGet("starfinder.useThreshold")`,
 				estimates: [
 					{ value: 0, label: t("core.estimates.thresholds.0") },
 					{ value: 50, label: t("core.estimates.thresholds.1") },
@@ -1028,11 +1036,11 @@ export class sfrpgEstimationProvider extends EstimationProvider {
 			case "drone":
 			case "character":
 				const sp = token.actor.system.attributes.sp;
-				const addStamina = game.settings.get("healthEstimate", "starfinder.addStamina") ? 1 : 0;
-				const temp = game.settings.get("healthEstimate", "core.addTemp") ? hp.temp ?? 0 : 0;
+				const addStamina = sGet("starfinder.addStamina") ? 1 : 0;
+				const temp = sGet("core.addTemp") ? hp.temp ?? 0 : 0;
 				return Math.min((hp.value + sp.value * addStamina + temp) / (hp.max + sp.max * addStamina), 1);
 			case "vehicle":
-				if (game.settings.get("healthEstimate", "starfinder.useThreshold")) {
+				if (sGet("starfinder.useThreshold")) {
 					if (hp.value > hp.threshold) return 1;
 					else if (hp.value > 0) return 0.5;
 					return 0;
@@ -1211,6 +1219,51 @@ export class symbaroumEstimationProvider extends EstimationProvider {
 	}
 }
 
+export class t2k4eEstimationProvider extends EstimationProvider {
+	constructor() {
+		super();
+		this.estimations = [
+			...this.estimations,
+			{
+				name: "Vehicles",
+				rule: `type === "vehicle"`,
+				estimates: [
+					{ value: 0, label: t("core.estimates.vehicles.0") },
+					{ value: 20, label: t("core.estimates.vehicles.1") },
+					{ value: 40, label: t("core.estimates.vehicles.2") },
+					{ value: 60, label: t("core.estimates.vehicles.3") },
+					{ value: 80, label: t("core.estimates.vehicles.4") },
+					{ value: 100, label: t("core.estimates.vehicles.5") },
+				],
+			},
+		];
+	}
+
+	fraction(token) {
+		const type = token.actor.type;
+		if (type == "vehicle") {
+			var hp = token.actor.system.reliability;
+		} else hp = token.actor.system.health.toughness;
+		let temp = 0;
+		if (type != "vehicle" && sGet("core.addTemp")) {
+			temp = hp.temp;
+		}
+		return Math.min((temp + hp.value) / hp.max, 1);
+	}
+	get settings() {
+		return {
+			...addTemp,
+			...breakOnZeroMaxHP,
+		};
+	}
+	get breakCondition() {
+		return `
+		||token.actor.type == "unit"
+		|| token.actor.type == "party"
+		||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.health.toughness.max === 0`;
+	}
+}
+
 export class tor2eEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		switch (token.actor.type) {
@@ -1234,7 +1287,7 @@ export class tormenta20EstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const hp = token.actor.system.attributes.pv;
 		let temp = 0;
-		if (token.actor.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
+		if (token.actor.type === "character" && sGet("core.addTemp")) {
 			temp = hp.temp;
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);
@@ -1254,7 +1307,7 @@ export class trpgEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;
 		let temp = 0;
-		if (token.actor.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
+		if (token.actor.type === "character" && sGet("core.addTemp")) {
 			temp = hp.temp;
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);
@@ -1348,6 +1401,40 @@ export class uesrpgEstimationProvider extends EstimationProvider {
 	}
 }
 
+export class yzecoriolisEstimationProvider extends EstimationProvider {
+	constructor() {
+		super();
+		this.estimations = [
+			...this.estimations,
+			{
+				name: "Ships",
+				rule: `type === "ship"`,
+				estimates: [
+					{ value: 0, label: t("core.estimates.vehicles.0") },
+					{ value: 20, label: t("core.estimates.vehicles.1") },
+					{ value: 40, label: t("core.estimates.vehicles.2") },
+					{ value: 60, label: t("core.estimates.vehicles.3") },
+					{ value: 80, label: t("core.estimates.vehicles.4") },
+					{ value: 100, label: t("core.estimates.vehicles.5") },
+				],
+			},
+		];
+	}
+
+	fraction(token) {
+		const type = token.actor.type;
+		if (type == "ship") var hp = token.actor.system.hullPoints;
+		else hp = token.actor.system.hitPoints;
+		return hp.value / hp.max;
+	}
+
+	get settings() {
+		return {
+			...breakOnZeroMaxHP,
+		};
+	}
+}
+
 export class wfrp4eEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const hp = token.actor.system.status.wounds;
@@ -1358,7 +1445,7 @@ export class wfrp4eEstimationProvider extends EstimationProvider {
 export class worldbuildingEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		/* Can't think of a different way to do it that doesn't involve FS manipulation, which is its own can of worms */
-		const setting = game.settings.get("healthEstimate", "worldbuilding.simpleRule");
+		const setting = sGet("worldbuilding.simpleRule");
 		return Function("token", setting)(token);
 	}
 	get settings() {
