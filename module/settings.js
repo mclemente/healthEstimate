@@ -476,10 +476,10 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
 	const outputChatCheckbox = html.find('input[name="healthEstimate.core.outputChat"]');
 	const unknownEntityInput = html.find('input[name="healthEstimate.core.unknownEntity"]');
-	disableCheckbox(unknownEntityInput, !outputChat);
+	disableCheckbox(unknownEntityInput, outputChat);
 
 	outputChatCheckbox.on("change", (event) => {
-		disableCheckbox(unknownEntityInput, !event.target.checked);
+		disableCheckbox(unknownEntityInput, event.target.checked);
 	});
 
 	if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
@@ -487,12 +487,12 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 		const showExtraCheckbox = html.find('input[name="healthEstimate.PF1.showExtra"]');
 		const disabledNameInput = html.find('input[name="healthEstimate.PF1.disabledName"]');
 		const dyingNameInput = html.find('input[name="healthEstimate.PF1.dyingName"]');
-		disableCheckbox(disabledNameInput, !showExtra);
-		disableCheckbox(dyingNameInput, !showExtra);
+		disableCheckbox(disabledNameInput, showExtra);
+		disableCheckbox(dyingNameInput, showExtra);
 
 		showExtraCheckbox.on("change", (event) => {
-			disableCheckbox(disabledNameInput, !event.target.checked);
-			disableCheckbox(dyingNameInput, !event.target.checked);
+			disableCheckbox(disabledNameInput, event.target.checked);
+			disableCheckbox(dyingNameInput, event.target.checked);
 		});
 	}
 }
@@ -509,21 +509,21 @@ export async function renderHealthEstimateStyleSettingsHandler(settingsConfig, h
 		form.style.display = !boolean ? "none" : "flex";
 	}
 
-	hideForm(smoothGradientForm, !useColor);
-	hideForm(gradientForm, !useColor);
-	hideForm(deadColorForm, !useColor);
-	hideForm(sampleFrameHEForm, !useColor);
+	hideForm(smoothGradientForm, useColor);
+	hideForm(gradientForm, useColor);
+	hideForm(deadColorForm, useColor);
+	hideForm(sampleFrameHEForm, useColor);
 
 	useColorCheckbox.on("change", (event) => {
-		hideForm(smoothGradientForm, !event.target.checked);
-		hideForm(gradientForm, !event.target.checked);
-		hideForm(deadColorForm, !event.target.checked);
-		hideForm(sampleFrameHEForm, !event.target.checked);
+		hideForm(smoothGradientForm, event.target.checked);
+		hideForm(gradientForm, event.target.checked);
+		hideForm(deadColorForm, event.target.checked);
+		hideForm(sampleFrameHEForm, event.target.checked);
 	});
 }
 
 export function disableCheckbox(checkbox, boolean) {
-	checkbox.prop("disabled", boolean);
+	checkbox.prop("disabled", !boolean);
 }
 
 /**
