@@ -45,7 +45,7 @@
 					"hint": "Oculta as estimativas e os nomes dos tokens selecionados."
 				}
 			},
-			"isNow": "agora está",
+			"isNow": "{name} agora está {desc}.",
 			"unknownEntity": {
 				"name": "Nome da Entidade Desconhecida",
 				"hint": "Define como um personagem ocultado será chamado.",

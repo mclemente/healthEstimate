@@ -81,7 +81,7 @@
 					"hint": "Hides both the estimates and names of selected tokens."
 				}
 			},
-			"isNow": "is now",
+			"isNow": "{name} is now {desc}.",
 			"unknownEntity": {
 				"name": "Unknown Entity Name",
 				"hint": "Sets how a hidden character shall be called.",
