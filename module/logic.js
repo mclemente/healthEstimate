@@ -47,7 +47,6 @@ export class HealthEstimate {
 		this.estimationProvider = this.prepareSystemSpecifics();
 		this.fractionFormula = this.estimationProvider.fraction;
 		if (this.estimationProvider.breakCondition !== undefined) this.breakConditions.system = this.estimationProvider.breakCondition;
-		if (this.estimationProvider.descriptions !== undefined) this.descriptionToShow = this.estimationProvider.descriptions;
 		if (this.estimationProvider.tokenEffects !== undefined) this.tokenEffectsPath = this.estimationProvider.tokenEffects;
 		registerSettings();
 		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
@@ -185,22 +184,6 @@ export class HealthEstimate {
 	}
 
 	/**
-	 * Function handling which description to show. Can be overriden by a system-specific implementation
-	 * @param {String[]} descriptions
-	 * @param {Number} stage
-	 * @param {Token} token
-	 * @param {object} state
-	 * @param {Number} fraction
-	 * @returns {String}
-	 */
-	descriptionToShow(descriptions, stage, token, state = { dead: false, desc: "" }, fraction) {
-		if (state.dead) {
-			return state.desc;
-		}
-		return descriptions[stage];
-	}
-
-	/**
 	 * Returns an array of estimates related to the token.
 	 * @param {TokenDocument} token
 	 * @returns {{[Object]}}
@@ -229,23 +212,6 @@ export class HealthEstimate {
 	 */
 
 	/**
-	 * Returns the estimate and its index.
-	 * @param {TokenDocument} token
-	 * @param {Number} fraction
-	 * @returns {{estimate: Estimate, index: number}}
-	 */
-	getStage2(token, fraction) {
-		// deepClone here otherwise changes will reflect locally on the setting (e.g. the isDead conditional)
-		const estimates = deepClone(this.getTokenEstimate(token).estimates);
-		fraction *= 100;
-		// !TODO add a setting choice between > and >=
-		const logic = (e) => e.value >= fraction;
-		const estimate = estimates.find(logic) ?? { value: fraction, label: "" };
-		const index = estimates.findIndex(logic);
-		return { estimate, index };
-	}
-
-	/**
 	 * Returns the token's estimate's description, color and stroke outline.
 	 * @param {TokenDocument} token
 	 * @returns {{desc: String, color: String, stroke: String}}
@@ -256,14 +222,9 @@ export class HealthEstimate {
 			// !TODO change customStages to use Estimation Builder
 			let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
 			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
-			const stage = this.getStage(fraction, customStages || []);
-			const descriptions = this.estimations;
-
-			const { estimate, index } = this.getStage2(token, fraction);
-			// const descriptions = customStages.length ? customStages : this.estimations;
+			const { estimate, index } = this.getStage(token, fraction);
 			const isDead = this.isDead(token, estimate.value);
 
-			// desc = this.descriptionToShow(descriptions, stage, token, state, fraction);
 			const colorIndex = this.smoothGradient ? Math.max(0, Math.ceil((this.colors.length - 1) * fraction)) : index;
 			if (isDead) {
 				estimate.label = this.deathStateName;
@@ -273,8 +234,6 @@ export class HealthEstimate {
 				color = this.colors[colorIndex];
 				stroke = this.outline[colorIndex];
 			}
-			// TODO create a function that should be replaced, similar to descriptionToShow for the reasons of being overridden by system specifics
-			// OR rework the whole descriptionToShow thing for setting system-specific estimations
 			if (this.hideEstimate(token)) var desc = estimate.label + "*";
 			else desc = estimate.label;
 			return { desc, color, stroke };
@@ -293,14 +252,20 @@ export class HealthEstimate {
 	}
 
 	/**
-	 * Returns the current health stage of the token.
+	 * Returns the estimate and its index.
+	 * @param {TokenDocument} token
 	 * @param {Number} fraction
-	 * @returns {Number}
+	 * @returns {{estimate: Estimate, index: number}}
 	 */
-	getStage(fraction, customStages = []) {
-		// const desc = customStages?.length ? customStages : this.estimations;
-		const desc = this.estimations;
-		return Math.max(0, this.perfectionism ? Math.ceil((desc.length - 2) * fraction) : Math.ceil((desc.length - 1) * fraction));
+	getStage(token, fraction) {
+		// deepClone here otherwise changes will reflect locally on the setting (e.g. the isDead conditional)
+		const estimates = deepClone(this.getTokenEstimate(token).estimates);
+		fraction *= 100;
+		// !TODO add a setting choice between > and >=
+		const logic = (e) => e.value >= fraction;
+		const estimate = estimates.find(logic) ?? { value: fraction, label: "" };
+		const index = estimates.findIndex(logic);
+		return { estimate, index };
 	}
 
 	//Utils

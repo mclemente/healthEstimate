@@ -351,7 +351,6 @@ export class cyphersystemEstimationProvider extends EstimationProvider {
 			const pools = actor.system.pools;
 			let curr = pools.might.value + pools.speed.value + pools.intellect.value;
 			let max = pools.might.max + pools.speed.max + pools.intellect.max;
-			// TODO: should we ever include the additional pool in this calculation?
 			if (actor.system.settings.general.additionalPool.active) {
 				curr += pools.additional.value;
 				max += pools.additional.max;
@@ -1165,7 +1164,7 @@ export class swadeEstimationProvider extends EstimationProvider {
 	}
 
 	tokenEffects(token) {
-		return token.actor.effects.find((e) => e.statuses.has("incapacitated")) || token.document.overlayEffect === game.healthEstimate.deathMarker;
+		return (sGet("swade.showIncap") && token.actor.effects.find((e) => e.statuses.has("incapacitated"))) || token.document.overlayEffect === game.healthEstimate.deathMarker;
 	}
 
 	get settings() {
