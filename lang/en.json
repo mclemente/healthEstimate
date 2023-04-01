@@ -17,7 +17,28 @@
 			},
 			"estimates": {
 				"worst": "Worst",
-				"best": "Best"
+				"best": "Best",
+				"states": {
+					"0": "Unconscious",
+					"1": "Near Death",
+					"2": "Badly Injured",
+					"3": "Injured",
+					"4": "Barely Injured",
+					"5": "Uninjured"
+				},
+				"vehicles": {
+					"0": "Wrecked",
+					"1": "Flaming",
+					"2": "Smoking",
+					"3": "Battered",
+					"4": "Scratched",
+					"5": "Pristine"
+				},
+				"thresholds": {
+					"0": "Wrecked",
+					"1": "Broken",
+					"2": "Fully Functional"
+				}
 			},
 			"estimationSettings": {
 				"title": "Estimation Settings",

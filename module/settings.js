@@ -1,7 +1,6 @@
 import { outputStageChange } from "../lib/HealthMonitor.js";
 import { injectConfig } from "../lib/injectConfig.js";
 import { EstimationSettings, HealthEstimateBehaviorSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
-import { updateBreakSettings } from "./systemSpecifics.js";
 import { addSetting, f, t } from "./utils.js";
 
 export const registerSettings = function () {
@@ -55,20 +54,7 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.estimations", {
 		type: Array,
-		default: [
-			{
-				name: "",
-				rule: "default",
-				estimates: [
-					{ value: 0, label: "Unconscious" },
-					{ value: 20, label: "Near Death" },
-					{ value: 40, label: "Badly Injured" },
-					{ value: 60, label: "Injured" },
-					{ value: 80, label: "Barely Injured" },
-					{ value: 100, label: "Uninjured" },
-				],
-			},
-		],
+		default: game.healthEstimate.estimationProvider.estimations,
 		onChange: (value) => {
 			game.healthEstimate.estimations = value;
 			canvas.scene?.tokens.forEach((token) => token.object.refresh());
@@ -105,7 +91,6 @@ export const registerSettings = function () {
 		},
 		onChange: (value) => {
 			game.healthEstimate.perfectionism = Number(value);
-			canvas.scene?.tokens.forEach((token) => token.object.refresh());
 		},
 	});
 	addMenuSetting("core.alwaysShow", {
@@ -113,7 +98,6 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.alwaysShow = value;
-			canvas.scene?.tokens.forEach((token) => token.object.refresh());
 		},
 	});
 	addMenuSetting("core.combatOnly", {
@@ -133,7 +117,7 @@ export const registerSettings = function () {
 			2: t("core.showDescription.choices.Players"),
 		},
 		onChange: () => {
-			updateBreakSettings();
+			game.healthEstimate.updateBreakConditions();
 		},
 	});
 	addMenuSetting("core.showDescriptionTokenType", {
@@ -145,7 +129,7 @@ export const registerSettings = function () {
 			2: t("core.showDescription.choices.NPC"),
 		},
 		onChange: () => {
-			updateBreakSettings();
+			game.healthEstimate.updateBreakConditions();
 		},
 	});
 
@@ -153,14 +137,14 @@ export const registerSettings = function () {
 	addMenuSetting("core.deathState", {
 		hint: f("core.deathState.hint", { setting: t("core.deathStateName.name"), setting2: t("core.deathMarker.name") }),
 		type: Boolean,
-		default: false,
+		default: game.healthEstimate.estimationProvider.deathState,
 		onChange: (value) => {
 			game.healthEstimate.showDead = value;
 		},
 	});
 	addMenuSetting("core.deathStateName", {
 		type: String,
-		default: t("core.deathStateName.default"),
+		default: game.healthEstimate.estimationProvider.deathStateName,
 		onChange: (value) => {
 			game.healthEstimate.deathStateName = value;
 		},
@@ -196,6 +180,9 @@ export const registerSettings = function () {
 	addMenuSetting("core.menuSettings.smoothGradient", {
 		type: Boolean,
 		default: true,
+		onChange: (value) => {
+			game.healthEstimate.smoothGradient = value;
+		},
 	});
 	addMenuSetting("core.menuSettings.gradient", {
 		type: Object,
@@ -366,7 +353,6 @@ export const registerSettings = function () {
 		],
 		onChange: (value) => {
 			game.healthEstimate.colors = value;
-			canvas.scene?.tokens.forEach((token) => token.object.refresh());
 		},
 	});
 	addMenuSetting("core.variables.outline", {

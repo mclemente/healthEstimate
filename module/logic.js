@@ -1,15 +1,86 @@
+import * as providers from "./EstimationProvider.js";
 import { registerSettings } from "./settings.js";
-import { fractionFormula, prepareSystemSpecifics, tokenEffectsPath, updateBreakSettings } from "./systemSpecifics.js";
-import { sGet, t } from "./utils.js";
+import { addSetting, isEmpty, sGet, t } from "./utils.js";
 
 export class HealthEstimate {
-	constructor() {}
+	/** Changes which users get to see the overlay. */
+	breakConditions = {
+		default: `false`,
+	};
+
+	/**
+	 * Path of the token's effects. Useful for systems that change how it is handled (e.g. PF2e, DSA5, SWADE).
+	 */
+	tokenEffectsPath(token) {
+		return Array.from(token.actor.effects.values()).some((x) => x.icon === game.healthEstimate.deathMarker);
+	}
+
+	updateBreakConditions() {
+		this.breakConditions.onlyGM = sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : ``;
+		this.breakConditions.onlyNotGM = sGet("core.showDescription") == 2 ? `|| game.user.isGM` : ``;
+
+		this.breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor.hasPlayerOwner` : ``;
+		this.breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor.hasPlayerOwner` : ``;
+
+		const prep = (key) => {
+			if (isEmpty(this.breakConditions[key])) return "";
+			return this.breakConditions[key];
+		};
+
+		this.breakOverlayRender = function (token) {
+			return new Function(
+				`token`,
+				`return (
+					${prep("default")}
+					${prep("onlyGM")}
+					${prep("onlyNotGM")}
+					${prep("onlyNPCs")}
+					${prep("onlyPCs")}
+					${prep("system")}
+				)`
+			)(token);
+		};
+	}
 
 	//Hooks
 	setup() {
-		prepareSystemSpecifics().then(registerSettings());
-		updateBreakSettings();
+		this.estimationProvider = this.prepareSystemSpecifics();
+		this.fractionFormula = this.estimationProvider.fraction;
+		if (this.estimationProvider.breakCondition !== undefined) this.breakConditions.system = this.estimationProvider.breakCondition;
+		if (this.estimationProvider.descriptions !== undefined) this.descriptionToShow = this.estimationProvider.descriptions;
+		if (this.estimationProvider.tokenEffects !== undefined) this.tokenEffectsPath = this.estimationProvider.tokenEffects;
+		registerSettings();
+		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
+			addSetting(key, data);
+		}
+		this.updateBreakConditions();
 		this.updateSettings();
+	}
+
+	/**
+	 * Gets system specifics, such as its hp attribute and other settings.
+	 * @returns {providers.EstimationProvider}
+	 */
+	prepareSystemSpecifics() {
+		let supportedSystems = "";
+		let providerArray = Object.keys(providers);
+		if (providerArray.includes("EstimationProvider")) {
+			const index = providerArray.indexOf("EstimationProvider");
+			providerArray.splice(index, 1);
+		}
+		if (providerArray.includes("GenericEstimationProvider")) {
+			const index = providerArray.indexOf("GenericEstimationProvider");
+			providerArray.splice(index, 1);
+		}
+		providerArray.forEach(function (string, index, array) {
+			if (index === array.length - 1) supportedSystems += string.replace("EstimationProvider", "");
+			else supportedSystems += string.replace("EstimationProvider", "") + "|";
+		});
+		const systemsRegex = new RegExp(supportedSystems);
+		if (systemsRegex.test(game.system.id)) var providerString = game.system.id;
+		else providerString = providers.providerKeys[game.system.id] || "Generic";
+
+		return eval(`new providers.${providerString}EstimationProvider("native${providerString.length ? "." + providerString : ""}")`);
 	}
 
 	canvasInit(canvas) {
@@ -49,30 +120,11 @@ export class HealthEstimate {
 		Hooks.on("canvasInit", this.canvasInit.bind(this));
 	}
 
-	//combatStart, deleteCombat and combatHooks target the global Health Estimate object because Hooks.off doesn't interact correctly with "this.funcion.bind(this)"
-	combatStart(combat, updateData) {
-		game.healthEstimate.combatRunning = true;
-	}
-
-	deleteCombat(combat, options, userId) {
-		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
-	}
-
-	combatHooks(value) {
-		if (value) {
-			Hooks.on("combatStart", game.healthEstimate.combatStart);
-			Hooks.on("deleteCombat", game.healthEstimate.deleteCombat);
-		} else {
-			Hooks.off("combatStart", game.healthEstimate.combatStart);
-			Hooks.off("deleteCombat", game.healthEstimate.deleteCombat);
-		}
-	}
-
 	//Helpers
 	_handleOverlay(token, hovered) {
 		if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 		if (!token?.actor) return;
-		if (game.healthEstimate.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
+		if (this.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
 
 		if (hovered) {
 			if (!token.isVisible) return;
@@ -157,10 +209,15 @@ export class HealthEstimate {
 		//TODO prioritize Custom Stages
 		for (var estimation of this.estimations) {
 			if (["default", ""].includes(estimation.rule)) continue;
-			let test = function (token) {
-				return new Function(`token`, `const type = token.actor.type; return ${estimation.rule}`)(token);
+			let isEstimationValid = (token) => {
+				return new Function(
+					`token`,
+					`
+				${this.estimationProvider.customLogic}
+				return ${estimation.rule}`
+				)(token);
 			};
-			if (test(token)) return estimation;
+			if (isEstimationValid(token)) return estimation;
 		}
 		return this.estimations[0];
 	}
@@ -216,6 +273,8 @@ export class HealthEstimate {
 				color = this.colors[colorIndex];
 				stroke = this.outline[colorIndex];
 			}
+			// TODO create a function that should be replaced, similar to descriptionToShow for the reasons of being overridden by system specifics
+			// OR rework the whole descriptionToShow thing for setting system-specific estimations
 			if (this.hideEstimate(token)) var desc = estimate.label + "*";
 			else desc = estimate.label;
 			return { desc, color, stroke };
@@ -230,7 +289,7 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getFraction(token) {
-		return Math.min(fractionFormula(token), 1);
+		return Math.min(this.fractionFormula(token), 1);
 	}
 
 	/**
@@ -244,8 +303,28 @@ export class HealthEstimate {
 		return Math.max(0, this.perfectionism ? Math.ceil((desc.length - 2) * fraction) : Math.ceil((desc.length - 1) * fraction));
 	}
 
+	//Utils
 	hideEstimate(token) {
 		return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
+	}
+
+	//combatStart, deleteCombat and combatHooks target the global Health Estimate object because Hooks.off doesn't interact correctly with "this.funcion.bind(this)"
+	combatStart(combat, updateData) {
+		game.healthEstimate.combatRunning = true;
+	}
+
+	deleteCombat(combat, options, userId) {
+		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
+	}
+
+	combatHooks(value) {
+		if (value) {
+			Hooks.on("combatStart", game.healthEstimate.combatStart);
+			Hooks.on("deleteCombat", game.healthEstimate.deleteCombat);
+		} else {
+			Hooks.off("combatStart", game.healthEstimate.combatStart);
+			Hooks.off("deleteCombat", game.healthEstimate.deleteCombat);
+		}
 	}
 
 	isCombatRunning() {
@@ -264,9 +343,10 @@ export class HealthEstimate {
 	 */
 	isDead(token, stage) {
 		return (
-			(this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "treatAsPC")) ||
-			(this.showDead && tokenEffectsPath(token)) ||
-			token.document.getFlag("healthEstimate", "dead") ||
+			(this.estimationProvider.organicTypes.includes(token.actor.type) &&
+				((this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "treatAsPC")) ||
+					(this.showDead && this.tokenEffectsPath(token)) ||
+					token.document.getFlag("healthEstimate", "dead"))) ||
 			false
 		);
 	}
