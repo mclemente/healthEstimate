@@ -202,6 +202,14 @@ export class EstimationSettings extends HealthEstimateSettings {
 			this.changeTabs = idx + prio;
 			this.render();
 		});
+		for (const element of html[0].querySelectorAll(".form-group input, .form-group textarea")) {
+			element.addEventListener("change", async (event) => {
+				const name = event.target?.name.split(".");
+				const estimation = this.estimations[name[1]][name[2]];
+				if (estimation) this.estimations[name[1]][name[2]] = event.target?.value;
+				event.preventDefault();
+			});
+		}
 
 		// Handle all changes for estimations
 		html.find("[data-action=estimation-add]").on("click", (event) => {
@@ -218,6 +226,14 @@ export class EstimationSettings extends HealthEstimateSettings {
 				const idx = Number(event.target?.dataset.idx);
 				if (idx) this.estimations[table].estimates.splice(Number(idx), 1);
 				this.render();
+			});
+		}
+		for (const element of html[0].querySelectorAll(".estimation-types input")) {
+			element.addEventListener("change", async (event) => {
+				const name = event.target?.name.split(".");
+				const estimation = this.estimations[name[1]].estimates[name[3]][name[4]];
+				if (estimation) this.estimations[name[1]].estimates[name[3]][name[4]] = event.target?.value;
+				event.preventDefault();
 			});
 		}
 	}
