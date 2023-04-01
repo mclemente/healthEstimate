@@ -224,9 +224,6 @@ export class HealthEstimate {
 	getEstimation(token) {
 		try {
 			const fraction = this.getFraction(token);
-			// !TODO change customStages to use Estimation Builder
-			let customStages = token.document.getFlag("healthEstimate", "customStages") || token.actor.getFlag("healthEstimate", "customStages") || "";
-			if (customStages.length) customStages = customStages.split(/[,;]\s*/);
 			const { estimate, index } = this.getStage(token, fraction);
 			const isDead = this.isDead(token, estimate.value);
 

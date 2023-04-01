@@ -40,8 +40,6 @@ Hooks.on("canvasReady", function () {
 });
 
 Hooks.on("createToken", function (tokenDocument, options, userId) {
-	const customStages = tokenDocument.actor.getFlag("healthEstimate", "customStages");
-	if (customStages?.length) tokenDocument.setFlag("healthEstimate", "customStages", customStages);
 	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
 	getCharacters(tokens);
 });
@@ -132,61 +130,6 @@ function setKeybinds() {
 				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate and name are hidden from players.`, { console: false });
 				else ui.notifications.info(`${e.actor.name}'s health estimate and name are shown to players.`, { console: false });
 			}
-		},
-		restricted: true,
-		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
-	});
-	game.keybindings.register("healthEstimate", "customEstimates", {
-		name: "healthEstimate.core.keybinds.customEstimates.name",
-		hint: "healthEstimate.core.keybinds.customEstimates.hint",
-		onDown: (rgs) => {
-			if (!canvas.tokens.controlled.length) {
-				ui.notifications.warn(`You haven't selected any tokens.`, { console: false });
-				return;
-			}
-
-			function setFlags(flag, changeActors = false) {
-				for (let e of canvas.tokens.controlled) {
-					if (changeActors) e.actor.setFlag("healthEstimate", "customStages", flag);
-					e.document.setFlag("healthEstimate", "customStages", flag);
-				}
-			}
-			function unsetFlags(changeActors = false) {
-				for (let e of canvas.tokens.controlled) {
-					if (changeActors) e.actor.unsetFlag("healthEstimate", "customStages");
-					e.document.unsetFlag("healthEstimate", "customStages");
-				}
-			}
-
-			const defaultSettings = game.settings.get("healthEstimate", "core.stateNames");
-			const tokenSettings = canvas.tokens.controlled[0].document.getFlag("healthEstimate", "customStages");
-
-			new Dialog({
-				title: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.name"),
-				content: `
-				Stages: <input id="defaultStages" type="text" disabled value="${defaultSettings}" />
-				<p>Custom Stages: <input id="customStages" type="text" value="${tokenSettings || defaultSettings}" />
-				`,
-				buttons: {
-					affectActors: {
-						label: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.options.1"),
-						callback: (html) => {
-							const value = html.find("input#customStages").val();
-							if (value) setFlags(value, true);
-							else unsetFlags(true);
-						},
-					},
-					affectTokens: {
-						label: game.i18n.localize("healthEstimate.core.keybinds.customEstimates.options.2"),
-						callback: (html) => {
-							const value = html.find("input#customStages").val();
-							if (value) setFlags(value);
-							else unsetFlags();
-						},
-					},
-				},
-				default: "affectActors",
-			}).render(true);
 		},
 		restricted: true,
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
