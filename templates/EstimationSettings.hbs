@@ -1,9 +1,4 @@
 <form autocomplete="off" onsubmit="event.preventDefault()">
-	<div>
-		<label>{{localize "healthEstimate.core.stateNames.name"}}</label>
-		<p class="notes">{{localize "healthEstimate.core.stateNames.hint"}}</p>
-	</div>
-	<hr />
 	<nav class="sheet-tabs tabs">
 		{{#each estimations as |estimation idx|}}
 			<a class="item" data-tab="{{idx}}">
@@ -26,23 +21,24 @@
 						<input name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
 					</div>
 					<div class="form-group" style="display: none">
-						<input name="estimations.{{idx}}.ignoreColor" type="checkbox" {{checked estimation.ignoreColor}} />
+						<textarea name="estimations.{{idx}}.rule" spellcheck="false">{{estimation.rule}}</textarea>
 					</div>
 					<div class="form-group" style="display: none">
-						<textarea name="estimations.{{idx}}.rule">{{estimation.rule}}</textarea>
+						<input name="estimations.{{idx}}.ignoreColor" type="checkbox" {{checked estimation.ignoreColor}} />
 					</div>
 				{{else}}
 					<div class="form-group">
 						<label for="estimations.{{idx}}.name">{{localize "Name"}}</label>
-						<input name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
+						<input name="estimations.{{idx}}.name" id="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
 					</div>
 					<div class="form-group">
-						<label for="estimations.{{idx}}.ignoreColor">{{localize "healthEstimate.core.estimationSettings.ignoreColor"}}</label>
-						<input name="estimations.{{idx}}.ignoreColor" type="checkbox" {{checked estimation.ignoreColor}} />
+						<label for="estimations.{{idx}}.rule">{{localize "healthEstimate.core.estimationSettings.jsRule"}}</label>
+						<textarea name="estimations.{{idx}}.rule" id="estimations.{{idx}}.rule" spellcheck="false">{{estimation.rule}}</textarea>
 					</div>
 					<div class="form-group">
-						<label for="estimations.{{idx}}.name">{{localize "healthEstimate.core.estimationSettings.addTable"}}</label>
-						<textarea name="estimations.{{idx}}.rule">{{estimation.rule}}</textarea>
+						<label for="estimations.{{idx}}.ignoreColor">{{localize "healthEstimate.core.estimationSettings.ignoreColor.name"}}</label>
+						<input name="estimations.{{idx}}.ignoreColor" id="estimations.{{idx}}.ignoreColor" type="checkbox" {{checked estimation.ignoreColor}} />
+						<p class="notes">{{localize "healthEstimate.core.estimationSettings.ignoreColor.hint"}}</p>
 					</div>
 				{{/if}}
 				<table class="estimation-types">

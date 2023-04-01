@@ -1,6 +1,6 @@
 import { getCharacters, onRenderChatMessage } from "./lib/HealthMonitor.js";
 import { HealthEstimate } from "./module/logic.js";
-import { onUpdateActor, onUpdateToken, renderSettingsConfigHandler, renderTokenConfigHandler } from "./module/settings.js";
+import { onUpdateActor, onUpdateToken, renderHealthEstimateStyleSettingsHandler, renderSettingsConfigHandler, renderTokenConfigHandler } from "./module/settings.js";
 import { f, t } from "./module/utils.js";
 
 /**
@@ -55,6 +55,7 @@ Hooks.on("deleteActor", function (actorDocument, options, userId) {
 Hooks.on("renderChatMessage", onRenderChatMessage);
 
 Hooks.on("renderSettingsConfig", renderSettingsConfigHandler);
+Hooks.on("renderHealthEstimateStyleSettings", renderHealthEstimateStyleSettingsHandler);
 Hooks.on("renderTokenConfig", renderTokenConfigHandler);
 
 Hooks.on("deleteActiveEffect", (activeEffect, options, userId) => {

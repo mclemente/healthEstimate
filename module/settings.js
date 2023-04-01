@@ -30,7 +30,7 @@ export const registerSettings = function () {
 	game.settings.registerMenu("healthEstimate", "estimationSettings", {
 		name: "Estimation Settings",
 		label: "Estimation Settings",
-		icon: "fas fa-gear",
+		icon: "fas fa-scale-balanced",
 		type: EstimationSettings,
 		restricted: true,
 	});
@@ -46,11 +46,8 @@ export const registerSettings = function () {
 
 	addSetting("core.stateNames", {
 		type: String,
-		default: t("core.stateNames.default"),
-		onChange: (value) => {
-			game.healthEstimate.descriptions = value.split(/[,;]\s*/);
-			canvas.scene?.tokens.forEach((token) => token.object.refresh());
-		},
+		default: "",
+		config: false,
 	});
 	addMenuSetting("core.estimations", {
 		type: Array,
@@ -498,6 +495,31 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 			disableCheckbox(dyingNameInput, !event.target.checked);
 		});
 	}
+}
+
+export async function renderHealthEstimateStyleSettingsHandler(settingsConfig, html) {
+	const useColor = game.settings.get("healthEstimate", "core.menuSettings.useColor");
+	const useColorCheckbox = html.find('input[name="useColor"]');
+	const smoothGradientForm = html.find('input[name="smoothGradient"]').parent()[0];
+	const gradientForm = html.find('div[class="form-group gradient"]')[0];
+	const deadColorForm = html.find('input[name="deadColor"]').parent()[0];
+	const sampleFrameHEForm = html.find('span[class="sampleFrameHE"]').parent()[0];
+
+	function hideForm(form, boolean) {
+		form.style.display = !boolean ? "none" : "flex";
+	}
+
+	hideForm(smoothGradientForm, !useColor);
+	hideForm(gradientForm, !useColor);
+	hideForm(deadColorForm, !useColor);
+	hideForm(sampleFrameHEForm, !useColor);
+
+	useColorCheckbox.on("change", (event) => {
+		hideForm(smoothGradientForm, !event.target.checked);
+		hideForm(gradientForm, !event.target.checked);
+		hideForm(deadColorForm, !event.target.checked);
+		hideForm(sampleFrameHEForm, !event.target.checked);
+	});
 }
 
 export function disableCheckbox(checkbox, boolean) {

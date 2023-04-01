@@ -15,7 +15,7 @@ const breakOnZeroMaxHP = {
 	},
 };
 
-/** Providers whose systems use "-"" in their names */
+/** Providers whose systems use "-" in their names */
 export const providerKeys = {
 	"age-system": "AgeSystem",
 	"band-of-blades": "bandOfBlades",
@@ -63,10 +63,10 @@ export class EstimationProvider {
 				rule: "default",
 				estimates: [
 					{ value: 0, label: t("core.estimates.states.0") },
-					{ value: 20, label: t("core.estimates.states.1") },
-					{ value: 40, label: t("core.estimates.states.2") },
-					{ value: 60, label: t("core.estimates.states.3") },
-					{ value: 80, label: t("core.estimates.states.4") },
+					{ value: 25, label: t("core.estimates.states.1") },
+					{ value: 50, label: t("core.estimates.states.2") },
+					{ value: 75, label: t("core.estimates.states.3") },
+					{ value: 99, label: t("core.estimates.states.4") },
 					{ value: 100, label: t("core.estimates.states.5") },
 				],
 			},
@@ -461,10 +461,12 @@ export class D35EEstimationProvider extends EstimationProvider {
 			"PF1.disabledName": {
 				type: String,
 				default: t("PF1.disabledName.default"),
+				config: false,
 			},
 			"PF1.dyingName": {
 				type: String,
 				default: t("PF1.dyingName.default"),
+				config: false,
 			},
 		};
 	}
@@ -509,8 +511,8 @@ export class dnd5eEstimationProvider extends EstimationProvider {
 			...breakOnZeroMaxHP,
 			"starfinder.vehicleNames": {
 				type: String,
-				default: t("dnd5e.vehicleNames.default"),
-				hint: t("dnd5e.vehicleNames.hint"),
+				default: "",
+				config: false,
 			},
 		};
 	}
@@ -770,8 +772,8 @@ export class od6sEstimationProvider extends EstimationProvider {
 			...breakOnZeroMaxHP,
 			"starfinder.vehicleNames": {
 				type: String,
-				default: t("od6s.vehicleNames.default"),
-				hint: t("od6s.vehicleNames.hint"),
+				default: "",
+				config: false,
 			},
 		};
 	}
@@ -857,10 +859,12 @@ export class pf1EstimationProvider extends EstimationProvider {
 			"PF1.disabledName": {
 				type: String,
 				default: t("PF1.disabledName.default"),
+				config: false,
 			},
 			"PF1.dyingName": {
 				type: String,
 				default: t("PF1.dyingName.default"),
+				config: false,
 			},
 		};
 	}
@@ -875,15 +879,6 @@ export class pf2eEstimationProvider extends EstimationProvider {
 		super();
 		this.estimations = [
 			...this.estimations,
-			{
-				name: "Vehicle Threshold",
-				rule: `type === "vehicle" && sGet("starfinder.useThreshold")`,
-				estimates: [
-					{ value: 0, label: t("core.estimates.thresholds.0") },
-					{ value: 50, label: t("core.estimates.thresholds.1") },
-					{ value: 100, label: t("core.estimates.thresholds.2") },
-				],
-			},
 			{
 				name: "Vehicles & Hazards",
 				rule: `type === "vehicle" || type === "hazard"`,
@@ -903,11 +898,6 @@ export class pf2eEstimationProvider extends EstimationProvider {
 		const data = token.actor.system.attributes;
 		const hp = data.hp;
 		let temp = sGet("core.addTemp") && hp.temp ? hp.temp : 0;
-		if (token.actor.type === "vehicle" && sGet("starfinder.useThreshold")) {
-			if (hp.value > hp.brokenThreshold) return 1;
-			else if (hp.value > 0) return 0.5;
-			return 0;
-		}
 		let sp = game.settings.get("pf2e", "staminaVariant") && sGet("PF2E.staminaToHp") && data.sp ? data.sp : { value: 0, max: 0 };
 		return Math.min((hp.value + sp.value + temp) / (hp.max + sp.max), 1);
 	}
@@ -916,20 +906,10 @@ export class pf2eEstimationProvider extends EstimationProvider {
 		return {
 			...addTemp,
 			...breakOnZeroMaxHP,
-			"starfinder.useThreshold": {
-				hint: f("PF2E.useThreshold.hint", { setting: t("starfinder.vehicleNames.name") }),
-				type: Boolean,
-				default: false,
-			},
-			"starfinder.thresholdNames": {
-				config: false,
-				type: String,
-				default: t("starfinder.thresholdNames.default"),
-			},
 			"starfinder.vehicleNames": {
 				type: String,
-				default: t("dnd5e.vehicleNames.default"),
-				hint: t("dnd5e.vehicleNames.hint"),
+				default: "",
+				config: false,
 			},
 			"PF2E.staminaToHp": {
 				type: Boolean,
@@ -1065,11 +1045,13 @@ export class sfrpgEstimationProvider extends EstimationProvider {
 			},
 			"starfinder.thresholdNames": {
 				type: String,
-				default: t("starfinder.thresholdNames.default"),
+				default: "",
+				config: false,
 			},
 			"starfinder.vehicleNames": {
 				type: String,
-				default: t("starfinder.vehicleNames.default"),
+				default: "",
+				config: false,
 			},
 		};
 	}
@@ -1128,8 +1110,8 @@ export class starwarsffgEstimationProvider extends EstimationProvider {
 		return {
 			"starfinder.vehicleNames": {
 				type: String,
-				default: t("dnd5e.vehicleNames.default"),
-				hint: t("dnd5e.vehicleNames.hint"),
+				default: "",
+				config: false,
 			},
 		};
 	}
@@ -1192,8 +1174,8 @@ export class swadeEstimationProvider extends EstimationProvider {
 			},
 			"starfinder.vehicleNames": {
 				type: String,
-				default: t("swade.vehicleNames.default"),
-				hint: t("swade.vehicleNames.hint"),
+				default: "",
+				config: false,
 			},
 			"swade.showIncap": {
 				type: Boolean,
@@ -1387,8 +1369,8 @@ export class twodsixEstimationProvider extends EstimationProvider {
 		return {
 			"starfinder.vehicleNames": {
 				type: String,
-				default: t("od6s.vehicleNames.default"),
-				hint: t("od6.vehicleNames.hint"),
+				default: "",
+				config: false,
 			},
 		};
 	}

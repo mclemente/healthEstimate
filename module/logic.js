@@ -189,7 +189,7 @@ export class HealthEstimate {
 	 */
 	getEstimation(token) {
 		try {
-			const fraction = this.getFraction(token);
+			const fraction = Number(this.getFraction(token).toFixed(2));
 			const { estimate, index } = this.getStage(token, fraction);
 			const isDead = this.isDead(token, estimate.value);
 

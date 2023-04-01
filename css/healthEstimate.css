@@ -88,9 +88,9 @@
 .healthEstimate.deadColor input[type="color"][data-edit] {
 	flex: 1.4;
 }
-.form.healthEstimate button:disabled {
+.form.healthEstimate .estimation-buttons button:disabled {
 	cursor: default;
-	color: -internal-light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+	color: grey;
 }
 .form.healthEstimate form {
 	display: flex;

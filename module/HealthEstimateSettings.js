@@ -78,7 +78,6 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 			title: `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/behaviorSettings.hbs",
 			height: "auto",
-			tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "behavior" }],
 		});
 	}
 
@@ -107,7 +106,6 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 			await resetToDefault("combatOnly");
 			await resetToDefault("showDescription");
 			await resetToDefault("showDescriptionTokenType");
-
 			await resetToDefault("deathState");
 			await resetToDefault("deathStateName");
 			await resetToDefault("NPCsJustDie");
@@ -130,7 +128,6 @@ export class EstimationSettings extends HealthEstimateSettings {
 			classes: ["form", "healthEstimate", "estimationSettings"],
 			height: "auto",
 			tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "behavior" }],
-			resizable: true,
 		});
 	}
 
@@ -251,8 +248,8 @@ export class EstimationSettings extends HealthEstimateSettings {
 				.map((kkey) => estimates[kkey]);
 			estimations.push({
 				name: data.estimations[key].name,
-				ignoreColor: data.estimations[key].ignoreColor,
 				rule: data.estimations[key].rule,
+				ignoreColor: data.estimations[key].ignoreColor,
 				estimates: sortable,
 			});
 		}
