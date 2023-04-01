@@ -8,40 +8,6 @@ export class HealthEstimate {
 		default: `false`,
 	};
 
-	/**
-	 * Path of the token's effects. Useful for systems that change how it is handled (e.g. PF2e, DSA5, SWADE).
-	 */
-	tokenEffectsPath(token) {
-		return Array.from(token.actor.effects.values()).some((x) => x.icon === game.healthEstimate.deathMarker);
-	}
-
-	updateBreakConditions() {
-		this.breakConditions.onlyGM = sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : ``;
-		this.breakConditions.onlyNotGM = sGet("core.showDescription") == 2 ? `|| game.user.isGM` : ``;
-
-		this.breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor.hasPlayerOwner` : ``;
-		this.breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor.hasPlayerOwner` : ``;
-
-		const prep = (key) => {
-			if (isEmpty(this.breakConditions[key])) return "";
-			return this.breakConditions[key];
-		};
-
-		this.breakOverlayRender = function (token) {
-			return new Function(
-				`token`,
-				`return (
-					${prep("default")}
-					${prep("onlyGM")}
-					${prep("onlyNotGM")}
-					${prep("onlyNPCs")}
-					${prep("onlyPCs")}
-					${prep("system")}
-				)`
-			)(token);
-		};
-	}
-
 	//Hooks
 	setup() {
 		this.estimationProvider = this.prepareSystemSpecifics();
@@ -323,6 +289,40 @@ export class HealthEstimate {
 	showCondition(hovered) {
 		const combatTrigger = this.combatOnly && this.combatRunning;
 		return (this.alwaysShow && combatTrigger) || (this.alwaysShow && !this.combatOnly) || (hovered && combatTrigger) || (hovered && !this.combatOnly);
+	}
+
+	/**
+	 * Path of the token's effects. Useful for systems that change how it is handled (e.g. PF2e, DSA5, SWADE).
+	 */
+	tokenEffectsPath(token) {
+		return Array.from(token.actor.effects.values()).some((x) => x.icon === game.healthEstimate.deathMarker);
+	}
+
+	updateBreakConditions() {
+		this.breakConditions.onlyGM = sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : ``;
+		this.breakConditions.onlyNotGM = sGet("core.showDescription") == 2 ? `|| game.user.isGM` : ``;
+
+		this.breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor.hasPlayerOwner` : ``;
+		this.breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor.hasPlayerOwner` : ``;
+
+		const prep = (key) => {
+			if (isEmpty(this.breakConditions[key])) return "";
+			return this.breakConditions[key];
+		};
+
+		this.breakOverlayRender = function (token) {
+			return new Function(
+				`token`,
+				`return (
+					${prep("default")}
+					${prep("onlyGM")}
+					${prep("onlyNotGM")}
+					${prep("onlyNPCs")}
+					${prep("onlyPCs")}
+					${prep("system")}
+				)`
+			)(token);
+		};
 	}
 
 	/**
