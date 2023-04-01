@@ -1,33 +1,22 @@
 <form autocomplete="off" onsubmit="event.preventDefault()">
 	<nav class="sheet-tabs tabs">
-        <a class="item" data-tab="behavior">BEHAVIOR !TODO</a>
-        <a class="item" data-tab="death">DEATH !TODO</a>
-    </nav>
+		<a class="item" data-tab="behavior">{{localize "healthEstimate.core.menuSettings.behaviorSettings.plural"}}</a>
+		<a class="item" data-tab="death">{{localize "healthEstimate.core.menuSettings.deathSettings.plural"}}</a>
+	</nav>
 
-	<section class="content" >
+	<section class="content">
 		<div class="tab" data-tab="behavior">
-			<div class="form-group">
-				{{#with perfectionism}}
-					<label for="perfectionism">{{localize name}}</label>
-					<select name="perfectionism" class="form-fileds" id="perfectionism">
-						{{#each select}}
-							<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
-						{{/each}}
-					</select>
-					<p class="notes">{{localize hint}}</p>
-				{{/with}}
-			</div>
 			<div class="form-group">
 				{{#with alwaysShow}}
 					<label for="alwaysShow">{{localize name}}</label>
-					<input type="checkbox" name="alwaysShow" id="alwaysShow"  {{#if value}}checked="checked"{{/if}}>
+					<input type="checkbox" name="alwaysShow" id="alwaysShow" {{checked value}} />
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
 			<div class="form-group">
 				{{#with combatOnly}}
 					<label for="combatOnly">{{localize name}}</label>
-					<input type="checkbox" name="combatOnly" id="combatOnly" {{#if value}}checked="checked"{{/if}}>
+					<input type="checkbox" name="combatOnly" id="combatOnly" {{checked value}} />
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
@@ -36,7 +25,7 @@
 					<label for="showDescription">{{localize name}}</label>
 					<select name="showDescription" class="form-fileds" id="showDescription">
 						{{#each select}}
-							<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+							<option value="{{this.key}}" {{selected this.selected}}>{{this.value}}</option>
 						{{/each}}
 					</select>
 					<p class="notes">{{localize hint}}</p>
@@ -47,7 +36,7 @@
 					<label for="showDescriptionTokenType">{{localize name}}</label>
 					<select name="showDescriptionTokenType" class="form-fileds" id="showDescriptionTokenType">
 						{{#each select}}
-							<option value="{{this.key}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.value}}</option>
+							<option value="{{this.key}}" {{selected this.selected}}>{{this.value}}</option>
 						{{/each}}
 					</select>
 					<p class="notes">{{localize hint}}</p>
@@ -59,28 +48,28 @@
 			<div class="form-group">
 				{{#with deathState}}
 					<label for="deathState">{{localize name}}</label>
-					<input type="checkbox" name="deathState" id="deathState" {{#if value}}checked="checked"{{/if}}>
+					<input type="checkbox" name="deathState" id="deathState" {{checked value}} />
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
 			<div class="form-group">
 				{{#with deathStateName}}
 					<label for="deathStateName">{{localize name}}</label>
-					<input type="text" name="deathStateName" id="deathStateName" value="{{value}}">
+					<input type="text" name="deathStateName" id="deathStateName" value="{{value}}" />
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
 			<div class="form-group">
 				{{#with NPCsJustDie}}
 					<label for="NPCsJustDie">{{localize name}}</label>
-					<input type="checkbox" name="NPCsJustDie" id="NPCsJustDie" {{#if value}}checked="checked"{{/if}}>
+					<input type="checkbox" name="NPCsJustDie" id="NPCsJustDie" {{checked value}} />
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
 			<div class="form-group">
 				{{#with deathMarker}}
 					<label for="deathMarker">{{localize name}}</label>
-					<input type="text" name="deathMarker" id="deathMarker" value="{{value}}">
+					<input type="text" name="deathMarker" id="deathMarker" value="{{value}}" />
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
@@ -88,10 +77,12 @@
 	</section>
 	<footer class="sheet-footer flexrow">
 		<button type="submit" name="submit">
-			<i class="far fa-save"></i> {{localize 'SETTINGS.Save'}}
+			<i class="far fa-save"></i>
+			{{localize "SETTINGS.Save"}}
 		</button>
 		<button type="button" name="reset" data-action="reset">
-			<i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}
+			<i class="fas fa-undo"></i>
+			{{localize "SETTINGS.Reset"}}
 		</button>
 	</footer>
 </form>

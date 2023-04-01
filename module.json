@@ -2,37 +2,16 @@
 	"id": "healthEstimate",
 	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "28.0",
+	"version": "30",
 	"authors": [
 		{
 			"name": "MClemente",
 			"discord": "mclemente#5524"
-		},
-		{
-			"name": "Shylight"
 		}
 	],
-	"scripts": [
-		"lib/chroma.min.js",
-		"lib/grapick.min.js",
-		"lib/spectrum.min.js"
-	],
-	"esmodules": [
-		"healthEstimate.js"
-	],
-	"styles": [
-		"css/healthEstimate.css",
-		"lib/spectrum.min.css"
-	],
-	"packs": [
-		{
-			"name": "deathmacro",
-			"label": "Health Estimate Macros",
-			"path": "packs/macros.db",
-			"type": "Macro",
-			"private": true
-		}
-	],
+	"scripts": ["lib/chroma.min.js", "lib/grapick.min.js", "lib/spectrum.min.js"],
+	"esmodules": ["healthEstimate.js"],
+	"styles": ["css/healthEstimate.css", "lib/spectrum.min.css"],
 	"languages": [
 		{
 			"lang": "en",
@@ -73,11 +52,6 @@
 			"lang": "de",
 			"name": "Deutsch",
 			"path": "lang/de.json"
-		},
-		{
-			"lang": "fi",
-			"name": "Suomi",
-			"path": "lang/fi.json"
 		}
 	],
 	"url": "https://github.com/mclemente/healthEstimate",
@@ -87,6 +61,6 @@
 	"bugs": "https://github.com/mclemente/healthEstimate/issues",
 	"compatibility": {
 		"minimum": "10",
-		"verified": "10"
+		"verified": "11.293"
 	}
 }

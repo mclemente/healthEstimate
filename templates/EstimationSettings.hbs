@@ -26,12 +26,19 @@
 						<input name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
 					</div>
 					<div class="form-group" style="display: none">
+						<input name="estimations.{{idx}}.ignoreColor" type="checkbox" {{checked estimation.ignoreColor}} />
+					</div>
+					<div class="form-group" style="display: none">
 						<textarea name="estimations.{{idx}}.rule">{{estimation.rule}}</textarea>
 					</div>
 				{{else}}
 					<div class="form-group">
 						<label for="estimations.{{idx}}.name">{{localize "Name"}}</label>
 						<input name="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
+					</div>
+					<div class="form-group">
+						<label for="estimations.{{idx}}.ignoreColor">{{localize "healthEstimate.core.estimationSettings.ignoreColor"}}</label>
+						<input name="estimations.{{idx}}.ignoreColor" type="checkbox" {{checked estimation.ignoreColor}} />
 					</div>
 					<div class="form-group">
 						<label for="estimations.{{idx}}.name">{{localize "healthEstimate.core.estimationSettings.addTable"}}</label>
