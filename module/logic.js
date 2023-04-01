@@ -332,7 +332,6 @@ export class HealthEstimate {
 		this.showDead = sGet("core.deathState");
 		this.NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
-		this.perfectionism = sGet("core.perfectionism");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 
 		this.smoothGradient = sGet("core.menuSettings.smoothGradient");

@@ -84,7 +84,6 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 
 	getData(options) {
 		return {
-			perfectionism: this.prepSelection("perfectionism"),
 			alwaysShow: this.prepSetting("alwaysShow"),
 			combatOnly: this.prepSetting("combatOnly"),
 			showDescription: this.prepSelection("showDescription"),
@@ -104,7 +103,6 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 				const path = `core.${key}`;
 				await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
 			}
-			await resetToDefault("perfectionism");
 			await resetToDefault("alwaysShow");
 			await resetToDefault("combatOnly");
 			await resetToDefault("showDescription");
