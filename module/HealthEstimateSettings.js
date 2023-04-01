@@ -68,6 +68,7 @@ class HealthEstimateSettings extends FormApplication {
 		for (let key of iterableSettings) {
 			await sSet(`core.${key}`, formData[key]);
 		}
+		canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 }
 
@@ -115,13 +116,6 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 			await resetToDefault("deathMarker");
 			this.render();
 		});
-	}
-
-	async _updateObject(event, formData) {
-		const iterableSettings = Object.keys(formData);
-		for (let key of iterableSettings) {
-			await sSet(`core.${key}`, formData[key]);
-		}
 	}
 }
 
@@ -479,6 +473,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			await sSet(`core.variables.outline`, this.outlColors);
 			await sSet(`core.variables.deadColor`, deadColor);
 			await sSet(`core.variables.deadOutline`, this.deadOutline);
+			canvas.scene?.tokens.forEach((token) => token.object.refresh());
 		}
 	}
 }
