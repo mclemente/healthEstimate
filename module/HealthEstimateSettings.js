@@ -17,32 +17,19 @@ class HealthEstimateSettings extends FormApplication {
 		});
 	}
 
-	prepSelection(key, param = false) {
+	prepSelection(key) {
 		const path = this.path + `.${key}`;
 		let data = settingData(path);
-		let current = "";
 		let result = {
 			select: [],
 			name: data.name,
 			hint: data.hint,
+			selected: sGet(path),
 		};
-
-		if (param) {
-			let currentObject = sGet(path);
-			current = currentObject[param];
-			// for (let [k, v] of Object.entries((currentObject))) {
-			// 	result[k] = v
-			// }
-			Object.assign(result, currentObject);
-		} else {
-			current = sGet(path);
-		}
-
-		for (let [k, v] of Object.entries(data.choices)) {
+		for (let [key, value] of Object.entries(data.choices)) {
 			result.select.push({
-				key: k,
-				value: v,
-				selected: k == current,
+				key,
+				value,
 			});
 		}
 		return result;

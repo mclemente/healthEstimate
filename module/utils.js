@@ -86,7 +86,7 @@ export function sGet(key) {
 }
 
 /**
- * Returns a setting Object
+ * Shorthand for game.settings.settings.get
  * @param {string} key
  * @returns {Object}
  */

@@ -17,9 +17,7 @@
 		{{#with showDescription}}
 			<label>{{localize name}}</label>
 			<select name="showDescription" class="form-fileds" id="showDescription">
-				{{#each select}}
-					<option value="{{this.key}}" {{selected this.selected}}>{{this.value}}</option>
-				{{/each}}
+				{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
 			</select>
 			<p class="notes">{{localize hint}}</p>
 		{{/with}}
@@ -28,9 +26,7 @@
 		{{#with showDescriptionTokenType}}
 			<label>{{localize name}}</label>
 			<select name="showDescriptionTokenType" class="form-fileds" id="showDescriptionTokenType">
-				{{#each select}}
-					<option value="{{this.key}}" {{selected this.selected}}>{{this.value}}</option>
-				{{/each}}
+				{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
 			</select>
 			<p class="notes">{{localize hint}}</p>
 		{{/with}}
@@ -60,7 +56,10 @@
 	<div class="form-group">
 		{{#with deathMarker}}
 			<label>{{localize name}}</label>
-			<input type="text" name="deathMarker" id="deathMarker" value="{{value}}" />
+			<div class="form-fields">
+				{{filePicker target="deathMarker" type="imagevideo"}}
+				<input class="image" type="text" name="deathMarker" placeholder="path/image.png" value="{{value}}" />
+			</div>
 			<p class="notes">{{localize hint}}</p>
 		{{/with}}
 	</div>

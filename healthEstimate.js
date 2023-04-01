@@ -4,17 +4,6 @@ import { onUpdateActor, onUpdateToken, renderHealthEstimateStyleSettingsHandler,
 import { f, t } from "./module/utils.js";
 
 /**
- * Preload templates and add it template to the HUD
- */
-Hooks.once("init", function () {
-	Handlebars.registerHelper({
-		selected: (value) => {
-			return Boolean(value) ? "selected" : "";
-		},
-	});
-});
-
-/**
  * Have to register Settings here, because doing so at init breaks i18n
  */
 Hooks.once("setup", function () {
