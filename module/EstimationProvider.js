@@ -58,6 +58,7 @@ export class EstimationProvider {
 		this.estimations = [
 			{
 				name: "",
+				ignoreColor: false,
 				rule: "default",
 				estimates: [
 					{ value: 0, label: t("core.estimates.states.0") },
@@ -405,6 +406,7 @@ export class D35EEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: game.i18n.localize("D35E.CondStaggered"),
+				ignoreColor: true,
 				rule: `
 					game.settings.get("healthEstimate", "PF1.showExtra") &&
 					(totalHp === 0 ||
@@ -414,6 +416,7 @@ export class D35EEstimationProvider extends EstimationProvider {
 			},
 			{
 				name: t("PF1.dyingName.name"),
+				ignoreColor: true,
 				rule: `game.settings.get("healthEstimate", "PF1.showExtra") && hp.nonlethal > totalHp`,
 				estimates: [{ value: 100, label: t("core.estimates.states.0") }],
 			},
@@ -799,6 +802,7 @@ export class pf1EstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: game.i18n.localize("PF1.CondStaggered"),
+				ignoreColor: true,
 				rule: `
 					game.settings.get("healthEstimate", "PF1.showExtra") &&
 					(totalHp === 0 ||
@@ -808,8 +812,9 @@ export class pf1EstimationProvider extends EstimationProvider {
 			},
 			{
 				name: t("PF1.dyingName.name"),
+				ignoreColor: true,
 				rule: `game.settings.get("healthEstimate", "PF1.showExtra") && hp.nonlethal > totalHp`,
-				estimates: [{ value: 100, label: t("core.estimates.states.0") }],
+				estimates: [{ value: 100, label: t("PF1.dyingName.default") }],
 			},
 		];
 	}

@@ -235,6 +235,7 @@ export class EstimationSettings extends HealthEstimateSettings {
 				.map((kkey) => estimates[kkey]);
 			estimations.push({
 				name: data.estimations[key].name,
+				ignoreColor: data.estimations[key].ignoreColor,
 				rule: data.estimations[key].rule,
 				estimates: sortable,
 			});

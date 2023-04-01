@@ -186,10 +186,10 @@ export class HealthEstimate {
 	/**
 	 * Returns an array of estimates related to the token.
 	 * @param {TokenDocument} token
-	 * @returns {{[Object]}}
+	 * @returns
 	 */
 	getTokenEstimate(token) {
-		//TODO prioritize Custom Stages
+		let special;
 		for (var estimation of this.estimations) {
 			if (["default", ""].includes(estimation.rule)) continue;
 			let isEstimationValid = (token) => {
@@ -200,9 +200,14 @@ export class HealthEstimate {
 				return ${estimation.rule}`
 				)(token);
 			};
-			if (isEstimationValid(token)) return estimation;
+			if (isEstimationValid(token)) {
+				if (estimation.ignoreColor) {
+					special = estimation;
+				} else return { estimation: deepClone(estimation), special: deepClone(special) };
+			}
 		}
-		return this.estimations[0];
+		// deepClone here otherwise changes will reflect locally on the setting (e.g. the isDead conditional)
+		return { estimation: deepClone(this.estimations[0]), special: deepClone(special) };
 	}
 
 	/**
@@ -258,14 +263,16 @@ export class HealthEstimate {
 	 * @returns {{estimate: Estimate, index: number}}
 	 */
 	getStage(token, fraction) {
-		// deepClone here otherwise changes will reflect locally on the setting (e.g. the isDead conditional)
-		const estimates = deepClone(this.getTokenEstimate(token).estimates);
-		fraction *= 100;
-		// !TODO add a setting choice between > and >=
-		const logic = (e) => e.value >= fraction;
-		const estimate = estimates.find(logic) ?? { value: fraction, label: "" };
-		const index = estimates.findIndex(logic);
-		return { estimate, index };
+		try {
+			const { estimation, special } = this.getTokenEstimate(token);
+			fraction *= 100;
+			const logic = (e) => e.value >= fraction;
+			const estimate = special ? special.estimates.find(logic) : estimation.estimates.find(logic) ?? { value: fraction, label: "" };
+			const index = estimation.estimates.findIndex(logic);
+			return { estimate, index };
+		} catch (err) {
+			console.error(`Health Estimate | Error on getStage(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
+		}
 	}
 
 	//Utils
