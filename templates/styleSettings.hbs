@@ -1,17 +1,17 @@
 <form autocomplete="off" onsubmit="event.preventDefault()">
 	<div class="form-group">
-		<label for="useColor">{{useColor.name}}</label>
+		<label>{{useColor.name}}</label>
 		<input type="checkbox" name="useColor" id="useColor" {{checked useColor.value}} />
 		<p class="notes">{{useColor.hint}}</p>
 	</div>
 	<div class="form-group">
-		<label for="scaleToZoom">{{scaleToZoom.name}}</label>
+		<label>{{scaleToZoom.name}}</label>
 		<input type="checkbox" name="scaleToZoom" id="scaleToZoom" {{checked scaleToZoom.value}} />
 		<p class="notes">{{scaleToZoom.hint}}</p>
 	</div>
 	<div class="form-group">
 		{{#with smoothGradient}}
-			<label for="smoothGradient">{{localize name}}</label>
+			<label>{{localize name}}</label>
 			<input type="checkbox" name="smoothGradient" id="smoothGradient" {{checked value}} />
 			<p class="notes">{{localize hint}}</p>
 		{{/with}}
@@ -31,7 +31,7 @@
 	</div>
 	<div class="form-group healthEstimate deadColor">
 		{{#with deadColor}}
-			<label for="deadColor">{{localize name}}</label>
+			<label>{{localize name}}</label>
 			{{colorPicker name="deadColor" value=value}}
 		{{/with}}
 	</div>
@@ -48,7 +48,7 @@
 		<div>
 			<div class="form-group">
 				{{#with outline}}
-					<label for="outline">{{localize name}}</label>
+					<label>{{localize name}}</label>
 					<select name="outlineMode" class="form-fileds normalBox" id="outlineMode">
 						{{#each select}}
 							<option value="{{this.key}}" {{selected this.selected}}>{{this.value}}</option>
@@ -62,13 +62,13 @@
 			</div>
 			<div class="form-group">
 				{{#with fontSize}}
-					<label for="fontSize">{{localize name}}</label>
+					<label>{{localize name}}</label>
 					<input class="bigBox" type="text" value="{{value}}" name="fontSize" id="fontSize" />
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>
 			<div class="form-group">
-				<label for="positionAdjustment">{{localize position.name}}</label>
+				<label>{{localize position.name}}</label>
 				<select name="position" class="form-fileds normalBox" id="position">
 					{{#each position.select}}
 						<option value="{{this.key}}" {{selected this.selected}}>{{this.value}}</option>
