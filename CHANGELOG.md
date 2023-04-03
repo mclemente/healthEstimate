@@ -20,6 +20,7 @@
 
 ## Minor Changes
 - The "Uninjured" term has been replaced for the more common "Unharmed".
+- Fixed an issue with the system-agnostic and Custom System Builder implementations where estimations were being calculated as healthy incorrectly.
 - The Death Settings menu has been merged with the Behavior Settings menu.
   - The actual "Behavior" setting has been removed since it became useless.
 - The Custom Stages keybind and its logic have been removed since the new Estimations can do a better job.
