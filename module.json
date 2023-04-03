@@ -56,6 +56,11 @@
 			"lang": "de",
 			"name": "Deutsch",
 			"path": "lang/de.json"
+		},
+		{
+			"lang": "fi",
+			"name": "Suomi",
+			"path": "lang/fi.json"
 		}
 	],
 	"url": "https://github.com/mclemente/healthEstimate",
