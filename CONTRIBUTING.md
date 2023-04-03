@@ -1,14 +1,4 @@
 # Contributing to Health Estimate
-
--   [Contributing to Health Estimate](#contributing-to-health-estimate)
-    - [Translations](#translations)
-    -   [Adding Support to a System](#adding-support-to-a-system)
-
----
-
-# Translations
-Translations are done on the Foundry Hub Weblate directly. Check the [Weblate](https://weblate.foundryvtt-hub.com/engage/healthEstimate/) page for contributing.
-
 ## Adding Support to a System
 
 1. Get your system's id (`game.system.id`).
