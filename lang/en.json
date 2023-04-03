@@ -15,6 +15,46 @@
 					}
 				}
 			},
+			"estimates": {
+				"worst": "Worst",
+				"best": "Best",
+				"states": {
+					"0": "Unconscious",
+					"1": "Near Death",
+					"2": "Badly Injured",
+					"3": "Injured",
+					"4": "Barely Injured",
+					"5": "Unharmed"
+				},
+				"vehicles": {
+					"0": "Wrecked",
+					"1": "Flaming",
+					"2": "Smoking",
+					"3": "Battered",
+					"4": "Scratched",
+					"5": "Pristine"
+				},
+				"thresholds": {
+					"0": "Wrecked",
+					"1": "Broken",
+					"2": "Fully Functional"
+				}
+			},
+			"estimationSettings": {
+				"title": "Estimation Settings",
+				"AddEstimate": "Add Estimate",
+				"addTable": "Add Table",
+				"default": "Default",
+				"deleteTable": "Delete Table",
+				"estimate": "Estimate",
+				"jsRule": "JS Rule",
+				"prioDecrease": "Decrease Priority",
+				"prioIncrease": "Increase Priority",
+				"ignoreColor": {
+					"name": "Ignore Color",
+					"hint": "Ignores the colors from this table and use the colors from the next valid table for the token. This is meant for conditions that should have priority over an estimate, but should still use that estimate's color."
+				}
+			},
 			"keybinds": {
 				"markDead": {
 					"name": "Mark as Dead",
@@ -45,7 +85,7 @@
 					"hint": "Hides both the estimates and names of selected tokens."
 				}
 			},
-			"isNow": "is now",
+			"isNow": "{name} is now {desc}.",
 			"unknownEntity": {
 				"name": "Unknown Entity Name",
 				"hint": "Sets how a hidden character shall be called.",
@@ -74,11 +114,6 @@
 				"name": "Show Estimates: Tokens",
 				"hint": "Show estimates of the following tokens."
 			},
-			"stateNames": {
-				"name": "Stages",
-				"hint": "An array of descriptions shown to players, arranged from worst to best possible health.\nThe amount of possible descriptions is not limited, the module will adjust the health percentage to show them proportionally to the amount.\nIf there is a need for one description to cover a higher range of health than others simply copy it several times.",
-				"default": "Unconscious, Near Death, Badly Injured, Injured, Barely Injured, Uninjured"
-			},
 			"deathState": {
 				"name": "Death State on Condition",
 				"hint": "Show token as defined on the {setting} setting when it has been affected by any condition that uses the icon set on the {setting2} setting. Works independently from the macro."
@@ -95,15 +130,6 @@
 			"NPCsJustDie": {
 				"name": "NPCs die immediately",
 				"hint": "The last stage of NPCs is replaced by the Death State Name."
-			},
-			"perfectionism": {
-				"name": "Best Stage Display",
-				"hint": "Set how the best stage is displayed. The best stage is the last stage in the {setting1} setting. Suggestion for users that have {setting2} disabled: if you intended for each stage to be equal to one color, don't use the first choice.",
-				"choices": {
-					"0": "Show even when the target is damaged",
-					"1": "Show only when the target isn't damaged",
-					"2": "Hide completely"
-				}
 			},
 			"outputChat": {
 				"name": "Output Estimate to Chat",
@@ -136,7 +162,7 @@
 				},
 				"useColor": {
 					"name": "Use Color",
-					"hint": "This won't affect the settings window, but with checkmark off the descriptions will be shown in black and white."
+					"hint": "The estimates will be shown in black and white."
 				},
 				"smoothGradient": {
 					"name": "Smooth Gradient",
@@ -175,12 +201,6 @@
 				"hint": "Leave it blank if the system doesn't have one or if you don't want it to be added to the estimation."
 			}
 		},
-		"cyberpunk-red-core": {
-			"useSystemStates": {
-				"name": "Use Wound States",
-				"hint": "Ignores the Stages setting and uses the Cyberpunk RED Core's wound states."
-			}
-		},
 		"cyphersystem": {
 			"impaired": {
 				"name": "Health level for Impaired PCs",
@@ -189,12 +209,6 @@
 			"debilitated": {
 				"name": "Health level for Debilitated PCs",
 				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Debilitated on the Death Track"
-			}
-		},
-		"dnd5e": {
-			"vehicleNames": {
-				"hint": "Descriptions shown for vehicles.",
-				"default": "Wrecked, Broken, Battered, Scratched, Pristine"
 			}
 		},
 		"PF1": {
@@ -208,12 +222,10 @@
 			},
 			"disabledName": {
 				"name": "Staggered Stage",
-				"hint": "Shows when a token is precisely at 0 HP, has nonlethal damage exactly equal to its current hit points, or is affected by the Staggered condition.",
 				"default": "Staggered"
 			},
 			"dyingName": {
 				"name": "Unconscious Stage",
-				"hint": "Shows when a token has more nonlethal damage than HP.",
 				"default": "Unconscious"
 			}
 		},
@@ -229,9 +241,6 @@
 			"hideVehicleHP": {
 				"name": "Hide Vehicle's Estimate",
 				"hint": "Hides the estimate from Vehicles."
-			},
-			"useThreshold": {
-				"hint": "Estimates the health of Vehicles as three stages, so it is recommended to reduce the number of stages of the {setting} setting to three if you toggle this setting on."
 			}
 		},
 		"numenera": {
@@ -245,16 +254,6 @@
 				"name": "Use Vehicle Threshold",
 				"hint": "Vehicles Use the stages set on {setting1} setting. Otherwise, vehicles will use the same description as the {setting2} setting.."
 			},
-			"thresholdNames": {
-				"name": "Threshold Stages",
-				"hint": "The amount of stages is limited to 3, arranged from worst to best condition",
-				"default": "Wrecked, Broken, Fully Functional"
-			},
-			"vehicleNames": {
-				"name": "Vehicle Stages",
-				"hint": "Descriptions shown for drones, starships and vehicles.",
-				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
-			},
 			"addStamina": {
 				"name": "Account for Stamina",
 				"hint": "With this setting on, Stamina will be added to HP for calculations."
@@ -266,26 +265,14 @@
 				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
 			}
 		},
-		"od6s": {
-			"vehicleNames": {
-				"name": "Vehicle Stages",
-				"hint": "Descriptions shown for starships and vehicles.",
-				"default": "Destroyed, Severely Damaged, Heavily Damaged, Lightly Damaged, Very Lightly Damaged, Undamaged"
-			}
-		},
 		"swade": {
 			"defaultWildCardMaxWounds": {
 				"name": "Default Wild Card's Max Wounds",
-				"hint": "This is used to calculate the default max wounds a NPC flagged as Wild Card would have for estimations."
-			},
-			"vehicleNames": {
-				"name": "Vehicle Stages",
-				"hint": "Descriptions shown for vehicles.",
-				"default": "Wrecked, Flaming, Smoking, Battered, Scratched, Pristine"
+				"hint": "This is used to calculate the max wounds a Wild Card NPC should have by default for estimations."
 			},
 			"showIncap": {
 				"name": "{incap} Status Effect",
-				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their actual estimates. Doesn't work for tokens that are vehicles or dead."
+				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their current estimates. Doesn't work for tokens that are vehicles or dead."
 			}
 		}
 	}

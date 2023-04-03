@@ -11,9 +11,13 @@ A simple module for showing estimated health level of an enemy on mouseover, sim
 ![example](https://raw.githubusercontent.com/mclemente/healthEstimate/master/example.png?raw=true)  
 Be sure to read the [How To's](https://github.com/mclemente/healthEstimate/wiki/How-To's) for more info on how some features work.
 
-## Feedback
+## Development and Contributing
+Health Estimate is a free and open source project. You can contribute to the project by making a merge request or by creating a [Github issue](https://github.com/mclemente/healthEstimate/issues).
+Translations are done on the Foundry Hub Weblate directly. Check the [Weblate](https://weblate.foundryvtt-hub.com/engage/healthEstimate/) page for contributing.
 
-All suggestions/feedback are appreciated, please contact me on Discord (MClemente#5524) or submit a pull request.
+<a href="https://weblate.foundryvtt-hub.com/engage/healthEstimate/">
+<img src="https://weblate.foundryvtt-hub.com/widgets/healthEstimate/-/main/multi-auto.svg" alt="Translation status" />
+</a>
 
 ## Attribution
 This project is released under the the MIT License, and is a fork of the original [Health Estimate](https://github.com/Shylight/healthEstimate), by Shylight.  

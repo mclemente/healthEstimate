@@ -1,7 +1,6 @@
 import { outputStageChange } from "../lib/HealthMonitor.js";
 import { injectConfig } from "../lib/injectConfig.js";
-import { HealthEstimateBehaviorSettings, HealthEstimateDeathSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
-import { updateBreakSettings } from "./systemSpecifics.js";
+import { EstimationSettings, HealthEstimateBehaviorSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
 import { addSetting, f, t } from "./utils.js";
 
 export const registerSettings = function () {
@@ -28,6 +27,13 @@ export const registerSettings = function () {
 		type: HealthEstimateBehaviorSettings,
 		restricted: true,
 	});
+	game.settings.registerMenu("healthEstimate", "estimationSettings", {
+		name: "Estimation Settings",
+		label: "Estimation Settings",
+		icon: "fas fa-scale-balanced",
+		type: EstimationSettings,
+		restricted: true,
+	});
 	game.settings.registerMenu("healthEstimate", "styleSettings", {
 		name: t("core.menuSettings.styleSettings.plural"),
 		label: t("core.menuSettings.styleSettings.plural"),
@@ -35,22 +41,20 @@ export const registerSettings = function () {
 		type: HealthEstimateStyleSettings,
 		restricted: true,
 	});
-	game.settings.registerMenu("healthEstimate", "deathSettings", {
-		name: t("core.menuSettings.deathSettings.plural"),
-		label: t("core.menuSettings.deathSettings.plural"),
-		icon: "fas fa-skull",
-		type: HealthEstimateDeathSettings,
-		restricted: true,
-	});
 
 	/* Settings for the main settings menu */
 
 	addSetting("core.stateNames", {
 		type: String,
-		default: t("core.stateNames.default"),
+		default: "",
+		config: false,
+	});
+	addMenuSetting("core.estimations", {
+		type: Array,
+		default: game.healthEstimate.estimationProvider.estimations,
 		onChange: (value) => {
-			game.healthEstimate.descriptions = value.split(/[,;]\s*/);
-			canvas.scene.tokens.forEach((token) => token.object.refresh());
+			game.healthEstimate.estimations = value;
+			canvas.scene?.tokens.forEach((token) => token.object.refresh());
 		},
 	});
 	addSetting("core.outputChat", {
@@ -73,26 +77,18 @@ export const registerSettings = function () {
 	});
 
 	/* Settings for the behavior menu */
-	addMenuSetting("core.perfectionism", {
-		hint: f("core.perfectionism.hint", { setting1: t("core.stateNames.name"), setting2: t("core.menuSettings.smoothGradient.name") }),
-		type: Number,
-		default: 1,
-		choices: {
-			0: t("core.perfectionism.choices.0"),
-			1: t("core.perfectionism.choices.1"),
-			2: t("core.perfectionism.choices.2"),
-		},
-		onChange: (value) => {
-			game.healthEstimate.perfectionism = Number(value);
-			canvas.scene.tokens.forEach((token) => token.object.refresh());
-		},
-	});
 	addMenuSetting("core.alwaysShow", {
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.alwaysShow = value;
-			canvas.scene.tokens.forEach((token) => token.object.refresh());
+			if (value) {
+				Hooks.on("updateActor", game.healthEstimate.alwaysOnUpdateActor);
+				if (!game.version > 11) Hooks.on("updateToken", alwaysOnUpdateToken);
+			} else {
+				Hooks.off("updateActor", game.healthEstimate.alwaysOnUpdateActor);
+				if (!game.version > 11) Hooks.off("updateToken", alwaysOnUpdateToken);
+			}
 		},
 	});
 	addMenuSetting("core.combatOnly", {
@@ -112,7 +108,7 @@ export const registerSettings = function () {
 			2: t("core.showDescription.choices.Players"),
 		},
 		onChange: () => {
-			updateBreakSettings();
+			game.healthEstimate.updateBreakConditions();
 		},
 	});
 	addMenuSetting("core.showDescriptionTokenType", {
@@ -124,7 +120,7 @@ export const registerSettings = function () {
 			2: t("core.showDescription.choices.NPC"),
 		},
 		onChange: () => {
-			updateBreakSettings();
+			game.healthEstimate.updateBreakConditions();
 		},
 	});
 
@@ -132,14 +128,14 @@ export const registerSettings = function () {
 	addMenuSetting("core.deathState", {
 		hint: f("core.deathState.hint", { setting: t("core.deathStateName.name"), setting2: t("core.deathMarker.name") }),
 		type: Boolean,
-		default: false,
+		default: game.healthEstimate.estimationProvider.deathState,
 		onChange: (value) => {
 			game.healthEstimate.showDead = value;
 		},
 	});
 	addMenuSetting("core.deathStateName", {
 		type: String,
-		default: t("core.deathStateName.default"),
+		default: game.healthEstimate.estimationProvider.deathStateName,
 		onChange: (value) => {
 			game.healthEstimate.deathStateName = value;
 		},
@@ -175,6 +171,9 @@ export const registerSettings = function () {
 	addMenuSetting("core.menuSettings.smoothGradient", {
 		type: Boolean,
 		default: true,
+		onChange: (value) => {
+			game.healthEstimate.smoothGradient = value;
+		},
 	});
 	addMenuSetting("core.menuSettings.gradient", {
 		type: Object,
@@ -484,10 +483,10 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
 	const outputChatCheckbox = html.find('input[name="healthEstimate.core.outputChat"]');
 	const unknownEntityInput = html.find('input[name="healthEstimate.core.unknownEntity"]');
-	disableCheckbox(unknownEntityInput, !outputChat);
+	disableCheckbox(unknownEntityInput, outputChat);
 
 	outputChatCheckbox.on("change", (event) => {
-		disableCheckbox(unknownEntityInput, !event.target.checked);
+		disableCheckbox(unknownEntityInput, event.target.checked);
 	});
 
 	if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
@@ -495,18 +494,43 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 		const showExtraCheckbox = html.find('input[name="healthEstimate.PF1.showExtra"]');
 		const disabledNameInput = html.find('input[name="healthEstimate.PF1.disabledName"]');
 		const dyingNameInput = html.find('input[name="healthEstimate.PF1.dyingName"]');
-		disableCheckbox(disabledNameInput, !showExtra);
-		disableCheckbox(dyingNameInput, !showExtra);
+		disableCheckbox(disabledNameInput, showExtra);
+		disableCheckbox(dyingNameInput, showExtra);
 
 		showExtraCheckbox.on("change", (event) => {
-			disableCheckbox(disabledNameInput, !event.target.checked);
-			disableCheckbox(dyingNameInput, !event.target.checked);
+			disableCheckbox(disabledNameInput, event.target.checked);
+			disableCheckbox(dyingNameInput, event.target.checked);
 		});
 	}
 }
 
+export async function renderHealthEstimateStyleSettingsHandler(settingsConfig, html) {
+	const useColor = game.settings.get("healthEstimate", "core.menuSettings.useColor");
+	const useColorCheckbox = html.find('input[name="useColor"]');
+	const smoothGradientForm = html.find('input[name="smoothGradient"]').parent()[0];
+	const gradientForm = html.find('div[class="form-group gradient"]')[0];
+	const deadColorForm = html.find('input[name="deadColor"]').parent()[0];
+	const sampleFrameHEForm = html.find('span[class="sampleFrameHE"]').parent()[0];
+
+	function hideForm(form, boolean) {
+		form.style.display = !boolean ? "none" : "flex";
+	}
+
+	hideForm(smoothGradientForm, useColor);
+	hideForm(gradientForm, useColor);
+	hideForm(deadColorForm, useColor);
+	hideForm(sampleFrameHEForm, useColor);
+
+	useColorCheckbox.on("change", (event) => {
+		hideForm(smoothGradientForm, event.target.checked);
+		hideForm(gradientForm, event.target.checked);
+		hideForm(deadColorForm, event.target.checked);
+		hideForm(sampleFrameHEForm, event.target.checked);
+	});
+}
+
 export function disableCheckbox(checkbox, boolean) {
-	checkbox.prop("disabled", boolean);
+	checkbox.prop("disabled", !boolean);
 }
 
 /**
@@ -555,7 +579,7 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 
 export function onUpdateActor(actor, data, options, userId) {
 	if (!game.user.isGM || !canvas.scene) return;
-	let token = canvas.tokens.placeables.find((e) => e.actor && e.actor.id == actor.id);
+	let token = canvas.tokens?.placeables.find((e) => e.actor && e.actor.id == actor.id);
 	if (token && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token) && token.id in game.healthEstimate.actorsCurrentHP)
 		outputStageChange(token);
 }

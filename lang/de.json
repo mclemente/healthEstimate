@@ -15,7 +15,7 @@
 					}
 				}
 			},
-			"isNow": "ist jetzt",
+			"isNow": "{name} ist jetzt {desc}.",
 			"showDescription": {
 				"name": "Zeige Schätzung: Benutzer",
 				"hint": "Zeige die Schätzungen der folgenden Benutzer.",

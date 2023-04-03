@@ -15,7 +15,7 @@
 					}
 				}
 			},
-			"isNow": "está ahora",
+			"isNow": "{name} está ahora {desc}.",
 			"unknownEntity": {
 				"name": "Nombre de la Entidad Desconocida",
 				"hint": "Establece cómo se llamará a un personaje oculto.",

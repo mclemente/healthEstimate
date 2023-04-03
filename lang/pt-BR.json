@@ -15,6 +15,46 @@
 					}
 				}
 			},
+			"estimates": {
+				"worst": "Pior",
+				"best": "Melhor",
+				"states": {
+					"0": "Inconsciente",
+					"1": "Quase Morto",
+					"2": "Gravemente Ferido",
+					"3": "Ferido",
+					"4": "Escoriado",
+					"5": "Ileso"
+				},
+				"vehicles": {
+					"0": "Destruído",
+					"1": "Gravemente Danificado",
+					"2": "Muito Danificado",
+					"3": "Ligeiramente Danificado",
+					"4": "Danidifcado",
+					"5": "Perfeito"
+				},
+				"thresholds": {
+					"0": "Destruído",
+					"1": "Quebrado",
+					"2": "Funcional"
+				}
+			},
+			"estimationSettings": {
+				"title": "Configurações de Estimações",
+				"AddEstimate": "Adicionar Estimativa",
+				"addTable": "Adicionar Tabela",
+				"default": "Padrão",
+				"deleteTable": "Deletar Tabela",
+				"estimate": "Estimativa",
+				"jsRule": "Regra JS",
+				"prioDecrease": "Diminuir Priority",
+				"prioIncrease": "Aumentar Priority",
+				"ignoreColor": {
+					"name": "Ignorar Cor",
+					"hint": "Ignora a cor desta tabela e usa as cores da próxima tabela válida para o token. Esta opção é para condições que devem ter prioridade sobre uma estimativa, mas ainda devem usar as cores da estimativa."
+				}
+			},
 			"keybinds": {
 				"markDead": {
 					"name": "Marcar como Morto",
@@ -45,7 +85,7 @@
 					"hint": "Oculta as estimativas e os nomes dos tokens selecionados."
 				}
 			},
-			"isNow": "agora está",
+			"isNow": "{name} agora está {desc}.",
 			"unknownEntity": {
 				"name": "Nome da Entidade Desconhecida",
 				"hint": "Define como um personagem ocultado será chamado.",
