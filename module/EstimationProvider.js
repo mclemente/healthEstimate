@@ -1,5 +1,8 @@
 import { f, getNestedData, isEmpty, sGet, t } from "./utils.js";
 
+// Two settings that are common among many systems
+// but unnecessary for some to justify being part of the core module
+
 /** Add Temporary HP to the calculation. Used in the fraction function above. */
 const addTemp = {
 	"core.addTemp": {
@@ -7,7 +10,11 @@ const addTemp = {
 		default: false,
 	},
 };
-/** Don't render for tokens with 0 maximum hp. Used in the breakCondition below. */
+/**
+ * Don't render for tokens with 0 maximum hp. Used in the breakCondition below.
+ *
+ * Always accompanied by the breakCondition `|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && MAXHPHERE === 0)`
+ */
 const breakOnZeroMaxHP = {
 	"core.breakOnZeroMaxHP": {
 		type: Boolean,
@@ -44,18 +51,21 @@ export class EstimationProvider {
 		this.customLogic = `const type = token.actor.type;`;
 
 		/**
-		 * Death State setting, false by default
+		 * Default value of the Death State setting.
 		 * @type {Boolean}
 		 * */
 		this.deathState = false;
 
 		/**
-		 * Death State Name setting, "Dead" by default
+		 * Default value of the Death State Name setting.
 		 * @type {String}
 		 */
 		this.deathStateName = t("core.deathStateName.default");
 
-		/** Estimations setting */
+		/**
+		 * Default value of the Estimations setting.
+		 * @type {{Array}}
+		 */
 		this.estimations = [
 			{
 				name: "",
@@ -73,12 +83,16 @@ export class EstimationProvider {
 		];
 	}
 
+	/**
+	 * Calculates the fraction of the current health divided by the maximum health.
+	 * @param {TokenDocument} token
+	 */
 	fraction(token) {
 		throw new Error("A subclass of the SystemProvider must implement the fraction method.");
 	}
 
 	/**
-	 * Returns a set of system-specific settings. All settings are registered as part of the healthEstimate
+	 * Returns a set of system-specific settings. All settings are registered as part of the healthEstimate module.
 	 *
 	 * Names and Hints are unnecessary if they are set as "systemname.setting.name" and "systemname.setting.hint".
 	 *
@@ -92,7 +106,11 @@ export class EstimationProvider {
 	}
 
 	/**
-	 * A set of conditionals that will stop the estimate from being rendered.
+	 * A set of conditionals written as a string that will stop the rendering of the estimate.
+	 * @returns {String}
+	 *
+	 * @see dnd5eEstimationProvider
+	 * @see pf2eEstimationProvider
 	 */
 	static get breakCondition() {
 		return undefined;
@@ -101,6 +119,7 @@ export class EstimationProvider {
 	/**
 	 * This is for the big marker shown on defeated tokens (the skull marker by default).
 	 * Only use this if your system doesn't add the marker as an effect.
+	 * @returns {Boolean}
 	 *
 	 * @see dsa5EstimationProvider
 	 * @see pf2eEstimationProvider
