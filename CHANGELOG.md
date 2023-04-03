@@ -1,20 +1,25 @@
 # 30.0 (2023-04-03)
+
 ## Major Changes
 - Reworked how the Estimations are set: instead of a string of estimates that were split equally between the 100-0 range, you can now set their ranges individually.
   - You can also set up your own custom rules with the JS Rule, like checking for actor types, items, effects, etc.
   - The Ignore Color option is a way to set up custom rules that will use the color logic of the next valid estimation for the token. Its use-case is for when a specific effect should take precedence over the current health state of the token.
     - The only systems that have these by default are the D35E and PF1 systems.
-  - Example 1: Uninjured now actually shows only at 100% HP without the need of an entire setting, and you can just remove it instead of adding an extra comma too.
-  - Example 2: The famous Bloodied condition, which happens when monsters are at 50% HP or less in certain games, can now encompass the whole 50-1 range without the need of repeating it over the setting.
-  - Example 3: You can set creature-specific estimates, like checking for a creature's type (Undead, Ooze, Incorporeal, etc) or some item/effect/feat (Weak, Frail, etc).
 - Reworked the whole System Specifics logic. Now the files are loaded with the module instead of being imported after load, which caused some issues in some games.
   - This isn't something most users will notice, but this solves an issue known to some as the `game.healthEstimate.breakOverlayRender is not a function` error.
   - Due to this change, it is now possible to set system-specific default settings (e.g. Cyberpunk Red Core's uses the same logic as the game system, SWADE has the Dead option as "Incapacitated" by default now). I'm looking for feedback on what else could be added to systems.
+
+### Examples
+
+- 1: Uninjured now actually shows only at 100% HP without the need of an entire setting, and you can just remove it instead of adding an extra comma too.
+- 2: The famous Bloodied condition, which happens when monsters are at 50% HP or less in certain games, can now encompass the whole 50-1 range without the need of repeating it over the setting.
+- 3: You can set creature-specific estimates, like checking for a creature's type (Undead, Ooze, Incorporeal, etc) or some item/effect/feat (Weak, Frail, etc).
 
 ## New Systems Supported
 - Added support for more Free League games: Blade Runner, Coriolis, and Twilight 2000
 
 ## Minor Changes
+- The "Uninjured" term has been replaced for the more common "Unharmed".
 - The Death Settings menu has been merged with the Behavior Settings menu.
   - The actual "Behavior" setting has been removed since it became useless.
 - The Custom Stages keybind and its logic have been removed since the new Estimations can do a better job.
