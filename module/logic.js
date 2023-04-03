@@ -67,20 +67,10 @@ export class HealthEstimate {
 		Hooks.on("hoverToken", (token, hovered) => {
 			this._handleOverlay(token, this.showCondition(hovered));
 		});
-		if (this.alwaysShow) canvas.scene.tokens.forEach((token) => token.object.refresh());
-		Hooks.on("updateActor", (actor, updates, options, userId) => {
-			if (this.alwaysShow) {
-				//Get all the tokens on the off-chance there's two tokens of the same linked actor.
-				let tokens = canvas.tokens.placeables.filter((e) => e.actor && actor.id == e.actor.id);
-				for (let token of tokens) {
-					this._handleOverlay(token, true);
-				}
-			}
-		});
-		if (!game.version > 11) {
-			Hooks.on("updateToken", (tokenDocument, updates, options, userId) => {
-				if (this.alwaysShow) this._handleOverlay(tokenDocument.object, true);
-			});
+		if (this.alwaysShow) {
+			canvas.scene.tokens.forEach((token) => token.object.refresh());
+			Hooks.on("updateActor", this.alwaysOnUpdateActor);
+			if (!game.version > 11) Hooks.on("updateToken", this.alwaysOnUpdateToken);
 		}
 		Hooks.on("canvasInit", this.canvasInit.bind(this));
 	}
@@ -151,6 +141,7 @@ export class HealthEstimate {
 
 	/**
 	 * Returns an array of estimates related to the token.
+	 * deepClone is used here because changes will reflect locally on the estimations setting (see {@link getEstimation})
 	 * @param {TokenDocument} token
 	 * @returns
 	 */
@@ -172,15 +163,8 @@ export class HealthEstimate {
 				} else return { estimation: deepClone(estimation), special: deepClone(special) };
 			}
 		}
-		// deepClone here otherwise changes will reflect locally on the setting (e.g. the isDead conditional)
 		return { estimation: deepClone(this.estimations[0]), special: deepClone(special) };
 	}
-
-	/**
-	 * @typedef {Object} Estimate
-	 * @property {string} label
-	 * @property {number} value
-	 */
 
 	/**
 	 * Returns the token's estimate's description, color and stroke outline.
@@ -220,6 +204,11 @@ export class HealthEstimate {
 	}
 
 	/**
+	 * @typedef {Object} Estimate
+	 * @property {string} label
+	 * @property {number} value
+	 */
+	/**
 	 * Returns the estimate and its index.
 	 * @param {TokenDocument} token
 	 * @param {Number} fraction
@@ -243,7 +232,18 @@ export class HealthEstimate {
 		return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
 	}
 
-	//combatStart, deleteCombat and combatHooks target the global Health Estimate object because Hooks.off doesn't interact correctly with "this.funcion.bind(this)"
+	//Hooked functions don't interact correctly with "this"
+	alwaysOnUpdateActor(actor, updates, options, userId) {
+		//Get all the tokens on the off-chance there's two tokens of the same linked actor.
+		let tokens = canvas.tokens?.placeables.filter((e) => e.actor && actor.id == e.actor.id);
+		for (let token of tokens) {
+			game.healthEstimate._handleOverlay(token, true);
+		}
+	}
+	alwaysOnUpdateToken(tokenDocument, updates, options, userId) {
+		game.healthEstimate._handleOverlay(tokenDocument.object, true);
+	}
+
 	combatStart(combat, updateData) {
 		game.healthEstimate.combatRunning = true;
 	}

@@ -24,12 +24,12 @@ Hooks.once("canvasReady", function () {
  * HP storing code for canvas load or token created
  */
 Hooks.on("canvasReady", function () {
-	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
+	let tokens = canvas.tokens?.placeables.filter((e) => e.actor);
 	getCharacters(tokens);
 });
 
 Hooks.on("createToken", function (tokenDocument, options, userId) {
-	let tokens = canvas.tokens.placeables.filter((e) => e.actor);
+	let tokens = canvas.tokens?.placeables.filter((e) => e.actor);
 	getCharacters(tokens);
 });
 
@@ -49,7 +49,7 @@ Hooks.on("renderTokenConfig", renderTokenConfigHandler);
 
 Hooks.on("deleteActiveEffect", (activeEffect, options, userId) => {
 	if (activeEffect.icon == game.healthEstimate.deathMarker) {
-		let tokens = canvas.tokens.placeables.filter((e) => e.actor && e.actor.id == activeEffect.parent.id);
+		let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id == activeEffect.parent.id);
 		for (let token of tokens) {
 			if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");
 		}
@@ -61,7 +61,7 @@ function setKeybinds() {
 		name: "healthEstimate.core.keybinds.markDead.name",
 		hint: "healthEstimate.core.keybinds.markDead.hint",
 		onDown: () => {
-			for (let e of canvas.tokens.controlled) {
+			for (let e of canvas.tokens?.controlled) {
 				let hasAlive = !e.document.getFlag("healthEstimate", "dead");
 				e.document.setFlag("healthEstimate", "dead", hasAlive);
 			}
@@ -73,7 +73,7 @@ function setKeybinds() {
 		name: "healthEstimate.core.keybinds.dontMarkDead.name",
 		hint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
 		onDown: () => {
-			for (let e of canvas.tokens.controlled) {
+			for (let e of canvas.tokens?.controlled) {
 				let hasAlive = !e.document.getFlag("healthEstimate", "treatAsPC");
 				e.document.setFlag("healthEstimate", "treatAsPC", hasAlive);
 			}
@@ -85,7 +85,7 @@ function setKeybinds() {
 		name: "healthEstimate.core.keybinds.hideEstimates.name",
 		hint: "healthEstimate.core.keybinds.hideEstimates.hint",
 		onDown: () => {
-			for (let e of canvas.tokens.controlled) {
+			for (let e of canvas.tokens?.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
 				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate is hidden from players.`, { console: false });
@@ -99,7 +99,7 @@ function setKeybinds() {
 		name: "healthEstimate.core.keybinds.hideNames.name",
 		hint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
 		onDown: () => {
-			for (let e of canvas.tokens.controlled) {
+			for (let e of canvas.tokens?.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideName", hidden);
 				if (hidden) ui.notifications.info(`${e.actor.name}'s name is hidden from players.`, { console: false });
@@ -113,7 +113,7 @@ function setKeybinds() {
 		name: "healthEstimate.core.keybinds.hideEstimatesAndNames.name",
 		hint: "healthEstimate.core.keybinds.hideEstimatesAndNames.hint",
 		onDown: () => {
-			for (let e of canvas.tokens.controlled) {
+			for (let e of canvas.tokens?.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate") && !e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
 				e.document.setFlag("healthEstimate", "hideName", hidden);

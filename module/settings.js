@@ -82,6 +82,13 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.alwaysShow = value;
+			if (value) {
+				Hooks.on("updateActor", game.healthEstimate.alwaysOnUpdateActor);
+				if (!game.version > 11) Hooks.on("updateToken", alwaysOnUpdateToken);
+			} else {
+				Hooks.off("updateActor", game.healthEstimate.alwaysOnUpdateActor);
+				if (!game.version > 11) Hooks.off("updateToken", alwaysOnUpdateToken);
+			}
 		},
 	});
 	addMenuSetting("core.combatOnly", {
@@ -572,7 +579,7 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 
 export function onUpdateActor(actor, data, options, userId) {
 	if (!game.user.isGM || !canvas.scene) return;
-	let token = canvas.tokens.placeables.find((e) => e.actor && e.actor.id == actor.id);
+	let token = canvas.tokens?.placeables.find((e) => e.actor && e.actor.id == actor.id);
 	if (token && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token) && token.id in game.healthEstimate.actorsCurrentHP)
 		outputStageChange(token);
 }
