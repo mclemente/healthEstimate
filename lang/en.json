@@ -268,11 +268,11 @@
 		"swade": {
 			"defaultWildCardMaxWounds": {
 				"name": "Default Wild Card's Max Wounds",
-				"hint": "This is used to calculate the default max wounds a NPC flagged as Wild Card would have for estimations."
+				"hint": "This is used to calculate the max wounds a Wild Card NPC should have by default for estimations."
 			},
 			"showIncap": {
 				"name": "{incap} Status Effect",
-				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their actual estimates. Doesn't work for tokens that are vehicles or dead."
+				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their current estimates. Doesn't work for tokens that are vehicles or dead."
 			}
 		}
 	}
