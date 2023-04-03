@@ -160,7 +160,7 @@
 				},
 				"useColor": {
 					"name": "Usar Cor",
-					"hint": "Isso não afetará as configurações abaixo, mas com a caixa de seleção desativada, os descritores serão mostrados em preto e branco."
+					"hint": "Os descritores serão mostrados em preto e branco."
 				},
 				"smoothGradient": {
 					"name": "Gradiente Suave",
@@ -312,7 +312,7 @@
 		},
 		"swade": {
 			"defaultWildCardMaxWounds": {
-				"hint": "Isso é usado para calcular os ferimentos máximos padrão que um NPC sinalizado como Wild Card teria para estimativas.",
+				"hint": "Isso é usado para calcular o máximo de ferimentos que um NPC Carta Selvagem teria por padrão para estimativas.",
 				"name": "Máximo de Ferimentos Padrão de Carta Selvagem"
 			},
 			"vehicleNames": {
@@ -322,7 +322,7 @@
 			},
 			"showIncap": {
 				"name": "Efeito de Estado {incap}",
-				"hint": "Tokens com o efeito de status {incap} serão mostrados como {incap} em vez de suas estimativas reais. Não funciona para tokens que são veículos ou mortos."
+				"hint": "Tokens com o efeito de estado {incap} serão mostrados como {incap} em vez de suas estimativas atuais. Não funciona para tokens que são veículos ou estão mortos."
 			}
 		},
 		"custom-system-builder": {
