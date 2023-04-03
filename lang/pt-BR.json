@@ -313,7 +313,7 @@
 		"swade": {
 			"defaultWildCardMaxWounds": {
 				"hint": "Isso é usado para calcular os ferimentos máximos padrão que um NPC sinalizado como Wild Card teria para estimativas.",
-				"name": "Ferimentos Máximos Padrão do Wild Card"
+				"name": "Máximo de Ferimentos Padrão de Carta Selvagem"
 			},
 			"vehicleNames": {
 				"name": "Estágios do Veículo",
@@ -321,7 +321,7 @@
 				"default": "Destruído, Flamejante, Fumante, Maltratado, Riscado, Intocada"
 			},
 			"showIncap": {
-				"name": "{incap} Efeito de status",
+				"name": "Efeito de Estado {incap}",
 				"hint": "Tokens com o efeito de status {incap} serão mostrados como {incap} em vez de suas estimativas reais. Não funciona para tokens que são veículos ou mortos."
 			}
 		},
