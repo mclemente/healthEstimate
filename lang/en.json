@@ -129,7 +129,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "NPCs die immediately",
-				"hint": "The last stage of NPCs is replaced by the Death State Name."
+				"hint": "The last stage of tokens whose actors aren't selected by players is replaced by the {setting}. For more information on what \"selected by players\" means, read the User Configuration section in Foundry's \"Users and Permissions\" article."
 			},
 			"outputChat": {
 				"name": "Output Estimate to Chat",

@@ -142,6 +142,7 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.NPCsJustDie", {
 		type: Boolean,
+		hint: f("core.NPCsJustDie.hint", { setting: t("core.deathStateName.name") }),
 		default: true,
 		onChange: (value) => {
 			game.healthEstimate.NPCsJustDie = value;
