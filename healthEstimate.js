@@ -74,8 +74,8 @@ function setKeybinds() {
 		hint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
 		onDown: () => {
 			for (let e of canvas.tokens?.controlled) {
-				let hasAlive = !e.document.getFlag("healthEstimate", "treatAsPC");
-				e.document.setFlag("healthEstimate", "treatAsPC", hasAlive);
+				let hasAlive = !e.document.getFlag("healthEstimate", "dontMarkDead");
+				e.document.setFlag("healthEstimate", "dontMarkDead", hasAlive);
 			}
 		},
 		restricted: true,

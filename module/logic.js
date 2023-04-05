@@ -279,7 +279,7 @@ export class HealthEstimate {
 	isDead(token, stage) {
 		return (
 			(this.estimationProvider.organicTypes.includes(token.actor.type) &&
-				((this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "treatAsPC")) ||
+				((this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "dontMarkDead")) ||
 					(this.showDead && this.tokenEffectsPath(token)) ||
 					token.document.getFlag("healthEstimate", "dead"))) ||
 			false
