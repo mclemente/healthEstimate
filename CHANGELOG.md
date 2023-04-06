@@ -9,6 +9,7 @@
   - Example: specific estimates for undead, oozes, or creatures affected by an item/effect/feat, etc.
 - The Ignore Color option is a way to set up custom rules that will use the color logic of the next valid estimation for the token. Its use-case is for when a specific effect should take precedence over the current health state of the token.
   - The only systems that have these by default are the D35E and PF1 systems.
+- Note for people inputting estimates: you don't need to rearrange the values when adding a new estimate to be in-between a range, it'll get sorted correctly once you save the list.
 
 ### New Systems Supported
 - Added support for more Free League games: Blade Runner, Coriolis, and Twilight 2000
