@@ -37,7 +37,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "Mort immédiate des PNJs",
-				"hint": "Si activé, la description la plus basse dans la liste des descriptions ne sera pas affichée pour les PNJs. A la place, ceux-ci seront marqués avec l'état \"Mort\" directement."
+				"hint": "Le dernier stade des jetons dont l'acteur n'est pas sélectionné par les joueurs est remplacé par le {setting}. Pour plus d'informations sur ce que signifie \"sélectionnés par les joueurs\" lisez le paragraphe Configuration de l'utilisateur dans l'article de Foundry concernant les \"utilisateurs et permissions\"."
 			},
 			"perfectionism": {
 				"name": "Meilleure présentation de la scène",
@@ -63,7 +63,7 @@
 				},
 				"useColor": {
 					"name": "Utiliser couleur",
-					"hint": "Si désactivé, les descriptions s'afficheront en noir et blanc."
+					"hint": "Les descriptions s'afficheront en noir et blanc."
 				},
 				"smoothGradient": {
 					"name": "Dégradé progressif",
@@ -157,7 +157,7 @@
 				"name": "Toujours montrer les estimations",
 				"hint": "Rendre les estimations toujours visibles au lieu de ne l'être qu'au survol du token."
 			},
-			"isNow": "est maintenant",
+			"isNow": "{name} est maintenant {desc}.",
 			"showDescription": {
 				"name": "Montrer les estimations : Utilisateurs",
 				"hint": "Montrer les estimations aux utilisateurs suivants.",
@@ -180,6 +180,46 @@
 			"combatOnly": {
 				"name": "Montrer seulement en combat",
 				"hint": "Montrer les estimations seulement quand un combat est actif."
+			},
+			"estimates": {
+				"best": "Meilleur",
+				"states": {
+					"0": "Inconscient",
+					"1": "Mourant",
+					"2": "Grièvement blessé",
+					"3": "Blessé",
+					"4": "Légèrement blessé",
+					"5": "Indemne"
+				},
+				"vehicles": {
+					"0": "Détruit",
+					"1": "En feu",
+					"3": "Endommagé",
+					"4": "Rayé",
+					"5": "Intact",
+					"2": "Fumant"
+				},
+				"thresholds": {
+					"0": "Détruit",
+					"1": "Brisé",
+					"2": "Parfaitement opérationnel"
+				},
+				"worst": "Pire"
+			},
+			"estimationSettings": {
+				"title": "Paramètres d'estimation",
+				"AddEstimate": "Ajouter une estimation",
+				"default": "Défaut",
+				"deleteTable": "Supprimer le tableau",
+				"estimate": "Estimation",
+				"jsRule": "Règle JS",
+				"prioDecrease": "Diminuer la priorité",
+				"ignoreColor": {
+					"name": "Ignorer la couleur",
+					"hint": "Ignore les couleurs de ce tableau et utilise les couleurs du prochain tableau valide pour le jeton. Cette fonction est destinée aux conditions qui doivent être prioritaires par rapport à une estimation, mais qui doivent tout de même utiliser la couleur de cette estimation."
+				},
+				"addTable": "Ajouter une table",
+				"prioIncrease": "Augmenter la priorité"
 			}
 		},
 		"dnd5e": {
@@ -283,11 +323,11 @@
 			},
 			"defaultWildCardMaxWounds": {
 				"name": "Blessures maximales du joker par défaut",
-				"hint": "Ceci est utilisé pour calculer les blessures maximales par défaut qu'un PNJ marqué comme Joker aura pour les estimations."
+				"hint": "Ceci est utilisé pour calculer les blessures maximales par défaut qu'un PNJ Joker aura pour les estimations."
 			},
 			"showIncap": {
 				"name": "{incap} Effet de statut",
-				"hint": "Les jetons avec l'effet de statut {incap} seront affichés comme {incap} au lieu de leurs estimations réelles. Cela ne fonctionne pas pour les jetons qui sont des véhicules ou morts."
+				"hint": "Les jetons avec l'effet de statut {incap} seront affichés comme {incap} au lieu de leurs estimations actuelles. Cela ne fonctionne pas pour les jetons qui sont des véhicules ou morts."
 			}
 		},
 		"custom-system-builder": {
@@ -297,6 +337,16 @@
 			},
 			"FractionHP": {
 				"hint": "Ce sera probablement {dataPath1} ou {dataPath2}."
+			}
+		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "Niveau de santé pour les PJ déficients",
+				"hint": "Fixer le niveau de santé maximal (actuel/maximal, fraction de 0,0 à 1,0) qui peut être reporté pour un PJ qui est déficient sur le compteur de mort"
+			},
+			"debilitated": {
+				"name": "Niveau de santé pour un PJ affaibli",
+				"hint": "Fixer le niveau de santé maximal (actuel/maximal, fraction de 0,0 à 1,0) qui peut être reporté pour un PJ qui est affaibli sur le compteur de mort"
 			}
 		}
 	}

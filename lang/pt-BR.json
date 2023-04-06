@@ -133,12 +133,12 @@
 				"hint": "O último estágio de PNJs é substituído pelo Nome do Estado de Morte."
 			},
 			"perfectionism": {
-				"name": "Comportamento",
-				"hint": "Descritor é o último estágio da configuração \"Estágios\".",
+				"name": "Exibir melhor estágio",
+				"hint": "Defina como o melhor estágio é exibido. O melhor estágio é o último estágio na configuração {setting1}. Sugestão para usuários que desativaram {setting2}: se você pretende que cada estágio seja igual a uma cor, não use a primeira opção.",
 				"choices": {
-					"0": "Mostrar o descritor até quando o alvo está machucado.",
-					"1": "Mostrar o descritor quando o alvo não está machucado.",
-					"2": "Não mostrar o descritor quando o alvo está machucado."
+					"0": "Mostrar o descritor até quando o alvo está machucado",
+					"1": "Mostrar o descritor quando o alvo não está machucado",
+					"2": "Ocultar completamente"
 				}
 			},
 			"outputChat": {
@@ -160,7 +160,7 @@
 				},
 				"useColor": {
 					"name": "Usar Cor",
-					"hint": "Isso não afetará as configurações abaixo, mas com a caixa de seleção desativada, os descritores serão mostrados em preto e branco."
+					"hint": "Os descritores serão mostrados em preto e branco."
 				},
 				"smoothGradient": {
 					"name": "Gradiente Suave",
@@ -215,7 +215,7 @@
 		"dnd5e": {
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descrições exibidas para naves (sempre) e veículos.",
+				"hint": "Descrições mostradas para veículos.",
 				"default": "Destruído, Quebrado, Surrado, Arranhado, Impecável"
 			}
 		},
@@ -243,6 +243,17 @@
 			"staminaToHp": {
 				"name": "Pontos de Estamina na Estimativa",
 				"hint": "Adiciona Pontos de Estamina à estimativa."
+			},
+			"hideHazardHP": {
+				"name": "Ocultar estimativa de perigo",
+				"hint": "Oculta a estimativa dos Perigos."
+			},
+			"hideVehicleHP": {
+				"name": "Ocultar a estimativa do veículo",
+				"hint": "Oculta a estimativa dos veículos."
+			},
+			"useThreshold": {
+				"hint": "Estima a integridade dos veículos em três estágios, portanto, é recomendável reduzir o número de estágios da configuração {setting} para três se você ativar essa configuração."
 			}
 		},
 		"numenera": {
@@ -254,7 +265,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Usar Limiar do Veículo",
-				"hint": "Se esta configuração estiver ativada, limite os estágios de \"Estágios de Veículo\" a 3."
+				"hint": "Veículos Use os estágios definidos na configuração {setting1}. Caso contrário, os veículos usarão a mesma descrição da configuração {setting2}."
 			},
 			"thresholdNames": {
 				"name": "Estágios de Limiar",
@@ -263,7 +274,7 @@
 			},
 			"vehicleNames": {
 				"name": "Estágios de Veículos",
-				"hint": "Descrições exibidas para naves (sempre) e veículos.",
+				"hint": "Descrições mostradas para drones, naves e veículos.",
 				"default": "Destruído, Quebrado, Surrado, Arranhado, Impecável"
 			},
 			"addStamina": {
@@ -279,14 +290,48 @@
 		},
 		"od6s": {
 			"vehicleNames": {
-				"name": "Estágios de Veículos e Naves",
-				"hint": "Descrições mostradas para naves e veículos",
+				"name": "Estágios de Veículos",
+				"hint": "Descrições mostradas para naves e veículos.",
 				"default": "Destruído, Gravemente Danificado, Muito Danificado, Ligeiramente Danificado, Muito Ligeiramente Danificado, Não danificado"
 			},
 			"thresholdNames": {
 				"name": "Limiar de Estágios",
 				"default": "Destruído, Quebrado, Totalmente Funcional",
 				"hint": "A quantidade de estágios é limitada a 3, organizadas da pior para a melhor condição"
+			}
+		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "Nível de saúde para PCs debilitados",
+				"hint": "Define o nível máximo de saúde (atual/máximo, fração 0.0 - 1.0) que pode ser relatado para um PC que está prejudicado no Caminho da Morte"
+			},
+			"debilitated": {
+				"name": "Nível de saúde para PCs Debilitados",
+				"hint": "Define o nível máximo de saúde (atual / máximo, fração 0.0 - 1.0) que pode ser relatado para um PC que está Debilitado no Caminho da Morte"
+			}
+		},
+		"swade": {
+			"defaultWildCardMaxWounds": {
+				"hint": "Isso é usado para calcular o máximo de ferimentos que um NPC Carta Selvagem teria por padrão para estimativas.",
+				"name": "Máximo de Ferimentos Padrão de Carta Selvagem"
+			},
+			"vehicleNames": {
+				"name": "Estágios do Veículo",
+				"hint": "Descrições mostradas para veículos.",
+				"default": "Destruído, Flamejante, Fumante, Maltratado, Riscado, Intocada"
+			},
+			"showIncap": {
+				"name": "Efeito de Estado {incap}",
+				"hint": "Tokens com o efeito de estado {incap} serão mostrados como {incap} em vez de suas estimativas atuais. Não funciona para tokens que são veículos ou estão mortos."
+			}
+		},
+		"custom-system-builder": {
+			"FractionHP": {
+				"hint": "Isso provavelmente será {dataPath1} ou {dataPath2}."
+			},
+			"tempHP": {
+				"name": "Caminho de dados do atributo de pontos de vida temporários",
+				"hint": "Deixe em branco se o sistema não tiver um ou se você não quiser que ele seja adicionado à estimativa."
 			}
 		}
 	}
