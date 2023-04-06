@@ -425,7 +425,7 @@ export class D35EEstimationProvider extends EstimationProvider {
 		this.customLogic = `
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
-		if (sGet("core.addTemp")) {
+		if (game.settings.get("healthEstimate", "core.addTemp")) {
 			addTemp = hp.temp;
 		}
 		const totalHp = hp.value + addTemp;`;
@@ -435,7 +435,7 @@ export class D35EEstimationProvider extends EstimationProvider {
 				name: game.i18n.localize("D35E.CondStaggered"),
 				ignoreColor: true,
 				rule: `
-					sGet("PF1.showExtra") &&
+					game.settings.get("healthEstimate", "PF1.showExtra") &&
 					(totalHp === 0 ||
 						(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
 						Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("D35E.CondStaggered")))`,
@@ -444,7 +444,7 @@ export class D35EEstimationProvider extends EstimationProvider {
 			{
 				name: t("PF1.dyingName.name"),
 				ignoreColor: true,
-				rule: `sGet("PF1.showExtra") && hp.nonlethal > totalHp`,
+				rule: `game.settings.get("healthEstimate", "PF1.showExtra") && hp.nonlethal > totalHp`,
 				estimates: [{ value: 100, label: t("core.estimates.states.0") }],
 			},
 		];
@@ -823,7 +823,7 @@ export class pf1EstimationProvider extends EstimationProvider {
 		this.customLogic = `
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
-		if (sGet("core.addTemp")) {
+		if (game.settings.get("healthEstimate", "core.addTemp")) {
 			addTemp = hp.temp;
 		}
 		const totalHp = hp.value + addTemp;`;
@@ -833,7 +833,7 @@ export class pf1EstimationProvider extends EstimationProvider {
 				name: game.i18n.localize("PF1.CondStaggered"),
 				ignoreColor: true,
 				rule: `
-					sGet("PF1.showExtra") &&
+					game.settings.get("healthEstimate", "PF1.showExtra") &&
 					(totalHp === 0 ||
 						(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
 						Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("PF1.CondStaggered")))`,
@@ -842,7 +842,7 @@ export class pf1EstimationProvider extends EstimationProvider {
 			{
 				name: t("PF1.dyingName.name"),
 				ignoreColor: true,
-				rule: `sGet("PF1.showExtra") && hp.nonlethal > totalHp`,
+				rule: `game.settings.get("healthEstimate", "PF1.showExtra") && hp.nonlethal > totalHp`,
 				estimates: [{ value: 100, label: t("PF1.dyingName.default") }],
 			},
 		];
@@ -1004,7 +1004,7 @@ export class sfrpgEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "Vehicle Threshold",
-				rule: `type === "vehicle" && sGet("starfinder.useThreshold")`,
+				rule: `type === "vehicle" && game.settings.get("healthEstimate", "starfinder.useThreshold")`,
 				estimates: [
 					{ value: 0, label: t("core.estimates.thresholds.0") },
 					{ value: 50, label: t("core.estimates.thresholds.1") },
