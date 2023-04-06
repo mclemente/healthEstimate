@@ -29,7 +29,7 @@ export const providerKeys = {
 	"blade-runner": "bladeRunner",
 	"blades-in-the-dark": "bladesInTheDark",
 	"custom-system-builder": "CustomSystemBuilder",
-	"cyberpunk-red-core": "cyberpunkRed",
+	"cyberpunk-red-core": "cyberpunkRedCore",
 	"forbidden-lands": "forbiddenLands",
 	"foundryvtt-reve-de-dragon": "reveDeDragon",
 	"scum-and-villainy": "scumAndVillainy",
