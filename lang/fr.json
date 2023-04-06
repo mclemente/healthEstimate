@@ -37,7 +37,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "Mort immédiate des PNJs",
-				"hint": "Si activé, la description la plus basse dans la liste des descriptions ne sera pas affichée pour les PNJs. A la place, ceux-ci seront marqués avec l'état \"Mort\" directement."
+				"hint": "Le dernier stade des jetons dont l'acteur n'est pas sélectionné par les joueurs est remplacé par le {setting}. Pour plus d'informations sur ce que signifie \"sélectionnés par les joueurs\" lisez le paragraphe Configuration de l'utilisateur dans l'article de Foundry concernant les \"utilisateurs et permissions\"."
 			},
 			"perfectionism": {
 				"name": "Meilleure présentation de la scène",
@@ -341,7 +341,12 @@
 		},
 		"cyphersystem": {
 			"impaired": {
-				"name": "Niveau de santé pour les PJ déficients"
+				"name": "Niveau de santé pour les PJ déficients",
+				"hint": "Fixer le niveau de santé maximal (actuel/maximal, fraction de 0,0 à 1,0) qui peut être reporté pour un PJ qui est déficient sur le compteur de mort"
+			},
+			"debilitated": {
+				"name": "Niveau de santé pour un PJ affaibli",
+				"hint": "Fixer le niveau de santé maximal (actuel/maximal, fraction de 0,0 à 1,0) qui peut être reporté pour un PJ qui est affaibli sur le compteur de mort"
 			}
 		}
 	}
