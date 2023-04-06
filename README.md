@@ -9,7 +9,7 @@
 
 A simple module for showing estimated health level of an enemy on mouseover, similar to Baldur's Gate games.  
 ![example](https://raw.githubusercontent.com/mclemente/healthEstimate/master/example.png?raw=true)  
-Be sure to read the [How To's](https://github.com/mclemente/healthEstimate/wiki/How-To's) for more info on how some features work.
+Be sure to read the [Getting Started](https://github.com/mclemente/healthEstimate/wiki/Getting-Started) wiki for more info on how some features work.
 
 ## Development and Contributing
 Health Estimate is a free and open source project. You can contribute to the project by making a merge request or by creating a [Github issue](https://github.com/mclemente/healthEstimate/issues).
