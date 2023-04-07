@@ -173,7 +173,7 @@ export class HealthEstimate {
 	 */
 	getEstimation(token) {
 		try {
-			const fraction = Number(this.getFraction(token).toFixed(2));
+			const fraction = Number(this.getFraction(token));
 			const { estimate, index } = this.getStage(token, fraction);
 			const isDead = this.isDead(token, estimate.value);
 
@@ -200,7 +200,7 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getFraction(token) {
-		return Math.min(this.fractionFormula(token), 1);
+		return Math.max(0, Math.min(this.fractionFormula(token), 1));
 	}
 
 	/**
@@ -218,6 +218,9 @@ export class HealthEstimate {
 		try {
 			const { estimation, special } = this.getTokenEstimate(token);
 			fraction *= 100;
+			// for cases where 1% > fraction > 0%
+			if (fraction != 0 && Math.floor(fraction) == 0) fraction = 0.1;
+			else fraction = Math.trunc(fraction);
 			const logic = (e) => e.value >= fraction;
 			const estimate = special ? special.estimates.find(logic) : estimation.estimates.find(logic) ?? { value: fraction, label: "" };
 			const index = estimation.estimates.findIndex(logic);
