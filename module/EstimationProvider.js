@@ -158,14 +158,7 @@ export class GenericEstimationProvider extends EstimationProvider {
 				},
 			},
 			...addTemp,
-			...breakOnZeroMaxHP,
 		};
-	}
-
-	get breakCondition() {
-		const hpPath = sGet("core.custom.FractionHP");
-		let hp = getNestedData(token, hpPath) || token.actor.system.attributes?.hp || token.actor.system.hp;
-		return `|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && ${hp.max} === 0)`;
 	}
 }
 
