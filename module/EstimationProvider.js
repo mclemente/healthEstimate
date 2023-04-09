@@ -370,6 +370,10 @@ export class cyberpunkRedCoreEstimationProvider extends EstimationProvider {
 		const hp = token.actor.system.derivedStats.hp;
 		return hp.value / hp.max;
 	}
+
+	get breakCondition() {
+		return `|| token.actor.type === 'container'`;
+	}
 }
 
 export class cyphersystemEstimationProvider extends EstimationProvider {
