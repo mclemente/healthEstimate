@@ -43,7 +43,7 @@
 			},
 			"deathState": {
 				"name": "Condición Estado de Muerte",
-				"hint": "Muestra el token como muerto cuando ha sido affectado por una condición que usa el icono establecido en el ajuste Marcador de Muerte. Funcona independendientemente de la macro."
+				"hint": "Muestra el token como muerto cuando ha sido afectado por una condición que usa el icono establecido en el ajuste Marcador de Muerte. Funciona independientemente de la macro."
 			},
 			"deathStateName": {
 				"name": "Nombre de Estado de Muerte",
@@ -108,26 +108,80 @@
 			},
 			"keybinds": {
 				"markDead": {
-					"name": "Marcar como muerto"
+					"name": "Marcar como muerto",
+					"hint": "Marca todos los tokens seleccionados como muertos. Si todos los tokens seleccionados ya están muertos, serán reseteados a vivos."
 				},
 				"dontMarkDead": {
-					"name": "No marcar como muerto"
+					"name": "No marcar como muerto",
+					"hint": "Configura los NPC para que no se muestren como muertos cuando sus HP llegan a 0 (ej. mostrará Inconsciente). Esto sólo es útil si estás usando la {configuración} configuración."
 				},
 				"hideEstimates": {
-					"name": "Ocultar estimaciones"
+					"name": "Ocultar estimaciones",
+					"hint": "Oculta las estimaciones de los tokens seleccionados a los jugadores. Las estimaciones ocultas se muestran como \"*\" al GM."
 				},
 				"hideNames": {
-					"name": "Ocultar nombres"
+					"name": "Ocultar nombres",
+					"hint": "Oculta los nombres de los tokens seleccionados cuando estás usando la {configuración} configuración."
 				},
 				"hideEstimatesAndNames": {
-					"name": "Ocultar estimaciones y nombres"
+					"name": "Ocultar estimaciones y nombres",
+					"hint": "Oculta tanto las estimaciones como los nombres de los tokens seleccionados."
 				},
 				"customEstimates": {
-					"name": "Estimaciones personalizadas"
+					"name": "Estimaciones personalizadas",
+					"options": {
+						"1": "Tokens y actores",
+						"2": "Sólo tokens"
+					},
+					"hint": "Configura estimaciones personalizadas para los tokens seleccionados. Déjelo vacío para resetearlo."
 				}
 			},
 			"alwaysShow": {
-				"name": "Mostrar siempre las estimaciones"
+				"name": "Siempre mostrar las estimaciones",
+				"hint": "Configura las estimaciones siempre visibles en lugar de sólo cuando te sitúas encima de un token."
+			},
+			"combatOnly": {
+				"name": "Mostrar sólo en combate",
+				"hint": "Mostrar las estimaciones sólo cuando un combate está activo."
+			},
+			"estimates": {
+				"worst": "Peor",
+				"best": "Mejor",
+				"states": {
+					"0": "Inconsciente",
+					"2": "Malherido",
+					"3": "Herido",
+					"4": "Apenas herido",
+					"5": "Desarmado",
+					"1": "Casi muerto"
+				},
+				"vehicles": {
+					"0": "Destrozado",
+					"1": "Flamante",
+					"2": "Humeante",
+					"3": "Machacado",
+					"4": "Rayado",
+					"5": "Pristino"
+				},
+				"thresholds": {
+					"0": "Destrozado",
+					"1": "Roto",
+					"2": "Completamente operativo"
+				}
+			},
+			"estimationSettings": {
+				"title": "Opciones de estimación",
+				"AddEstimate": "Añadir estimación",
+				"addTable": "Añadir tabla",
+				"default": "Por defecto",
+				"deleteTable": "Borrar tabla",
+				"estimate": "Estimado",
+				"prioDecrease": "Disminuir prioridad",
+				"prioIncrease": "Aumentar prioridad",
+				"ignoreColor": {
+					"name": "Ignorar color",
+					"hint": "Ignora los colores de esta tabla y usa los colores de la siguiente tabla válida para el token. Esto está pensado para condiciones que deberían tener prioridad sobre un estimado, pero aún deberían usar los colores de ese estimado."
+				}
 			}
 		},
 		"dnd5e": {
