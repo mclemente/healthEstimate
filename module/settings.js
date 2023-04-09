@@ -572,6 +572,8 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 		hideHealthEstimate: hideHealthEstimate,
 		hideName: hideName,
 		dontMarkDead: dontMarkDead,
+		dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
+		hideNameHint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
 	};
 
 	const insertHTML = await renderTemplate("modules/healthEstimate/templates/token-config.html", data);
