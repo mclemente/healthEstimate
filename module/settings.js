@@ -552,7 +552,7 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 			tab: {
 				name: "healthEstimate",
 				label: "Health Estimate",
-				icon: "fas fa-hand-pointer fa-fw",
+				icon: "fas fa-hand-pointer",
 			},
 		},
 		tokenConfig.object
@@ -581,10 +581,13 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 }
 
 export function onUpdateActor(actor, data, options, userId) {
-	if (!game.user.isGM || !canvas.scene) return;
-	let token = canvas.tokens?.placeables.find((e) => e.actor && e.actor.id == actor.id);
-	if (token && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token) && token.id in game.healthEstimate.actorsCurrentHP)
-		outputStageChange(token);
+	if (!game.user.isGM || !canvas.scene || !options?.diff) return;
+	let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id == actor.id);
+	for (let token of tokens) {
+		if (token && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token) && token.id in game.healthEstimate.actorsCurrentHP) {
+			outputStageChange(token);
+		}
+	}
 }
 
 // Starting in V11, this no longer works for changing a token's HP
