@@ -16,6 +16,7 @@
 				}
 			},
 			"estimates": {
+				"plural": "Estimates",
 				"worst": "Worst",
 				"best": "Best",
 				"states": {

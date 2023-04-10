@@ -551,8 +551,8 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 			moduleId: "healthEstimate",
 			tab: {
 				name: "healthEstimate",
-				label: "Health Estimate",
-				icon: "fas fa-hand-pointer",
+				label: t("core.estimates.plural"),
+				icon: "fas fa-scale-balanced",
 			},
 		},
 		tokenConfig.object
