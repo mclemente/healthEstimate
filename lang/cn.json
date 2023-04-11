@@ -45,7 +45,7 @@
 					"hint": "隐藏选中指示物的健康状况和姓名。"
 				}
 			},
-			"isNow": "现在是",
+			"isNow": "{name}现在是{desc}了。",
 			"unknownEntity": {
 				"name": "不明实体",
 				"hint": "设置隐藏角色如何呼出。",
@@ -94,7 +94,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "NPC 立刻死亡",
-				"hint": "开启这个选项，描述列表中最差的一项便不会为NPC们显示， 他们会被显示为死亡。"
+				"hint": "未被玩家选择的角色的指示物的健康状况的最后一个阶段会被{setting}替代。有关“玩家选择的角色”的更多信息，请阅读FVTT知识库里的“用户和权限”一文中的用户配置部分。"
 			},
 			"perfectionism": {
 				"name": "显示最佳阶段",
@@ -136,7 +136,7 @@
 				},
 				"useColor": {
 					"name": "使用颜色",
-					"hint": "这并不会影响设置窗口，但禁用该项会让描述以黑白显示。"
+					"hint": "健康状况黑白显示。"
 				},
 				"smoothGradient": {
 					"name": "平滑梯度",
@@ -164,6 +164,46 @@
 					"name": "调整健康状况缩放",
 					"hint": "缩放健康状况。 注意：{setting}不接受\"larger\"和\"smaller\"值，且{setting2}的数值会被忽略。"
 				}
+			},
+			"estimates": {
+				"worst": "最糟的",
+				"best": "最好的",
+				"states": {
+					"0": "失去意识",
+					"2": "重伤",
+					"4": "轻伤",
+					"3": "受伤",
+					"5": "无伤",
+					"1": "濒死"
+				},
+				"vehicles": {
+					"1": "冒火",
+					"2": "冒烟",
+					"0": "毁坏",
+					"3": "损坏",
+					"4": "划伤",
+					"5": "完好"
+				},
+				"thresholds": {
+					"0": "毁坏",
+					"1": "破损",
+					"2": "功能完好"
+				}
+			},
+			"estimationSettings": {
+				"AddEstimate": "增加健康状况",
+				"addTable": "增加种类",
+				"default": "默认",
+				"deleteTable": "删除种类",
+				"estimate": "健康状况",
+				"jsRule": "JS规则",
+				"prioDecrease": "降低优先级",
+				"prioIncrease": "提高优先级",
+				"ignoreColor": {
+					"name": "忽略颜色",
+					"hint": "忽略这个种类表的颜色并为指示物使用下一个合法的种类表的颜色。这意味着状态会比健康状况有更高的优先级，但是仍使用健康状况的颜色。"
+				},
+				"title": "健康状况设置"
 			}
 		},
 		"cyberpunk-red-core": {
@@ -267,7 +307,7 @@
 			},
 			"showIncap": {
 				"name": "{incap}状态效果",
-				"hint": "带有{incap}状态效果的指示物将被显示为{incap}而非实际生命估算。对载具或死亡指示物无效。"
+				"hint": "带有{incap}状态效果的指示物将被显示为{incap}而非实时的健康状况。对载具或死亡指示物无效。"
 			},
 			"defaultWildCardMaxWounds": {
 				"name": "Wild Card默认最大受伤值",
@@ -281,6 +321,16 @@
 			},
 			"FractionHP": {
 				"hint": "这大概是{dataPath1}或{dataPath2}"
+			}
+		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "受伤的PC的健康状况等级",
+				"hint": "设置追踪死亡时为受伤PC显示的最大HP水平（当前 / 最大，小数点从0.0 - 1.0）"
+			},
+			"debilitated": {
+				"name": "身体虚弱的PC的健康状况等级",
+				"hint": "设置追踪死亡时为疲惫（Debilitated）PC显示的最大HP水平（当前 / 最大，小数点从0.0 - 1.0）"
 			}
 		}
 	}
