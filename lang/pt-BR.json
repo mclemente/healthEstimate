@@ -38,7 +38,8 @@
 					"0": "Destruído",
 					"1": "Quebrado",
 					"2": "Funcional"
-				}
+				},
+				"plural": "Estimativas"
 			},
 			"estimationSettings": {
 				"title": "Configurações de Estimações",
@@ -88,8 +89,10 @@
 			"isNow": "{name} agora está {desc}.",
 			"unknownEntity": {
 				"name": "Nome da Entidade Desconhecida",
-				"hint": "Define como um personagem ocultado será chamado.",
-				"default": "Entidade Desconhecida"
+				"hint": "Define como um personagem ocultado será chamado.{warning}",
+				"default": "Entidade Desconhecida",
+				"warningCUB": "Se você está usando a opção de ocultar nomes do CUB, ela terá prioridade sobre este configuração.",
+				"warningPF2eWorkbench": "Se você está usando a opção de mistificar nomes do PF2e Workbench, ela terá prioridade sobre este configuração."
 			},
 			"alwaysShow": {
 				"name": "Sempre Mostrar Estimativas",
@@ -130,7 +133,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "PNJs morrem imediatamente",
-				"hint": "O último estágio de PNJs é substituído pelo Nome do Estado de Morte."
+				"hint": "O último estágio de tokens cujos atores não foram selecionados por jogadores será substituído pela configuração {setting}. Para mais informações sobre o que \"selecionados por jogadores\" significa, leia a seção \"User Configuration\" no artigo \"Users and Permissions\" no site do Foundry (em inglês)."
 			},
 			"perfectionism": {
 				"name": "Exibir melhor estágio",
@@ -143,7 +146,7 @@
 			},
 			"outputChat": {
 				"name": "Enviar Estimativa para o Chat",
-				"hint": "Envia mudanças nas estimativas ao chat. Personagens marcados com a macro \\\"Hide Character\\\" aparecem como a descrição da configuração {setting}."
+				"hint": "Envia mudanças nas estimativas ao chat. Personagens marcados com a configuração de token \"Hide Character\" aparecem como a descrição da configuração {setting}."
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
@@ -254,6 +257,10 @@
 			},
 			"useThreshold": {
 				"hint": "Estima a integridade dos veículos em três estágios, portanto, é recomendável reduzir o número de estágios da configuração {setting} para três se você ativar essa configuração."
+			},
+			"workbenchMystifier": {
+				"name": "(EXPERIMENTAL) Suporte ao Mistificador do PF2e Workbench",
+				"hint": "Se a Mistificação de PNJs estiver ativada, as estimativas no chat irão ignorar o nome na configuração {setting} e usará o próprio nome do token, desde que ele seja diferente do protótipo de token de seu ator original."
 			}
 		},
 		"numenera": {
