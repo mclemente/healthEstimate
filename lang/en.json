@@ -75,7 +75,7 @@
 				},
 				"hideEstimates": {
 					"name": "Hide Estimates",
-					"hint": "Hides the estimates of selected tokens from the players. Hidden estimates will show a \"*\" for the GM."
+					"hint": "Hides the estimates of selected tokens from the players. Hidden estimates will not be output to chat if the setting is on, and will be shown with an asterisk (*) for the GM."
 				},
 				"hideNames": {
 					"name": "Hide Names",
@@ -136,7 +136,7 @@
 			},
 			"outputChat": {
 				"name": "Output Estimate to Chat",
-				"hint": "Output any estimate changes to chat. Characters flagged with the Hide Estimate macro will be shown as the description of the {setting} setting."
+				"hint": "Output any estimate changes to chat. Characters flagged with the Hide Names token configuration will be shown as the description of the {setting} setting."
 			},
 			"addTemp": {
 				"name": "Add Temporary Health",
