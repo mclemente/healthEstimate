@@ -939,6 +939,12 @@ export class pf2eEstimationProvider extends EstimationProvider {
 				type: Boolean,
 				default: false,
 			},
+			"PF2E.workbenchMystifier": {
+				hint: f("PF2E.workbenchMystifier.hint", { setting: "core.unknownEntity.name" }),
+				config: game.modules.get("xdy-pf2e-workbench")?.active ?? false,
+				type: Boolean,
+				default: false,
+			},
 		};
 	}
 

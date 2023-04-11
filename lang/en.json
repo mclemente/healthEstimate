@@ -244,6 +244,10 @@
 			"hideVehicleHP": {
 				"name": "Hide Vehicle's Estimate",
 				"hint": "Hides the estimate from Vehicles."
+			},
+			"workbenchMystifier": {
+				"name": "(EXPERIMENTAL) PF2e Workbench's Mystifier Support",
+				"hint": "If the NPC Mystification settings are enabled, Chat Outputs will ignore the {setting} setting's name and use the token's name if it is different from its actor's Prototype Token's name."
 			}
 		},
 		"numenera": {

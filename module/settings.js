@@ -73,6 +73,7 @@ export const registerSettings = function () {
 	});
 	let warning = " ";
 	if (game.cub) warning += t("core.unknownEntity.warningCUB");
+	else if (game.modules.get("xdy-pf2e-workbench")?.active) warning += t("core.unknownEntity.warningPF2eWorkbench");
 	addSetting("core.unknownEntity", {
 		type: String,
 		hint: f("core.unknownEntity.hint", { warning }),
@@ -504,6 +505,14 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 		showExtraCheckbox.on("change", (event) => {
 			disableCheckbox(disabledNameInput, event.target.checked);
 			disableCheckbox(dyingNameInput, event.target.checked);
+		});
+	}
+	if (game.settings.settings.has("healthEstimate.PF2E.workbenchMystifier")) {
+		const workbenchMystifierCheckbox = html.find('input[name="healthEstimate.PF2E.workbenchMystifier"]');
+		disableCheckbox(workbenchMystifierCheckbox, outputChat);
+
+		outputChatCheckbox.on("change", (event) => {
+			disableCheckbox(workbenchMystifierCheckbox, event.target.checked);
 		});
 	}
 }
