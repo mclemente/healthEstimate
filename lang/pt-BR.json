@@ -75,7 +75,7 @@
 				},
 				"hideEstimates": {
 					"name": "Ocultar Estimativas",
-					"hint": "Oculta as estimativas de tokens selecionados para os jogadores. Estimativas ocultas mostrarão um \"*\" para o MJ."
+					"hint": "Oculta as estimativas de tokens selecionados para os jogadores. Estimativas ocultas não serão mostradas no chat se a configuração estiver ativa e aparecerão com um asterisco (*) para o MJ."
 				},
 				"hideNames": {
 					"name": "Ocultar Nomes",
@@ -146,7 +146,7 @@
 			},
 			"outputChat": {
 				"name": "Enviar Estimativa para o Chat",
-				"hint": "Envia mudanças nas estimativas ao chat. Personagens marcados com a configuração de token \"Hide Character\" aparecem como a descrição da configuração {setting}."
+				"hint": "Envia mudanças nas estimativas ao chat. Personagens marcados com a configuração de token Ocultar Estimativas aparecem como a descrição da configuração {setting}."
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
