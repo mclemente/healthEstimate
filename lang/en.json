@@ -89,8 +89,10 @@
 			"isNow": "{name} is now {desc}.",
 			"unknownEntity": {
 				"name": "Unknown Entity Name",
-				"hint": "Sets how a hidden character shall be called.",
-				"default": "Unknown Entity"
+				"hint": "Sets how a hidden character shall be called.{warning}",
+				"default": "Unknown Entity",
+				"warningCUB": "If you are using CUB's feature to hide names, it will take priority over this setting.",
+				"warningPF2eWorkbench": "If you are using PF2e Workbench's feature to mystify names, it will take priority over this setting."
 			},
 			"alwaysShow": {
 				"name": "Always Show Estimates",

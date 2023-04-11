@@ -71,8 +71,11 @@ export const registerSettings = function () {
 			}
 		},
 	});
+	let warning = " ";
+	if (game.cub) warning += t("core.unknownEntity.warningCUB");
 	addSetting("core.unknownEntity", {
 		type: String,
+		hint: f("core.unknownEntity.hint", { warning }),
 		default: game.i18n.localize("healthEstimate.core.unknownEntity.default"),
 	});
 
@@ -551,7 +554,7 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 			moduleId: "healthEstimate",
 			tab: {
 				name: "healthEstimate",
-				label: t("core.estimates.plural"),
+				label: "Estimates",
 				icon: "fas fa-scale-balanced",
 			},
 		},
