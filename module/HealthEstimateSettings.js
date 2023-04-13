@@ -37,6 +37,12 @@ class HealthEstimateSettings extends FormApplication {
 		};
 	}
 
+	async resetToDefault(key) {
+		const path = `core.${key}`;
+		const defaultValue = game.settings.settings.get(`healthEstimate.${path}`).default;
+		await game.settings.set("healthEstimate", path, defaultValue);
+	}
+
 	/**
 	 * Executes on form submission
 	 * @param {Event} event - the form submission event
@@ -78,21 +84,8 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 	async activateListeners(html) {
 		super.activateListeners(html);
 
-		function resetToDefault(path) {
-			return game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
-		}
-
 		html.find("button[name=reset]").on("click", async (event) => {
-			const paths = [
-				"core.alwaysShow",
-				"core.combatOnly",
-				"core.showDescription",
-				"core.showDescriptionTokenType",
-				"core.deathState",
-				"core.deathStateName",
-				"core.NPCsJustDie",
-				"core.deathMarker",
-			];
+			const paths = ["alwaysShow", "combatOnly", "showDescription", "showDescriptionTokenType", "deathState", "deathStateName", "NPCsJustDie", "deathMarker"];
 
 			await Promise.all(paths.map(resetToDefault));
 			canvas.scene?.tokens.forEach((token) => token.object.refresh());
@@ -138,12 +131,6 @@ export class EstimationSettings extends HealthEstimateSettings {
 
 	async activateListeners(html) {
 		super.activateListeners(html);
-
-		async function resetToDefault(key) {
-			const path = `core.${key}`;
-			await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
-		}
-
 		html.find("button[name=reset]").on("click", async (event) => {
 			await resetToDefault("estimations");
 			this.estimations = sGet("core.estimations");
@@ -304,7 +291,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 
 			$(el).spectrum({
 				color: handler.getColor(),
-				showAlpha: true,
+				showAlpha: false,
 				change(color) {
 					handler.setColor(color.toRgbString());
 				},
@@ -358,7 +345,17 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		const mode = document.getElementById(`mode`).value;
 		const colorHandler = mode === "bez" ? `bezier(colors).scale()` : `scale(colors).mode('${mode}')`;
 
-		this.gradFn = new Function(`amount`, `colors`, `colorPositions`, `return (chroma.${colorHandler}.domain(colorPositions).colors(amount))`);
+		/**
+		 *
+		 * @param {Number} amount
+		 * @param {[String]} colors
+		 * @param {[Number]} colorPositions
+		 * @returns {[String]}
+		 */
+		this.gradFn = (amount, colors, colorPositions) => {
+			if (mode === "bez") return chroma.bezier(colors).scale().domain(colorPositions).colors(amount);
+			else return chroma.scale(colors).mode(`${mode}`).domain(colorPositions).colors(amount);
+		};
 
 		this.updateOutlineFunction();
 		this.updateGradient();
@@ -367,25 +364,21 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		const outlineHandler = this.outlineMode.value;
 		const outlineAmount = this.outlineIntensity.value;
 
-		this.outlFn = new Function(
-			"color=false",
-			`let res = []
-			if (color) {
-				res = chroma(color).${outlineHandler}(${outlineAmount}).hex()
-			} else {
-				for (c of this.gradColors) {
-					res.push(chroma(c).${outlineHandler}(${outlineAmount}).hex())
-				}
-			}
-			return res`
-		);
+		/**
+		 * @param {Boolean} color
+		 * @returns {[String]}
+		 */
+		this.outlFn = (color = false) => {
+			if (color) return chroma(color)[outlineHandler](outlineAmount).hex();
+			else return this.gradColors.map((c) => chroma(c)[outlineHandler](outlineAmount).hex());
+		};
 	}
 
 	updateGradient() {
-		const colors = this.gp.handlers.map((a) => a.color);
-		const colorPositions = this.gp.handlers.map((a) => Math.round(a.position) / 100);
 		this.gradLength = this.smoothGradient.checked ? 100 : sGet("core.estimations")[0].estimates.length;
 		const width = 100 / this.gradLength;
+		const colors = this.gp.handlers.map((a) => a.color);
+		const colorPositions = this.gp.handlers.map((a) => Math.round(a.position) / 100);
 		this.gradColors = this.gradFn(this.gradLength, colors, colorPositions);
 		this.outlColors = this.outlFn();
 		let gradString = "";
@@ -398,7 +391,6 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 					background-color:${this.gradColors[i]};
 				"></span>`;
 		}
-		// (chroma.bezier(colors).scale().domain(positions).mode('cmyk'))(i / 100).hex()
 		this.gradEx.innerHTML = gradString;
 		this.updateSample();
 	}
@@ -409,89 +401,99 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		const deadSample = document.getElementById("healthEstimateSample").children[0];
 		const deadColor = this.useColor ? this.deadColor.value : "#FFF";
 		const deadOutline = this.useColor ? this.deadOutline : "#000";
-		sample.style.setProperty("font-size", `${this.fontSize.value}px`);
-		const changeColorList = [deadSample];
-		if (this.useColor) {
-			sampleAnimation.classList.add("healthEstimateAnimate");
-			for (let i = 0; i <= 6; i++) {
-				const index = Math.round(this.gradLength * ((i - 1) / 5));
-				const position = Math.max(index - 1, 0);
-				document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}`, this.gradColors[position]);
-				document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}-outline`, this.outlColors[position]);
-			}
-		} else {
-			changeColorList.push(sampleAnimation);
-			sampleAnimation.classList.remove("healthEstimateAnimate");
-			this.clearDocument();
-		}
+		sample.style.fontSize = `${this.fontSize.value}px`;
 
-		for (let element of changeColorList) {
-			element.style.color = deadColor;
-			element.style.textShadow = `-1px -1px 1px ${deadOutline}, 0 -1px 1px ${deadOutline}, 1px -1px 1px ${deadOutline},
+		deadSample.style.color = deadColor;
+		deadSample.style.textShadow = `-1px -1px 1px ${deadOutline}, 0 -1px 1px ${deadOutline}, 1px -1px 1px ${deadOutline},
 			1px 0 1px ${deadOutline}, 1px 1px 1px ${deadOutline}, 0 1px 1px ${deadOutline},
 			-1px 1px 1px ${deadOutline}, -1px 0 1px ${deadOutline}`;
+
+		if (this.useColor) {
+			sampleAnimation.classList.add("healthEstimateAnimate");
+			for (let i = 1; i <= 6; i++) {
+				const index = Math.round(this.gradLength * ((i - 1) / 5));
+				const position = Math.max(index - 1, 0);
+				const keyframe = `--healthEstimate-keyframe-${index}`;
+				const outlineKeyframe = `${keyframe}-outline`;
+				const gradColor = this.gradColors[position];
+				const outlColor = this.outlColors[position];
+
+				document.documentElement.style.setProperty(keyframe, gradColor);
+				document.documentElement.style.setProperty(outlineKeyframe, outlColor);
+			}
+		} else {
+			sampleAnimation.classList.remove("healthEstimateAnimate");
+			this.clearKeyframes();
 		}
 	}
 
-	clearDocument() {
-		for (let i = 0; i <= 6; i++) {
-			const index = Math.round(this.gradLength * ((i - 1) / 5));
-			document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}`, null);
-			document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}-outline`, null);
+	clearKeyframes() {
+		try {
+			for (let i = 0; i <= 6; i++) {
+				const index = Math.round(this.gradLength * ((i - 1) / 5));
+				document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}`, null);
+				document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}-outline`, null);
+			}
+		} catch (err) {
+			console.error("Health Estimate | Error clearing document styles", err);
 		}
 	}
 
 	async activateListeners(html) {
 		super.activateListeners(html);
 		html.find("button[name=reset]").on("click", async (event) => {
-			async function resetToDefault(key) {
-				const path = `core.menuSettings.${key}`;
-				await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
-			}
-			await resetToDefault("useColor");
-			await resetToDefault("smoothGradient");
-			await resetToDefault("deadColor");
-			await resetToDefault("fontSize");
-			await resetToDefault("positionAdjustment");
-			await resetToDefault("position");
-			await resetToDefault("mode");
-			await resetToDefault("outline");
-			await resetToDefault("outlineIntensity");
-			await resetToDefault("scaleToZoom");
+			const paths = [
+				"menuSettings.useColor",
+				"menuSettings.smoothGradient",
+				"menuSettings.deadColor",
+				"menuSettings.fontSize",
+				"menuSettings.positionAdjustment",
+				"menuSettings.position",
+				"menuSettings.mode",
+				"menuSettings.outline",
+				"menuSettings.outlineIntensity",
+				"menuSettings.scaleToZoom",
+				"variables.colors",
+				"variables.outline",
+				"variables.deadColor",
+				"variables.deadOutline",
+			];
+			await Promise.all(paths.map(resetToDefault));
 			this.close();
 		});
 	}
 
 	async close(options = {}) {
-		this.clearDocument();
+		this.clearKeyframes();
 		super.close(options);
 	}
 
 	async _updateObject(event, formData) {
-		if (event.type === "submit") {
-			const iterableSettings = Object.keys(formData).filter((key) => key.indexOf("outline") === -1);
-			for (let key of iterableSettings) {
-				await sSet(`core.menuSettings.${key}`, formData[key]);
-			}
-			let deadColor = formData.deadColor;
-			if (!formData.useColor) {
-				this.gradColors = ["#FFF"];
-				this.outlColors = ["#000"];
-				this.deadOutline = "#000";
-				deadColor = "#FFF";
-			}
-			await sSet(`core.menuSettings.gradient`, {
+		if (event.type !== "submit") return;
+		const menuSettingsKeys = Object.keys(formData).filter((key) => key.indexOf("outline") === -1);
+		const updates = menuSettingsKeys.map((key) => sSet(`core.menuSettings.${key}`, formData[key]));
+		await Promise.all(updates);
+
+		if (!formData.useColor) {
+			this.gradColors = ["#FFF"];
+			this.outlColors = ["#000"];
+			this.deadOutline = "#000";
+			formData.deadColor = "#FFF";
+		}
+		const variableUpdates = [
+			sSet(`core.menuSettings.gradient`, {
 				colors: this.gp.handlers.map((a) => a.color),
 				positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
-			});
-			await sSet(`core.menuSettings.outline`, formData.outlineMode);
-			await sSet(`core.menuSettings.outlineIntensity`, formData.outlineIntensity);
+			}),
+			sSet(`core.menuSettings.outline`, formData.outlineMode),
+			sSet(`core.menuSettings.outlineIntensity`, formData.outlineIntensity),
+			sSet(`core.variables.colors`, this.gradColors),
+			sSet(`core.variables.outline`, this.outlColors),
+			sSet(`core.variables.deadColor`, formData.deadColor),
+			sSet(`core.variables.deadOutline`, this.deadOutline),
+		];
+		await Promise.all(variableUpdates);
 
-			await sSet(`core.variables.colors`, this.gradColors);
-			await sSet(`core.variables.outline`, this.outlColors);
-			await sSet(`core.variables.deadColor`, deadColor);
-			await sSet(`core.variables.deadOutline`, this.deadOutline);
-			canvas.scene?.tokens.forEach((token) => token.object.refresh());
-		}
+		canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 }

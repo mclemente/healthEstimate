@@ -551,47 +551,40 @@ export function disableCheckbox(checkbox, boolean) {
  * @param {JQuery} html
  */
 export async function renderTokenConfigHandler(tokenConfig, html) {
-	injectConfig.inject(
-		tokenConfig,
-		html,
-		{
-			moduleId: "healthEstimate",
-			tab: {
-				name: "healthEstimate",
-				label: "Estimates",
-				icon: "fas fa-scale-balanced",
-			},
-		},
-		tokenConfig.object
-	);
-	const posTab = html.find('.tab[data-tab="healthEstimate"]');
+	const moduleId = "healthEstimate";
+	const tab = {
+		name: moduleId,
+		label: "Estimates",
+		icon: "fas fa-scale-balanced",
+	};
+	injectConfig.inject(tokenConfig, html, { moduleId, tab }, tokenConfig.object);
 
-	if (tokenConfig.options.sheetConfig) {
-		var hideHealthEstimate = tokenConfig.object.getFlag("healthEstimate", "hideHealthEstimate") ? "checked" : "";
-		var hideName = tokenConfig.object.getFlag("healthEstimate", "hideName") ? "checked" : "";
-		var dontMarkDead = tokenConfig.object.getFlag("healthEstimate", "dontMarkDead") ? "checked" : "";
-	} else {
-		hideHealthEstimate = tokenConfig.token.flags?.healthEstimate?.hideHealthEstimate ? "checked" : "";
-		hideName = tokenConfig.token.flags?.healthEstimate?.hideName ? "checked" : "";
-		dontMarkDead = tokenConfig.token.flags?.healthEstimate?.dontMarkDead ? "checked" : "";
-	}
-	let data = {
-		hideHealthEstimate: hideHealthEstimate,
-		hideName: hideName,
-		dontMarkDead: dontMarkDead,
+	const posTab = html.find(`.tab[data-tab="${moduleId}"]`);
+	const tokenFlags = tokenConfig.options.sheetConfig ? tokenConfig.object.flags?.healthEstimate : tokenConfig.token.flags?.healthEstimate;
+
+	const data = {
+		hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
+		hideName: tokenFlags?.hideName ? "checked" : "",
+		dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
 		dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
 		hideNameHint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
 	};
 
-	const insertHTML = await renderTemplate("modules/healthEstimate/templates/token-config.html", data);
+	const insertHTML = await renderTemplate(`modules/${moduleId}/templates/token-config.html`, data);
 	posTab.append(insertHTML);
 }
 
 export function onUpdateActor(actor, data, options, userId) {
+	// Only execute this function if the user is the GM, there is an active scene, and the update alters the actor
 	if (!game.user.isGM || !canvas.scene || !options?.diff) return;
-	let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id == actor.id);
+
+	// Filter tokens associated with the updated actor.
+	let tokens = canvas.tokens?.placeables.filter((token) => token.actor?.id === actor.id);
+
+	// Iterate through the filtered tokens.
 	for (let token of tokens) {
-		if (token && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token) && token.id in game.healthEstimate.actorsCurrentHP) {
+		// Only render the estimate if the token is not breaking the overlay render, the estimate is not hidden, and the token's ID is in the list of current actors' HP.
+		if (token?.id && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token) && game.healthEstimate.actorsCurrentHP?.[token.id]) {
 			outputStageChange(token);
 		}
 	}
