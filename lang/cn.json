@@ -34,7 +34,7 @@
 				},
 				"hideEstimates": {
 					"name": "隐藏健康状况",
-					"hint": "对玩家隐藏选中指示物的健康状况。会显示一个\"*\"给GM。"
+					"hint": "对玩家隐藏选中指示物的健康状况。若设置为“是”，隐藏的健康状况会发送至聊天，并为GM显示*号标记。"
 				},
 				"hideNames": {
 					"name": "隐藏姓名",
@@ -48,7 +48,7 @@
 			"isNow": "{name}现在是{desc}了。",
 			"unknownEntity": {
 				"name": "不明实体",
-				"hint": "设置隐藏角色如何呼出。",
+				"hint": "设置隐藏角色如何呼出。{warning}",
 				"default": "不明实体",
 				"warningCUB": "如果你正在使用CUB的隐藏名称功能，将优先使用CUB功能。",
 				"warningPF2eWorkbench": "如果你正在使用PF2e Workbench的名称神秘化功能，将优先使用Workbench功能。"
@@ -109,7 +109,7 @@
 			},
 			"outputChat": {
 				"name": "将健康状况发到聊天栏",
-				"hint": "将任何健康状况的变化发到聊天栏。标记为“隐藏健康状况”的角色将显示{setting}设置的描述。"
+				"hint": "将任何健康状况的变化发到聊天栏。指示物配置为“隐藏名称”的角色将显示{setting}设置的描述。"
 			},
 			"addTemp": {
 				"name": "添加临时生命值",
