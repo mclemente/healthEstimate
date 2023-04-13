@@ -49,7 +49,9 @@
 			"unknownEntity": {
 				"name": "不明实体",
 				"hint": "设置隐藏角色如何呼出。",
-				"default": "不明实体"
+				"default": "不明实体",
+				"warningCUB": "如果你正在使用CUB的隐藏名称功能，将优先使用CUB功能。",
+				"warningPF2eWorkbench": "如果你正在使用PF2e Workbench的名称神秘化功能，将优先使用Workbench功能。"
 			},
 			"alwaysShow": {
 				"name": "总是显示健康状况",
@@ -188,7 +190,8 @@
 					"0": "毁坏",
 					"1": "破损",
 					"2": "功能完好"
-				}
+				},
+				"plural": "预估值"
 			},
 			"estimationSettings": {
 				"AddEstimate": "增加健康状况",
@@ -253,6 +256,10 @@
 			"hideVehicleHP": {
 				"name": "隐藏载具估算",
 				"hint": "隐藏载具的生命值估算。"
+			},
+			"workbenchMystifier": {
+				"name": "(实验性) PF2e Workbench神秘化支持",
+				"hint": "如果启用了NPC神秘化功能，聊天输出将忽略{setting}的设置名称，若指示物名称与角色原始指示物名称不同，则改为使用指示物名称。"
 			}
 		},
 		"numenera": {

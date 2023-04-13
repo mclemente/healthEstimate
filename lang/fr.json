@@ -137,7 +137,7 @@
 				},
 				"hideEstimates": {
 					"name": "Cacher les estimations",
-					"hint": "Cache les estimations des tokens sélectionnés aux joueurs. Les estimations cachées afficheront un \"*\" pour le MJ."
+					"hint": "Cache aux joueurs les estimations des jetons sélectionnés. Les estimations cachées ne s'afficheront pas dans la conversation si le paramètre est activé et seront affichées avec un (*) pour le MJ."
 				},
 				"hideNames": {
 					"name": "Cacher les noms",
@@ -150,8 +150,10 @@
 			},
 			"unknownEntity": {
 				"name": "Nom de l'entité inconnue",
-				"hint": "Définir comment un personnage caché doit être appelé.",
-				"default": "Entité inconnue"
+				"hint": "Définir comment un personnage caché doit être appelé.{warning}",
+				"default": "Entité inconnue",
+				"warningCUB": "Si vous utiliser la capacité du noyau de foundry pour cacher les noms, cela prendra priorité sur ce réglage.",
+				"warningPF2eWorkbench": "Si vous utilisez la fonctionnalité PF2e Workbench pour mystifier les noms, cela prendra la priorité sur ce réglage."
 			},
 			"alwaysShow": {
 				"name": "Toujours montrer les estimations",
@@ -175,7 +177,7 @@
 			},
 			"outputChat": {
 				"name": "Résultat de l'estimation dans la conversation",
-				"hint": "Sortir tout changement d'état dans la conversation. Les personnages affligés avec la macro Cacher l'estimation seront affichés par la description du réglage {setting}."
+				"hint": "Sortir tout changement d'estimation dans la conversation. Les personnages signalés avec la configuration pour cacher les noms seront affichés par la description du réglage {setting}."
 			},
 			"combatOnly": {
 				"name": "Montrer seulement en combat",
@@ -204,7 +206,8 @@
 					"1": "Brisé",
 					"2": "Parfaitement opérationnel"
 				},
-				"worst": "Pire"
+				"worst": "Pire",
+				"plural": "Estimations"
 			},
 			"estimationSettings": {
 				"title": "Paramètres d'estimation",
@@ -313,6 +316,10 @@
 			},
 			"useThreshold": {
 				"hint": "Estime la santé des véhicules à trois stades, de sorte qu'il est recommandé de réduire le nombre de stade du réglage {setting} à trois si vous activez ce réglage."
+			},
+			"workbenchMystifier": {
+				"name": "[Expérimental] Supporte le mystificateur de PF2e Workbench",
+				"hint": "Si les réglages de mystification de PNJ sont activés, les sorties dans la conversation ignoreront les noms des réglages {setting} et utiliseront le nom du jeton si est différent de son nom de jeton du prototype d'acteur."
 			}
 		},
 		"swade": {
