@@ -36,12 +36,12 @@
 		{{/with}}
 	</div>
 	<div class="form-group">
-		<span class="sampleFrameHE">
-			{{! <img src="./modules/healthEstimate/static/frame.png" alt="" style="margin-bottom: -106px"> }}
+		<span id="sampleFrameHE" class="sampleFrameHE flexcol">
 			<div id="healthEstimateSample" class="healthEstimateSample">
 				<span class="healthEstimateColor">{{deadText}}&nbsp;</span>
-				<span class="healthEstimateAnimate">Sample</span>
+				<span id="SampleAnimation" class="healthEstimateAnimate">Sample</span>
 			</div>
+			{{! <img id="templateTokenFrame" src="./modules/healthEstimate/static/frame.png" alt="Template Token Frame" /> }}
 		</span>
 	</div>
 	<div class="form-group">
@@ -49,32 +49,35 @@
 			<div class="form-group">
 				{{#with outline}}
 					<label>{{localize name}}</label>
-					<select name="outlineMode" class="form-fileds normalBox" id="outlineMode">
+					<select name="outlineMode" class="form-fields" id="outlineMode">
 						{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
 					</select>
 				{{/with}}
 				{{#with outlineIntensity}}
-					<span class="smallBox">&nbsp;×&nbsp;</span>
-					<input type="number" step="0.1" min="0" value="{{this.value}}" name="outlineIntensity" id="outlineIntensity" class="numberHE" />
+					<input type="range" name="outlineIntensity" id="outlineIntensity" value="{{value}}" min="0" max="10" step="0.1" />
+					<span class="range-value">{{value}}</span>
 				{{/with}}
 			</div>
 			<div class="form-group">
 				{{#with fontSize}}
 					<label>{{localize name}}</label>
-					<input class="bigBox" type="text" value="{{value}}" name="fontSize" id="fontSize" />
-					<p class="notes">{{localize hint}}</p>
+					<input type="range" name="fontSize" id="fontSize" data-dtype="Number" value="{{value}}" min="1" max="72" step="1" />
+					<span class="range-value">{{value}}</span>
 				{{/with}}
 			</div>
 			<div class="form-group">
 				{{#with position}}
 					<label>{{localize name}}</label>
-					<select name="position" class="form-fileds normalBox" id="position">
-						{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
-					</select>
+					<input type="range" name="position" id="position" data-dtype="Number" value="{{value}}" min="-100" max="100" step="1" />
+					<span class="range-value">{{value}}</span>
+					<p class="notes">{{localize hint}}</p>
 				{{/with}}
-				<span class="smallBox">&nbsp;×&nbsp;</span>
+			</div>
+			<div class="form-group">
 				{{#with positionAdjustment}}
-					<input type="number" step="0.1" value="{{value}}" name="positionAdjustment" id="positionAdjustment" class="numberHE" />
+					<label>{{localize name}}</label>
+					<input type="range" name="positionAdjustment" id="positionAdjustment" data-dtype="Number" value="{{value}}" min="-1" max="1" step="0.1" />
+					<span class="range-value">{{value}}</span>
 					<p class="notes">{{localize hint}}</p>
 				{{/with}}
 			</div>

@@ -67,6 +67,11 @@ export class HealthEstimate {
 		Hooks.on("hoverToken", (token, hovered) => {
 			this._handleOverlay(token, this.showCondition(hovered));
 		});
+		if (this.scaleToZoom) {
+			Hooks.on("canvasPan", (canvas, constrained) => {
+				canvas.scene.tokens.forEach((token) => token.object.refresh());
+			});
+		}
 		if (this.alwaysShow) {
 			canvas.scene.tokens.forEach((token) => token.object.refresh());
 			Hooks.on("updateActor", this.alwaysOnUpdateActor);
@@ -75,7 +80,10 @@ export class HealthEstimate {
 		Hooks.on("canvasInit", this.canvasInit.bind(this));
 	}
 
-	//Helpers
+	/**
+	 * @param {Token} token
+	 * @param {Boolean} hovered
+	 */
 	_handleOverlay(token, hovered) {
 		if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 		if (!token?.actor) return;
@@ -90,51 +98,28 @@ export class HealthEstimate {
 			const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
 			token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
 
+			token.healthEstimate.scale.x = 0.25;
+			token.healthEstimate.scale.y = 0.25;
 			token.healthEstimate.anchor.x = 0.5;
-			if (!this.scaleToZoom || (this.scaleToZoom && zoomLevel >= 1)) {
-				token.healthEstimate.anchor.y = this.margin;
-			}
-			const gridSize = canvas.scene.grid.size;
-			const width = gridSize * token.document.width;
-			const height = gridSize * token.document.height;
-			token.healthEstimate.x = Math.floor(width / 2);
-			switch (this.alignment) {
-				case "start":
-					token.healthEstimate.y = -50;
-					break;
-				case "center":
-					break;
-				case "end":
-					token.healthEstimate.y = height;
-					break;
-				default:
-					console.error(`Health Estimate | Style Setting: Position isn't supposed to be of value "${this.alignment}".`);
-			}
+			if (!this.scaleToZoom || (this.scaleToZoom && zoomLevel >= 1)) token.healthEstimate.anchor.y = this.margin;
+
+			token.healthEstimate.x = Math.floor((canvas.scene.grid.size * token.document.width) / 2);
+			token.healthEstimate.y = isNaN(Number(this.alignment)) ? -65 : this.alignment;
 		} else if (token.healthEstimate) token.healthEstimate.visible = false;
 	}
 
 	_getUserTextStyle(zoomLevel, color, stroke) {
-		let fontSize = this.fontSize;
-		if (this.scaleToZoom && zoomLevel < 1) {
-			if (isNaN(Number(fontSize.replace("px", "")))) {
-				const cssValues = {
-					"x-small": 10,
-					small: 13,
-					medium: 16,
-					large: 18,
-					"x-large": 24,
-				};
-				fontSize = cssValues[fontSize] || 24;
-			} else fontSize = fontSize.replace("px", "");
-			fontSize = `${24 * (1 / zoomLevel)}px`;
-		}
+		if (this.scaleToZoom && zoomLevel < 1) var fontSize = 24 * (1 / zoomLevel);
+		else fontSize = isNaN(Number(this.fontSize)) ? 24 : this.fontSize;
+		// Trick to render text at a higher resolution, it'll be scaled down to the same size.
+		fontSize *= 4;
 
 		return {
-			fontSize: fontSize,
+			fontSize,
 			fontFamily: CONFIG.canvasTextStyle.fontFamily,
 			fill: color,
-			stroke: stroke,
-			strokeThickness: 3,
+			stroke,
+			strokeThickness: 12,
 			padding: 5,
 		};
 	}
@@ -291,7 +276,7 @@ export class HealthEstimate {
 
 	showCondition(hovered) {
 		const combatTrigger = this.combatOnly && this.combatRunning;
-		return (this.alwaysShow && combatTrigger) || (this.alwaysShow && !this.combatOnly) || (hovered && combatTrigger) || (hovered && !this.combatOnly);
+		return (this.alwaysShow && (combatTrigger || !this.combatOnly)) || (hovered && (combatTrigger || !this.combatOnly));
 	}
 
 	/**

@@ -181,17 +181,18 @@
 				},
 				"position": {
 					"name": "Position",
+					"hint": "The position is set relative to the token's frame. Negative values push it higher; positive, lower.",
 					"top": "Top",
 					"middle": "Middle",
 					"bottom": "Bottom"
 				},
 				"positionAdjustment": {
-					"name": "Position Adjustment",
-					"hint": "Position is set relative to the frame. The number lets you tweak the position relative to its normal place. Positive numbers push it higher; negative – lower. The default value of -1 sets it to \"1 line below initial position\"."
+					"name": "Margin Adjustment",
+					"hint": "Adjust the text's margin. Positive values push it higher; negative, lower."
 				},
 				"scaleToZoom": {
 					"name": "Scale Estimates to Zoom",
-					"hint": "Scales the estimate based on the zoom distance. Caveats: {setting} won't accept the \"larger\" and \"smaller\" values, and {setting2}'s number will be ignored."
+					"hint": "Scales the estimate based on the zoom distance. {setting2} setting's value will be ignored while zooming out."
 				}
 			}
 		},

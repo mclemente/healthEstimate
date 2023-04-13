@@ -123,22 +123,17 @@
 .form.healthEstimate .delete-cell {
 	text-align: center;
 }
-.form.healthEstimate .numberHE {
-	flex: 0 0 4em;
+.form.healthEstimate select[name="outlineMode"] {
+	flex: 0 1 103px;
+	margin-right: 10px;
 }
-.form.healthEstimate .bigBox {
-	flex: 2.55;
-}
-.form.healthEstimate .normalBox {
+.form.healthEstimate input[name="outlineIntensity"] {
 	flex: 2;
 }
-.form.healthEstimate .smallBox {
-	flex: 0;
-	margin-top: 0.1em;
-	font-size: 17px;
-}
 .form.healthEstimate .sampleFrameHE img {
-	margin-bottom: -106px;
+	width: 108px;
+	margin-left: auto;
+	margin-right: auto;
 }
 .form.healthEstimate textarea {
 	resize: vertical;
@@ -217,27 +212,6 @@ li.hm_messageheal {
 }
 li.hm_messagetaken {
 	background: #c50d19 !important;
-}
-.numberHE {
-	width: calc(100% - 2px);
-	min-width: 20px;
-	height: 24px;
-	background: rgba(0, 0, 0, 0.05);
-	padding: 1px 3px;
-	margin: 0;
-	color: #191813;
-	font-family: inherit;
-	font-size: inherit;
-	text-align: inherit;
-	line-height: inherit;
-	border: 1px solid #7a7971;
-	border-radius: 3px;
-	user-select: text;
-}
-.numberHE::-webkit-inner-spin-button,
-.numberHE::-webkit-outer-spin-button {
-	font-size: 1.3em;
-	opacity: 1;
 }
 .gradient-settings {
 	display: flex;

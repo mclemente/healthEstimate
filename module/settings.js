@@ -166,7 +166,7 @@ export const registerSettings = function () {
 		default: true,
 	});
 	addMenuSetting("core.menuSettings.scaleToZoom", {
-		hint: f("core.menuSettings.scaleToZoom.hint", { setting: t("core.menuSettings.fontSize.name"), setting2: t("core.menuSettings.position.name") }),
+		hint: f("core.menuSettings.scaleToZoom.hint", { setting: t("core.menuSettings.fontSize.name"), setting2: t("core.menuSettings.positionAdjustment.name") }),
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
@@ -214,13 +214,8 @@ export const registerSettings = function () {
 		default: 3,
 	});
 	addMenuSetting("core.menuSettings.position", {
-		type: String,
-		default: "start",
-		choices: {
-			start: t("core.menuSettings.position.top"),
-			center: t("core.menuSettings.position.middle"),
-			end: t("core.menuSettings.position.bottom"),
-		},
+		type: Number,
+		default: -65,
 		onChange: (value) => {
 			game.healthEstimate.alignment = value;
 		},
@@ -233,8 +228,8 @@ export const registerSettings = function () {
 		},
 	});
 	addMenuSetting("core.menuSettings.fontSize", {
-		type: String,
-		default: "x-large",
+		type: Number,
+		default: 24,
 		onChange: (value) => {
 			game.healthEstimate.fontSize = value;
 		},
@@ -523,7 +518,7 @@ export async function renderHealthEstimateStyleSettingsHandler(settingsConfig, h
 	const smoothGradientForm = html.find('input[name="smoothGradient"]').parent()[0];
 	const gradientForm = html.find('div[class="form-group gradient"]')[0];
 	const deadColorForm = html.find('input[name="deadColor"]').parent()[0];
-	const sampleFrameHEForm = html.find('span[class="sampleFrameHE"]').parent()[0];
+	const outlineModeForm = html.find('select[id="outlineMode"]').parent()[0];
 
 	function hideForm(form, boolean) {
 		form.style.display = !boolean ? "none" : "flex";
@@ -532,13 +527,13 @@ export async function renderHealthEstimateStyleSettingsHandler(settingsConfig, h
 	hideForm(smoothGradientForm, useColor);
 	hideForm(gradientForm, useColor);
 	hideForm(deadColorForm, useColor);
-	hideForm(sampleFrameHEForm, useColor);
+	hideForm(outlineModeForm, useColor);
 
 	useColorCheckbox.on("change", (event) => {
 		hideForm(smoothGradientForm, event.target.checked);
 		hideForm(gradientForm, event.target.checked);
 		hideForm(deadColorForm, event.target.checked);
-		hideForm(sampleFrameHEForm, event.target.checked);
+		hideForm(outlineModeForm, event.target.checked);
 	});
 }
 

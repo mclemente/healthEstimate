@@ -269,8 +269,8 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			smoothGradient: this.prepSetting("smoothGradient"),
 			deadColor: this.prepSetting("deadColor"),
 			fontSize: this.prepSetting("fontSize"),
+			position: this.prepSetting("position"),
 			positionAdjustment: this.prepSetting("positionAdjustment"),
-			position: this.prepSelection("position"),
 			mode: this.prepSelection("mode"),
 			outline: this.prepSelection("outline"),
 			outlineIntensity: this.prepSetting("outlineIntensity"),
@@ -282,7 +282,11 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 	initHooks() {
 		const gradientPositions = game.settings.get(`healthEstimate`, `core.menuSettings.gradient`);
 		const mode = document.getElementById(`mode`);
+		const useColorCheckbox = document.querySelector('input[name="useColor"]');
 
+		this.useColor = sGet("core.menuSettings.useColor");
+
+		const deadColor = document.querySelector("input[name=deadColor]");
 		this.deadColor = document.querySelector("input[data-edit=deadColor]");
 		this.deadOutline = sGet("core.variables.deadOutline");
 
@@ -293,6 +297,9 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.positionAdjustment = document.getElementById("positionAdjustment");
 		this.smoothGradient = document.getElementById("smoothGradient");
 		this.gradEx = document.getElementById("gradientExampleHE");
+
+		if (isNaN(Number(this.textPosition.value))) this.textPosition.value = "-65";
+		if (isNaN(Number(this.fontSize.value))) this.fontSize.value = "24";
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",
@@ -316,7 +323,15 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			this.updateGradientFunction();
 		});
 
-		this.deadColor.addEventListener("change", (ev) => {
+		for (let el of [deadColor, this.deadColor]) {
+			el.addEventListener("change", (ev) => {
+				this.deadOutline = this.outlFn(ev.target.value);
+				this.deadColor.value = ev.target.value;
+				this.updateSample();
+			});
+		}
+		useColorCheckbox.addEventListener("change", (ev) => {
+			this.useColor = !this.useColor;
 			this.updateSample();
 		});
 
@@ -326,16 +341,13 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		for (let el of [this.outlineIntensity, this.outlineMode, mode]) {
 			el.addEventListener("change", () => {
 				this.updateGradientFunction();
+				this.updateSample();
 			});
 		}
 		this.smoothGradient.addEventListener("change", () => {
 			this.updateGradient();
 		});
-		this.fontSize.addEventListener("change", () => {
-			if (!isNaN("x") && this.fontSize.value <= 0) this.fontSize.value = "1";
-			this.updateSample();
-		});
-		for (let el of [this.textPosition, this.positionAdjustment]) {
+		for (let el of [this.fontSize, this.textPosition, this.positionAdjustment]) {
 			el.addEventListener("change", () => {
 				this.updateSample();
 			});
@@ -399,18 +411,31 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 
 	updateSample() {
 		const sample = document.getElementById("healthEstimateSample");
-		this.deadOutline = this.outlFn(this.deadColor.value);
-		sample.style.setProperty("font-size", this.fontSize.value);
+		const sampleAnimation = document.getElementById("SampleAnimation");
 		const deadSample = document.getElementById("healthEstimateSample").children[0];
-		deadSample.style.color = this.deadColor.value;
-		deadSample.style.textShadow = `-1px -1px 1px ${this.deadOutline}, 0 -1px 1px ${this.deadOutline}, 1px -1px 1px ${this.deadOutline},
-		1px 0 1px ${this.deadOutline}, 1px 1px 1px ${this.deadOutline}, 0 1px 1px ${this.deadOutline},
-		-1px 1px 1px ${this.deadOutline}, -1px 0 1px ${this.deadOutline}`;
-		for (let i = 0; i <= 6; i++) {
-			const index = Math.round(this.gradLength * ((i - 1) / 5));
-			const position = Math.max(index - 1, 0);
-			document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}`, this.gradColors[position]);
-			document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}-outline`, this.outlColors[position]);
+		const deadColor = this.useColor ? this.deadColor.value : "#FFF";
+		const deadOutline = this.useColor ? this.deadOutline : "#000";
+		sample.style.setProperty("font-size", `${this.fontSize.value}px`);
+		const changeColorList = [deadSample];
+		if (this.useColor) {
+			sampleAnimation.classList.add("healthEstimateAnimate");
+			for (let i = 0; i <= 6; i++) {
+				const index = Math.round(this.gradLength * ((i - 1) / 5));
+				const position = Math.max(index - 1, 0);
+				document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}`, this.gradColors[position]);
+				document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}-outline`, this.outlColors[position]);
+			}
+		} else {
+			changeColorList.push(sampleAnimation);
+			sampleAnimation.classList.remove("healthEstimateAnimate");
+			this.clearDocument();
+		}
+
+		for (let element of changeColorList) {
+			element.style.color = deadColor;
+			element.style.textShadow = `-1px -1px 1px ${deadOutline}, 0 -1px 1px ${deadOutline}, 1px -1px 1px ${deadOutline},
+			1px 0 1px ${deadOutline}, 1px 1px 1px ${deadOutline}, 0 1px 1px ${deadOutline},
+			-1px 1px 1px ${deadOutline}, -1px 0 1px ${deadOutline}`;
 		}
 	}
 
