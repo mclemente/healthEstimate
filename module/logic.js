@@ -27,25 +27,13 @@ export class HealthEstimate {
 	 * @returns {providers.EstimationProvider}
 	 */
 	prepareSystemSpecifics() {
-		let supportedSystems = "";
-		let providerArray = Object.keys(providers);
-		if (providerArray.includes("EstimationProvider")) {
-			const index = providerArray.indexOf("EstimationProvider");
-			providerArray.splice(index, 1);
-		}
-		if (providerArray.includes("GenericEstimationProvider")) {
-			const index = providerArray.indexOf("GenericEstimationProvider");
-			providerArray.splice(index, 1);
-		}
-		providerArray.forEach(function (string, index, array) {
-			if (index === array.length - 1) supportedSystems += string.replace("EstimationProvider", "");
-			else supportedSystems += string.replace("EstimationProvider", "") + "|";
-		});
+		const providerArray = Object.keys(providers);
+		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
 		const systemsRegex = new RegExp(supportedSystems);
 		if (systemsRegex.test(game.system.id)) var providerString = game.system.id;
 		else providerString = providers.providerKeys[game.system.id] || "Generic";
-
-		return eval(`new providers.${providerString}EstimationProvider("native${providerString.length ? "." + providerString : ""}")`);
+		const providerClassName = `${providerString}EstimationProvider`;
+		return new providers[providerClassName](`native.${providerString}`);
 	}
 
 	canvasInit(canvas) {
@@ -86,36 +74,27 @@ export class HealthEstimate {
 	 */
 	_handleOverlay(token, hovered) {
 		if (token.healthEstimate?._texture) token.healthEstimate.destroy();
-		if (!token?.actor) return;
-		if (this.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token))) return;
+		if (!token?.actor || this.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token)) || !token.isVisible) return;
 
 		if (hovered) {
-			if (!token.isVisible) return;
 			const { desc, color, stroke } = this.getEstimation(token);
 			if (!desc) return;
-
 			const zoomLevel = Math.min(1, canvas.stage.scale.x);
 			const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
 			token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
+			token.healthEstimate.scale.set(0.25);
 
-			token.healthEstimate.scale.x = 0.25;
-			token.healthEstimate.scale.y = 0.25;
-			token.healthEstimate.anchor.x = 0.5;
-			if (!this.scaleToZoom || (this.scaleToZoom && zoomLevel >= 1)) token.healthEstimate.anchor.y = this.margin;
-
-			token.healthEstimate.x = Math.floor((canvas.scene.grid.size * token.document.width) / 2);
-			token.healthEstimate.y = isNaN(Number(this.alignment)) ? -65 : this.alignment;
+			token.healthEstimate.anchor.set(0.5, this.scaleToZoom && zoomLevel < 1 ? 0 : this.margin);
+			token.healthEstimate.position.set(Math.floor((canvas.scene.grid.size * token.document.width) / 2), isNaN(Number(this.alignment)) ? -65 : this.alignment);
 		} else if (token.healthEstimate) token.healthEstimate.visible = false;
 	}
 
 	_getUserTextStyle(zoomLevel, color, stroke) {
 		if (this.scaleToZoom && zoomLevel < 1) var fontSize = 24 * (1 / zoomLevel);
 		else fontSize = isNaN(Number(this.fontSize)) ? 24 : this.fontSize;
-		// Trick to render text at a higher resolution, it'll be scaled down to the same size.
-		fontSize *= 4;
 
 		return {
-			fontSize,
+			fontSize: fontSize * 4,
 			fontFamily: CONFIG.canvasTextStyle.fontFamily,
 			fill: color,
 			stroke,
@@ -132,17 +111,14 @@ export class HealthEstimate {
 	 */
 	getTokenEstimate(token) {
 		let special;
-		for (var estimation of this.estimations) {
-			if (["default", ""].includes(estimation.rule)) continue;
-			let isEstimationValid = (token) => {
-				return new Function(
-					`token`,
-					`
-				${this.estimationProvider.customLogic}
-				return ${estimation.rule}`
-				)(token);
-			};
-			if (isEstimationValid(token)) {
+		const validateEstimation = (token, rule) => {
+			const customLogic = this.estimationProvider.customLogic;
+			return new Function("token", customLogic + rule)(token);
+		};
+
+		for (const estimation of this.estimations) {
+			if (estimation.rule === "default" || estimation.rule === "") continue;
+			if (validateEstimation(token, estimation.rule)) {
 				if (estimation.ignoreColor) {
 					special = estimation;
 				} else return { estimation: deepClone(estimation), special: deepClone(special) };
@@ -163,16 +139,10 @@ export class HealthEstimate {
 			const isDead = this.isDead(token, estimate.value);
 
 			const colorIndex = this.smoothGradient ? Math.max(0, Math.ceil((this.colors.length - 1) * fraction)) : index;
-			if (isDead) {
-				estimate.label = this.deathStateName;
-				var color = this.deadColor;
-				var stroke = this.deadOutline;
-			} else {
-				color = this.colors[colorIndex];
-				stroke = this.outline[colorIndex];
-			}
-			if (this.hideEstimate(token)) var desc = estimate.label + "*";
-			else desc = estimate.label;
+			estimate.label = isDead ? this.deathStateName : estimate.label;
+			const color = isDead ? this.deadColor : this.colors[colorIndex];
+			const stroke = isDead ? this.deadOutline : this.outline[colorIndex];
+			const desc = this.hideEstimate(token) ? `${estimate.label}*` : estimate.label;
 			return { desc, color, stroke };
 		} catch (err) {
 			console.error(`Health Estimate | Error on getEstimation(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
@@ -265,13 +235,12 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	isDead(token, stage) {
-		return (
-			(this.estimationProvider.organicTypes.includes(token.actor.type) &&
-				((this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "dontMarkDead")) ||
-					(this.showDead && this.tokenEffectsPath(token)) ||
-					token.document.getFlag("healthEstimate", "dead"))) ||
-			false
-		);
+		const isOrganicType = this.estimationProvider.organicTypes.includes(token.actor.type);
+		const isNPCJustDie = this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "dontMarkDead");
+		const isShowDead = this.showDead && this.tokenEffectsPath(token);
+		const isFlaggedDead = token.document.getFlag("healthEstimate", "dead");
+
+		return isOrganicType && (isNPCJustDie || isShowDead || isFlaggedDead);
 	}
 
 	showCondition(hovered) {
@@ -287,30 +256,25 @@ export class HealthEstimate {
 	}
 
 	updateBreakConditions() {
-		this.breakConditions.onlyGM = sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : ``;
-		this.breakConditions.onlyNotGM = sGet("core.showDescription") == 2 ? `|| game.user.isGM` : ``;
+		this.breakConditions.onlyGM = sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : "";
+		this.breakConditions.onlyNotGM = sGet("core.showDescription") == 2 ? `|| game.user.isGM` : "";
+		this.breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor.hasPlayerOwner` : "";
+		this.breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor.hasPlayerOwner` : "";
 
-		this.breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor.hasPlayerOwner` : ``;
-		this.breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor.hasPlayerOwner` : ``;
+		const prep = (key) => (isEmpty(this.breakConditions[key]) ? "" : this.breakConditions[key]);
 
-		const prep = (key) => {
-			if (isEmpty(this.breakConditions[key])) return "";
-			return this.breakConditions[key];
-		};
-
-		this.breakOverlayRender = function (token) {
-			return new Function(
+		this.breakOverlayRender = (token) =>
+			new Function(
 				`token`,
 				`return (
-					${prep("default")}
-					${prep("onlyGM")}
-					${prep("onlyNotGM")}
-					${prep("onlyNPCs")}
-					${prep("onlyPCs")}
-					${prep("system")}
-				)`
+				${prep("default")}
+				${prep("onlyGM")}
+				${prep("onlyNotGM")}
+				${prep("onlyNPCs")}
+				${prep("onlyPCs")}
+				${prep("system")}
+			)`
 			)(token);
-		};
 	}
 
 	/**

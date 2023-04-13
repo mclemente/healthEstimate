@@ -36,7 +36,7 @@ export const providerKeys = {
 	"uesrpg-d100": "uesrpg",
 };
 
-export class EstimationProvider {
+class EstimationProvider {
 	constructor() {
 		/**
 		 * Non-exhaustive list of possible character-types that should use the DeathStateName. This is way to avoid vehicles being "Dead"

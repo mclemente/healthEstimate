@@ -3,6 +3,7 @@ import { settingData, sGet, sSet, t } from "./utils.js";
 class HealthEstimateSettings extends FormApplication {
 	constructor(object, options = {}) {
 		super(object, options);
+		/** Set path property */
 		this.path = "core";
 	}
 	/**
@@ -18,30 +19,21 @@ class HealthEstimateSettings extends FormApplication {
 	}
 
 	prepSelection(key) {
-		const path = this.path + `.${key}`;
-		let data = settingData(path);
-		let result = {
-			select: [],
-			name: data.name,
-			hint: data.hint,
-			selected: sGet(path),
-		};
-		for (let [key, value] of Object.entries(data.choices)) {
-			result.select.push({
-				key,
-				value,
-			});
-		}
-		return result;
+		const path = `${this.path}.${key}`;
+		const data = settingData(path);
+		const { name, hint } = data;
+		const selected = sGet(path);
+		const select = Object.entries(data.choices).map(([key, value]) => ({ key, value }));
+		return { select, name, hint, selected };
 	}
 
 	prepSetting(key) {
-		const path = this.path + `.${key}`;
-		let data = settingData(path);
+		const path = `${this.path}.${key}`;
+		const { name, hint } = settingData(path);
 		return {
 			value: sGet(path),
-			name: data.name,
-			hint: data.hint,
+			name,
+			hint,
 		};
 	}
 
@@ -51,10 +43,11 @@ class HealthEstimateSettings extends FormApplication {
 	 * @param {Object} formData - the form data
 	 */
 	async _updateObject(event, formData) {
-		const iterableSettings = Object.keys(formData);
-		for (let key of iterableSettings) {
-			await sSet(`core.${key}`, formData[key]);
-		}
+		await Promise.all(
+			Object.entries(formData).map(async ([key, value]) => {
+				await sSet(`core.${key}`, value);
+			})
+		);
 		canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 }
@@ -84,20 +77,26 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 
 	async activateListeners(html) {
 		super.activateListeners(html);
+
+		function resetToDefault(path) {
+			return game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
+		}
+
 		html.find("button[name=reset]").on("click", async (event) => {
-			async function resetToDefault(key) {
-				const path = `core.${key}`;
-				await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
-			}
-			await resetToDefault("alwaysShow");
-			await resetToDefault("combatOnly");
-			await resetToDefault("showDescription");
-			await resetToDefault("showDescriptionTokenType");
-			await resetToDefault("deathState");
-			await resetToDefault("deathStateName");
-			await resetToDefault("NPCsJustDie");
-			await resetToDefault("deathMarker");
-			this.render();
+			const paths = [
+				"core.alwaysShow",
+				"core.combatOnly",
+				"core.showDescription",
+				"core.showDescriptionTokenType",
+				"core.deathState",
+				"core.deathStateName",
+				"core.NPCsJustDie",
+				"core.deathMarker",
+			];
+
+			await Promise.all(paths.map(resetToDefault));
+			canvas.scene?.tokens.forEach((token) => token.object.refresh());
+			this.close();
 		});
 	}
 }
@@ -106,7 +105,7 @@ export class EstimationSettings extends HealthEstimateSettings {
 	constructor(object, options = {}) {
 		super(object, options);
 		this.estimations = deepClone(sGet("core.estimations"));
-		this.changeTabs = 0;
+		this.changeTabs = null;
 	}
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
@@ -139,14 +138,17 @@ export class EstimationSettings extends HealthEstimateSettings {
 
 	async activateListeners(html) {
 		super.activateListeners(html);
+
+		async function resetToDefault(key) {
+			const path = `core.${key}`;
+			await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
+		}
+
 		html.find("button[name=reset]").on("click", async (event) => {
-			async function resetToDefault(key) {
-				const path = `core.${key}`;
-				await game.settings.set("healthEstimate", path, game.settings.settings.get(`healthEstimate.${path}`).default);
-			}
 			await resetToDefault("estimations");
 			this.estimations = sGet("core.estimations");
-			this.render();
+			canvas.scene?.tokens.forEach((token) => token.object.refresh());
+			this.close();
 		});
 
 		// Handle all changes to tables
@@ -169,28 +171,29 @@ export class EstimationSettings extends HealthEstimateSettings {
 			this.render();
 		});
 		html.find("button[data-action=table-delete]").on("click", (event) => {
-			const idx = Number(event.target?.dataset.idx);
-			this.estimations.splice(idx, 1);
+			const { idx } = event.target?.dataset;
+			this.estimations.splice(Number(idx), 1);
 			this.changeTabs = this.estimations.length - 1;
 			this.render();
 		});
 		html.find("button[data-action=change-prio]").on("click", (event) => {
-			const prio = event.target?.dataset.prio == "increase" ? -1 : 1;
+			const prio = event.target?.dataset.prio === "increase" ? -1 : 1;
 			const idx = Number(event.target?.dataset.idx);
-			function arraymove(arr, fromIndex, toIndex) {
-				var element = arr[fromIndex];
+
+			const arraymove = (arr, fromIndex, toIndex) => {
+				const element = arr[fromIndex];
 				arr.splice(fromIndex, 1);
 				arr.splice(toIndex, 0, element);
-			}
+			};
+
 			arraymove(this.estimations, idx, idx + prio);
 			this.changeTabs = idx + prio;
 			this.render();
 		});
-		for (const element of html[0].querySelectorAll(".form-group input, .form-group textarea")) {
-			element.addEventListener("change", async (event) => {
-				const name = event.target?.name.split(".");
-				const estimation = this.estimations[name[1]][name[2]];
-				if (estimation) this.estimations[name[1]][name[2]] = event.target?.value;
+		for (const input of html[0].querySelectorAll(".form-group input, .form-group textarea")) {
+			input.addEventListener("change", (event) => {
+				const [_, tableIndex, estimateIndex, rule] = event.target.name.split(".");
+				this.estimations[tableIndex].estimates[estimateIndex][rule] = event.target.value;
 				event.preventDefault();
 			});
 		}
@@ -198,25 +201,23 @@ export class EstimationSettings extends HealthEstimateSettings {
 		// Handle all changes for estimations
 		html.find("[data-action=estimation-add]").on("click", (event) => {
 			// Fix for clicking either the A or I tag
-			if (event.target.tagName == "A") {
-				var idx = Number(event.target?.children[0].dataset.idx);
-			} else idx = Number(event.target?.dataset.idx);
+			const idx = Number(event.target?.dataset.idx ?? event.target?.children[0]?.dataset.idx);
 			this.estimations[idx].estimates.push({ label: "Custom", value: 100 });
 			this.render();
 		});
 		for (const element of html[0].querySelectorAll("[data-action=estimation-delete]")) {
 			element.addEventListener("click", async (event) => {
-				const table = event.target?.dataset.table;
-				const idx = Number(event.target?.dataset.idx);
+				const { table, idx } = event.target?.dataset ?? {};
 				if (idx) this.estimations[table].estimates.splice(Number(idx), 1);
 				this.render();
 			});
 		}
 		for (const element of html[0].querySelectorAll(".estimation-types input")) {
 			element.addEventListener("change", async (event) => {
-				const name = event.target?.name.split(".");
-				const estimation = this.estimations[name[1]].estimates[name[3]][name[4]];
-				if (estimation) this.estimations[name[1]].estimates[name[3]][name[4]] = event.target?.value;
+				const [_, table, tableIndex, estimateIndex, rule] = event.target?.name.split(".");
+				if (this.estimations[table]?.estimates?.[estimateIndex]?.[rule]) {
+					this.estimations[table].estimates[estimateIndex][rule] = event.target?.value;
+				}
 				event.preventDefault();
 			});
 		}
@@ -225,20 +226,13 @@ export class EstimationSettings extends HealthEstimateSettings {
 	_getSubmitData(updateData) {
 		const original = super._getSubmitData(updateData);
 		const data = expandObject(original);
-		let estimations = [];
-		for (var key in data.estimations) {
-			const estimates = data.estimations[key].estimates;
-			const sortable = Object.keys(estimates)
-				.sort(function (a, b) {
-					return estimates[a].value - estimates[b].value;
-				})
-				.map((kkey) => estimates[kkey]);
-			estimations.push({
-				name: data.estimations[key].name,
-				rule: data.estimations[key].rule,
-				ignoreColor: data.estimations[key].ignoreColor,
-				estimates: sortable,
-			});
+		const estimations = [];
+		for (const key in data.estimations) {
+			const { name, rule, ignoreColor, estimates } = data.estimations[key];
+			const sortedEstimates = Object.keys(estimates)
+				.sort((a, b) => estimates[a].value - estimates[b].value)
+				.map((innerKey) => estimates[innerKey]);
+			estimations.push({ name, rule, ignoreColor, estimates: sortedEstimates });
 		}
 		return { estimations };
 	}
@@ -298,8 +292,8 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.smoothGradient = document.getElementById("smoothGradient");
 		this.gradEx = document.getElementById("gradientExampleHE");
 
-		if (isNaN(Number(this.textPosition.value))) this.textPosition.value = "-65";
-		if (isNaN(Number(this.fontSize.value))) this.fontSize.value = "24";
+		this.fontSize.value = Number.isNaN(Number(this.fontSize.value)) ? "24" : this.fontSize.value;
+		this.textPosition.value = Number.isNaN(Number(this.textPosition.value)) ? "-65" : this.textPosition.value;
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",
