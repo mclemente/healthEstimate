@@ -1,142 +1,287 @@
 {
-	"healthEstimate": {
-		"core": {
-			"onlyGM": {
-				"name": "僅 GM",
-				"hint": "僅對 GM 顯示健康評估。"
-			},
-			"onlyNotGM": {
-				"name": "僅玩家",
-				"hint": "僅對玩家顯示健康評估。"
-			},
-			"onlyNPCs": {
-				"name": "僅NPC",
-				"hint": "僅顯示 NPC 的健康評估，而不顯示玩家的。此設定僅影響玩家。"
-			},
-			"onlyPCs": {
-				"name": "僅玩家",
-				"hint": "僅顯示 PC 的健康評估，而不顯示 NPC 的。此設定僅影響玩家。"
-			},
-			"stateNames": {
-				"name": "階段",
-				"hint": "對玩家顯示的一組描述，按照生命值從低到高排列。\n描述的數量沒有限制，模組會按照數量調整顯示的健康百分比。\n如果需要一個描述覆蓋比其他描述更多的健康範圍，則將它複製幾遍即可。",
-				"default": "昏迷, 瀕死, 重傷, 受傷, 輕傷, 無傷"
-			},
-			"deathState": {
-				"name": "死亡狀態顯示",
-				"hint": "當指示物被特定狀態標記時將其顯示為死亡。該功能獨立於宏工作。"
-			},
-			"deathStateName": {
-				"name": "死亡狀態名稱",
-				"hint": "指示物死亡時顯示給玩家們的描述。合集包中有一個宏用來一或多個指示物標記為死亡。",
-				"default": "死亡"
-			},
-			"deathMarker": {
-				"name": "死亡標記",
-				"hint": "標記死亡指示物的狀態圖示路徑"
-			},
-			"NPCsJustDie": {
-				"name": "NPC 立刻死亡",
-				"hint": "開啟這個選項，描述清單中最差的一項便不會為NPC們顯示， 他們會被顯示為死亡。"
-			},
-			"perfectionism": {
-				"name": "完美主義",
-				"hint": "僅在目標的健康狀態全滿時顯示最佳的描述-完全無傷。"
-			},
-			"addTemp": {
-				"name": "添加臨時生命值",
-				"hint": "顯示描述時將臨時生命值也計算在內。\n例如：啟用此選項後，有臨時生命值的指示物會看起來更“健康”，除非它正處於最大生命值。"
-			},
-			"breakOnZeroMaxHP": {
-				"name": "在最大 HP 為 0 的指示物上隱藏",
-				"hint": "對物品指示物很有用"
-			},
-			"menuSettings": {
-				"fontSize": {
-					"name": "字體大小",
-					"hint": "接受任何可用的CSS字體大小屬性"
-				},
-				"useColor": {
-					"name": "使用顏色",
-					"hint": "這並不會影響設置視窗，但禁用該項會讓描述以黑白顯示。"
-				},
-				"smoothGradient": {
-					"name": "平滑梯度",
-					"hint": "禁用該選項會讓描述的顏色僅在到達下一階段時改變， 啟用該選項則會反映健康百分比。"
-				},
-				"deadColor": {
-					"name": "死亡指示物顏色"
-				},
-				"outline": {
-					"name": "描線",
-					"darken": "暗色",
-					"brighten": "亮色"
-				},
-				"position": {
-					"name": "位置",
-					"top": "頂部",
-					"middle": "中部",
-					"bottom": "底部"
-				},
-				"positionAdjustment": {
-					"name": "位置調整",
-					"hint": "與方框的相對位置。數字用以調整相對位置。 正數會使其下移，負數上升。預設值 -1 意為 “初始位置上一行”"
-				}
-			}
-		},
-		"dnd5e": {
-			"vehicleNames": {
-				"hint": "禁用“使用載具閾值”時顯示的描述",
-				"default": "毀壞, 破損, 受創, 刮擦, 完好"
-			}
-		},
-		"PF1": {
-			"showExtra": {
-				"name": "癱瘓和瀕死",
-				"hint": "顯示“癱瘓”和“瀕死”描述"
-			},
-			"disabledName": {
-				"name": "癱瘓",
-				"hint": "當指示物的 HP 正好為 0 時顯示的描述",
-				"default": "癱瘓"
-			},
-			"dyingName": {
-				"name": "瀕死",
-				"hint": "當指示物的 HP 低於 0 時顯示的描述",
-				"default": "瀕死"
-			}
-		},
-		"numenera": {
-			"countPools": {
-				"name": "空屬性池計數",
-				"hint": "為空屬性池計數，而不是統計其值的和。評估僅會在屬性池被刪除或補足時更改。"
-			}
-		},
-		"starfinder": {
-			"useThreshold": {
-				"name": "使用載具閾值",
-				"hint": "啟用該選項後，將會使用“閾值階段”中的文本來分別描述在閾值之上、之下和 0 HP 時的載具狀態。"
-			},
-			"thresholdNames": {
-				"name": "閾值階段",
-				"hint": "階段的數量限制為3，按狀態從低到高排列。",
-				"default": "毀壞, 破損, 功能正常"
-			},
-			"vehicleNames": {
-				"name": "載具階段",
-				"hint": "總是為飛船顯示的描述，如果“使用載具閾值”被禁用則也為載具顯示。",
-				"default": "毀壞, 著火, 冒煙, 受創, 刮擦, 完好"
-			},
-			"addStamina": {
-				"name": "記錄耐力",
-				"hint": "啟用該選項會將耐力加到 HP 上用作計算。"
-			}
-		},
-		"worldbuilding": {
-			"simpleRule": {
-				"name": "評估規則",
-				"hint": "用來計算指示物生命值分數的 JS 公式。謹慎更改。 默認為簡單的遞減生命值，例如：初始生命值為 10/10，受到傷害後降為 0/10。"
-			}
-		}
-	}
+    "healthEstimate": {
+        "core": {
+            "menuSettings": {
+                "position": {
+                    "hint": "與Token框架的相對位置。數字用以調整相對位置。 正數會使其上移，負數下降。默認值 -1 意為 「初始位置之下的一行」。",
+                    "name": "位置",
+                    "top": "頂部",
+                    "middle": "中部",
+                    "bottom": "底部"
+                },
+                "behaviorSettings": {
+                    "name": "行為設置",
+                    "plural": "行為設置"
+                },
+                "deathSettings": {
+                    "name": "死亡設置",
+                    "plural": "死亡設置"
+                },
+                "styleSettings": {
+                    "name": "風格設置",
+                    "plural": "風格設置"
+                },
+                "fontSize": {
+                    "name": "字體大小",
+                    "hint": "接受任何可用的CSS字體大小屬性"
+                },
+                "useColor": {
+                    "name": "使用顏色",
+                    "hint": "健康狀況黑白顯示。"
+                },
+                "smoothGradient": {
+                    "name": "平滑梯度",
+                    "hint": "禁用該選項會讓描述的顏色僅在到達下一階段時改變， 啟用該選項則會反映健康百分比。"
+                },
+                "deadColor": {
+                    "name": "死亡Token顏色"
+                },
+                "outline": {
+                    "name": "描線",
+                    "darken": "暗色",
+                    "brighten": "亮色"
+                },
+                "positionAdjustment": {
+                    "name": "位置調整",
+                    "hint": "調整文本的邊距。數字用以調整相對位置。 正數會使其上移，負數下降。默認值 -1 意為 「初始位置之下的一行」。"
+                },
+                "scaleToZoom": {
+                    "name": "調整健康狀況縮放",
+                    "hint": "縮放健康狀況。 注意：{setting}不接受\"larger\"和\"smaller\"值，且{setting2}的數值會被忽略。"
+                }
+            },
+            "custom": {
+                "FractionHP": {
+                    "name": "HP屬性路徑",
+                    "hint": "你的遊戲系統可能有著與默認不同的數據路徑。如果健康評估顯示不正確，請手動輸入數據路徑（比如actor.system.health）。"
+                },
+                "FractionMath": {
+                    "name": "生命值計算方式",
+                    "hint": "你的遊戲系統的生命值計算方式可能與默認方法不同。選擇你的遊戲規則的生命值計算方法。",
+                    "choices": {
+                        "0": "(當前生命值)/(最大生命值)",
+                        "1": "(最大生命值-當前生命值)/(最大生命值)"
+                    }
+                }
+            },
+            "estimates": {
+                "plural": "預估值",
+                "worst": "最糟的",
+                "best": "最好的",
+                "states": {
+                    "0": "失去意識",
+                    "1": "瀕死",
+                    "2": "重傷",
+                    "3": "受傷",
+                    "4": "輕傷",
+                    "5": "無傷"
+                },
+                "vehicles": {
+                    "0": "毀壞",
+                    "1": "冒火",
+                    "2": "冒煙",
+                    "3": "損壞",
+                    "4": "劃傷",
+                    "5": "完好"
+                },
+                "thresholds": {
+                    "0": "毀壞",
+                    "1": "破損",
+                    "2": "功能完好"
+                }
+            },
+            "estimationSettings": {
+                "title": "健康狀況設置",
+                "AddEstimate": "增加健康狀況",
+                "addTable": "增加種類",
+                "default": "默認",
+                "deleteTable": "刪除種類",
+                "estimate": "健康狀況",
+                "jsRule": "JS規則",
+                "prioDecrease": "降低優先級",
+                "prioIncrease": "提高優先級",
+                "ignoreColor": {
+                    "name": "忽略顏色",
+                    "hint": "忽略這個種類表的顏色並為Token使用下一個合法的種類表的顏色。這意味著狀態會比健康狀況有更高的優先級，但是仍使用健康狀況的顏色。"
+                }
+            },
+            "keybinds": {
+                "markDead": {
+                    "name": "標記為死亡",
+                    "hint": "將所有選中的Token標記為死亡。如果所有已選中的Token皆為死亡狀態，則他們會被標記為生存。"
+                },
+                "customEstimates": {
+                    "name": "自定義健康狀況",
+                    "hint": "為選中的Token設置健康狀態。若留空則重置為默認健康狀態。",
+                    "options": {
+                        "1": "Token和人物卡",
+                        "2": "僅Token"
+                    }
+                },
+                "dontMarkDead": {
+                    "name": "不要標記為死亡",
+                    "hint": "使NPC的生命值降為0使不會被標記為死亡(比如會被標記為失去意識)。僅當你開啟{setting}設置時有效。"
+                },
+                "hideEstimates": {
+                    "name": "隱藏健康狀況",
+                    "hint": "對玩家隱藏選中Token的健康狀況。若設置為“是”，隱藏的健康狀況會發送至聊天，並為GM顯示*號標記。"
+                },
+                "hideNames": {
+                    "name": "隱藏姓名",
+                    "hint": "當你啟用{setting}設置時，隱藏Token的姓名。"
+                },
+                "hideEstimatesAndNames": {
+                    "name": "隱藏健康狀況和姓名",
+                    "hint": "隱藏選中Token的健康狀況和姓名。"
+                }
+            },
+            "isNow": "{name}現在是{desc}了。",
+            "unknownEntity": {
+                "name": "不明實體",
+                "hint": "設置隱藏角色如何呼出。{warning}",
+                "default": "不明實體",
+                "warningCUB": "如果你正在使用CUB的隱藏名稱功能，將優先使用CUB功能。",
+                "warningPF2eWorkbench": "如果你正在使用PF2e Workbench的名稱神秘化功能，將優先使用Workbench功能。"
+            },
+            "alwaysShow": {
+                "name": "總是顯示健康狀況",
+                "hint": "總是顯示健康狀況，而不是僅在鼠標懸浮時顯示。"
+            },
+            "combatOnly": {
+                "name": "僅在戰鬥中顯示",
+                "hint": "僅在戰鬥中顯示健康狀況。"
+            },
+            "showDescription": {
+                "name": "顯示健康狀況：用戶",
+                "choices": {
+                    "all": "所有",
+                    "GM": "GM",
+                    "Players": "玩家",
+                    "NPC": "NPC",
+                    "PC": "PC"
+                },
+                "hint": "下列用戶可以看到健康狀況。"
+            },
+            "showDescriptionTokenType": {
+                "name": "顯示健康狀況：Token",
+                "hint": "顯示下列Token的健康狀況。"
+            },
+            "deathState": {
+                "name": "死亡狀態顯示",
+                "hint": "在{setting}設置中定義的Token被任何狀態影響時，顯示{setting2}設置的圖標。本設置獨立於宏工作。"
+            },
+            "deathStateName": {
+                "name": "死亡狀態名稱",
+                "hint": "Token死亡時顯示給玩家們的描述。合集包中有一個宏用來一或多個Token標記為死亡。",
+                "default": "死亡"
+            },
+            "deathMarker": {
+                "name": "死亡標記",
+                "hint": "標記死亡Token的狀態圖標路徑。"
+            },
+            "NPCsJustDie": {
+                "name": "NPC 立刻死亡",
+                "hint": "未被玩家選擇的角色的Token的健康狀況的最後一個階段會被{setting}替代。有關“玩家選擇的角色”的更多信息，請閱讀FVTT知識庫裡的“用戶和權限”一文中的用戶配置部分。"
+            },
+            "outputChat": {
+                "name": "將健康狀況發到聊天欄",
+                "hint": "將任何健康狀況的變化發到聊天欄。Token配置為“隱藏名稱”的角色將顯示{setting}設置的描述。"
+            },
+            "addTemp": {
+                "name": "添加臨時生命值",
+                "hint": "顯示描述時將臨時生命值也計算在內。\n例如：啟用此選項後，有臨時生命值的Token會看起來更“健康”，除非它正處於最大生命值。"
+            },
+            "breakOnZeroMaxHP": {
+                "name": "在最大 HP 為 0 的Token上隱藏",
+                "hint": "對物品Token很有用。"
+            }
+        },
+        "PF1": {
+            "dyingName": {
+                "default": "失去意識",
+                "name": "失去意識"
+            },
+            "addNonlethal": {
+                "name": "使用非致命傷害",
+                "hint": "啟用時，非致命傷害將從當前生命值估算中扣除。"
+            },
+            "showExtra": {
+                "name": "顯示{condition1} & {condition2}",
+                "hint": "滿足先決條件時顯示{condition1}和{condition2}的描述。"
+            },
+            "disabledName": {
+                "name": "癱瘓階段",
+                "default": "癱瘓"
+            }
+        },
+        "PF2E": {
+            "staminaToHp": {
+                "name": "顯示耐力值",
+                "hint": "將耐力值加到健康狀況內。"
+            },
+            "hideHazardHP": {
+                "name": "隱藏危害的生命值估算",
+                "hint": "隱藏危害的生命值估算。"
+            },
+            "hideVehicleHP": {
+                "name": "隱藏載具估算",
+                "hint": "隱藏載具的生命值估算。"
+            },
+            "workbenchMystifier": {
+                "name": "(實驗性) PF2e Workbench神秘化支持",
+                "hint": "如果啟用了NPC神秘化功能，聊天輸出將忽略{setting}的設置名稱，若Token名稱與角色原始Token名稱不同，則改為使用Token名稱。"
+            }
+        },
+        "numenera": {
+            "countPools": {
+                "name": "空屬性池計數",
+                "hint": "為空屬性池計數，而不是統計其值的和。評估僅會在屬性池被刪除或補足時更改。"
+            }
+        },
+        "starfinder": {
+            "useThreshold": {
+                "name": "使用載具閾值",
+                "hint": "載具使用{setting1}設置中的階段。否則載具將使用和{setting2}相同的階段描述…"
+            },
+            "addStamina": {
+                "name": "記錄耐力",
+                "hint": "啟用該選項會將耐力加到 HP 上用作計算。"
+            }
+        },
+        "custom-system-builder": {
+            "tempHP": {
+                "name": "臨時生命值數據路徑",
+                "hint": "如果系統沒有此功能、或你不希望它出現在生命預測中時，此項留空。"
+            },
+            "FractionHP": {
+                "hint": "這大概是{dataPath1}或{dataPath2}。"
+            }
+        },
+        "cyphersystem": {
+            "impaired": {
+                "name": "受傷的PC的健康狀況等級",
+                "hint": "設置追踪死亡時為受傷PC顯示的最大HP水平（當前 / 最大，小數點從0.0 - 1.0）"
+            },
+            "debilitated": {
+                "name": "身體虛弱的PC的健康狀況等級",
+                "hint": "設置追踪死亡時為疲憊（Debilitated）PC顯示的最大HP水平（當前 / 最大，小數點從0.0 - 1.0）"
+            }
+        },
+        "worldbuilding": {
+            "simpleRule": {
+                "name": "評估規則",
+                "hint": "用來計算Token生命值分數的 JS 公式。謹慎更改。 默認為簡單的遞減生命值，例如：初始生命值為 10/10，受到傷害後降為 0/10。"
+            }
+        },
+        "swade": {
+            "defaultWildCardMaxWounds": {
+                "name": "Wild Card默認最大受傷值",
+                "hint": "此選項用於計算被標記為Wild Card的NPC的默認最大受傷值。"
+            },
+            "showIncap": {
+                "name": "{incap}狀態效果",
+                "hint": "帶有{incap}狀態效果的Token將被顯示為{incap}而非實時的健康狀況。對載具或死亡Token無效。"
+            }
+        }
+    }
 }
