@@ -132,7 +132,7 @@ export class EstimationSettings extends HealthEstimateSettings {
 	async activateListeners(html) {
 		super.activateListeners(html);
 		html.find("button[name=reset]").on("click", async (event) => {
-			await resetToDefault("estimations");
+			await this.resetToDefault("estimations");
 			this.estimations = sGet("core.estimations");
 			canvas.scene?.tokens.forEach((token) => token.object.refresh());
 			this.close();
