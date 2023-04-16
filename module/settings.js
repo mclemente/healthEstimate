@@ -592,3 +592,11 @@ export function onUpdateActor(actor, data, options, userId) {
 		}
 	});
 }
+
+// Starting in V11, this no longer works for changing a token's HP
+export function onUpdateToken(token, change, options, userId) {
+	if (!game.user.isGM || !canvas.scene) return;
+	if (!game.healthEstimate.breakOverlayRender(token.object) && token.object.id in game.healthEstimate.actorsCurrentHP && !game.healthEstimate.hideEstimate(token.object)) {
+		outputStageChange(token.object);
+	}
+}
