@@ -315,7 +315,7 @@
 			},
 			"showIncap": {
 				"name": "{incap}状态效果",
-				"hint": "带有{incap}状态效果的指示物将被显示为{incap}而非实时的健康状况。对载具或死亡指示物无效。"
+				"hint": "带有{incap}状态效果的指示物将被显示为该状态而非实时的健康状况。对载具或死亡指示物无效。"
 			},
 			"defaultWildCardMaxWounds": {
 				"name": "Wild Card默认最大受伤值",
@@ -328,7 +328,7 @@
 				"name": "临时生命值数据路径"
 			},
 			"FractionHP": {
-				"hint": "这大概是{dataPath1}或{dataPath2}"
+				"hint": "这大概是{dataPath1}或{dataPath2}。"
 			}
 		},
 		"cyphersystem": {

@@ -42,7 +42,7 @@
 					"brighten": "亮色"
 				},
 				"positionAdjustment": {
-					"name": "位置調整",
+					"name": "調整邊距",
 					"hint": "調整文本的邊距。數字用以調整相對位置。 正數會使其上移，負數下降。默認值 -1 意為 「初始位置之下的一行」。"
 				},
 				"scaleToZoom": {
