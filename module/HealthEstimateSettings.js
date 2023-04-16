@@ -87,7 +87,7 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 		html.find("button[name=reset]").on("click", async (event) => {
 			const paths = ["alwaysShow", "combatOnly", "showDescription", "showDescriptionTokenType", "deathState", "deathStateName", "NPCsJustDie", "deathMarker"];
 
-			await Promise.all(paths.map(resetToDefault));
+			await Promise.all(paths.map(this.resetToDefault));
 			canvas.scene?.tokens.forEach((token) => token.object.refresh());
 			this.close();
 		});
@@ -458,7 +458,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 				"variables.deadColor",
 				"variables.deadOutline",
 			];
-			await Promise.all(paths.map(resetToDefault));
+			await Promise.all(paths.map(this.resetToDefault));
 			this.close();
 		});
 	}
