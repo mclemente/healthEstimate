@@ -208,18 +208,26 @@ export class HealthEstimate {
 
 	combatStart(combat, updateData) {
 		game.healthEstimate.combatRunning = true;
+		canvas.tokens?.placeables.forEach((token) => {
+			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
+		});
 	}
 
 	deleteCombat(combat, options, userId) {
 		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
+		canvas.tokens?.placeables.forEach((token) => {
+			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
+		});
 	}
 
 	combatHooks(value) {
 		if (value) {
 			Hooks.on("combatStart", game.healthEstimate.combatStart);
+			Hooks.on("updateCombat", game.healthEstimate.combatStart);
 			Hooks.on("deleteCombat", game.healthEstimate.deleteCombat);
 		} else {
 			Hooks.off("combatStart", game.healthEstimate.combatStart);
+			Hooks.off("updateCombat", game.healthEstimate.combatStart);
 			Hooks.off("deleteCombat", game.healthEstimate.deleteCombat);
 		}
 	}
