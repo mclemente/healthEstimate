@@ -198,7 +198,7 @@
 		},
 		"custom-system-builder": {
 			"FractionHP": {
-				"hint": "This will probably {dataPath1} or {dataPath2}."
+				"hint": "This will probably be {dataPath1} or {dataPath2}."
 			},
 			"tempHP": {
 				"name": "Temporary Hit Points Attribute Data Path",
@@ -280,7 +280,7 @@
 			},
 			"showIncap": {
 				"name": "{incap} Status Effect",
-				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their current estimates. Doesn't work for tokens that are vehicles or dead."
+				"hint": "Tokens with the {incap} Status Effect will be shown as such instead of their current estimates. This doesn't affect tokens for vehicles or dead characters."
 			}
 		}
 	}

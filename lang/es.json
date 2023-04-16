@@ -19,7 +19,9 @@
 			"unknownEntity": {
 				"name": "Nombre de la Entidad Desconocida",
 				"hint": "Establece cómo se llamará a un personaje oculto.",
-				"default": "Entidad Desconocida"
+				"default": "Entidad Desconocida",
+				"warningCUB": "Si estás utilizando la opción para ocultar nombres de CUB, tendrá prioridad sobre esta configuración.",
+				"warningPF2eWorkbench": "Si estás usando la opción para mistificar nombres de la Tabla de Trabajo de PF2e, tendrá prioridad sobre esta configuración."
 			},
 			"showDescription": {
 				"name": "Mostrar Estimación: Usuarios",
@@ -99,11 +101,28 @@
 					"name": "Posición",
 					"top": "Encima",
 					"middle": "Medio",
-					"bottom": "Debajo"
+					"bottom": "Debajo",
+					"hint": "La posición está configurada relativa al borde del token. Los valores negativos la elevaran; los positivos la bajaran."
 				},
 				"positionAdjustment": {
 					"name": "Ajuste de Posición",
 					"hint": "La posición se establece relativa al marco. El número te permite afinar la posición relativa a su lugar normal. Números positivos lo empujan hacia abajo, negativos – más alto. El valor predeterminado de -1 lo establece en \"1 line above initial position\"."
+				},
+				"behaviorSettings": {
+					"name": "Configuración de comportamiento",
+					"plural": "Configuraciones de comportamiento"
+				},
+				"scaleToZoom": {
+					"name": "Escala las estimaciones al zoom",
+					"hint": "Escalas las estimaciones basándose en la distancia de zoom. {setting2} valores de configuración serán ignorados mientras alejas el zoom."
+				},
+				"deathSettings": {
+					"name": "Configuración de muerte",
+					"plural": "Configuraciones de muerte"
+				},
+				"styleSettings": {
+					"name": "Configuración de estilo",
+					"plural": "Configuraciones de estilo"
 				}
 			},
 			"keybinds": {
@@ -152,7 +171,7 @@
 					"2": "Malherido",
 					"3": "Herido",
 					"4": "Apenas herido",
-					"5": "Desarmado",
+					"5": "Sin heridas",
 					"1": "Casi muerto"
 				},
 				"vehicles": {
@@ -167,7 +186,8 @@
 					"0": "Destrozado",
 					"1": "Roto",
 					"2": "Completamente operativo"
-				}
+				},
+				"plural": "Estimativas"
 			},
 			"estimationSettings": {
 				"title": "Opciones de estimación",
@@ -181,7 +201,8 @@
 				"ignoreColor": {
 					"name": "Ignorar color",
 					"hint": "Ignora los colores de esta tabla y usa los colores de la siguiente tabla válida para el token. Esto está pensado para condiciones que deberían tener prioridad sobre un estimado, pero aún deberían usar los colores de ese estimado."
-				}
+				},
+				"jsRule": "Regla JS"
 			}
 		},
 		"dnd5e": {
@@ -240,6 +261,36 @@
 			"simpleRule": {
 				"name": "Regla de Estimación",
 				"hint": "La fórmula JS para calcular la fracción de salud que tiene el token. Alterar con precacución. Predeterminado asume una salud descendente simple, p.ej. comienzas con 10/10 en tu campo de salud y va bajando hasta 0/10 al recibir daño."
+			}
+		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "Nivel de salud para PCs dañados",
+				"hint": "Configura en nivel de salud máximo (actual / máximo, fracción 0.0 - 1.0) que puede ser reportado para un PC en la Death Track"
+			},
+			"debilitated": {
+				"name": "Nivel de salud para los PCs debilitados",
+				"hint": "Establece el nivel máximo de salud (actual / máximo, fracción 0.0 - 1.0) que puede ser reportado para un PC que está \"Debilitado\" en la \"Pista de la Muerte\"."
+			}
+		},
+		"custom-system-builder": {
+			"tempHP": {
+				"name": "Ruta de datos de Puntos de Golpe Temporales",
+				"hint": "Dejar en blanco si el sistema no tiene uno o si no quieres que sea añadido a la estimación."
+			},
+			"FractionHP": {
+				"hint": "Esto probablemente será {dataPath1} o {dataPath2}."
+			}
+		},
+		"swade": {
+			"showIncap": {
+				"hint": "Las fichas con el efecto {incap} se mostrarán como tales en lugar de su estimación actual. Esto no afecta a las fichas de vehículos o personajes muertos.",
+				"name": "Efecto de estado {incap}"
+			}
+		},
+		"PF2E": {
+			"workbenchMystifier": {
+				"name": "(EXPERIMENTAL) Soporte para el Mystifier de PF2e Workbench"
 			}
 		}
 	}

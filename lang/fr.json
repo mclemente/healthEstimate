@@ -81,15 +81,16 @@
 					"name": "Position",
 					"top": "Haut",
 					"middle": "Milieu",
-					"bottom": "Bas"
+					"bottom": "Bas",
+					"hint": "L'emplacement est fixé en fonction du cadre du jeton. Des valeurs négatives le montent, les positives l'abaissent."
 				},
 				"positionAdjustment": {
-					"name": "Ajustement de la position",
-					"hint": "La position est fixée relativement au cadre. Le nombre vous permet d'ajuster la position relative par rapport à sa position normale. Un nombre positif pourr plus haut, un négatif la descend. La valeur par défaut est de -1 et correspond à \"1 ligne en dessous de la position initiale\"."
+					"name": "Ajustement de la marge",
+					"hint": "Ajuster la marge du texte. Une valeur positive la monte, une négative la descend."
 				},
 				"scaleToZoom": {
 					"name": "Mettre l'estimation à l'échelle pour Zoomer",
-					"hint": "Met l'estimation à l'échelle sur la distance du zoom. Avertissements : {setting} n'acceptera les valeurs \"larger\" et\"smaller\", etle nombre de {setting2} sera ignoré."
+					"hint": "Met l'estimation à l'échelle en fonction de la distance du zoom. La valeur de réglage {setting2} sera ignorée en dézoomant."
 				},
 				"deathSettings": {
 					"name": "Réglage de la mort",

@@ -181,11 +181,12 @@
 					"name": "Posição",
 					"top": "Topo",
 					"middle": "Meio",
-					"bottom": "Base"
+					"bottom": "Base",
+					"hint": "A posição é definida em relação ao quadro do token. Valores negativos posicionam para cima; valores positivos posicionam para baixo."
 				},
 				"positionAdjustment": {
-					"name": "Ajustes de posição",
-					"hint": "A posição é definida conforme o quadro. O número permite ajustá-la em relação a seu posicionamento normal. Números positivos empurram para cima; negativos para baixo. O valor padrão de -1 é definido como \"uma linha abaixo da posição inicial\"."
+					"name": "Ajuste de Margem",
+					"hint": "Ajusta a margem do texto. Valores positivos posicionam para cima; valores negativos posicionam para baixo."
 				},
 				"deathSettings": {
 					"name": "Configuração de Morte",
@@ -201,7 +202,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Escalar para o nível de zoom",
-					"hint": "Escala a estimativa de acordo com a distância do zoom. Detalhes: {setting} não aceitará \"larger\" e \"smaller\" como valores font-size de CSS e o valor de {setting2} será ignorado."
+					"hint": "Escala a estimativa de acordo com a distância do zoom. O valor da configuração {setting2} será ignorado enquanto estiver afastando o zoom."
 				}
 			},
 			"combatOnly": {
@@ -329,7 +330,7 @@
 			},
 			"showIncap": {
 				"name": "Efeito de Estado {incap}",
-				"hint": "Tokens com o efeito de estado {incap} serão mostrados como {incap} em vez de suas estimativas atuais. Não funciona para tokens que são veículos ou estão mortos."
+				"hint": "Tokens com o efeito de estado {incap} serão mostrados como tal em vez de suas estimativas atuais. Isso não afeta tokens de veículos ou de personagens mortos."
 			}
 		},
 		"custom-system-builder": {
