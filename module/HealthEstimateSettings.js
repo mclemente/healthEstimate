@@ -282,8 +282,8 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.smoothGradient = document.getElementById("smoothGradient");
 		this.gradEx = document.getElementById("gradientExampleHE");
 
-		this.fontSize.value = Number.isNaN(Number(this.fontSize.value)) ? "24" : this.fontSize.value;
-		this.textPosition.value = Number.isNaN(Number(this.textPosition.value)) ? "-65" : this.textPosition.value;
+		this.fontSize.value = Number.isNumeric(this.fontSize.value) ? this.fontSize.value : 24;
+		this.textPosition.value = Number.isNumeric(this.textPosition.value) ? this.textPosition.value : "-65";
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",

@@ -83,13 +83,13 @@ export class HealthEstimate {
 			token.healthEstimate.scale.set(0.25);
 
 			token.healthEstimate.anchor.set(0.5, this.scaleToZoom && zoomLevel < 1 ? 0 : this.margin);
-			token.healthEstimate.position.set(Math.floor((canvas.scene.grid.size * token.document.width) / 2), isNaN(Number(this.alignment)) ? -65 : this.alignment);
+			token.healthEstimate.position.set(token.tooltip.x, token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65));
 		} else if (token.healthEstimate) token.healthEstimate.visible = false;
 	}
 
 	_getUserTextStyle(zoomLevel, color, stroke) {
 		if (this.scaleToZoom && zoomLevel < 1) var fontSize = 24 * (1 / zoomLevel);
-		else fontSize = isNaN(Number(this.fontSize)) ? 24 : this.fontSize;
+		else fontSize = Number.isNumeric(this.fontSize) ? this.fontSize : 24;
 
 		return {
 			fontSize: fontSize * 4,
