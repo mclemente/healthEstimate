@@ -55,13 +55,11 @@ export class HealthEstimate {
 		Hooks.on("hoverToken", (token, hovered) => {
 			this._handleOverlay(token, this.showCondition(hovered));
 		});
-		if (this.scaleToZoom) {
-			Hooks.on("canvasPan", (canvas, constrained) => {
-				canvas.scene.tokens.forEach((token) => token.object.refresh());
-			});
-		}
 		if (this.alwaysShow) {
-			canvas.scene.tokens.forEach((token) => token.object.refresh());
+			canvas.tokens?.placeables.forEach((token) => {
+				this._handleOverlay(token, true);
+			});
+			if (this.scaleToZoom) Hooks.on("canvasPan", this.onCanvasPan);
 			Hooks.on("updateActor", this.alwaysOnUpdateActor);
 			if (!game.version > 11) Hooks.on("updateToken", this.alwaysOnUpdateToken);
 		}
@@ -188,6 +186,15 @@ export class HealthEstimate {
 	//Utils
 	hideEstimate(token) {
 		return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
+	}
+
+	//Hooked functions don't interact correctly with "this"
+	onCanvasPan(canvas, constrained) {
+		if (game.healthEstimate.alwaysShow) {
+			canvas.tokens?.placeables.forEach((token) => {
+				game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hovered));
+			});
+		}
 	}
 
 	//Hooked functions don't interact correctly with "this"

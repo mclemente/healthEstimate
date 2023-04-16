@@ -171,6 +171,8 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.scaleToZoom = value;
+			if (value) Hooks.on("canvasPan", game.healthEstimate.onCanvasPan);
+			else Hooks.off("canvasPan", game.healthEstimate.onCanvasPan);
 		},
 	});
 	addMenuSetting("core.menuSettings.smoothGradient", {
