@@ -186,7 +186,8 @@
 					"0": "Destrozado",
 					"1": "Roto",
 					"2": "Completamente operativo"
-				}
+				},
+				"plural": "Estimativas"
 			},
 			"estimationSettings": {
 				"title": "Opciones de estimación",
@@ -268,13 +269,28 @@
 				"hint": "Configura en nivel de salud máximo (actual / máximo, fracción 0.0 - 1.0) que puede ser reportado para un PC en la Death Track"
 			},
 			"debilitated": {
-				"name": "Nivel de salud para los PCs debilitados"
+				"name": "Nivel de salud para los PCs debilitados",
+				"hint": "Establece el nivel máximo de salud (actual / máximo, fracción 0.0 - 1.0) que puede ser reportado para un PC que está \"Debilitado\" en la \"Pista de la Muerte\"."
 			}
 		},
 		"custom-system-builder": {
 			"tempHP": {
 				"name": "Ruta de datos de Puntos de Golpe Temporales",
 				"hint": "Dejar en blanco si el sistema no tiene uno o si no quieres que sea añadido a la estimación."
+			},
+			"FractionHP": {
+				"hint": "Esto probablemente será {dataPath1} o {dataPath2}."
+			}
+		},
+		"swade": {
+			"showIncap": {
+				"hint": "Las fichas con el efecto {incap} se mostrarán como tales en lugar de su estimación actual. Esto no afecta a las fichas de vehículos o personajes muertos.",
+				"name": "Efecto de estado {incap}"
+			}
+		},
+		"PF2E": {
+			"workbenchMystifier": {
+				"name": "(EXPERIMENTAL) Soporte para el Mystifier de PF2e Workbench"
 			}
 		}
 	}
