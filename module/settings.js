@@ -479,16 +479,17 @@ export const registerSettings = function () {
  * @param {SettingsConfig} settingsConfig
  * @param {JQuery} html
  */
-export async function renderSettingsConfigHandler(settingsConfig, html) {
+export function renderSettingsConfigHandler(settingsConfig, html) {
+	// Chat Output setting changes
 	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
 	const outputChatCheckbox = html.find('input[name="healthEstimate.core.outputChat"]');
 	const unknownEntityInput = html.find('input[name="healthEstimate.core.unknownEntity"]');
 	disableCheckbox(unknownEntityInput, outputChat);
-
 	outputChatCheckbox.on("change", (event) => {
 		disableCheckbox(unknownEntityInput, event.target.checked);
 	});
 
+	// Additional PF1 system settings
 	if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
 		const showExtra = game.settings.get("healthEstimate", "PF1.showExtra");
 		const showExtraCheckbox = html.find('input[name="healthEstimate.PF1.showExtra"]');
@@ -502,6 +503,8 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 			disableCheckbox(dyingNameInput, event.target.checked);
 		});
 	}
+
+	// Additional PF2e system settings
 	if (game.settings.settings.has("healthEstimate.PF2E.workbenchMystifier")) {
 		const workbenchMystifierCheckbox = html.find('input[name="healthEstimate.PF2E.workbenchMystifier"]');
 		disableCheckbox(workbenchMystifierCheckbox, outputChat);
@@ -512,7 +515,7 @@ export async function renderSettingsConfigHandler(settingsConfig, html) {
 	}
 }
 
-export async function renderHealthEstimateStyleSettingsHandler(settingsConfig, html) {
+export function renderHealthEstimateStyleSettingsHandler(settingsConfig, html) {
 	const useColor = game.settings.get("healthEstimate", "core.menuSettings.useColor");
 	const useColorCheckbox = html.find('input[name="useColor"]');
 	const smoothGradientForm = html.find('input[name="smoothGradient"]').parent()[0];
