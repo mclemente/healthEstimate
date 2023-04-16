@@ -330,7 +330,7 @@
 			},
 			"showIncap": {
 				"name": "Efeito de Estado {incap}",
-				"hint": "Tokens com o efeito de estado {incap} serão mostrados como {incap} em vez de suas estimativas atuais. Não funciona para tokens que são veículos ou estão mortos."
+				"hint": "Tokens com o efeito de estado {incap} serão mostrados como tal em vez de suas estimativas atuais. Isso não afeta tokens de veículos ou de personagens mortos."
 			}
 		},
 		"custom-system-builder": {
