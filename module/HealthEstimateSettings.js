@@ -54,7 +54,10 @@ class HealthEstimateSettings extends FormApplication {
 				await sSet(`core.${key}`, value);
 			})
 		);
-		canvas.scene?.tokens.forEach((token) => token.object.refresh());
+		canvas.scene?.tokens.forEach((tokenDocument) => {
+			const token = tokenDocument.object;
+			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hovered));
+		});
 	}
 }
 
@@ -343,8 +346,6 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 
 	updateGradientFunction() {
 		const mode = document.getElementById(`mode`).value;
-		const colorHandler = mode === "bez" ? `bezier(colors).scale()` : `scale(colors).mode('${mode}')`;
-
 		/**
 		 *
 		 * @param {Number} amount
@@ -354,7 +355,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		 */
 		this.gradFn = (amount, colors, colorPositions) => {
 			if (mode === "bez") return chroma.bezier(colors).scale().domain(colorPositions).colors(amount);
-			else return chroma.scale(colors).mode(`${mode}`).domain(colorPositions).colors(amount);
+			else return chroma.scale(colors).mode(mode).domain(colorPositions).colors(amount);
 		};
 
 		this.updateOutlineFunction();

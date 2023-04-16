@@ -71,7 +71,7 @@
 	"bugs": "https://github.com/mclemente/healthEstimate/issues",
 	"compatibility": {
 		"minimum": "10",
-		"verified": "11.294"
+		"verified": "11"
 	},
 	"flags": {
 		"attributions": "https://github.com/mclemente/healthEstimate/blob/master/ATTRIBUTIONS.md"

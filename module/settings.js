@@ -580,25 +580,15 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 }
 
 export function onUpdateActor(actor, data, options, userId) {
-	// Only execute this function if the user is the GM, there is an active scene, and the update alters the actor
-	if (!game.user.isGM || !canvas.scene || !options?.diff) return;
-
 	// Filter tokens associated with the updated actor.
-	let tokens = canvas.tokens?.placeables.filter((token) => token.actor?.id === actor.id);
+	const tokens = canvas.tokens?.placeables.filter((token) => token.actor?.id === actor.id);
 
-	// Iterate through the filtered tokens.
-	for (let token of tokens) {
-		// Only render the estimate if the token is not breaking the overlay render, the estimate is not hidden, and the token's ID is in the list of current actors' HP.
-		if (token?.id && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token) && game.healthEstimate.actorsCurrentHP?.[token.id]) {
+	// Iterate through the filtered tokens and render the estimate if the conditions are met.
+	tokens?.forEach((token) => {
+		const tokenId = token?.id;
+		const tokenHP = game.healthEstimate.actorsCurrentHP?.[tokenId];
+		if (tokenId && tokenHP && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token)) {
 			outputStageChange(token);
 		}
-	}
-}
-
-// Starting in V11, this no longer works for changing a token's HP
-export function onUpdateToken(token, change, options, userId) {
-	if (!game.user.isGM || !canvas.scene) return;
-	if (!game.healthEstimate.breakOverlayRender(token.object) && token.object.id in game.healthEstimate.actorsCurrentHP && !game.healthEstimate.hideEstimate(token.object)) {
-		outputStageChange(token.object);
-	}
+	});
 }

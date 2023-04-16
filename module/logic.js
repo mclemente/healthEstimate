@@ -105,7 +105,6 @@ export class HealthEstimate {
 	 * Returns an array of estimates related to the token.
 	 * deepClone is used here because changes will reflect locally on the estimations setting (see {@link getEstimation})
 	 * @param {TokenDocument} token
-	 * @returns
 	 */
 	getTokenEstimate(token) {
 		let special;
@@ -200,13 +199,11 @@ export class HealthEstimate {
 	//Hooked functions don't interact correctly with "this"
 	alwaysOnUpdateActor(actor, updates, options, userId) {
 		//Get all the tokens on the off-chance there's two tokens of the same linked actor.
-		let tokens = canvas.tokens?.placeables.filter((e) => e.actor && actor.id == e.actor.id);
-		for (let token of tokens) {
+		const tokens = canvas.tokens?.placeables.filter((token) => token.actor?.id === actor.id);
+		// Call the _handleOverlay method for each token.
+		tokens?.forEach((token) => {
 			game.healthEstimate._handleOverlay(token, true);
-		}
-	}
-	alwaysOnUpdateToken(tokenDocument, updates, options, userId) {
-		game.healthEstimate._handleOverlay(tokenDocument.object, true);
+		});
 	}
 
 	combatStart(combat, updateData) {
