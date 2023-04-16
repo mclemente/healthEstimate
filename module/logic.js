@@ -52,9 +52,6 @@ export class HealthEstimate {
 		Hooks.on("refreshToken", (token) => {
 			this._handleOverlay(token, this.showCondition(token.hover));
 		});
-		Hooks.on("hoverToken", (token, hovered) => {
-			this._handleOverlay(token, this.showCondition(hovered));
-		});
 		if (this.alwaysShow) {
 			canvas.tokens?.placeables.forEach((token) => {
 				this._handleOverlay(token, true);
@@ -213,7 +210,7 @@ export class HealthEstimate {
 		});
 	}
 
-	deleteCombat(combat, options, userId) {
+	updateCombat(combat, options, userId) {
 		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 		canvas.tokens?.placeables.forEach((token) => {
 			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
@@ -223,12 +220,12 @@ export class HealthEstimate {
 	combatHooks(value) {
 		if (value) {
 			Hooks.on("combatStart", game.healthEstimate.combatStart);
-			Hooks.on("updateCombat", game.healthEstimate.combatStart);
-			Hooks.on("deleteCombat", game.healthEstimate.deleteCombat);
+			Hooks.on("updateCombat", game.healthEstimate.updateCombat);
+			Hooks.on("deleteCombat", game.healthEstimate.updateCombat);
 		} else {
 			Hooks.off("combatStart", game.healthEstimate.combatStart);
-			Hooks.off("updateCombat", game.healthEstimate.combatStart);
-			Hooks.off("deleteCombat", game.healthEstimate.deleteCombat);
+			Hooks.off("updateCombat", game.healthEstimate.updateCombat);
+			Hooks.off("deleteCombat", game.healthEstimate.updateCombat);
 		}
 	}
 
