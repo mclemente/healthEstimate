@@ -1,3 +1,19 @@
+# 30.8
+- Added support for the [Z Scatter module](https://foundryvtt.com/packages/z-scatter). Caveat: the estimates will be off if you use the Always Show Estimate setting (#156).
+
+# 30.6
+- Several changes to Style Settings menu:
+  - The Font Size setting, which only accepts numbers now.
+    - Here's how each value used to be written: x-large: 24, large: 18, medium: 16, small: 13, x-small: 10.
+  - The Position setting is now a range instead of a 3-choice select.
+  - Changes to the styling and showing/hiding settings when toggling other settings.
+- Zooming out with the Scale to Zoom setting enabled will refresh the estimates automatically if they're showing.
+- D&D 5e: Added support for CUB module's name replacement (#148).
+- PF2e: Added support for PF2e Workbench module's mystification (#148).
+
+# 30.1-30.5
+- Lots of fixes.
+
 # 30.0 (2023-04-03)
 
 ## Major Changes
