@@ -1,4 +1,4 @@
-import { getCharacters, onRenderChatMessage } from "./lib/HealthMonitor.js";
+import { addCharacter, onRenderChatMessage } from "./lib/HealthMonitor.js";
 import { HealthEstimate } from "./module/logic.js";
 import { onUpdateActor, onUpdateToken, renderHealthEstimateStyleSettingsHandler, renderSettingsConfigHandler, renderTokenConfigHandler } from "./module/settings.js";
 import { f, t } from "./module/utils.js";
@@ -24,13 +24,13 @@ Hooks.once("canvasReady", function () {
  * HP storing code for canvas load or token created
  */
 Hooks.on("canvasReady", function () {
-	let tokens = canvas.tokens?.placeables.filter((e) => e.actor);
-	getCharacters(tokens);
+	/** @type {[Token]} */
+	const tokens = canvas.tokens?.placeables.filter((e) => e.actor) ?? [];
+	tokens.forEach(addCharacter);
 });
 
 Hooks.on("createToken", function (tokenDocument, options, userId) {
-	let tokens = canvas.tokens?.placeables.filter((e) => e.actor);
-	getCharacters(tokens);
+	addCharacter(tokenDocument.object);
 });
 
 Hooks.on("deleteActor", function (actorDocument, options, userId) {
