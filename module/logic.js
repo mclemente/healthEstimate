@@ -239,7 +239,7 @@ export class HealthEstimate {
 	 * (a) is a NPC at 0 HP and the NPCsJustDie setting is enabled
 	 * (b) has been set as dead in combat (e.g. it has the skull icon, icon may vary from system to system) and the showDead setting is enabled
 	 * (c) has the healthEstimate.dead flag, which is set by a macro.
-	 * @param {TokenDocument} token
+	 * @param {Token} token
 	 * @param {Integer} stage
 	 * @returns {Boolean}
 	 */
@@ -247,7 +247,7 @@ export class HealthEstimate {
 		const isOrganicType = this.estimationProvider.organicTypes.includes(token.actor.type);
 		const isNPCJustDie = this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "dontMarkDead");
 		const isShowDead = this.showDead && this.tokenEffectsPath(token);
-		const isFlaggedDead = token.document.getFlag("healthEstimate", "dead");
+		const isFlaggedDead = token.document.getFlag("healthEstimate", "dead") || false;
 
 		return isOrganicType && (isNPCJustDie || isShowDead || isFlaggedDead);
 	}
