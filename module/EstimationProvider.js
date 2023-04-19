@@ -911,8 +911,12 @@ export class pf2eEstimationProvider extends EstimationProvider {
 	}
 
 	fraction(token) {
-		const data = token.actor.system.attributes;
+		const data = deepClone(token.actor.system.attributes);
 		const hp = data.hp;
+		if (token.actor.type === "familiar" && token.actor.system?.master) {
+			const master = token.actor.system.master;
+			hp.max = token.actor.hitPoints.max ?? 5 * game.actors.get(master.id).system.details.level.value;
+		}
 		let temp = sGet("core.addTemp") && hp.temp ? hp.temp : 0;
 		let sp = game.settings.get("pf2e", "staminaVariant") && sGet("PF2E.staminaToHp") && data.sp ? data.sp : { value: 0, max: 0 };
 		return Math.min((hp.value + sp.value + temp) / (hp.max + sp.max), 1);
