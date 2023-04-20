@@ -335,7 +335,7 @@
 			},
 			"showIncap": {
 				"name": "{incap} Effet de statut",
-				"hint": "Les jetons avec l'effet de statut {incap} seront affichés comme {incap} au lieu de leurs estimations actuelles. Cela ne fonctionne pas pour les jetons qui sont des véhicules ou morts."
+				"hint": "Les jetons avec l'effet de statut {incap} seront affichés comme tels à la place de leur estimation actuelle. Cela n'affecte pas les jetons pour les véhicules ou les personnages morts."
 			}
 		},
 		"custom-system-builder": {
