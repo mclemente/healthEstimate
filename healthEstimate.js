@@ -10,7 +10,7 @@ Hooks.once("setup", function () {
 	setKeybinds();
 	game.healthEstimate = new HealthEstimate();
 	game.healthEstimate.setup();
-	if (game.settings.get("healthEstimate", "core.outputChat")) {
+	if (game.settings.get("healthEstimate", "core.outputChat") && game.user.isGM) {
 		Hooks.on("updateActor", onUpdateActor);
 		if (!game.version > 11) Hooks.on("updateToken", onUpdateToken);
 	}
