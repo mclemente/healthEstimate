@@ -1,6 +1,6 @@
 import { addCharacter, onRenderChatMessage } from "./lib/HealthMonitor.js";
 import { HealthEstimate } from "./module/logic.js";
-import { onUpdateActor, renderHealthEstimateStyleSettingsHandler, renderSettingsConfigHandler, renderTokenConfigHandler } from "./module/settings.js";
+import { onUpdateActor, onUpdateToken, renderHealthEstimateStyleSettingsHandler, renderSettingsConfigHandler, renderTokenConfigHandler } from "./module/settings.js";
 import { f, t } from "./module/utils.js";
 
 /**
