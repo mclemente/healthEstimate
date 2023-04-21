@@ -64,6 +64,7 @@ class HealthEstimateSettings extends FormApplication {
 export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
+			id: "health-estimate-behavior-form",
 			title: `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/behaviorSettings.hbs",
 			height: "auto",
@@ -97,7 +98,7 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 	}
 }
 
-export class EstimationSettings extends HealthEstimateSettings {
+export class HealthEstimateEstimationSettings extends HealthEstimateSettings {
 	constructor(object, options = {}) {
 		super(object, options);
 		this.estimations = deepClone(sGet("core.estimations"));
@@ -105,6 +106,7 @@ export class EstimationSettings extends HealthEstimateSettings {
 	}
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
+			id: "health-estimate-estimation-form",
 			title: `Health Estimate: ${t("core.estimationSettings.title")}`,
 			template: "./modules/healthEstimate/templates/EstimationSettings.hbs",
 			classes: ["form", "healthEstimate", "estimationSettings"],
@@ -242,6 +244,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
+			id: "health-estimate-style-form",
 			title: `Health Estimate: ${t("core.menuSettings.styleSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/styleSettings.hbs",
 		});
