@@ -62,10 +62,10 @@ export const registerSettings = function () {
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
-			if (value) {
+			if (value && game.user.isGM) {
 				Hooks.on("updateActor", onUpdateActor);
 				if (!game.version > 11) Hooks.on("updateToken", onUpdateToken);
-			} else {
+			} else if (game.user.isGM) {
 				Hooks.off("updateActor", onUpdateActor);
 				if (!game.version > 11) Hooks.off("updateToken", onUpdateToken);
 			}
