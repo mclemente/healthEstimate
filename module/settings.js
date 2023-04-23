@@ -1,6 +1,6 @@
 import { outputStageChange } from "../lib/HealthMonitor.js";
 import { injectConfig } from "../lib/injectConfig.js";
-import { EstimationSettings, HealthEstimateBehaviorSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
+import { HealthEstimateBehaviorSettings, HealthEstimateEstimationSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
 import { addSetting, f, t } from "./utils.js";
 
 export const registerSettings = function () {
