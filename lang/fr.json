@@ -24,7 +24,7 @@
 			},
 			"deathState": {
 				"name": "État Mort sous condition",
-				"hint": "Afficher l'acteur comme indiqué sur le réglage {setting} lorsqu'il a été affligé d'un état spécifique qui utilise le jeu d'icônes sur le réglage {setting2}. Fonctionne indépendamment de la macro."
+				"hint": "Afficher l'acteur comme indiqué sur le réglage {setting} lorsqu'il a été affligé d'un état spécifique qui utilise le jeu d'icônes sur le réglage {setting2}."
 			},
 			"deathStateName": {
 				"name": "Nom de l'État de Mort",
