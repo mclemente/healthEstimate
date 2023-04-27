@@ -18,7 +18,7 @@
 			"isNow": "{name} está ahora {desc}.",
 			"unknownEntity": {
 				"name": "Nombre de la Entidad Desconocida",
-				"hint": "Establece cómo se llamará a un personaje oculto.",
+				"hint": "Establece cómo se llamará a un personaje oculto.{warning}",
 				"default": "Entidad Desconocida",
 				"warningCUB": "Si estás utilizando la opción para ocultar nombres de CUB, tendrá prioridad sobre esta configuración.",
 				"warningPF2eWorkbench": "Si estás usando la opción para mistificar nombres de la Tabla de Trabajo de PF2e, tendrá prioridad sobre esta configuración."
@@ -45,7 +45,7 @@
 			},
 			"deathState": {
 				"name": "Condición Estado de Muerte",
-				"hint": "Muestra el token como muerto cuando ha sido afectado por una condición que usa el icono establecido en el ajuste Marcador de Muerte. Funciona independientemente de la macro."
+				"hint": "Muestra el token como es definido por la configuración {setting} cuando ha sido afectado por cualquier condición que use el icono elegido en la configuración {configuración2}."
 			},
 			"deathStateName": {
 				"name": "Nombre de Estado de Muerte",
@@ -58,7 +58,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "Los PNJs mueren inmediatamente",
-				"hint": "El último paso de los PNJs se reemplaza por el Nombre de Estado de Muerte."
+				"hint": "La última fase de los tokens cuyos actores no han sido seleccionado por los jugadores es reemplazado por {setting}. Para más información sobre qué significa \"seleccionado por jugadores\", lee la sección de Configuración del usuario en el artículo de Foundry \"Usuarios y permisos\"."
 			},
 			"perfectionism": {
 				"name": "Perfeccionismo",
@@ -66,7 +66,7 @@
 			},
 			"outputChat": {
 				"name": "Mostrar Estimación en el Chat",
-				"hint": "Mostrar cualquier cambio de estimación en el chat. Los personajes marcados con la macro Hide Estimate serán mostrados como \"Entidad Desconocida\"."
+				"hint": "Mostrar cualquier cambio de estimación en el chat. Los personajes marcados con la configuración de ocultar nombres de tokens serán mostrados como la descripción de {setting} configuración."
 			},
 			"addTemp": {
 				"name": "Añadir Salud Temporal",
@@ -83,7 +83,7 @@
 				},
 				"useColor": {
 					"name": "Usar Color",
-					"hint": "Esto no afectará a la ventana de ajustes, pero si se desmarca las descripciones se mostrarán en blanco y negro."
+					"hint": "Las estimaciones se mostrarán en blanco y negro."
 				},
 				"smoothGradient": {
 					"name": "Gradiente Suave",
@@ -105,8 +105,8 @@
 					"hint": "La posición está configurada relativa al borde del token. Los valores negativos la elevaran; los positivos la bajaran."
 				},
 				"positionAdjustment": {
-					"name": "Ajuste de Posición",
-					"hint": "La posición se establece relativa al marco. El número te permite afinar la posición relativa a su lugar normal. Números positivos lo empujan hacia abajo, negativos – más alto. El valor predeterminado de -1 lo establece en \"1 line above initial position\"."
+					"name": "Ajuste de margen",
+					"hint": "Ajusta el margen del texto. Valores positivos lo subirán. Los negativos lo bajarán."
 				},
 				"behaviorSettings": {
 					"name": "Configuración de comportamiento",
@@ -114,7 +114,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Escala las estimaciones al zoom",
-					"hint": "Escalas las estimaciones basándose en la distancia de zoom. {setting2} valores de configuración serán ignorados mientras alejas el zoom."
+					"hint": "Escalas las estimaciones basándose en la distancia de zoom. Los valores de la configuración {setting2} serán ignorados mientras alejas el zoom."
 				},
 				"deathSettings": {
 					"name": "Configuración de muerte",
@@ -136,7 +136,7 @@
 				},
 				"hideEstimates": {
 					"name": "Ocultar estimaciones",
-					"hint": "Oculta las estimaciones de los tokens seleccionados a los jugadores. Las estimaciones ocultas se muestran como \"*\" al GM."
+					"hint": "Oculta las estimaciones de los tokens seleccionados a los jugadores. Las estimaciones ocultas no se mostrarán en el chat si la opción está activa y se mostrará como un asterisco (*) al GM ."
 				},
 				"hideNames": {
 					"name": "Ocultar nombres",
@@ -217,8 +217,8 @@
 				"hint": "Si se habilita, el daño no letal se restará de salud actual para la estimación ."
 			},
 			"showExtra": {
-				"name": "Incapacitado y Moribundo",
-				"hint": "Muestra las descripciones \"Incapacitado\" y \"Moribundo\"."
+				"name": "Mostrar {condition1} y {condition2}",
+				"hint": "Muestra las descripciones de {condition1} y {condition2} cuando sus prerrequisitos se cumplen."
 			},
 			"disabledName": {
 				"name": "Incapacitado",
@@ -240,7 +240,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Usar Umbral de Vehículos",
-				"hint": "Si se activa este ajuste, limita las etapas de \"Estados de Vehículos\" a 3."
+				"hint": "Los vehículos usan las fases elegidas en la configuración {setting1}. Si no, los vehículos usarán la misma descripción que en la opción {setting2}."
 			},
 			"thresholdNames": {
 				"name": "Estados de Umbral",
@@ -265,12 +265,12 @@
 		},
 		"cyphersystem": {
 			"impaired": {
-				"name": "Nivel de salud para PCs dañados",
-				"hint": "Configura en nivel de salud máximo (actual / máximo, fracción 0.0 - 1.0) que puede ser reportado para un PC en la Death Track"
+				"name": "Nivel de salud para PCs dañados.",
+				"hint": "Configura el nivel de salud máximo (actual / máximo, fracción 0.0 - 1.0) que puede ser informado para un PC en el registro de muertes"
 			},
 			"debilitated": {
 				"name": "Nivel de salud para los PCs debilitados",
-				"hint": "Establece el nivel máximo de salud (actual / máximo, fracción 0.0 - 1.0) que puede ser reportado para un PC que está \"Debilitado\" en la \"Pista de la Muerte\"."
+				"hint": "Establece el nivel máximo de salud (actual / máximo, fracción 0.0 - 1.0) que puede ser informado para un PC que está \"Debilitado\" en el registro de muertes"
 			}
 		},
 		"custom-system-builder": {
@@ -284,13 +284,30 @@
 		},
 		"swade": {
 			"showIncap": {
-				"hint": "Las fichas con el efecto {incap} se mostrarán como tales en lugar de su estimación actual. Esto no afecta a las fichas de vehículos o personajes muertos.",
+				"hint": "Las fichas con el efecto {incap} se mostrarán como tales en lugar de su estimación actual. Esto no afecta a los tokens de vehículos o personajes muertos.",
 				"name": "Efecto de estado {incap}"
+			},
+			"defaultWildCardMaxWounds": {
+				"name": "Heridas máximas por defecto en Wild Card",
+				"hint": "Esto es usado para calcular las heridas máximas que un PNJ de Wild Card debería tener por defecto para estimaciones."
 			}
 		},
 		"PF2E": {
 			"workbenchMystifier": {
-				"name": "(EXPERIMENTAL) Soporte para el Mystifier de PF2e Workbench"
+				"name": "(EXPERIMENTAL) Soporte para el Mystifier de PF2e Workbench",
+				"hint": "Si las opciones de mistificación de PNJs están activas, los mensajes de chats ignorarán el nombre de la configuración {setting} y usará el nombre del token si es diferente al nombre del Token prototipo del actor."
+			},
+			"staminaToHp": {
+				"name": "Resistencia en Estimate",
+				"hint": "Añade puntos de resistencia a la estimación."
+			},
+			"hideVehicleHP": {
+				"name": "Ocultar estimación de vehículos",
+				"hint": "Oculta la estimación para vehículos."
+			},
+			"hideHazardHP": {
+				"name": "Ocultar estimación de peligros",
+				"hint": "Oculta la estimación de peligros."
 			}
 		}
 	}
