@@ -120,7 +120,7 @@
 			},
 			"deathState": {
 				"name": "Condição Morto",
-				"hint": "Mostra o token como defino na configuração {setting} quando afetado por qualquer condição que use o ícone da configuração {setting2}. Funciona independentemente da macro."
+				"hint": "Mostra o token como defino na configuração {setting} quando afetado por qualquer condição que use o ícone da configuração {setting2}."
 			},
 			"deathStateName": {
 				"name": "Nome do Estado de Morte",
