@@ -24,7 +24,7 @@ const breakOnZeroMaxHP = {
 
 /** Providers whose systems use "-" in their names */
 export const providerKeys = {
-	"age-system": "AgeSystem",
+	"age-system": "ageSystem",
 	"band-of-blades": "bandOfBlades",
 	"blade-runner": "bladeRunner",
 	"blades-in-the-dark": "bladesInTheDark",
