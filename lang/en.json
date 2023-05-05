@@ -119,7 +119,7 @@
 			},
 			"deathState": {
 				"name": "Death State on Condition",
-				"hint": "Show token as defined on the {setting} setting when it has been affected by any condition that uses the icon set on the {setting2} setting. Works independently from the macro."
+				"hint": "Show token as defined on the {setting} setting when it has been affected by any condition that uses the icon set on the {setting2} setting."
 			},
 			"deathStateName": {
 				"name": "Death State Name",
@@ -260,7 +260,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Use Vehicle Threshold",
-				"hint": "Vehicles Use the stages set on {setting1} setting. Otherwise, vehicles will use the same description as the {setting2} setting.."
+				"hint": "Vehicles Use the stages set on {setting1} setting. Otherwise, vehicles will use the same description as the {setting2} setting."
 			},
 			"addStamina": {
 				"name": "Account for Stamina",
