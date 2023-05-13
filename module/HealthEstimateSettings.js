@@ -127,10 +127,10 @@ export class HealthEstimateEstimationSettings extends HealthEstimateSettings {
 	 */
 	_activateCoreListeners(html) {
 		super._activateCoreListeners(html);
-		if (this.changeTabs) {
+		if (this.changeTabs !== null) {
 			const tabName = this.changeTabs.toString();
 			if (tabName !== this._tabs[0].active) this._tabs[0].activate(tabName);
-			this.changeTabs = 0;
+			this.changeTabs = null;
 		}
 	}
 
@@ -165,7 +165,7 @@ export class HealthEstimateEstimationSettings extends HealthEstimateSettings {
 		html.find("button[data-action=table-delete]").on("click", (event) => {
 			const { idx } = event.target?.dataset;
 			this.estimations.splice(Number(idx), 1);
-			this.changeTabs = this.estimations.length - 1;
+			this.changeTabs = Number(key) - 1;
 			this.render();
 		});
 		html.find("button[data-action=change-prio]").on("click", (event) => {

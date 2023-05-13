@@ -92,10 +92,6 @@
 	cursor: default;
 	color: grey;
 }
-.form.healthEstimate form {
-	display: flex;
-	flex-direction: column;
-}
 .form.healthEstimate .form-group.gradient {
 	margin-bottom: 7px;
 }
