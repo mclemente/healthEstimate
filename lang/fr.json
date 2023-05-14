@@ -28,7 +28,7 @@
 			},
 			"deathStateName": {
 				"name": "Nom de l'État de Mort",
-				"hint": "Description montrée aux joueurs lorsque le token est mort. L'onglet Compendium contient une macro permettant de marquer un token (ou plusieurs) comme mort.",
+				"hint": "La description montrée quand un jeton est mort.",
 				"default": "Mort"
 			},
 			"deathMarker": {
@@ -335,7 +335,7 @@
 			},
 			"showIncap": {
 				"name": "{incap} Effet de statut",
-				"hint": "Les jetons avec l'effet de statut {incap} seront affichés comme tels à la place de leur estimation actuelle. Cela n'affecte pas les jetons pour les véhicules ou les personnages morts."
+				"hint": "Les jetons avec l'effet de statut {incap} seront affichés comme {incap} à la place de leur estimation actuelle. Cela n'affecte pas les jetons qui sont des véhicules ou sont morts."
 			}
 		},
 		"custom-system-builder": {
