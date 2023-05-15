@@ -267,8 +267,8 @@ export class HealthEstimate {
 	updateBreakConditions() {
 		this.breakConditions.onlyGM = sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : "";
 		this.breakConditions.onlyNotGM = sGet("core.showDescription") == 2 ? `|| game.user.isGM` : "";
-		this.breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor.hasPlayerOwner` : "";
-		this.breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor.hasPlayerOwner` : "";
+		this.breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor?.hasPlayerOwner` : "";
+		this.breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor?.hasPlayerOwner` : "";
 
 		const prep = (key) => (isEmpty(this.breakConditions[key]) ? "" : this.breakConditions[key]);
 
