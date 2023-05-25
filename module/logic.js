@@ -13,7 +13,6 @@ export class HealthEstimate {
 		this.estimationProvider = this.prepareSystemSpecifics();
 		this.fractionFormula = this.estimationProvider.fraction;
 		if (this.estimationProvider.breakCondition !== undefined) this.breakConditions.system = this.estimationProvider.breakCondition;
-		if (this.estimationProvider.tokenEffects !== undefined) this.tokenEffectsPath = this.estimationProvider.tokenEffects;
 		registerSettings();
 		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
 			addSetting(key, data);
@@ -246,7 +245,7 @@ export class HealthEstimate {
 	isDead(token, stage) {
 		const isOrganicType = this.estimationProvider.organicTypes.includes(token.actor.type);
 		const isNPCJustDie = this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "dontMarkDead");
-		const isShowDead = this.showDead && this.tokenEffectsPath(token);
+		const isShowDead = this.showDead && token.combatant?.defeated;
 		const isFlaggedDead = token.document.getFlag("healthEstimate", "dead") || false;
 
 		return isOrganicType && (isNPCJustDie || isShowDead || isFlaggedDead);
@@ -255,13 +254,6 @@ export class HealthEstimate {
 	showCondition(hovered) {
 		const combatTrigger = this.combatOnly && this.combatRunning;
 		return (this.alwaysShow && (combatTrigger || !this.combatOnly)) || (hovered && (combatTrigger || !this.combatOnly));
-	}
-
-	/**
-	 * Path of the token's effects. Useful for systems that change how it is handled (e.g. PF2e, DSA5, SWADE).
-	 */
-	tokenEffectsPath(token) {
-		return Array.from(token.actor.effects.values()).some((x) => x.icon === game.healthEstimate.deathMarker);
 	}
 
 	updateBreakConditions() {
@@ -296,7 +288,6 @@ export class HealthEstimate {
 		this.deathStateName = sGet("core.deathStateName");
 		this.showDead = sGet("core.deathState");
 		this.NPCsJustDie = sGet("core.NPCsJustDie");
-		this.deathMarker = sGet("core.deathMarker");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 
 		this.smoothGradient = sGet("core.menuSettings.smoothGradient");

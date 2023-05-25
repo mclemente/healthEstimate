@@ -1,8 +1,3 @@
-export const REG = {
-	// searches if the string is one path
-	path: new RegExp(/^([\w_-]+\.)*([\w_-]+)$/),
-};
-
 /**
  * Shorthand for game.settings.register().
  * Default data: {scope: "world", config: true}

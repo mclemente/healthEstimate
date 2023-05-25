@@ -119,7 +119,7 @@
 			},
 			"deathState": {
 				"name": "Death State on Condition",
-				"hint": "Show token as defined on the {setting} setting when it has been affected by any condition that uses the icon set on the {setting2} setting."
+				"hint": "Show token as defined on the {setting} setting when it has been marked as defeated on combat."
 			},
 			"deathStateName": {
 				"name": "Death State Name",

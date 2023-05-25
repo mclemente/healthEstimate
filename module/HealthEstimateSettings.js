@@ -81,7 +81,6 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 			deathState: this.prepSetting("deathState"),
 			deathStateName: this.prepSetting("deathStateName"),
 			NPCsJustDie: this.prepSetting("NPCsJustDie"),
-			deathMarker: this.prepSetting("deathMarker"),
 		};
 	}
 
@@ -89,7 +88,7 @@ export class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 		super.activateListeners(html);
 
 		html.find("button[name=reset]").on("click", async (event) => {
-			const paths = ["alwaysShow", "combatOnly", "showDescription", "showDescriptionTokenType", "deathState", "deathStateName", "NPCsJustDie", "deathMarker"];
+			const paths = ["alwaysShow", "combatOnly", "showDescription", "showDescriptionTokenType", "deathState", "deathStateName", "NPCsJustDie"];
 
 			await Promise.all(paths.map(this.resetToDefault));
 			canvas.scene?.tokens.forEach((token) => token.object.refresh());

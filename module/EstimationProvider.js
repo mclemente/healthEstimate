@@ -116,19 +116,6 @@ class EstimationProvider {
 	static get breakCondition() {
 		return undefined;
 	}
-
-	/**
-	 * This is for the big marker shown on defeated tokens (the skull marker by default).
-	 * Only use this if your system doesn't add the marker as an effect.
-	 * @returns {Boolean}
-	 *
-	 * @see dsa5EstimationProvider
-	 * @see pf2eEstimationProvider
-	 * @see swadeEstimationProvider
-	 */
-	static tokenEffects(token) {
-		return undefined;
-	}
 }
 
 export class GenericEstimationProvider extends EstimationProvider {
@@ -140,7 +127,7 @@ export class GenericEstimationProvider extends EstimationProvider {
 
 		if (hp === undefined && hpPath === "") throw new Error(`The HP is undefined, try using the ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting.`);
 		else if (hp === undefined) throw new Error(`The ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting ("${hpPath}") is wrong.`);
-		const outputs = [Math.min((Number(hp.value) + temp) / Number(hp.max), 1), (Number(hp.max) - Number(hp.value)) / Number(hp.max)];
+		const outputs = [Math.min((Number(hp.value) + temp) / Number(hp.max), 1), (Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp)];
 		return outputs[sGet("core.custom.FractionMath")];
 	}
 
@@ -551,10 +538,6 @@ export class dsa5EstimationProvider extends EstimationProvider {
 		let hp = token.actor.system.status.wounds;
 		return hp.value / hp.max;
 	}
-
-	tokenEffects(token) {
-		return token.document.overlayEffect === game.healthEstimate.deathMarker;
-	}
 }
 
 export class dungeonworldEstimationProvider extends EstimationProvider {
@@ -960,10 +943,6 @@ export class pf2eEstimationProvider extends EstimationProvider {
         || token.actor.type === 'loot'
         || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
 	}
-
-	tokenEffects(token) {
-		return token.document.overlayEffect === game.healthEstimate.deathMarker;
-	}
 }
 
 export class ryuutamaEstimationProvider extends EstimationProvider {
@@ -1183,10 +1162,6 @@ export class swadeEstimationProvider extends EstimationProvider {
 			maxHP = 1 + Math.max(hp.max || defaultWildCardMaxWounds, 1);
 		}
 		return (maxHP - hp.value) / maxHP;
-	}
-
-	tokenEffects(token) {
-		return (sGet("swade.showIncap") && token.actor.effects.find((e) => e.statuses.has("incapacitated"))) || token.document.overlayEffect === game.healthEstimate.deathMarker;
 	}
 
 	get settings() {
