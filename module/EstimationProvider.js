@@ -35,6 +35,7 @@ export const providerKeys = {
 	"foundryvtt-reve-de-dragon": "reveDeDragon",
 	"scum-and-villainy": "scumAndVillainy",
 	"uesrpg-d100": "uesrpg",
+	"wrath-and-glory": "wrathAndGlory",
 };
 
 class EstimationProvider {
@@ -1439,5 +1440,30 @@ export class worldbuildingEstimationProvider extends EstimationProvider {
 				default: "const hp = token.actor.system.health; return hp.value / hp.max",
 			},
 		};
+	}
+}
+
+export class wrathAndGloryEstimationProvider extends EstimationProvider {
+	constructor() {
+		super();
+		this.organicTypes = ["agent", "threat"];
+	}
+
+	fraction(token) {
+		const hp = token.actor.system.combat.wounds;
+		let temp = 0;
+		if (sGet("core.addTemp")) temp = Number(hp.bonus);
+		return (Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp);
+	}
+
+	get settings() {
+		return {
+			...addTemp,
+			...breakOnZeroMaxHP,
+		};
+	}
+
+	get breakCondition() {
+		return `|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.combat.wounds.max === 0)`;
 	}
 }
