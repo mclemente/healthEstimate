@@ -49,8 +49,8 @@
 				"deleteTable": "Deletar Tabela",
 				"estimate": "Estimativa",
 				"jsRule": "Regra JS",
-				"prioDecrease": "Diminuir Priority",
-				"prioIncrease": "Aumentar Priority",
+				"prioDecrease": "Diminuir Prioridade",
+				"prioIncrease": "Aumentar Prioridade",
 				"ignoreColor": {
 					"name": "Ignorar Cor",
 					"hint": "Ignora a cor desta tabela e usa as cores da próxima tabela válida para o token. Esta opção é para condições que devem ter prioridade sobre uma estimativa, mas ainda devem usar as cores da estimativa."

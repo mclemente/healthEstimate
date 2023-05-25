@@ -28,8 +28,8 @@ export const registerSettings = function () {
 		restricted: true,
 	});
 	game.settings.registerMenu("healthEstimate", "estimationSettings", {
-		name: "Estimation Settings",
-		label: "Estimation Settings",
+		name: t("core.estimationSettings.title"),
+		label: t("core.estimationSettings.title"),
 		icon: "fas fa-scale-balanced",
 		type: HealthEstimateEstimationSettings,
 		restricted: true,
