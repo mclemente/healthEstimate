@@ -1,4 +1,5 @@
-import { f, getNestedData, isEmpty, sGet, t } from "./utils.js";
+import { getNestedData } from "../lib/TokenTooltipAlt.js";
+import { f, isEmpty, sGet, t } from "./utils.js";
 
 // Two settings that are common among many systems
 // but unnecessary for some to justify being part of the core module
