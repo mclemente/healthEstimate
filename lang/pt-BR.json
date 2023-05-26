@@ -75,7 +75,7 @@
 				},
 				"hideEstimates": {
 					"name": "Ocultar Estimativas",
-					"hint": "Oculta as estimativas de tokens selecionados para os jogadores. Estimativas ocultas não serão mostradas no chat se a configuração estiver ativa e aparecerão com um asterisco (*) para o MJ."
+					"hint": "Oculta as estimativas de tokens selecionados para os jogadores. Estimativas ocultas não serão exibidas no chat se a configuração estiver ativa e aparecerão com um asterisco (*) para o MJ."
 				},
 				"hideNames": {
 					"name": "Ocultar Nomes",
@@ -124,7 +124,7 @@
 			},
 			"deathStateName": {
 				"name": "Nome do Estado de Morte",
-				"hint": "A descrição mostrada aos jogadores quando o token está morto. A aba Compêndio possui uma macro para marcar um token (ou vários) como morto.",
+				"hint": "A descrição exibida quando o token está morto.",
 				"default": "Morto"
 			},
 			"deathMarker": {
@@ -330,7 +330,7 @@
 			},
 			"showIncap": {
 				"name": "Efeito de Estado {incap}",
-				"hint": "Tokens com o efeito de estado {incap} serão mostrados como tal em vez de suas estimativas atuais. Isso não afeta tokens de veículos ou de personagens mortos."
+				"hint": "Tokens com o efeito de estado {incap} serão mostrados como {incap} em vez de suas estimativas atuais. Isso não afeta tokens que são veículos ou estão mortos."
 			}
 		},
 		"custom-system-builder": {
