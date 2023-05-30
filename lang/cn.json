@@ -4,7 +4,7 @@
 			"custom": {
 				"FractionHP": {
 					"name": "生命值属性数据路径",
-					"hint": "你的游戏系统可能有着与默认不同的数据路径。如果健康评估显示不正确，请手动输入数据路径（比如actor.system.health）"
+					"hint": "你的游戏系统可能有着与默认不同的数据路径。如果健康评估显示不正确，请手动输入数据路径（比如actor.system.health）。"
 				},
 				"FractionMath": {
 					"name": "生命值计算方式",
@@ -59,11 +59,11 @@
 			},
 			"combatOnly": {
 				"name": "仅在战斗中显示",
-				"hint": "仅在战斗中显示健康状况"
+				"hint": "仅在战斗中显示健康状况。"
 			},
 			"showDescription": {
 				"name": "显示健康状况：用户",
-				"hint": "下列用户可以看到健康状况",
+				"hint": "下列用户可以看到健康状况。",
 				"choices": {
 					"all": "所有",
 					"GM": "GM",
@@ -74,7 +74,7 @@
 			},
 			"showDescriptionTokenType": {
 				"name": "显示健康状况：指示物",
-				"hint": "显示下列指示物的健康状况"
+				"hint": "显示下列指示物的健康状况。"
 			},
 			"stateNames": {
 				"name": "阶段",
@@ -117,7 +117,7 @@
 			},
 			"breakOnZeroMaxHP": {
 				"name": "在最大 HP 为 0 的指示物上隐藏",
-				"hint": "对物品指示物很有用"
+				"hint": "对物品指示物很有用。"
 			},
 			"menuSettings": {
 				"behaviorSettings": {
@@ -245,14 +245,14 @@
 		"PF2E": {
 			"staminaToHp": {
 				"name": "显示耐力值",
-				"hint": "将耐力值加到健康状况内"
+				"hint": "将耐力值加到健康状况内。"
 			},
 			"useThreshold": {
 				"hint": "使用三阶段估算载具生命值。若开启，建议到{setting}中将阶段更改为三段。"
 			},
 			"hideHazardHP": {
 				"name": "隐藏危害的生命值估算",
-				"hint": "隐藏危害的生命值估算"
+				"hint": "隐藏危害的生命值估算。"
 			},
 			"hideVehicleHP": {
 				"name": "隐藏载具估算",
