@@ -4,7 +4,7 @@
 			"custom": {
 				"FractionHP": {
 					"name": "生命值属性数据路径",
-					"hint": "你的游戏系统可能有着与默认不同的数据路径。如果健康评估显示不正确，请手动输入数据路径（比如actor.system.health）"
+					"hint": "你的游戏系统可能有着与默认不同的数据路径。如果健康评估显示不正确，请手动输入数据路径（比如actor.system.health）。"
 				},
 				"FractionMath": {
 					"name": "生命值计算方式",
@@ -59,11 +59,11 @@
 			},
 			"combatOnly": {
 				"name": "仅在战斗中显示",
-				"hint": "仅在战斗中显示健康状况"
+				"hint": "仅在战斗中显示健康状况。"
 			},
 			"showDescription": {
 				"name": "显示健康状况：用户",
-				"hint": "下列用户可以看到健康状况",
+				"hint": "下列用户可以看到健康状况。",
 				"choices": {
 					"all": "所有",
 					"GM": "GM",
@@ -74,7 +74,7 @@
 			},
 			"showDescriptionTokenType": {
 				"name": "显示健康状况：指示物",
-				"hint": "显示下列指示物的健康状况"
+				"hint": "显示下列指示物的健康状况。"
 			},
 			"stateNames": {
 				"name": "阶段",
@@ -83,11 +83,11 @@
 			},
 			"deathState": {
 				"name": "死亡状态显示",
-				"hint": "在{setting}设置中定义的指示物被任何状态影响时，显示{setting2}设置的图标。本设置独立于宏工作。"
+				"hint": "当在战斗被标记为战败时，为指示物按{setting}的设置显示。"
 			},
 			"deathStateName": {
 				"name": "死亡状态名称",
-				"hint": "指示物死亡时显示给玩家们的描述。合集包中有一个宏用来一或多个指示物标记为死亡。",
+				"hint": "当指示物死亡时显示的描述文本。",
 				"default": "死亡"
 			},
 			"deathMarker": {
@@ -117,7 +117,7 @@
 			},
 			"breakOnZeroMaxHP": {
 				"name": "在最大 HP 为 0 的指示物上隐藏",
-				"hint": "对物品指示物很有用"
+				"hint": "对物品指示物很有用。"
 			},
 			"menuSettings": {
 				"behaviorSettings": {
@@ -245,14 +245,14 @@
 		"PF2E": {
 			"staminaToHp": {
 				"name": "显示耐力值",
-				"hint": "将耐力值加到健康状况内"
+				"hint": "将耐力值加到健康状况内。"
 			},
 			"useThreshold": {
 				"hint": "使用三阶段估算载具生命值。若开启，建议到{setting}中将阶段更改为三段。"
 			},
 			"hideHazardHP": {
 				"name": "隐藏危害的生命值估算",
-				"hint": "隐藏危害的生命值估算"
+				"hint": "隐藏危害的生命值估算。"
 			},
 			"hideVehicleHP": {
 				"name": "隐藏载具估算",
@@ -272,7 +272,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "使用载具阈值",
-				"hint": "载具使用{setting1}设置中的阶段。否则载具将使用和{setting2}相同的阶段描述…"
+				"hint": "载具使用{setting1}设置中的阶段。否则载具将使用和{setting2}相同的阶段描述。"
 			},
 			"thresholdNames": {
 				"name": "阈值阶段",
@@ -315,7 +315,7 @@
 			},
 			"showIncap": {
 				"name": "{incap}状态效果",
-				"hint": "带有{incap}状态效果的指示物将被显示为该状态而非实时的健康状况。对载具或死亡指示物无效。"
+				"hint": "带有{incap}状态效果的指示物将被显示为{incap}而非实时的健康状况。这对载具或已死亡的指示物无效。"
 			},
 			"defaultWildCardMaxWounds": {
 				"name": "Wild Card默认最大受伤值",
@@ -328,7 +328,7 @@
 				"name": "临时生命值数据路径"
 			},
 			"FractionHP": {
-				"hint": "这大概是{dataPath1}或{dataPath2}。"
+				"hint": "这大概为{dataPath1}或{dataPath2}。"
 			}
 		},
 		"cyphersystem": {
