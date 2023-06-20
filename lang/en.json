@@ -205,6 +205,14 @@
 				"hint": "Leave it blank if the system doesn't have one or if you don't want it to be added to the estimation."
 			}
 		},
+		"cyberpunk-red-core": {
+			"unorganics": {
+				"4": "Intact",
+				"3": "Operational",
+				"2": "Malfunctioning",
+				"0": "Disabled"
+			}
+		},
 		"cyphersystem": {
 			"impaired": {
 				"name": "Health level for Impaired PCs",

@@ -44,7 +44,7 @@ class EstimationProvider {
 		 * Non-exhaustive list of possible character-types that should use the DeathStateName. This is way to avoid vehicles being "Dead"
 		 * @type {string[]}
 		 */
-		this.organicTypes = ["character", "pc", "npc", "familiar", "traveller", "animal"]; // There must be a better way
+		this.organicTypes = ["character", "pc", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
 
 		/**
 		 * Code that will be run during HealthEstimate.getTokenEstimate()
@@ -345,11 +345,26 @@ export class cyberpunkRedCoreEstimationProvider extends EstimationProvider {
 					{ value: 100, label: game.i18n.localize("CPR.global.woundState.notWounded") },
 				],
 			},
+			{
+				name: `${game.i18n.localize("ACTOR.TypeBlackice")}/${game.i18n.localize("ACTOR.TypeDemon")}`,
+				rule: `type === "blackIce" || type === "demon"`,
+				estimates: [
+					{ value: 0, label: t("cyberpunk-red-core.unorganics.0") },
+					{ value: 50, label: t("cyberpunk-red-core.unorganics.2") },
+					{ value: 99, label: t("cyberpunk-red-core.unorganics.3") },
+					{ value: 100, label: t("cyberpunk-red-core.unorganics.4") },
+				],
+			},
 		];
 	}
 
 	fraction(token) {
-		const hp = token.actor.system.derivedStats.hp;
+		let hp;
+		if (token.actor.system.derivedStats) {
+			hp = token.actor.system.derivedStats.hp;
+		} else if (token.actor.system.stats) {
+			hp = token.actor.system.stats.rez;
+		}
 		return hp.value / hp.max;
 	}
 
