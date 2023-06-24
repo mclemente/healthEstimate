@@ -121,6 +121,23 @@
 				"positionAdjustment": {
 					"name": "Sijainnin säätö"
 				}
+			},
+			"estimates": {
+				"best": "Paras",
+				"states": {
+					"0": "Tajuton",
+					"1": "Lähellä kuolemaa",
+					"2": "Pahasti loukkaantunut",
+					"3": "Loukkaantunut",
+					"4": "Lievästi loukkaantunut",
+					"5": "Täysikuntoinen"
+				},
+				"vehicles": {
+					"0": "Romuttunut",
+					"1": "Liekeissä",
+					"2": "Savuttaa"
+				},
+				"worst": "Huonoin"
 			}
 		}
 	}
