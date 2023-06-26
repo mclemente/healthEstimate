@@ -16,15 +16,15 @@
 				},
 				"dontMarkDead": {
 					"name": "Älä merkitse kuolleeksi",
-					"hint": "Ei merkitse EPH:ja kuolleiksi, kun niiden KP:t ovat 0 (esim. se näkyy tajuttomana). Tämä on hyödyllinen vain, jos käytät asetusta \"EPH:t kuolevat välittömästi\"."
+					"hint": "Ei merkitse EPH:ja kuolleiksi, kun niiden KP:t ovat 0 (esim. se näkyy tajuttomana). Tämä on hyödyllinen vain, jos käytät asetusta \"{setting}\"."
 				},
 				"hideEstimates": {
 					"name": "Piilota arviot",
-					"hint": "Piilottaa valittujen pelinappuloiden arviot pelaajilta. Piilotetut arviot näyttävät PJ:lle *-merkin."
+					"hint": "Piilottaa valittujen pelinappuloiden arviot pelaajilta. Piilotettuja arvioita ei lähetetä keskusteluun, jos asetus on päällä, ja ne näytetään tähdellä (*) PJ:lle."
 				},
 				"hideNames": {
 					"name": "Piilota nimet",
-					"hint": "Piilottaa valittujen pelinappuloiden nimet, kun käytät asetusta \"Tulosta arvio keskusteluun\"."
+					"hint": "Piilottaa valittujen pelinappuloiden nimet, kun käytät asetusta \"{setting}\"."
 				},
 				"hideEstimatesAndNames": {
 					"name": "Piilota arviot ja nimet",
@@ -45,11 +45,11 @@
 					}
 				}
 			},
-			"isNow": "on nyt",
+			"isNow": "{name} on nyt {desc}.",
 			"unknownEntity": {
 				"default": "Tuntematon entiteetti",
 				"name": "Tuntemattoman entiteetin nimi",
-				"hint": "Asettaa, miten piilotettua hahmoa kutsutaan."
+				"hint": "Asettaa, miten piilotettua hahmoa kutsutaan.{warning}"
 			},
 			"alwaysShow": {
 				"name": "Näytä arviot aina",
@@ -78,14 +78,14 @@
 			"deathStateName": {
 				"default": "Kuollut",
 				"name": "Kuollut-tilan nimi",
-				"hint": "Pelaajille näytettävä kuvaus kun pelinappula on kuollut. Hakemisto-välilehdellä on makro, jolla merkitään yksi tai useampi pelinappula kuolleeksi."
+				"hint": "Kuvaus, joka näytetään, kun pelinappula on kuollut."
 			},
 			"deathMarker": {
 				"name": "Kuolleen merkki"
 			},
 			"NPCsJustDie": {
 				"name": "EPH:t kuolevat välittömästi",
-				"hint": "EPH:jen viimeinen vaihe korvataan kuollut-tilan nimellä."
+				"hint": "Niiden pelinappuloiden viimeinen vaihe, joiden hahmoja pelaajat eivät ole valinneet, korvataan asetuksella \"{setting}\". Lisätietoja siitä, mitä \"pelaajien valitsemat\" tarkoittaa, on Foundryn Käyttäjät ja käyttöoikeudet -artikkelin Käyttäjämääritykset-osiossa."
 			},
 			"perfectionism": {
 				"name": "Käyttäytyminen",
@@ -98,7 +98,7 @@
 			},
 			"outputChat": {
 				"name": "Tulosta arvio keskusteluun",
-				"hint": "Tulosta kaikki arvion muutokset keskusteluun. Piilota arvio -makrolla merkityt hahmot näytetään \"Tuntematon entiteetti\" tekstillä."
+				"hint": "Tulosta kaikki arviomuutokset keskusteluun. Piilota nimet -asetuksella merkityt pelinappulat näytetään asetuksen {asetus} kuvauksena."
 			},
 			"addTemp": {
 				"name": "Lisää tilapäiset kestopisteet"
@@ -119,7 +119,7 @@
 					"bottom": "Alhaalla"
 				},
 				"positionAdjustment": {
-					"name": "Sijainnin säätö"
+					"name": "Reunan säätö"
 				}
 			},
 			"estimates": {
@@ -138,6 +138,19 @@
 					"2": "Savuttaa"
 				},
 				"worst": "Huonoin"
+			},
+			"breakOnZeroMaxHP": {
+				"hint": "Hyödyllinen kappaleille, joissa on pelinappuloita."
+			}
+		},
+		"swade": {
+			"showIncap": {
+				"hint": "Pelinappulat, joissa on {incap} tilatehoste näytetään \"{incap}\" niiden nykyisen arvion sijaan. Ei toimi pelinappuloille, jotka ovat ajoneuvoja tai kuolleita."
+			}
+		},
+		"custom-system-builder": {
+			"FractionHP": {
+				"hint": "Tämä on todennäköisesti {dataPath1} tai {dataPath2}."
 			}
 		}
 	}
