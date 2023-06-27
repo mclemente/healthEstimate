@@ -57,7 +57,7 @@ export class HealthEstimate {
 			});
 			if (this.scaleToZoom) Hooks.on("canvasPan", this.onCanvasPan);
 			Hooks.on("updateActor", this.alwaysOnUpdateActor);
-			if (!game.version > 11) Hooks.on("updateToken", this.alwaysOnUpdateToken);
+			if (!(game.version > 11)) Hooks.on("updateToken", this.alwaysOnUpdateToken);
 		}
 		Hooks.on("canvasInit", this.canvasInit.bind(this));
 	}
@@ -70,17 +70,23 @@ export class HealthEstimate {
 		if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 		if (!token?.actor || this.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token)) || !token.isVisible) return;
 
-		if (hovered) {
-			const { desc, color, stroke } = this.getEstimation(token);
-			if (!desc) return;
-			const zoomLevel = Math.min(1, canvas.stage.scale.x);
-			const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
-			token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
-			token.healthEstimate.scale.set(0.25);
+		try {
+			if (hovered) {
+				const { desc, color, stroke } = this.getEstimation(token);
+				if (!desc) {
+					return;
+				}
+				const zoomLevel = Math.min(1, canvas.stage.scale.x);
+				const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
+				token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
+				token.healthEstimate.scale.set(0.25);
 
-			token.healthEstimate.anchor.set(0.5, this.scaleToZoom && zoomLevel < 1 ? 0 : this.margin);
-			token.healthEstimate.position.set(token.tooltip.x, token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65));
-		} else if (token.healthEstimate) token.healthEstimate.visible = false;
+				token.healthEstimate.anchor.set(0.5, this.scaleToZoom && zoomLevel < 1 ? 0 : this.margin);
+				token.healthEstimate.position.set(token.tooltip.x, token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65));
+			} else if (token.healthEstimate) token.healthEstimate.visible = false;
+		} catch (err) {
+			console.error(`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`, err);
+		}
 	}
 
 	_getUserTextStyle(zoomLevel, color, stroke) {
@@ -126,6 +132,9 @@ export class HealthEstimate {
 	 * @returns {{desc: String, color: String, stroke: String}}
 	 */
 	getEstimation(token) {
+		let desc = "";
+		let color = "";
+		let stroke = "";
 		try {
 			const fraction = Number(this.getFraction(token));
 			const { estimate, index } = this.getStage(token, fraction);
@@ -133,12 +142,13 @@ export class HealthEstimate {
 
 			const colorIndex = this.smoothGradient ? Math.max(0, Math.ceil((this.colors.length - 1) * fraction)) : index;
 			estimate.label = isDead ? this.deathStateName : estimate.label;
-			const color = isDead ? this.deadColor : this.colors[colorIndex];
-			const stroke = isDead ? this.deadOutline : this.outline[colorIndex];
-			const desc = this.hideEstimate(token) ? `${estimate.label}*` : estimate.label;
+			color = isDead ? this.deadColor : this.colors[colorIndex];
+			stroke = isDead ? this.deadOutline : this.outline[colorIndex];
+			desc = this.hideEstimate(token) ? `${estimate.label}*` : estimate.label;
 			return { desc, color, stroke };
 		} catch (err) {
 			console.error(`Health Estimate | Error on getEstimation(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
+			return { desc, color, stroke };
 		}
 	}
 
@@ -148,7 +158,11 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getFraction(token) {
-		return Math.max(0, Math.min(this.fractionFormula(token), 1));
+		const fraction = Math.max(0, Math.min(this.fractionFormula(token), 1));
+		if (!Number.isNumeric(fraction)) {
+			throw Error(`Token's fraction is not valid, it probably doesn't have a numerical HP or Max HP value.`);
+		}
+		return fraction;
 	}
 
 	/**

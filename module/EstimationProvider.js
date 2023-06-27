@@ -538,7 +538,7 @@ export class dnd5eEstimationProvider extends EstimationProvider {
 	}
 
 	get breakCondition() {
-		return `|| token.actor.type == 'group' || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
+		return `|| token.actor.type == 'group' || token.actor.system.attributes.hp.max === null || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
 	}
 }
 
