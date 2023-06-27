@@ -300,6 +300,12 @@
 			"useSystemStates": {
 				"name": "Utilise les états de blessure",
 				"hint": "Ignore les réglages des stades et utilise les états de blessure du jeu Cyberpunk Red."
+			},
+			"unorganics": {
+				"2": "Dysfonctionnant",
+				"0": "Désactivé",
+				"4": "Intact",
+				"3": "Opérationnel"
 			}
 		},
 		"PF2E": {
