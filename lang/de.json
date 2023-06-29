@@ -106,8 +106,8 @@
 					"hint": "Die Position ist relativ zum Rahmen. Die Zahl lässt dich die Position relativ zum normalen Platz anpassen. Positive Zahlen setzen sie höher, negative niedriger. Der Standardwert von -1 setzt sie auf \"1 Zeile unter der ursprünglichen Position\"."
 				},
 				"styleSettings": {
-					"name": "Stil Einstellungen",
-					"plural": "Stileinstellungen"
+					"name": "Stil Einstellung",
+					"plural": "Stil Einstellungen"
 				},
 				"deathSettings": {
 					"plural": "Todeseinstellungen",
@@ -133,7 +133,7 @@
 						"2": "Nur Token"
 					},
 					"hint": "Legt benutzerdefinierte Schätzungen für die ausgewählten Token fest. Lass es leer, um es zurückzusetzen.",
-					"name": "Eigene Schätzungen"
+					"name": "Benutzerdefinierte Schätzungen"
 				},
 				"dontMarkDead": {
 					"name": "Nicht als tot markieren",
@@ -163,7 +163,7 @@
 			"unknownEntity": {
 				"default": "Unbekannte Entität",
 				"hint": "Legt fest, wie ein versteckter Charakter aufgerufen werden soll.{warning}",
-				"name": "Unbekannter Entitätenname",
+				"name": "Unbekannte Entität",
 				"warningPF2eWorkbench": "Wenn Sie die Funktion von \"PF2e Workbench\" zum Verschleiern von Namen verwenden, hat diese Vorrang vor dieser Einstellung.",
 				"warningCUB": "Wenn Sie die Funktion von CUB zum Ausblenden von Namen verwenden, hat diese Vorrang vor dieser Einstellung."
 			},
