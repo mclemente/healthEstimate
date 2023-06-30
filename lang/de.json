@@ -8,7 +8,7 @@
 				},
 				"FractionMath": {
 					"name": "Bruchgleichung",
-					"hint": "Dein System wird nicht offiziell unterstützt, wähle daher die Gleichung zur Schätzung des Gesundheitsanteils.",
+					"hint": "Die TP-Berechnung deines Spielsystems kann sich vom Standard unterscheiden. Wählen Sie die Berechnung, die zur Schätzung des Gesundheitsanteils verwendet wird.",
 					"choices": {
 						"0": "(Aktuelle TP)/(Maximale TP)",
 						"1": "(Maximale TP - Aktuelle TP)/(Maximale TP)"
@@ -38,11 +38,11 @@
 			},
 			"deathState": {
 				"name": "Todes-Zustand bei Bedingung",
-				"hint": "Zeige Token wie definiert in der \"{setting}\"-Einstellung, wenn es durch eine Bedingung beeinflusst wird, die das Icon-Set der \"{settting2}\"-Einstellung nutzt. Funktioniert unabhängig vom Makro."
+				"hint": "Zeigt den Token wie in der Einstellung {setting} definiert an, wenn sie im Kampf als besiegt markiert wurde."
 			},
 			"deathStateName": {
 				"name": "Todes-Zustand Name",
-				"hint": "Die Beschreibung, welche den Spielern angezeigt wird, wenn ein Token als tot markiert wird. Der Kompendium-Tab hat ein Makro, um eines oder mehrere Token als tot zu markieren.",
+				"hint": "Die Beschreibung zeigt wenn ein Token als tot markiert ist.",
 				"default": "Tot"
 			},
 			"deathMarker": {
@@ -64,7 +64,7 @@
 			},
 			"outputChat": {
 				"name": "Gebe Schätzungen im Chat aus",
-				"hint": "Gibt jede Änderung der Schätzung im Chat aus. Charaktere, die mit dem \"Verstecke Schätzungen\"-Makro markiert wurden, werden so angezeigt, wie es die \"{setting}\"-Einstellung angibt."
+				"hint": "Alle Schätzungsänderungen im Chat ausgeben. Charaktere, die mit der Token-Konfiguration 'Namen ausblenden' gekennzeichnet sind, werden als Beschreibung der Einstellung {setting} angezeigt."
 			},
 			"addTemp": {
 				"name": "Füge temporäre Gesundheit hinzu",
@@ -119,7 +119,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Skaliere Schätzungen zum Zoom",
-					"hint": "Skaliert die Schätzung relativ zur Zoom-Stufe. Achtung: \"{setting}\" nimmt die \"größer\"- und \"kleiner\"-Werte nicht an und die Zahl der \"{setting2}\"-Einstellung wird ignoriert."
+					"hint": "Skaliert die Schätzung auf der Grundlage des Zoomabstands. Der Wert der Einstellung {setting2} wird beim Herauszoomen ignoriert."
 				}
 			},
 			"keybinds": {
@@ -137,15 +137,15 @@
 				},
 				"dontMarkDead": {
 					"name": "Nicht als tot markieren",
-					"hint": "Sorgt dafür, dass NSCs nicht als tot angezeigt werden, wenn ihre TP 0 erreichen (sie werden z.B. als bewusstlos angezeigt). Dies ist nur sinnvoll, wenn du die Setting {Setting} verwendest."
+					"hint": "Sorgt dafür, dass NSCs nicht als tot angezeigt werden, wenn ihre TP 0 erreichen (sie werden z.B. als bewusstlos angezeigt). Dies ist nur sinnvoll, wenn du die Einstellung {setting} verwendest."
 				},
 				"hideEstimates": {
 					"name": "Schätzungen verbergen",
-					"hint": "Versteckt die Schätzungen der ausgewählten Token vor den Spielern. Versteckte Schätzungen zeigen ein \"*\" für den SL."
+					"hint": "Versteckt die Schätzungen der ausgewählten Tokens vor den Spielern. Versteckte Schätzungen werden nicht im Chat ausgegeben, wenn die Einstellung aktiviert ist, und werden für den SL mit einem Sternchen (*) angezeigt."
 				},
 				"hideNames": {
 					"name": "Namen verbergen",
-					"hint": "Versteckt die Namen von ausgewählten Tokens, wenn die \"{setting}\"-Einstellung benutzt wird."
+					"hint": "Versteckt die Namen von ausgewählten Tokens, wenn die {setting} Einstellung verwendet wird."
 				},
 				"hideEstimatesAndNames": {
 					"name": "Verberge Schätzungen und Namen",
@@ -162,8 +162,51 @@
 			},
 			"unknownEntity": {
 				"default": "Unbekannte Entität",
-				"hint": "Legt fest, wie ein versteckter Charakter aufgerufen werden soll.",
-				"name": "Unbekannter Entitätenname"
+				"hint": "Legt fest, wie ein versteckter Charakter aufgerufen werden soll.{warning}",
+				"name": "Unbekannter Entitätenname",
+				"warningPF2eWorkbench": "Wenn Sie die Funktion von \"PF2e Workbench\" zum Verschleiern von Namen verwenden, hat diese Vorrang vor dieser Einstellung.",
+				"warningCUB": "Wenn Sie die Funktion von CUB zum Ausblenden von Namen verwenden, hat diese Vorrang vor dieser Einstellung."
+			},
+			"estimates": {
+				"states": {
+					"0": "Bewusstlos",
+					"1": "Todgeweiht",
+					"2": "Schwerstverletzt",
+					"3": "Verletzt",
+					"4": "Angeschlagen",
+					"5": "Unverletzt"
+				},
+				"vehicles": {
+					"0": "Zerstört",
+					"1": "Brennend",
+					"2": "Rauchend",
+					"3": "Verbeult",
+					"4": "Zerkratzt",
+					"5": "Makellos"
+				},
+				"thresholds": {
+					"0": "Zerstört",
+					"1": "Zerbrochen",
+					"2": "Voll funktionsfähig"
+				},
+				"worst": "Schlechtestes",
+				"best": "Bestes",
+				"plural": "Schätzungen"
+			},
+			"estimationSettings": {
+				"title": "Einstellungen für Schätzungen",
+				"AddEstimate": "Schätzung hinzufügen",
+				"addTable": "Tabelle hinzufügen",
+				"default": "Standard",
+				"estimate": "Schätzung",
+				"jsRule": "JavaScript Regel",
+				"prioDecrease": "Priorität verringern",
+				"prioIncrease": "Priorität erhöhen",
+				"ignoreColor": {
+					"name": "Farbe ignorieren",
+					"hint": "Ignoriert die Farben aus dieser Tabelle und verwendet die Farben aus der nächsten gültigen Tabelle für das Token. Dies ist für Bedingungen gedacht, die Vorrang vor einer Schätzung haben sollten, aber dennoch die Farbe dieser Schätzung verwenden sollten."
+				},
+				"deleteTable": "Tabelle löschen"
 			}
 		},
 		"dnd5e": {
@@ -179,7 +222,7 @@
 			},
 			"showExtra": {
 				"name": "Zeige {condition1} & {condition2}",
-				"hint": "Zeige die Beschreibung für \"{condition1}\" und \"{condition2}\", wenn deren Vorraussetzungen erfüllt sind."
+				"hint": "Zeige die Beschreibung für {condition1} und {condition2}, wenn deren Vorraussetzungen erfüllt sind."
 			},
 			"disabledName": {
 				"name": "Wankende Stufe",
@@ -228,12 +271,21 @@
 			"useSystemStates": {
 				"hint": "Ignort die Stufeneinstellung und benutzt die Wundzustände von Cyberpunk RED Core.",
 				"name": "Benutze Wundzustände"
+			},
+			"unorganics": {
+				"4": "Intakt",
+				"3": "Operativ",
+				"2": "Funktionsstörung",
+				"0": "Deaktiviert"
 			}
 		},
 		"PF2E": {
 			"staminaToHp": {
 				"name": "Schätze Stamina",
 				"hint": "Lässt Staminapunkte in die Schätzung mit einfließen."
+			},
+			"workbenchMystifier": {
+				"name": "(EXPERIMENTELL) \"PF2e Workbench\" Verschleierung Unterstützung"
 			}
 		},
 		"od6s": {
@@ -266,6 +318,11 @@
 			"tempHP": {
 				"name": "Datenpfad Attribut temporäre Trefferpunkte",
 				"hint": "Kann leer gelassen werden, wenn das System dies nicht hat oder wenn die Schätzung dies nicht enthalten soll."
+			}
+		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "Gesundheitslevel für beeinträchtigte SC"
 			}
 		}
 	}
