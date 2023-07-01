@@ -311,7 +311,10 @@ export class HealthEstimate {
 	 * Path of the token's effects. Useful for systems that change how it is handled (e.g. PF2e, DSA5, SWADE).
 	 */
 	tokenEffectsPath(token) {
-		return Array.from(token.actor.effects.values()).some((x) => x.icon === game.healthEstimate.deathMarker);
+		const deadIcon = game.healthEstimate.estimationProvider.deathMarker.config
+			? game.healthEstimate.deathMarker
+			: CONFIG.statusEffects.find((x) => x.id === "dead").icon;
+		return Array.from(token.actor.effects.values()).some((x) => x.icon === deadIcon);
 	}
 
 	updateBreakConditions() {

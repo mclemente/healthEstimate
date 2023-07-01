@@ -69,7 +69,7 @@ class EstimationProvider {
 		 * @type {Object}
 		 */
 		this.deathMarker = {
-			config: true,
+			config: !CONFIG.statusEffects.find((x) => x.id === "dead"),
 			default: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon || "icons/svg/skull.svg",
 		};
 
@@ -1237,10 +1237,6 @@ export class swadeEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
 		this.deathStateName = game.i18n.localize("SWADE.Incap");
-		this.deathMarker = {
-			config: false,
-			default: "",
-		};
 		this.estimations = [
 			{
 				name: "",
