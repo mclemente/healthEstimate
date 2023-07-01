@@ -1,77 +1,105 @@
 @keyframes healthEstimate-animation {
 	0% {
 		color: var(--healthEstimate-keyframe-0);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-0-outline), 0 -1px 1px var(--healthEstimate-keyframe-0-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-0-outline), 1px 0 1px var(--healthEstimate-keyframe-0-outline), 1px 1px 1px var(--healthEstimate-keyframe-0-outline),
-			0 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 0 1px var(--healthEstimate-keyframe-0)-outline;
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-0-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-0-outline), 1px -1px 1px var(--healthEstimate-keyframe-0-outline),
+			1px 0 1px var(--healthEstimate-keyframe-0-outline), 1px 1px 1px var(--healthEstimate-keyframe-0-outline),
+			0 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 1px 1px var(--healthEstimate-keyframe-0-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-0)-outline;
 	}
 	20% {
 		color: var(--healthEstimate-keyframe-20);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-20-outline), 0 -1px 1px var(--healthEstimate-keyframe-20-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-20-outline), 1px 0 1px var(--healthEstimate-keyframe-20-outline), 1px 1px 1px var(--healthEstimate-keyframe-20-outline),
-			0 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 0 1px var(--healthEstimate-keyframe-20-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-20-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-20-outline), 1px -1px 1px var(--healthEstimate-keyframe-20-outline),
+			1px 0 1px var(--healthEstimate-keyframe-20-outline), 1px 1px 1px var(--healthEstimate-keyframe-20-outline),
+			0 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 1px 1px var(--healthEstimate-keyframe-20-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-20-outline);
 	}
 	40% {
 		color: var(--healthEstimate-keyframe-40);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-40-outline), 0 -1px 1px var(--healthEstimate-keyframe-40-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-40-outline), 1px 0 1px var(--healthEstimate-keyframe-40-outline), 1px 1px 1px var(--healthEstimate-keyframe-40-outline),
-			0 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 0 1px var(--healthEstimate-keyframe-40-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-40-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-40-outline), 1px -1px 1px var(--healthEstimate-keyframe-40-outline),
+			1px 0 1px var(--healthEstimate-keyframe-40-outline), 1px 1px 1px var(--healthEstimate-keyframe-40-outline),
+			0 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 1px 1px var(--healthEstimate-keyframe-40-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-40-outline);
 	}
 	60% {
 		color: var(--healthEstimate-keyframe-60);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-60-outline), 0 -1px 1px var(--healthEstimate-keyframe-60-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-60-outline), 1px 0 1px var(--healthEstimate-keyframe-60-outline), 1px 1px 1px var(--healthEstimate-keyframe-60-outline),
-			0 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 0 1px var(--healthEstimate-keyframe-60-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-60-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-60-outline), 1px -1px 1px var(--healthEstimate-keyframe-60-outline),
+			1px 0 1px var(--healthEstimate-keyframe-60-outline), 1px 1px 1px var(--healthEstimate-keyframe-60-outline),
+			0 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 1px 1px var(--healthEstimate-keyframe-60-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-60-outline);
 	}
 	80% {
 		color: var(--healthEstimate-keyframe-80);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-80-outline), 0 -1px 1px var(--healthEstimate-keyframe-80-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-80-outline), 1px 0 1px var(--healthEstimate-keyframe-80-outline), 1px 1px 1px var(--healthEstimate-keyframe-80-outline),
-			0 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 0 1px var(--healthEstimate-keyframe-80-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-80-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-80-outline), 1px -1px 1px var(--healthEstimate-keyframe-80-outline),
+			1px 0 1px var(--healthEstimate-keyframe-80-outline), 1px 1px 1px var(--healthEstimate-keyframe-80-outline),
+			0 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 1px 1px var(--healthEstimate-keyframe-80-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-80-outline);
 	}
 	100% {
 		color: var(--healthEstimate-keyframe-100);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-100-outline), 0 -1px 1px var(--healthEstimate-keyframe-100-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-100-outline), 1px 0 1px var(--healthEstimate-keyframe-100-outline), 1px 1px 1px var(--healthEstimate-keyframe-100-outline),
-			0 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 0 1px var(--healthEstimate-keyframe-100-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-100-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-100-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-100-outline),
+			1px 0 1px var(--healthEstimate-keyframe-100-outline), 1px 1px 1px var(--healthEstimate-keyframe-100-outline),
+			0 1px 1px var(--healthEstimate-keyframe-100-outline),
+			-1px 1px 1px var(--healthEstimate-keyframe-100-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-100-outline);
 	}
 }
 @-webkit-keyframes healthEstimate-animation {
 	0% {
 		color: var(--healthEstimate-keyframe-0);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-0-outline), 0 -1px 1px var(--healthEstimate-keyframe-0-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-0-outline), 1px 0 1px var(--healthEstimate-keyframe-0-outline), 1px 1px 1px var(--healthEstimate-keyframe-0-outline),
-			0 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 0 1px var(--healthEstimate-keyframe-0)-outline;
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-0-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-0-outline), 1px -1px 1px var(--healthEstimate-keyframe-0-outline),
+			1px 0 1px var(--healthEstimate-keyframe-0-outline), 1px 1px 1px var(--healthEstimate-keyframe-0-outline),
+			0 1px 1px var(--healthEstimate-keyframe-0-outline), -1px 1px 1px var(--healthEstimate-keyframe-0-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-0)-outline;
 	}
 	20% {
 		color: var(--healthEstimate-keyframe-20);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-20-outline), 0 -1px 1px var(--healthEstimate-keyframe-20-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-20-outline), 1px 0 1px var(--healthEstimate-keyframe-20-outline), 1px 1px 1px var(--healthEstimate-keyframe-20-outline),
-			0 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 0 1px var(--healthEstimate-keyframe-20-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-20-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-20-outline), 1px -1px 1px var(--healthEstimate-keyframe-20-outline),
+			1px 0 1px var(--healthEstimate-keyframe-20-outline), 1px 1px 1px var(--healthEstimate-keyframe-20-outline),
+			0 1px 1px var(--healthEstimate-keyframe-20-outline), -1px 1px 1px var(--healthEstimate-keyframe-20-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-20-outline);
 	}
 	40% {
 		color: var(--healthEstimate-keyframe-40);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-40-outline), 0 -1px 1px var(--healthEstimate-keyframe-40-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-40-outline), 1px 0 1px var(--healthEstimate-keyframe-40-outline), 1px 1px 1px var(--healthEstimate-keyframe-40-outline),
-			0 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 0 1px var(--healthEstimate-keyframe-40-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-40-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-40-outline), 1px -1px 1px var(--healthEstimate-keyframe-40-outline),
+			1px 0 1px var(--healthEstimate-keyframe-40-outline), 1px 1px 1px var(--healthEstimate-keyframe-40-outline),
+			0 1px 1px var(--healthEstimate-keyframe-40-outline), -1px 1px 1px var(--healthEstimate-keyframe-40-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-40-outline);
 	}
 	60% {
 		color: var(--healthEstimate-keyframe-60);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-60-outline), 0 -1px 1px var(--healthEstimate-keyframe-60-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-60-outline), 1px 0 1px var(--healthEstimate-keyframe-60-outline), 1px 1px 1px var(--healthEstimate-keyframe-60-outline),
-			0 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 0 1px var(--healthEstimate-keyframe-60-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-60-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-60-outline), 1px -1px 1px var(--healthEstimate-keyframe-60-outline),
+			1px 0 1px var(--healthEstimate-keyframe-60-outline), 1px 1px 1px var(--healthEstimate-keyframe-60-outline),
+			0 1px 1px var(--healthEstimate-keyframe-60-outline), -1px 1px 1px var(--healthEstimate-keyframe-60-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-60-outline);
 	}
 	80% {
 		color: var(--healthEstimate-keyframe-80);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-80-outline), 0 -1px 1px var(--healthEstimate-keyframe-80-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-80-outline), 1px 0 1px var(--healthEstimate-keyframe-80-outline), 1px 1px 1px var(--healthEstimate-keyframe-80-outline),
-			0 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 0 1px var(--healthEstimate-keyframe-80-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-80-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-80-outline), 1px -1px 1px var(--healthEstimate-keyframe-80-outline),
+			1px 0 1px var(--healthEstimate-keyframe-80-outline), 1px 1px 1px var(--healthEstimate-keyframe-80-outline),
+			0 1px 1px var(--healthEstimate-keyframe-80-outline), -1px 1px 1px var(--healthEstimate-keyframe-80-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-80-outline);
 	}
 	100% {
 		color: var(--healthEstimate-keyframe-100);
-		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-100-outline), 0 -1px 1px var(--healthEstimate-keyframe-100-outline),
-			1px -1px 1px var(--healthEstimate-keyframe-100-outline), 1px 0 1px var(--healthEstimate-keyframe-100-outline), 1px 1px 1px var(--healthEstimate-keyframe-100-outline),
-			0 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 1px 1px var(--healthEstimate-keyframe-100-outline), -1px 0 1px var(--healthEstimate-keyframe-100-outline);
+		text-shadow: -1px -1px 1px var(--healthEstimate-keyframe-100-outline),
+			0 -1px 1px var(--healthEstimate-keyframe-100-outline),
+			1px -1px 1px var(--healthEstimate-keyframe-100-outline),
+			1px 0 1px var(--healthEstimate-keyframe-100-outline), 1px 1px 1px var(--healthEstimate-keyframe-100-outline),
+			0 1px 1px var(--healthEstimate-keyframe-100-outline),
+			-1px 1px 1px var(--healthEstimate-keyframe-100-outline),
+			-1px 0 1px var(--healthEstimate-keyframe-100-outline);
 	}
 }
 .healthEstimateAnimate {

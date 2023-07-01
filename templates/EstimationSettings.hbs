@@ -24,20 +24,38 @@
 						<textarea name="estimations.{{idx}}.rule" spellcheck="false">{{estimation.rule}}</textarea>
 					</div>
 					<div class="form-group" style="display: none">
-						<input name="estimations.{{idx}}.ignoreColor" type="checkbox" {{checked estimation.ignoreColor}} />
+						<input
+							name="estimations.{{idx}}.ignoreColor"
+							type="checkbox"
+							{{checked estimation.ignoreColor}}
+						/>
 					</div>
 				{{else}}
 					<div class="form-group">
 						<label>{{localize "Name"}}</label>
-						<input name="estimations.{{idx}}.name" id="estimations.{{idx}}.name" type="text" value="{{estimation.name}}" />
+						<input
+							name="estimations.{{idx}}.name"
+							id="estimations.{{idx}}.name"
+							type="text"
+							value="{{estimation.name}}"
+						/>
 					</div>
 					<div class="form-group">
 						<label>{{localize "healthEstimate.core.estimationSettings.jsRule"}}</label>
-						<textarea name="estimations.{{idx}}.rule" id="estimations.{{idx}}.rule" spellcheck="false">{{estimation.rule}}</textarea>
+						<textarea
+							name="estimations.{{idx}}.rule"
+							id="estimations.{{idx}}.rule"
+							spellcheck="false"
+						>{{estimation.rule}}</textarea>
 					</div>
 					<div class="form-group">
 						<label>{{localize "healthEstimate.core.estimationSettings.ignoreColor.name"}}</label>
-						<input name="estimations.{{idx}}.ignoreColor" id="estimations.{{idx}}.ignoreColor" type="checkbox" {{checked estimation.ignoreColor}} />
+						<input
+							name="estimations.{{idx}}.ignoreColor"
+							id="estimations.{{idx}}.ignoreColor"
+							type="checkbox"
+							{{checked estimation.ignoreColor}}
+						/>
 						<p class="notes">{{localize "healthEstimate.core.estimationSettings.ignoreColor.hint"}}</p>
 					</div>
 				{{/if}}
@@ -49,10 +67,20 @@
 					</tr>
 					{{#each estimation.estimates as |est id|}}
 						<tr>
-							<td><input name="estimations.{{idx}}.estimates.{{id}}.label" type="text" value="{{est.label}}" /></td>
+							<td><input
+									name="estimations.{{idx}}.estimates.{{id}}.label"
+									type="text"
+									value="{{est.label}}"
+								/></td>
 							<td>
 								<div class="value">
-									<input name="estimations.{{idx}}.estimates.{{id}}.value" type="number" min="0" max="100" value="{{est.value}}" />
+									<input
+										name="estimations.{{idx}}.estimates.{{id}}.value"
+										type="number"
+										min="0"
+										max="100"
+										value="{{est.value}}"
+									/>
 								</div>
 							</td>
 							<td class="delete-cell">
@@ -64,7 +92,8 @@
 					{{/each}}
 					<tr>
 						<td colspan="3" class="add-cell">
-							<a data-action="estimation-add"><i class="fas fa-plus" data-idx="{{idx}}"></i> {{localize "healthEstimate.core.estimationSettings.AddEstimate"}}</a>
+							<a data-action="estimation-add"><i class="fas fa-plus" data-idx="{{idx}}"></i>
+								{{localize "healthEstimate.core.estimationSettings.AddEstimate"}}</a>
 						</td>
 					</tr>
 				</table>

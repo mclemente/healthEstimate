@@ -1,6 +1,12 @@
 import { addCharacter, onRenderChatMessage } from "./lib/HealthMonitor.js";
 import { HealthEstimate } from "./module/logic.js";
-import { onUpdateActor, onUpdateToken, renderHealthEstimateStyleSettingsHandler, renderSettingsConfigHandler, renderTokenConfigHandler } from "./module/settings.js";
+import {
+	onUpdateActor,
+	onUpdateToken,
+	renderHealthEstimateStyleSettingsHandler,
+	renderSettingsConfigHandler,
+	renderTokenConfigHandler,
+} from "./module/settings.js";
 import { f, t } from "./module/utils.js";
 
 /**
@@ -91,8 +97,12 @@ function setKeybinds() {
 			for (let e of canvas.tokens?.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate is hidden from players.`, { console: false });
-				else ui.notifications.info(`${e.actor.name}'s health estimate is shown to players.`, { console: false });
+				if (hidden)
+					ui.notifications.info(`${e.actor.name}'s health estimate is hidden from players.`, {
+						console: false,
+					});
+				else
+					ui.notifications.info(`${e.actor.name}'s health estimate is shown to players.`, { console: false });
 			}
 		},
 		restricted: true,
@@ -117,11 +127,19 @@ function setKeybinds() {
 		hint: "healthEstimate.core.keybinds.hideEstimatesAndNames.hint",
 		onDown: () => {
 			for (let e of canvas.tokens?.controlled) {
-				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate") && !e.document.getFlag("healthEstimate", "hideName");
+				let hidden =
+					!e.document.getFlag("healthEstimate", "hideHealthEstimate") &&
+					!e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
 				e.document.setFlag("healthEstimate", "hideName", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.name}'s health estimate and name are hidden from players.`, { console: false });
-				else ui.notifications.info(`${e.actor.name}'s health estimate and name are shown to players.`, { console: false });
+				if (hidden)
+					ui.notifications.info(`${e.actor.name}'s health estimate and name are hidden from players.`, {
+						console: false,
+					});
+				else
+					ui.notifications.info(`${e.actor.name}'s health estimate and name are shown to players.`, {
+						console: false,
+					});
 			}
 		},
 		restricted: true,

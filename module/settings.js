@@ -1,6 +1,10 @@
 import { outputStageChange } from "../lib/HealthMonitor.js";
 import { injectConfig } from "../lib/injectConfig.js";
-import { HealthEstimateBehaviorSettings, HealthEstimateEstimationSettings, HealthEstimateStyleSettings } from "./HealthEstimateSettings.js";
+import {
+	HealthEstimateBehaviorSettings,
+	HealthEstimateEstimationSettings,
+	HealthEstimateStyleSettings,
+} from "./HealthEstimateSettings.js";
 import { addSetting, f, t } from "./utils.js";
 
 export const registerSettings = function () {
@@ -131,7 +135,10 @@ export const registerSettings = function () {
 	/* Settings for the death menu */
 	addMenuSetting("core.deathState", {
 		hint: game.healthEstimate.estimationProvider.deathMarker.config
-			? f("core.deathState.hint1", { setting: t("core.deathStateName.name"), setting2: t("core.deathMarker.name") })
+			? f("core.deathState.hint1", {
+					setting: t("core.deathStateName.name"),
+					setting2: t("core.deathMarker.name"),
+			  })
 			: f("core.deathState.hint2", { setting: t("core.deathStateName.name") }),
 		type: Boolean,
 		default: game.healthEstimate.estimationProvider.deathState,
@@ -170,7 +177,10 @@ export const registerSettings = function () {
 		default: true,
 	});
 	addMenuSetting("core.menuSettings.scaleToZoom", {
-		hint: f("core.menuSettings.scaleToZoom.hint", { setting: t("core.menuSettings.fontSize.name"), setting2: t("core.menuSettings.positionAdjustment.name") }),
+		hint: f("core.menuSettings.scaleToZoom.hint", {
+			setting: t("core.menuSettings.fontSize.name"),
+			setting2: t("core.menuSettings.positionAdjustment.name"),
+		}),
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
@@ -569,7 +579,9 @@ export async function renderTokenConfigHandler(tokenConfig, html) {
 	injectConfig.inject(tokenConfig, html, { moduleId, tab }, tokenConfig.object);
 
 	const posTab = html.find(`.tab[data-tab="${moduleId}"]`);
-	const tokenFlags = tokenConfig.options.sheetConfig ? tokenConfig.object.flags?.healthEstimate : tokenConfig.token.flags?.healthEstimate;
+	const tokenFlags = tokenConfig.options.sheetConfig
+		? tokenConfig.object.flags?.healthEstimate
+		: tokenConfig.token.flags?.healthEstimate;
 
 	const data = {
 		hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
@@ -591,7 +603,12 @@ export function onUpdateActor(actor, data, options, userId) {
 	tokens?.forEach((token) => {
 		const tokenId = token?.id;
 		const tokenHP = game.healthEstimate.actorsCurrentHP?.[tokenId];
-		if (tokenId && tokenHP && !game.healthEstimate.breakOverlayRender(token) && !game.healthEstimate.hideEstimate(token)) {
+		if (
+			tokenId &&
+			tokenHP &&
+			!game.healthEstimate.breakOverlayRender(token) &&
+			!game.healthEstimate.hideEstimate(token)
+		) {
 			outputStageChange(token);
 		}
 	});
@@ -600,7 +617,11 @@ export function onUpdateActor(actor, data, options, userId) {
 // Starting in V11, this no longer works for changing a token's HP
 export function onUpdateToken(token, change, options, userId) {
 	if (!game.user.isGM || !canvas.scene) return;
-	if (!game.healthEstimate.breakOverlayRender(token.object) && token.object.id in game.healthEstimate.actorsCurrentHP && !game.healthEstimate.hideEstimate(token.object)) {
+	if (
+		!game.healthEstimate.breakOverlayRender(token.object) &&
+		token.object.id in game.healthEstimate.actorsCurrentHP &&
+		!game.healthEstimate.hideEstimate(token.object)
+	) {
 		outputStageChange(token.object);
 	}
 }

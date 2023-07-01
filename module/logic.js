@@ -12,8 +12,10 @@ export class HealthEstimate {
 	setup() {
 		this.estimationProvider = this.prepareSystemSpecifics();
 		this.fractionFormula = this.estimationProvider.fraction;
-		if (this.estimationProvider.breakCondition !== undefined) this.breakConditions.system = this.estimationProvider.breakCondition;
-		if (this.estimationProvider.tokenEffects !== undefined) this.tokenEffectsPath = this.estimationProvider.tokenEffects;
+		if (this.estimationProvider.breakCondition !== undefined)
+			this.breakConditions.system = this.estimationProvider.breakCondition;
+		if (this.estimationProvider.tokenEffects !== undefined)
+			this.tokenEffectsPath = this.estimationProvider.tokenEffects;
 		registerSettings();
 		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
 			addSetting(key, data);
@@ -69,7 +71,13 @@ export class HealthEstimate {
 	 */
 	_handleOverlay(token, hovered) {
 		if (token.healthEstimate?._texture) token.healthEstimate.destroy();
-		if (!token?.actor || this.breakOverlayRender(token) || (!game.user.isGM && this.hideEstimate(token)) || !token.isVisible) return;
+		if (
+			!token?.actor ||
+			this.breakOverlayRender(token) ||
+			(!game.user.isGM && this.hideEstimate(token)) ||
+			!token.isVisible
+		)
+			return;
 
 		try {
 			if (hovered) {
@@ -83,10 +91,16 @@ export class HealthEstimate {
 				token.healthEstimate.scale.set(0.25);
 
 				token.healthEstimate.anchor.set(0.5, this.scaleToZoom && zoomLevel < 1 ? 0 : this.margin);
-				token.healthEstimate.position.set(token.tooltip.x, token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65));
+				token.healthEstimate.position.set(
+					token.tooltip.x,
+					token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65)
+				);
 			} else if (token.healthEstimate) token.healthEstimate.visible = false;
 		} catch (err) {
-			console.error(`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`, err);
+			console.error(
+				`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`,
+				err
+			);
 		}
 	}
 
@@ -141,14 +155,19 @@ export class HealthEstimate {
 			const { estimate, index } = this.getStage(token, fraction);
 			const isDead = this.isDead(token, estimate.value);
 
-			const colorIndex = this.smoothGradient ? Math.max(0, Math.ceil((this.colors.length - 1) * fraction)) : index;
+			const colorIndex = this.smoothGradient
+				? Math.max(0, Math.ceil((this.colors.length - 1) * fraction))
+				: index;
 			estimate.label = isDead ? this.deathStateName : estimate.label;
 			color = isDead ? this.deadColor : this.colors[colorIndex];
 			stroke = isDead ? this.deadOutline : this.outline[colorIndex];
 			desc = this.hideEstimate(token) ? `${estimate.label}*` : estimate.label;
 			return { desc, color, stroke };
 		} catch (err) {
-			console.error(`Health Estimate | Error on getEstimation(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
+			console.error(
+				`Health Estimate | Error on getEstimation(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`,
+				err
+			);
 			return { desc, color, stroke };
 		}
 	}
@@ -185,17 +204,25 @@ export class HealthEstimate {
 			if (fraction != 0 && Math.floor(fraction) == 0) fraction = 0.1;
 			else fraction = Math.trunc(fraction);
 			const logic = (e) => e.value >= fraction;
-			const estimate = special ? special.estimates.find(logic) : estimation.estimates.find(logic) ?? { value: fraction, label: "" };
+			const estimate = special
+				? special.estimates.find(logic)
+				: estimation.estimates.find(logic) ?? { value: fraction, label: "" };
 			const index = estimation.estimates.findIndex(logic);
 			return { estimate, index };
 		} catch (err) {
-			console.error(`Health Estimate | Error on getStage(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`, err);
+			console.error(
+				`Health Estimate | Error on getStage(). Token Name: "${token.name}". Type: "${token.document.actor.type}".`,
+				err
+			);
 		}
 	}
 
 	//Utils
 	hideEstimate(token) {
-		return token.document.getFlag("healthEstimate", "hideHealthEstimate") || token.actor.getFlag("healthEstimate", "hideHealthEstimate");
+		return (
+			token.document.getFlag("healthEstimate", "hideHealthEstimate") ||
+			token.actor.getFlag("healthEstimate", "hideHealthEstimate")
+		);
 	}
 
 	//Hooked functions don't interact correctly with "this"
@@ -244,7 +271,9 @@ export class HealthEstimate {
 	}
 
 	isCombatRunning() {
-		return [...game.combats].some((combat) => combat.started && (combat._source.scene == canvas.scene._id || combat._source.scene == null));
+		return [...game.combats].some(
+			(combat) => combat.started && (combat._source.scene == canvas.scene._id || combat._source.scene == null)
+		);
 	}
 
 	/**
@@ -259,7 +288,11 @@ export class HealthEstimate {
 	 */
 	isDead(token, stage) {
 		const isOrganicType = this.estimationProvider.organicTypes.includes(token.actor.type);
-		const isNPCJustDie = this.NPCsJustDie && !token.actor.hasPlayerOwner && stage === 0 && !token.document.getFlag("healthEstimate", "dontMarkDead");
+		const isNPCJustDie =
+			this.NPCsJustDie &&
+			!token.actor.hasPlayerOwner &&
+			stage === 0 &&
+			!token.document.getFlag("healthEstimate", "dontMarkDead");
 		const isShowDead = this.showDead && this.tokenEffectsPath(token);
 		const isDefeated = this.showDead && token.combatant?.defeated;
 		const isFlaggedDead = token.document.getFlag("healthEstimate", "dead") || false;
@@ -269,7 +302,9 @@ export class HealthEstimate {
 
 	showCondition(hovered) {
 		const combatTrigger = this.combatOnly && this.combatRunning;
-		return (this.alwaysShow && (combatTrigger || !this.combatOnly)) || (hovered && (combatTrigger || !this.combatOnly));
+		return (
+			(this.alwaysShow && (combatTrigger || !this.combatOnly)) || (hovered && (combatTrigger || !this.combatOnly))
+		);
 	}
 
 	/**
@@ -282,8 +317,10 @@ export class HealthEstimate {
 	updateBreakConditions() {
 		this.breakConditions.onlyGM = sGet("core.showDescription") == 1 ? `|| !game.user.isGM` : "";
 		this.breakConditions.onlyNotGM = sGet("core.showDescription") == 2 ? `|| game.user.isGM` : "";
-		this.breakConditions.onlyPCs = sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor?.hasPlayerOwner` : "";
-		this.breakConditions.onlyNPCs = sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor?.hasPlayerOwner` : "";
+		this.breakConditions.onlyPCs =
+			sGet("core.showDescriptionTokenType") == 1 ? `|| !token.actor?.hasPlayerOwner` : "";
+		this.breakConditions.onlyNPCs =
+			sGet("core.showDescriptionTokenType") == 2 ? `|| token.actor?.hasPlayerOwner` : "";
 
 		const prep = (key) => (isEmpty(this.breakConditions[key]) ? "" : this.breakConditions[key]);
 

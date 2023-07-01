@@ -148,9 +148,22 @@ export class GenericEstimationProvider extends EstimationProvider {
 		let temp = 0;
 		if (sGet("core.addTemp")) temp = Number(hp?.temp) || 0;
 
-		if (hp === undefined && hpPath === "") throw new Error(`The HP is undefined, try using the ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting.`);
-		else if (hp === undefined) throw new Error(`The ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting ("${hpPath}") is wrong.`);
-		const outputs = [Math.min((Number(hp.value) + temp) / Number(hp.max), 1), (Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp)];
+		if (hp === undefined && hpPath === "")
+			throw new Error(
+				`The HP is undefined, try using the ${game.i18n.localize(
+					"healthEstimate.core.custom.FractionHP.name"
+				)} setting.`
+			);
+		else if (hp === undefined)
+			throw new Error(
+				`The ${game.i18n.localize(
+					"healthEstimate.core.custom.FractionHP.name"
+				)} setting ("${hpPath}") is wrong.`
+			);
+		const outputs = [
+			Math.min((Number(hp.value) + temp) / Number(hp.max), 1),
+			(Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp),
+		];
 		return outputs[sGet("core.custom.FractionMath")];
 	}
 
@@ -315,17 +328,36 @@ export class CustomSystemBuilderEstimationProvider extends EstimationProvider {
 		const thpPath = sGet("custom-system-builder.tempHP");
 		const temp = thpPath && token.actor.type === "character" ? Number(getNestedData(token, thpPath).temp) : 0;
 
-		if (hp === undefined && hpPath === "") throw new Error(`The HP is undefined, try using the ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting.`);
-		else if (hp === undefined) throw new Error(`The ${game.i18n.localize("healthEstimate.core.custom.FractionHP.name")} setting ("${hpPath}") is wrong.`);
-		else if (hp.max === undefined) throw new Error(`Token ${token.name}'s HP has no maximum value. Set it up if you intend for the estimation to work.`);
-		const outputs = [Math.min((Number(hp.value) + temp) / Number(hp.max), 1), (Number(hp.max) - Number(hp.value)) / Number(hp.max)];
+		if (hp === undefined && hpPath === "")
+			throw new Error(
+				`The HP is undefined, try using the ${game.i18n.localize(
+					"healthEstimate.core.custom.FractionHP.name"
+				)} setting.`
+			);
+		else if (hp === undefined)
+			throw new Error(
+				`The ${game.i18n.localize(
+					"healthEstimate.core.custom.FractionHP.name"
+				)} setting ("${hpPath}") is wrong.`
+			);
+		else if (hp.max === undefined)
+			throw new Error(
+				`Token ${token.name}'s HP has no maximum value. Set it up if you intend for the estimation to work.`
+			);
+		const outputs = [
+			Math.min((Number(hp.value) + temp) / Number(hp.max), 1),
+			(Number(hp.max) - Number(hp.value)) / Number(hp.max),
+		];
 		return outputs[sGet("core.custom.FractionMath")];
 	}
 
 	get settings() {
 		return {
 			"core.custom.FractionHP": {
-				hint: f("custom-system-builder.FractionHP.hint", { dataPath1: '"actor.system.attributeBar.hp"', dataPath2: '"actor.system.attributeBar.health"' }),
+				hint: f("custom-system-builder.FractionHP.hint", {
+					dataPath1: '"actor.system.attributeBar.hp"',
+					dataPath2: '"actor.system.attributeBar.health"',
+				}),
 				type: String,
 				default: "",
 			},
@@ -495,8 +527,14 @@ export class D35EEstimationProvider extends EstimationProvider {
 				default: true,
 			},
 			"PF1.showExtra": {
-				name: f("PF1.showExtra.name", { condition1: t("PF1.disabledName.default"), condition2: t("PF1.dyingName.default") }),
-				hint: f("PF1.showExtra.hint", { condition1: t("PF1.disabledName.default"), condition2: t("PF1.dyingName.default") }),
+				name: f("PF1.showExtra.name", {
+					condition1: t("PF1.disabledName.default"),
+					condition2: t("PF1.dyingName.default"),
+				}),
+				hint: f("PF1.showExtra.hint", {
+					condition1: t("PF1.disabledName.default"),
+					condition2: t("PF1.dyingName.default"),
+				}),
 				type: Boolean,
 				default: true,
 			},
@@ -659,7 +697,12 @@ export class reveDeDragonEstimationProvider extends EstimationProvider {
 			 * Using an estimation of state of health based on the worst category of wounds
 			 */
 			return {
-				value: critiques > 0 ? tableBlessure.critique[critiques] : graves > 0 ? tableBlessure.grave[graves] : tableBlessure.legere[legeres],
+				value:
+					critiques > 0
+						? tableBlessure.critique[critiques]
+						: graves > 0
+						? tableBlessure.grave[graves]
+						: tableBlessure.legere[legeres],
 				max: tableBlessure.inconscient,
 			};
 		}
@@ -838,7 +881,11 @@ export class oseEstimationProvider extends EstimationProvider {
 
 export class pbtaEstimationProvider extends EstimationProvider {
 	fraction(token) {
-		const hp = token.actor.system.attrTop.hp || token.actor.system.attrLeft.hp || token.actor.system.attrTop.harm || token.actor.system.attrLeft.harm;
+		const hp =
+			token.actor.system.attrTop.hp ||
+			token.actor.system.attrLeft.hp ||
+			token.actor.system.attrTop.harm ||
+			token.actor.system.attrLeft.harm;
 		if (hp.type == "Resource") return hp.value / hp.max;
 		else return (hp.max - hp.value) / hp.max;
 	}
@@ -897,8 +944,14 @@ export class pf1EstimationProvider extends EstimationProvider {
 				default: true,
 			},
 			"PF1.showExtra": {
-				name: f("PF1.showExtra.name", { condition1: t("PF1.disabledName.default"), condition2: t("PF1.dyingName.default") }),
-				hint: f("PF1.showExtra.hint", { condition1: t("PF1.disabledName.default"), condition2: t("PF1.dyingName.default") }),
+				name: f("PF1.showExtra.name", {
+					condition1: t("PF1.disabledName.default"),
+					condition2: t("PF1.dyingName.default"),
+				}),
+				hint: f("PF1.showExtra.hint", {
+					condition1: t("PF1.disabledName.default"),
+					condition2: t("PF1.dyingName.default"),
+				}),
 				type: Boolean,
 				default: true,
 			},
@@ -949,7 +1002,10 @@ export class pf2eEstimationProvider extends EstimationProvider {
 			hp.max = token.actor.hitPoints.max ?? 5 * game.actors.get(master.id).system.details.level.value;
 		}
 		let temp = sGet("core.addTemp") && hp.temp ? hp.temp : 0;
-		let sp = game.settings.get("pf2e", "staminaVariant") && sGet("PF2E.staminaToHp") && data.sp ? data.sp : { value: 0, max: 0 };
+		let sp =
+			game.settings.get("pf2e", "staminaVariant") && sGet("PF2E.staminaToHp") && data.sp
+				? data.sp
+				: { value: 0, max: 0 };
 		return Math.min((hp.value + sp.value + temp) / (hp.max + sp.max), 1);
 	}
 
@@ -1096,7 +1152,10 @@ export class sfrpgEstimationProvider extends EstimationProvider {
 				default: true,
 			},
 			"starfinder.useThreshold": {
-				hint: f("starfinder.useThreshold.hint", { setting1: t("starfinder.thresholdNames.name"), setting2: t("starfinder.vehicleNames.name") }),
+				hint: f("starfinder.useThreshold.hint", {
+					setting1: t("starfinder.thresholdNames.name"),
+					setting2: t("starfinder.vehicleNames.name"),
+				}),
 				type: Boolean,
 				default: false,
 			},
