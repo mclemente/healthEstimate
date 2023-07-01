@@ -65,6 +65,15 @@ class EstimationProvider {
 		this.deathStateName = t("core.deathStateName.default");
 
 		/**
+		 * Default value of the Death Marker setting.
+		 * @type {Object}
+		 */
+		this.deathMarker = {
+			config: true,
+			default: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon || "icons/svg/skull.svg",
+		};
+
+		/**
 		 * Default value of the Estimations setting.
 		 * @type {{Array}}
 		 */
@@ -115,6 +124,19 @@ class EstimationProvider {
 	 * @see pf2eEstimationProvider
 	 */
 	static get breakCondition() {
+		return undefined;
+	}
+
+	/**
+	 * This is for the big marker shown on defeated tokens (the skull marker by default).
+	 * Only use this if your system doesn't add the marker as an effect.
+	 * @returns {Boolean}
+	 *
+	 * @see dsa5EstimationProvider
+	 * @see pf2eEstimationProvider
+	 * @see swadeEstimationProvider
+	 */
+	static tokenEffects(token) {
 		return undefined;
 	}
 }
@@ -554,6 +576,10 @@ export class dsa5EstimationProvider extends EstimationProvider {
 		let hp = token.actor.system.status.wounds;
 		return hp.value / hp.max;
 	}
+
+	tokenEffects(token) {
+		return token.document.overlayEffect === game.healthEstimate.deathMarker;
+	}
 }
 
 export class dungeonworldEstimationProvider extends EstimationProvider {
@@ -568,6 +594,10 @@ export class dungeonworldEstimationProvider extends EstimationProvider {
 
 	get breakCondition() {
 		return `|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
+	}
+
+	tokenEffects(token) {
+		return token.document.overlayEffect === game.healthEstimate.deathMarker;
 	}
 }
 
@@ -893,6 +923,7 @@ export class pf1EstimationProvider extends EstimationProvider {
 export class pf2eEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
+		this.deathMarker.config = true;
 		this.estimations = [
 			...this.estimations,
 			{
@@ -958,6 +989,10 @@ export class pf2eEstimationProvider extends EstimationProvider {
         || token.actor.type === 'hazard' && game.settings.get('healthEstimate', 'PF2E.hideHazardHP')
         || token.actor.type === 'loot'
         || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
+	}
+
+	tokenEffects(token) {
+		return token.document.overlayEffect === game.healthEstimate.deathMarker;
 	}
 }
 
@@ -1143,6 +1178,10 @@ export class swadeEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
 		this.deathStateName = game.i18n.localize("SWADE.Incap");
+		this.deathMarker = {
+			config: false,
+			default: "",
+		};
 		this.estimations = [
 			{
 				name: "",
@@ -1195,13 +1234,12 @@ export class swadeEstimationProvider extends EstimationProvider {
 				default: "",
 				config: false,
 			},
-			"swade.showIncap": {
-				type: Boolean,
-				default: true,
-				name: f("swade.showIncap.name", { incap: game.i18n.localize("SWADE.Incap") }),
-				hint: f("swade.showIncap.hint", { incap: game.i18n.localize("SWADE.Incap") }),
-			},
 		};
+	}
+
+	tokenEffects(token) {
+		const incapIcon = CONFIG.statusEffects.find((effect) => effect.id === "incapacitated").icon;
+		return !!token.actor.effects.find((e) => e.icon === incapIcon);
 	}
 }
 

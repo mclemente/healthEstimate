@@ -130,7 +130,9 @@ export const registerSettings = function () {
 
 	/* Settings for the death menu */
 	addMenuSetting("core.deathState", {
-		hint: f("core.deathState.hint", { setting: t("core.deathStateName.name") }),
+		hint: game.healthEstimate.estimationProvider.deathMarker.config
+			? f("core.deathState.hint1", { setting: t("core.deathStateName.name"), setting2: t("core.deathMarker.name") })
+			: f("core.deathState.hint2", { setting: t("core.deathStateName.name") }),
 		type: Boolean,
 		default: game.healthEstimate.estimationProvider.deathState,
 		onChange: (value) => {
@@ -150,6 +152,15 @@ export const registerSettings = function () {
 		default: true,
 		onChange: (value) => {
 			game.healthEstimate.NPCsJustDie = value;
+		},
+	});
+	addMenuSetting("core.deathMarker", {
+		type: String,
+		// default: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon || "icons/svg/skull.svg",
+		default: game.healthEstimate.estimationProvider.deathMarker.default,
+		config: game.healthEstimate.estimationProvider.deathMarker.config,
+		onChange: (value) => {
+			game.healthEstimate.deathMarker = value;
 		},
 	});
 

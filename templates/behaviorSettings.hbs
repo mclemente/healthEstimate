@@ -53,6 +53,18 @@
 			<p class="notes">{{localize hint}}</p>
 		{{/with}}
 	</div>
+	{{#if deathMarkerEnabled}}
+		<div class="form-group">
+			{{#with deathMarker}}
+				<label>{{localize name}}</label>
+				<div class="form-fields">
+					{{filePicker target="deathMarker" type="imagevideo"}}
+					<input class="image" type="text" name="deathMarker" placeholder="path/image.png" value="{{value}}" />
+				</div>
+				<p class="notes">{{localize hint}}</p>
+			{{/with}}
+		</div>
+	{{/if}}
 	<footer class="sheet-footer flexrow">
 		<button type="submit" name="submit">
 			<i class="far fa-save"></i>
