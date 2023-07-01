@@ -976,7 +976,6 @@ export class pf1EstimationProvider extends EstimationProvider {
 export class pf2eEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
-		this.deathMarker.config = true;
 		this.estimations = [
 			...this.estimations,
 			{
