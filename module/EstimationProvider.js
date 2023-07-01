@@ -1236,6 +1236,7 @@ export class swadeEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
 		this.deathStateName = game.i18n.localize("SWADE.Incap");
+		this.deathMarker.config = false;
 		this.estimations = [
 			{
 				name: "",
