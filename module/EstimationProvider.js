@@ -69,7 +69,10 @@ class EstimationProvider {
 		 * @type {Object}
 		 */
 		this.deathMarker = {
-			config: !CONFIG.statusEffects.find((x) => x.id === "dead"),
+			config:
+				!CONFIG.statusEffects.find((x) => x.id === "dead") ||
+				game.modules.get("combat-utility-belt")?.active ||
+				game.modules.get("condition-lab-triggler")?.active,
 			default: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon || "icons/svg/skull.svg",
 		};
 
@@ -1236,7 +1239,7 @@ export class swadeEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
 		this.deathStateName = game.i18n.localize("SWADE.Incap");
-		this.deathMarker.config = false;
+		this.deathMarker.config = game.modules.get("condition-lab-triggler")?.active;
 		this.estimations = [
 			{
 				name: "",
