@@ -205,9 +205,37 @@ export class ageSystemEstimationProvider extends EstimationProvider {
 }
 
 export class alienrpgEstimationProvider extends EstimationProvider {
+	constructor() {
+		super();
+		this.estimations = [
+			...this.estimations,
+			{
+				name: "Vehicles & Spaceships",
+				rule: `type === "vehicles" || type === "spacecraft"`,
+				estimates: [
+					{ value: 0, label: t("core.estimates.vehicles.0") },
+					{ value: 20, label: t("core.estimates.vehicles.1") },
+					{ value: 40, label: t("core.estimates.vehicles.2") },
+					{ value: 60, label: t("core.estimates.vehicles.3") },
+					{ value: 80, label: t("core.estimates.vehicles.4") },
+					{ value: 100, label: t("core.estimates.vehicles.5") },
+				],
+			},
+		];
+	}
+
 	fraction(token) {
+	    if (token.actor.type == "vehicles") {
+		const hull = token.actor.system.attributes.hull;
+		return hull.value / hull.max;
+	    } else if (token.actor.type == "spacecraft") {
+		const hull = token.actor.system.attributes.hull.value;
+		const damage = token.actor.system.attributes.damage.value;
+		return (hull - damage) / hull;
+	    } else {
 		const hp = token.actor.system.header.health;
 		return hp.value / hp.max;
+	    }
 	}
 
 	get settings() {
@@ -215,7 +243,7 @@ export class alienrpgEstimationProvider extends EstimationProvider {
 	}
 
 	get breakCondition() {
-		return `|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.header.health.max === 0)`;
+		return `|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.type != "vehicles" && token.actor.type != "spacecraft" && token.actor.system.header.health.max === 0)`;
 	}
 }
 
@@ -1532,6 +1560,25 @@ export class yzecoriolisEstimationProvider extends EstimationProvider {
 }
 
 export class wfrp4eEstimationProvider extends EstimationProvider {
+	constructor() {
+		super();
+		this.estimations = [
+			...this.estimations,
+			{
+				name: "Vehicles",
+				rule: `type === "vehicle"`,
+				estimates: [
+					{ value: 0, label: t("core.estimates.vehicles.0") },
+					{ value: 20, label: t("core.estimates.vehicles.1") },
+					{ value: 40, label: t("core.estimates.vehicles.2") },
+					{ value: 60, label: t("core.estimates.vehicles.3") },
+					{ value: 80, label: t("core.estimates.vehicles.4") },
+					{ value: 100, label: t("core.estimates.vehicles.5") },
+				],
+			},
+		];
+	}
+	
 	fraction(token) {
 		const hp = token.actor.system.status.wounds;
 		return hp.value / hp.max;
