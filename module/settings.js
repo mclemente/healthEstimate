@@ -83,6 +83,16 @@ export const registerSettings = function () {
 		hint: f("core.unknownEntity.hint", { warning }),
 		default: game.i18n.localize("healthEstimate.core.unknownEntity.default"),
 	});
+	addSetting("core.addTemp", {
+		config: game.healthEstimate.estimationProvider.addTemp,
+		type: Boolean,
+		default: false,
+	});
+	addSetting("core.breakOnZeroMaxHP", {
+		config: game.healthEstimate.estimationProvider.breakOnZeroMaxHP,
+		type: Boolean,
+		default: true,
+	});
 
 	/* Settings for the behavior menu */
 	addMenuSetting("core.alwaysShow", {
@@ -163,9 +173,7 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.deathMarker", {
 		type: String,
-		// default: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon || "icons/svg/skull.svg",
 		default: game.healthEstimate.estimationProvider.deathMarker.default,
-		config: game.healthEstimate.estimationProvider.deathMarker.config,
 		onChange: (value) => {
 			game.healthEstimate.deathMarker = value;
 		},
