@@ -243,7 +243,11 @@ export class alienrpgEstimationProvider extends EstimationProvider {
 	}
 
 	get breakCondition() {
-		return `|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.type != "vehicles" && token.actor.type != "spacecraft" && token.actor.system.header.health.max === 0)`;
+		return `
+		|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
+			&& ((["vehicles","spacecraft"].includes(token.actor.type)
+				&& token.actor.system.attributes.hull.max === 0)
+				|| token.actor.system.header.health.max === 0)`;
 	}
 }
 
