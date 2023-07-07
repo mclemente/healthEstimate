@@ -44,7 +44,7 @@ class EstimationProvider {
 		 * Non-exhaustive list of possible character-types that should use the DeathStateName. This is way to avoid vehicles being "Dead"
 		 * @type {string[]}
 		 */
-		this.organicTypes = ["character", "pc", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
+		this.organicTypes = ["character", "pc", "monster", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
 
 		/**
 		 * Code that will be run during HealthEstimate.getTokenEstimate()
