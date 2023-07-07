@@ -76,7 +76,7 @@ export const registerSettings = function () {
 		},
 	});
 	let warning = " ";
-	if (game.cub) warning += t("core.unknownEntity.warningCUB");
+	if (game.modules.get("combat-utility-belt")?.active) warning += t("core.unknownEntity.warningCUB");
 	else if (game.modules.get("xdy-pf2e-workbench")?.active) warning += t("core.unknownEntity.warningPF2eWorkbench");
 	addSetting("core.unknownEntity", {
 		type: String,
