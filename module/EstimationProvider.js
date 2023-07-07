@@ -151,18 +151,19 @@ export class GenericEstimationProvider extends EstimationProvider {
 		let temp = 0;
 		if (sGet("core.addTemp")) temp = Number(hp?.temp) || 0;
 
-		if (hp === undefined && hpPath === "")
+		if (hp === undefined && hpPath === "") {
 			throw new Error(
 				`The HP is undefined, try using the ${game.i18n.localize(
 					"healthEstimate.core.custom.FractionHP.name"
 				)} setting.`
 			);
-		else if (hp === undefined)
+		} else if (hp === undefined) {
 			throw new Error(
 				`The ${game.i18n.localize(
 					"healthEstimate.core.custom.FractionHP.name"
 				)} setting ("${hpPath}") is wrong.`
 			);
+		}
 		const outputs = [
 			Math.min((Number(hp.value) + temp) / Number(hp.max), 1),
 			(Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp),
