@@ -225,17 +225,17 @@ export class alienrpgEstimationProvider extends EstimationProvider {
 	}
 
 	fraction(token) {
-	    if (token.actor.type == "vehicles") {
-		const hull = token.actor.system.attributes.hull;
-		return hull.value / hull.max;
-	    } else if (token.actor.type == "spacecraft") {
-		const hull = token.actor.system.attributes.hull.value;
-		const damage = token.actor.system.attributes.damage.value;
-		return (hull - damage) / hull;
-	    } else {
-		const hp = token.actor.system.header.health;
-		return hp.value / hp.max;
-	    }
+		if (token.actor.type == "vehicles") {
+			const hull = token.actor.system.attributes.hull;
+			return hull.value / hull.max;
+		} else if (token.actor.type == "spacecraft") {
+			const hull = token.actor.system.attributes.hull.value;
+			const damage = token.actor.system.attributes.damage.value;
+			return (hull - damage) / hull;
+		} else {
+			const hp = token.actor.system.header.health;
+			return hp.value / hp.max;
+		}
 	}
 
 	get settings() {
@@ -1582,7 +1582,7 @@ export class wfrp4eEstimationProvider extends EstimationProvider {
 			},
 		];
 	}
-	
+
 	fraction(token) {
 		const hp = token.actor.system.status.wounds;
 		return hp.value / hp.max;
