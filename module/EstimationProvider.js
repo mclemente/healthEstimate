@@ -1594,6 +1594,22 @@ export class wfrp4eEstimationProvider extends EstimationProvider {
 		const hp = token.actor.system.status.wounds;
 		return hp.value / hp.max;
 	}
+
+	get settings() {
+		return {
+			...breakOnZeroMaxHP,
+			"PF2E.hideVehicleHP": {
+				type: Boolean,
+				default: false,
+			},
+		};
+	}
+
+	get breakCondition() {
+		return `
+		|| token.actor.type === "vehicle" && game.settings.get('healthEstimate', 'PF2E.hideVehicleHP')
+		|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.status.wounds === 0)`;
+	}
 }
 
 export class worldbuildingEstimationProvider extends EstimationProvider {
