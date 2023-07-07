@@ -12,10 +12,12 @@ export class HealthEstimate {
 	setup() {
 		this.estimationProvider = this.prepareSystemSpecifics();
 		this.fractionFormula = this.estimationProvider.fraction;
-		if (this.estimationProvider.breakCondition !== undefined)
+		if (this.estimationProvider.breakCondition !== undefined) {
 			this.breakConditions.system = this.estimationProvider.breakCondition;
-		if (this.estimationProvider.tokenEffects !== undefined)
+		}
+		if (this.estimationProvider.tokenEffects !== undefined) {
 			this.tokenEffectsPath = this.estimationProvider.tokenEffects;
+		}
 		registerSettings();
 		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
 			addSetting(key, data);
