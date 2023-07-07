@@ -164,11 +164,14 @@ export class GenericEstimationProvider extends EstimationProvider {
 				)} setting ("${hpPath}") is wrong.`
 			);
 		}
-		const outputs = [
-			Math.min((Number(hp.value) + temp) / Number(hp.max), 1),
-			(Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp),
-		];
-		return outputs[sGet("core.custom.FractionMath")];
+		const FractionMath = sGet("core.custom.FractionMath");
+		switch (FractionMath) {
+			case 0:
+				return Math.min((Number(hp.value) + temp) / Number(hp.max), 1);
+			case 1:
+			default:
+				return (Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp);
+		}
 	}
 
 	get settings() {
@@ -387,11 +390,14 @@ export class CustomSystemBuilderEstimationProvider extends EstimationProvider {
 			throw new Error(
 				`Token ${token.name}'s HP has no maximum value. Set it up if you intend for the estimation to work.`
 			);
-		const outputs = [
-			Math.min((Number(hp.value) + temp) / Number(hp.max), 1),
-			(Number(hp.max) - Number(hp.value)) / Number(hp.max),
-		];
-		return outputs[sGet("core.custom.FractionMath")];
+		const FractionMath = sGet("core.custom.FractionMath");
+		switch (FractionMath) {
+			case 0:
+				return Math.min((Number(hp.value) + temp) / Number(hp.max), 1);
+			case 1:
+			default:
+				return (Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp);
+		}
 	}
 
 	get settings() {
