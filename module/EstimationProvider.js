@@ -43,15 +43,28 @@ class EstimationProvider {
 		this.deathStateName = t("core.deathStateName.default");
 
 		/**
-		 * Default value of the Death Marker setting.
+		 * Configuration for the Death Marker setting.
 		 * @type {Object}
 		 */
 		this.deathMarker = {
+			/** Sets if the setting will be visible in the module's settings */
 			config:
 				!CONFIG.statusEffects.find((x) => x.id === "dead") ||
 				game.modules.get("combat-utility-belt")?.active ||
 				game.modules.get("condition-lab-triggler")?.active,
+			/** Sets the setting's default value */
 			default: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon || "icons/svg/skull.svg",
+		};
+
+		/**
+		 *
+		 * @type {Object}
+		 */
+		this.vehicleRules = {
+			/** Sets if the setting will be visible in the module's settings */
+			config: false,
+			/** List with actor types that are considered vehicles (e.g. spacecraft, drone, etc) */
+			vehicles: ["vehicle"],
 		};
 
 		/**
@@ -107,6 +120,16 @@ class EstimationProvider {
 	 */
 	get settings() {
 		return {};
+	}
+
+	/**
+	 * Is used on the breakCondition getter.
+	 * @returns {String}
+	 *
+	 * @see alienrpgEstimationProvider
+	 */
+	get isVehicle() {
+		return `['${this.vehicleRules.vehicles.join("','")}'].includes(token.actor.type)`;
 	}
 
 	/**
