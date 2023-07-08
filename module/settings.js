@@ -94,6 +94,8 @@ export const registerSettings = function () {
 		default: true,
 	});
 	addSetting("core.hideVehicleHP", {
+		name: "healthEstimate.PF2E.hideVehicleHP.name",
+		hint: "healthEstimate.PF2E.hideVehicleHP.hint",
 		config: game.healthEstimate.estimationProvider.vehicleRules.config,
 		type: Boolean,
 		default: false,
