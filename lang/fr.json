@@ -263,7 +263,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Utiliser le Seuil de Rupture des véhicules",
-				"hint": "Les véhicules utilisent les stades réglés sur le réglage {setting1}. Autrement, les véhicules utiliseront la même description que le réglage {setting2}."
+				"hint": "Définit quelle table d'estimation sera utilisée pour calculer l'estimation d'un véhicule."
 			},
 			"thresholdNames": {
 				"name": "Stades des Seuils de Rupture",
