@@ -93,6 +93,11 @@ export const registerSettings = function () {
 		type: Boolean,
 		default: true,
 	});
+	addSetting("core.hideVehicleHP", {
+		config: game.healthEstimate.estimationProvider.vehicleRules.config,
+		type: Boolean,
+		default: false,
+	});
 
 	/* Settings for the behavior menu */
 	addMenuSetting("core.alwaysShow", {
