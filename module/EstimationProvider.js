@@ -808,7 +808,7 @@ export class lancerEstimationProvider extends EstimationProvider {
 	get breakCondition() {
 		return `
         || game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
-        && (token.actor.system.mech?.hp.max === 0 || token.actor.system.hp?.max === 0)`;
+        && (token.actor.system.mech?.hp.max === 0 || token.actor.system?.derived?.hp?.max === 0)`;
 	}
 }
 
