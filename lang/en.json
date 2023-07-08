@@ -144,7 +144,7 @@
 				"hint": "Include temporary health points in calculating what description to show.\nE.g. with the setting turned on the token receiving temp HP will look \"healthier\" unless it's already at max health."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Hide on tokens with 0 max HP",
+				"name": "Hide Estimates on Tokens with 0 max HP",
 				"hint": "Useful for objects with tokens."
 			},
 			"menuSettings": {
