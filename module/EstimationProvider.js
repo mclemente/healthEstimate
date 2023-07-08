@@ -265,18 +265,9 @@ export class alienrpgEstimationProvider extends EstimationProvider {
 		}
 	}
 
-	get settings() {
-		return {
-			"PF2E.hideVehicleHP": {
-				type: Boolean,
-				default: false,
-			},
-		};
-	}
-
 	get breakCondition() {
 		return `
-		|| ${this.isVehicle} && game.settings.get('healthEstimate', 'PF2E.hideVehicleHP')
+		|| ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
 		|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
 			&& (
 				(${this.isVehicle} && token.actor.system.attributes.hull.max === 0)
