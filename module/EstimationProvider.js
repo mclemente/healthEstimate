@@ -868,8 +868,6 @@ export class od6sEstimationProvider extends EstimationProvider {
 			config: true,
 			vehicles: ["vehicle", "starship"],
 		};
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = true;
 		this.estimations = [
 			...this.estimations,
 			{
