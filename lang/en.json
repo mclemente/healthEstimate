@@ -269,7 +269,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Use Vehicle Threshold",
-				"hint": "Vehicles Use the stages set on {setting1} setting. Otherwise, vehicles will use the same description as the {setting2} setting."
+				"hint": "Defines which estimation table will be used when calculating a Vehicle's estimatives."
 			},
 			"addStamina": {
 				"name": "Account for Stamina",
