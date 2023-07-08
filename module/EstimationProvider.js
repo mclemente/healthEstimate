@@ -637,16 +637,6 @@ export class dnd5eEstimationProvider extends EstimationProvider {
 		return Math.min((temp + hp.value) / hp.max, 1);
 	}
 
-	get settings() {
-		return {
-			"starfinder.vehicleNames": {
-				type: String,
-				default: "",
-				config: false,
-			},
-		};
-	}
-
 	get breakCondition() {
 		return `
 		|| token.actor.type == 'group'
@@ -790,17 +780,6 @@ export class lancerEstimationProvider extends EstimationProvider {
 		return hp.value / hp.max;
 	}
 
-	get settings() {
-		return {
-			"core.stateNames": {
-				config: true,
-				scope: "world",
-				type: String,
-				default: t("starfinder.vehicleNames.default"),
-			},
-		};
-	}
-
 	get breakCondition() {
 		return `
         || game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
@@ -914,16 +893,6 @@ export class od6sEstimationProvider extends EstimationProvider {
 				return 1 - od6sdamage / 5;
 			}
 		}
-	}
-
-	get settings() {
-		return {
-			"starfinder.vehicleNames": {
-				type: String,
-				default: "",
-				config: false,
-			},
-		};
 	}
 
 	get breakCondition() {
@@ -1071,11 +1040,6 @@ export class pf2eEstimationProvider extends EstimationProvider {
 
 	get settings() {
 		return {
-			"starfinder.vehicleNames": {
-				type: String,
-				default: "",
-				config: false,
-			},
 			"PF2E.staminaToHp": {
 				type: Boolean,
 				default: true,
@@ -1210,22 +1174,8 @@ export class sfrpgEstimationProvider extends EstimationProvider {
 				default: true,
 			},
 			"starfinder.useThreshold": {
-				hint: f("starfinder.useThreshold.hint", {
-					setting1: t("starfinder.thresholdNames.name"),
-					setting2: t("starfinder.vehicleNames.name"),
-				}),
 				type: Boolean,
 				default: false,
-			},
-			"starfinder.thresholdNames": {
-				type: String,
-				default: "",
-				config: false,
-			},
-			"starfinder.vehicleNames": {
-				type: String,
-				default: "",
-				config: false,
 			},
 		};
 	}
@@ -1278,16 +1228,6 @@ export class starwarsffgEstimationProvider extends EstimationProvider {
 			hp = token.actor.system.stats.hullTrauma;
 		}
 		return Math.min((hp.max - hp.value) / hp.max, 1);
-	}
-
-	get settings() {
-		return {
-			"starfinder.vehicleNames": {
-				type: String,
-				default: "",
-				config: false,
-			},
-		};
 	}
 }
 
@@ -1342,11 +1282,6 @@ export class swadeEstimationProvider extends EstimationProvider {
 					min: 1,
 					max: 10,
 				},
-			},
-			"starfinder.vehicleNames": {
-				type: String,
-				default: "",
-				config: false,
 			},
 		};
 	}
@@ -1533,15 +1468,6 @@ export class twodsixEstimationProvider extends EstimationProvider {
 				return current / max;
 			}
 		}
-	}
-	get settings() {
-		return {
-			"starfinder.vehicleNames": {
-				type: String,
-				default: "",
-				config: false,
-			},
-		};
 	}
 }
 
