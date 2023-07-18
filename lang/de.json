@@ -73,7 +73,7 @@
 				"hint": "Schließe temporäre Lebenspunkte in die Berechnung der Schätzung ein.\nWenn z.B. die Einstellung aktiviert ist, sieht der Token, welcher temporäre TP erhält, \"gesünder\" aus, es sei denn, er hat bereits die maximale Gesundheit."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Verstecken bei Tokens mit 0 maximalen TP",
+				"name": "Verstecken Schätzung bei Tokens mit maximal 0 TP",
 				"hint": "Nützlich für Objekte mit Token."
 			},
 			"menuSettings": {
@@ -247,7 +247,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Fahrzeugschwellenwert verwenden",
-				"hint": "Fahrzeuge verwenden die in der Einstellung {setting1} festgelegten Stufen. Andernfalls verwenden die Fahrzeuge dieselbe Beschreibung wie in der Einstellung {setting2}."
+				"hint": "Legt fest, welche Schätzungstabelle bei der Berechnung für ein Fahrzeug verwendet werden soll."
 			},
 			"thresholdNames": {
 				"name": "Schwellenwertstufen",

@@ -155,7 +155,7 @@
 				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra.\nEx.: Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Ocultar em tokens com 0 PV máximos",
+				"name": "Ocultar estimativas em tokens com 0 PV máximo",
 				"hint": "Útil para tokens de objetos."
 			},
 			"menuSettings": {
@@ -281,7 +281,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Usar Limiar do Veículo",
-				"hint": "Veículos Use os estágios definidos na configuração {setting1}. Caso contrário, os veículos usarão a mesma descrição da configuração {setting2}."
+				"hint": "Define qual tabela de estimativas será utilizada no cálculo das estimativas de um Veículo."
 			},
 			"thresholdNames": {
 				"name": "Estágios de Limiar",
