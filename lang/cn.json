@@ -83,7 +83,9 @@
 			},
 			"deathState": {
 				"name": "死亡状态显示",
-				"hint": "当在战斗被标记为战败时，为指示物按{setting}的设置显示。"
+				"hint": "当在战斗被标记为战败时，为指示物按{setting}的设置显示。",
+				"hint1": "当指示物受到{setting2}中指定的状态图标影响时，显示{setting}中设定的指示物。",
+				"hint2": "当指示物在战斗中被击败时，显示{setting}中设定的指示物。"
 			},
 			"deathStateName": {
 				"name": "死亡状态名称",
@@ -214,6 +216,12 @@
 			"useSystemStates": {
 				"name": "使用受损阶段",
 				"hint": "忽略阶段设置并使用Cyberpunk RED核心的受损状态。"
+			},
+			"unorganics": {
+				"3": "可运转",
+				"2": "故障",
+				"0": "报废",
+				"4": "未受损"
 			}
 		},
 		"dnd5e": {
@@ -272,7 +280,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "使用载具阈值",
-				"hint": "载具使用{setting1}设置中的阶段。否则载具将使用和{setting2}相同的阶段描述。"
+				"hint": "请设置计算载具健康时使用的健康预估表。"
 			},
 			"thresholdNames": {
 				"name": "阈值阶段",
