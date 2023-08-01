@@ -127,19 +127,32 @@ export class HealthEstimate {
 	 */
 	getTokenEstimate(token) {
 		let special;
-		const validateEstimation = (token, rule) => {
-			const customLogic = this.estimationProvider.customLogic;
-			const actor = token?.actor;
-			const type = token.actor.type;
-			return new Function("actor", "token", "type", customLogic + `return ${rule}`)(actor, token, type);
+		const validateEstimation = (iteration, token, estimation) => {
+			const rule = estimation.rule;
+			let valid = false;
+			try {
+				const customLogic = this.estimationProvider.customLogic;
+				const actor = token?.actor;
+				const type = token.actor.type;
+				valid = new Function("actor", "token", "type", customLogic + `return ${rule}`)(actor, token, type);
+			} catch (err) {
+				const name = estimation.name || iteration;
+				console.warn(
+					`Health Estimate | Estimation Table "${name}" has an invalid JS Rule and has been skipped. ${err.name}: ${err.message}`
+				);
+			} finally {
+				return valid;
+			}
 		};
 
-		for (const estimation of this.estimations) {
+		for (const [iteration, estimation] of this.estimations.entries()) {
 			if (estimation.rule === "default" || estimation.rule === "") continue;
-			if (validateEstimation(token, estimation.rule)) {
+			if (validateEstimation(iteration, token, estimation)) {
 				if (estimation.ignoreColor) {
 					special = estimation;
-				} else return { estimation: deepClone(estimation), special: deepClone(special) };
+				} else {
+					return { estimation: deepClone(estimation), special: deepClone(special) };
+				}
 			}
 		}
 		return { estimation: deepClone(this.estimations[0]), special: deepClone(special) };
