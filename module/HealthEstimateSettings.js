@@ -194,8 +194,8 @@ export class HealthEstimateEstimationSettings extends HealthEstimateSettings {
 		});
 		for (const input of html[0].querySelectorAll(".form-group input, .form-group textarea")) {
 			input.addEventListener("change", (event) => {
-				const [_, tableIndex, estimateIndex, rule] = event.target.name.split(".");
-				this.estimations[tableIndex].estimates[estimateIndex][rule] = event.target.value;
+				const [_, tableIndex, property] = event.target.name.split(".");
+				this.estimations[tableIndex][property] = event.target.value;
 				event.preventDefault();
 			});
 		}
