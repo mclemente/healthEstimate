@@ -28,7 +28,7 @@ class EstimationProvider {
 		 * Code that will be run during HealthEstimate.getTokenEstimate()
 		 * @type {string}
 		 */
-		this.customLogic = `const type = token.actor.type;`;
+		this.customLogic = ``;
 
 		/**
 		 * Default value of the Death State setting.

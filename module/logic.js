@@ -129,7 +129,9 @@ export class HealthEstimate {
 		let special;
 		const validateEstimation = (token, rule) => {
 			const customLogic = this.estimationProvider.customLogic;
-			return new Function("token", customLogic + `return ${rule}`)(token);
+			const actor = token?.actor;
+			const type = token.actor.type;
+			return new Function("actor", "token", "type", customLogic + `return ${rule}`)(actor, token, type);
 		};
 
 		for (const estimation of this.estimations) {
