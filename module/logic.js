@@ -344,18 +344,30 @@ export class HealthEstimate {
 
 		const prep = (key) => (isEmpty(this.breakConditions[key]) ? "" : this.breakConditions[key]);
 
-		this.breakOverlayRender = (token) =>
-			new Function(
-				`token`,
-				`return (
-				${prep("default")}
-				${prep("onlyGM")}
-				${prep("onlyNotGM")}
-				${prep("onlyNPCs")}
-				${prep("onlyPCs")}
-				${prep("system")}
-			)`
-			)(token);
+		this.breakOverlayRender = (token) => {
+			try {
+				new Function(
+					`token`,
+					`return (
+						${prep("default")}
+						${prep("onlyGM")}
+						${prep("onlyNotGM")}
+						${prep("onlyNPCs")}
+						${prep("onlyPCs")}
+						${prep("system")}
+					)`
+				)(token);
+			} catch (err) {
+				if (err.name === "TypeError") {
+					console.warn(
+						`Health Estimate | Error on breakOverlayRender(), skipping. Token Name: "${token.name}". Type: "${token.document.actor.type}".`,
+						err
+					);
+					return true;
+				}
+				console.error(err);
+			}
+		};
 	}
 
 	/**
