@@ -675,17 +675,17 @@ export class dnd5eEstimationProvider extends EstimationProvider {
 	}
 }
 
-export class dnd4eEstimationProvider extends EstimationProvider{
-	constructor(){
+export class dnd4eEstimationProvider extends EstimationProvider {
+	constructor() {
 		super();
-		this.organicTypes = ["Player Character", "NPC"]
+		this.organicTypes = ["Player Character", "NPC"];
 		this.addTemp = true;
 		this.breakOnZeroMaxHP = true;
 	}
 
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;
-		const temphp = token.actor.system.attributes.temphp
+		const temphp = token.actor.system.attributes.temphp;
 		let temp = 0;
 		if (sGet("core.addTemp")) {
 			temp = temphp.value;
@@ -1213,7 +1213,7 @@ export class sfrpgEstimationProvider extends EstimationProvider {
 			case "npc2":
 			case "drone": {
 				const temp = sGet("core.addTemp") ? hp.temp ?? 0 : 0;
-				return Math.min((hp.value + temp) / hp.max, 1);				
+				return Math.min((hp.value + temp) / hp.max, 1);
 			}
 			case "character": {
 				const sp = token.actor.system.attributes.sp;
