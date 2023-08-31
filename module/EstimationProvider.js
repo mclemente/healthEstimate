@@ -675,6 +675,29 @@ export class dnd5eEstimationProvider extends EstimationProvider {
 	}
 }
 
+export class dnd4eEstimationProvider extends EstimationProvider{
+	constructor(){
+		super();
+		this.organicTypes = ["Player Character", "NPC"]
+		this.addTemp = true;
+		this.breakOnZeroMaxHP = true;
+	}
+
+	fraction(token) {
+		const hp = token.actor.system.attributes.hp;
+		const temphp = token.actor.system.attributes.temphp
+		let temp = 0;
+		if (sGet("core.addTemp")) {
+			temp = temphp.value;
+		}
+		return Math.min((temp + hp.value) / hp.max, 1);
+	}
+
+	get breakCondition() {
+		return `|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
+	}
+}
+
 export class ds4EstimationProvider extends EstimationProvider {
 	fraction(token) {
 		let hp = token.actor.system.combatValues.hitPoints;
