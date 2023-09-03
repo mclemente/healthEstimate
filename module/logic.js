@@ -346,7 +346,7 @@ export class HealthEstimate {
 
 		this.breakOverlayRender = (token) => {
 			try {
-				new Function(
+				return new Function(
 					`token`,
 					`return (
 						${prep("default")}
