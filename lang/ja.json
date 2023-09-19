@@ -1,0 +1,296 @@
+{
+	"healthEstimate": {
+		"core": {
+			"custom": {
+				"FractionHP": {
+					"name": "ヒットポイントのパス",
+					"hint": "使用システムは異なるデータパスを使用しているかもしれません。もし推定hpが正しく表示されていなければ、正しい能力値のパスを入力してください (例： actor.system.health)。"
+				},
+				"FractionMath": {
+					"name": "分数の計算式",
+					"hint": "使用システムの計算式はデフォルトと異なることがあります。その場合は推定hpの分数を求める場合の計算式を選択してください。",
+					"choices": {
+						"0": "(現在HP)/(最大HP)",
+						"1": "(最大HP - 現在HP)/(最大HP)"
+					}
+				}
+			},
+			"estimates": {
+				"plural": "推定",
+				"worst": "Worst",
+				"best": "Best",
+				"states": {
+					"0": "気絶状態",
+					"1": "瀕死",
+					"2": "重傷",
+					"3": "負傷",
+					"4": "軽傷",
+					"5": "無傷"
+				},
+				"vehicles": {
+					"0": "大破",
+					"1": "炎上",
+					"2": "燻り",
+					"3": "窪みだらけ",
+					"4": "傷つき",
+					"5": "新品"
+				},
+				"thresholds": {
+					"0": "大破",
+					"1": "破壊",
+					"2": "正常に動作"
+				}
+			},
+			"estimationSettings": {
+				"title": "健康度の設定",
+				"AddEstimate": "健康度追加",
+				"addTable": "ロール表追加",
+				"default": "デフォルト",
+				"deleteTable": "ロール表削除",
+				"estimate": "推定",
+				"jsRule": "JS 記述法",
+				"prioDecrease": "優先度を下げる",
+				"prioIncrease": "優先度を上げる",
+				"ignoreColor": {
+					"name": "色を無視",
+					"hint": "このロール表の色を無視し、コマに次の有効なロール表から色を使用します。これは健康度より優先すべき状態異常を表すためにある設定ですが、健康度の色は使用するべきです。"
+				}
+			},
+			"keybinds": {
+				"markDead": {
+					"name": "死亡としてマーク",
+					"hint": "選択した全てのコマを「死亡」としてマークします。もし選択した全てのコマがすでに死亡していたら、死から蘇ります。"
+				},
+				"customEstimates": {
+					"name": "固有の健康度",
+					"hint": "固有の健康度を選択したコマに設定します。空白にすることでリセットします。",
+					"options": {
+						"1": "コマとアクター",
+						"2": "コマのみ"
+					}
+				},
+				"dontMarkDead": {
+					"name": "死亡としてマークしない",
+					"hint": "hpが0を到達した時のNPCを死亡として表さない(例：気絶したことを表す)。これは {setting} を使用している場合のみ有用です。"
+				},
+				"hideEstimates": {
+					"name": "健康度を隠す",
+					"hint": "選択したコマの健康度をプレイヤーから隠します。この設定がＯＮの場合、隠された健康度はチャットに出力されません。ＧＭにはアスタリスク (*) として表示されます。"
+				},
+				"hideNames": {
+					"name": "名前を隠す",
+					"hint": " {setting} を使用しているときは、選択したコマの名前を隠します。"
+				},
+				"hideEstimatesAndNames": {
+					"name": "健康度と名前を隠す",
+					"hint": "選択したコマの健康度と名前両方を隠します。"
+				}
+			},
+			"isNow": "{name} は現在 {desc} です。",
+			"unknownEntity": {
+				"name": "不明なエンティティ名",
+				"hint": "秘匿されたキャラクターがどのように呼ばれるのかを設定します。{warning}",
+				"default": "不明なエンティティ",
+				"warningCUB": "Combat Utility Beltの機能で名前を隠している場合、この設定は優先度が下がります。",
+				"warningPF2eWorkbench": "PF2e Workbenchの機能を使用して名前を不明瞭にしている場合、この設定は優先度が下がります。"
+			},
+			"alwaysShow": {
+				"name": "常に健康度を表示",
+				"hint": "コマをホバーした時以外も、健康度を常に表示させます。"
+			},
+			"combatOnly": {
+				"name": "戦闘時のみ表示",
+				"hint": "戦闘がアクティブな時だけ健康度を表示します。"
+			},
+			"showDescription": {
+				"name": "健康度を表示: ユーザー",
+				"hint": "次のユーザーに健康度を表示します。",
+				"choices": {
+					"all": "全て",
+					"GM": "ゲームマスター",
+					"Players": "プレイヤー",
+					"NPC": "ノン・プレイヤー・キャラクター",
+					"PC": "プレイヤー・キャラクター"
+				}
+			},
+			"showDescriptionTokenType": {
+				"name": "健康度を表示: コマ",
+				"hint": "次のコマの健康度を表示します。"
+			},
+			"deathState": {
+				"name": "状態異常による死亡ステート",
+				"hint1": " {setting2} で設定したアイコンセットを使用する状態異常に侵された時に、{setting} 設定で定めた通りにコマを表示させます。",
+				"hint2": "戦闘に敗北した時に {setting} 設定で定めた通りにコマを表示します。"
+			},
+			"deathStateName": {
+				"name": "「死亡」状態の名称",
+				"hint": "コマが死んでいる時に表示する説明文。",
+				"default": "死亡"
+			},
+			"deathMarker": {
+				"name": "「死亡」マーカー",
+				"hint": "死亡したコマをマークする時の状態アイコンのファイルパス"
+			},
+			"NPCsJustDie": {
+				"name": "NPCは即死する",
+				"hint": "プレイヤーによって選択されていないコマの最終段階は {setting} に変わります。 \"プレイヤーに選択された\" 状態の詳細については、Foundryの \"Users and Permissions\" の記事をご参照ください。"
+			},
+			"outputChat": {
+				"name": "健康度をチャットに投稿",
+				"hint": "健康度の変更があった際にチャットに投稿されます。コマ名を非表示設定にされたキャラクターは {setting} 設定の説明通りに表示されます。"
+			},
+			"addTemp": {
+				"name": "一時的hpを追加",
+				"hint": "説明文を表示するに際し一時的ヒット・ポイントを勘定に入れます。\n 例： この設定が有効化されるなら一時的hpを得たコマは最大hpでない限り \"健康的に見える\" と表記されます。"
+			},
+			"breakOnZeroMaxHP": {
+				"name": "最大HPが０になったコマの健康度を非表示",
+				"hint": "物体を表すコマに便利です。"
+			},
+			"menuSettings": {
+				"behaviorSettings": {
+					"name": "態度の設定",
+					"plural": "態度の設定"
+				},
+				"deathSettings": {
+					"name": "「死亡」設定",
+					"plural": "「死亡」設定"
+				},
+				"styleSettings": {
+					"name": "スタイルの設定",
+					"plural": "スタイルの設定"
+				},
+				"fontSize": {
+					"name": "フォントのサイズ",
+					"hint": "CSSの font-size で使用できる値を受け付けます。"
+				},
+				"useColor": {
+					"name": "色を使用",
+					"hint": "健康度は白黒で表示されます。"
+				},
+				"smoothGradient": {
+					"name": "なめらかな遷移",
+					"hint": "この設定をオフにすると次の説明に到達した時だけ色が変わります。オンの場合はhpのパーセンテージを反映します。"
+				},
+				"deadColor": {
+					"name": "「死亡」したコマの色"
+				},
+				"outline": {
+					"name": "アウトライン",
+					"darken": "暗めに",
+					"brighten": "明るく"
+				},
+				"position": {
+					"name": "位置",
+					"hint": "コマのフレームに相対して位置が設定されます。負の値は上げ、正の値なら下げます。",
+					"top": "上",
+					"middle": "中央",
+					"bottom": "下"
+				},
+				"positionAdjustment": {
+					"name": "マージン調整",
+					"hint": "テキストのマージンを調整します。正の値は上げ、負の値なら下げます。 "
+				},
+				"scaleToZoom": {
+					"name": "拡大率と健康度の縮尺を合わせる",
+					"hint": "健康度を、拡大理宇に応じて縮尺を合わせます。 {setting2} 設定の値はズームアウトする際は無視されます。."
+				}
+			}
+		},
+		"custom-system-builder": {
+			"FractionHP": {
+				"hint": "This will probably {dataPath1} or {dataPath2}."
+			},
+			"tempHP": {
+				"name": "一時的ヒット・ポイントのデータ・パス",
+				"hint": "使用システムに存在しないか、健康度に含ませたくなければ空白にします。"
+			}
+		},
+		"cyberpunk-red-core": {
+			"unorganics": {
+				"4": "Intact",
+				"3": "Operational",
+				"2": "Malfunctioning",
+				"0": "Disabled"
+			}
+		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "Health level for Impaired PCs",
+				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Impaired on the Death Track"
+			},
+			"debilitated": {
+				"name": "Health level for Debilitated PCs",
+				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Debilitated on the Death Track"
+			}
+		},
+		"PF1": {
+			"addNonlethal": {
+				"name": "Use Nonlethal Damage",
+				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
+			},
+			"showExtra": {
+				"name": "Show {condition1} & {condition2}",
+				"hint": "Shows the {condition1} and {condition2} descriptions when their prerequisites are fulfilled."
+			},
+			"disabledName": {
+				"name": "Staggered Stage",
+				"default": "Staggered"
+			},
+			"dyingName": {
+				"name": "Unconscious Stage",
+				"default": "Unconscious"
+			}
+		},
+		"PF2E": {
+			"staminaToHp": {
+				"name": "Stamina to Estimate",
+				"hint": "Add Stamina Points to the estimate."
+			},
+			"hideHazardHP": {
+				"name": "Hide Hazard's Estimate",
+				"hint": "Hides the estimate from Hazards."
+			},
+			"hideVehicleHP": {
+				"name": "Hide Vehicle's Estimate",
+				"hint": "Hides the estimate from Vehicles."
+			},
+			"workbenchMystifier": {
+				"name": "(EXPERIMENTAL) PF2e Workbench's Mystifier Support",
+				"hint": "If the NPC Mystification settings are enabled, Chat Outputs will ignore the {setting} setting's name and use the token's name if it is different from its actor's Prototype Token's name."
+			}
+		},
+		"numenera": {
+			"countPools": {
+				"name": "Count Empty Pools",
+				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted or replenished."
+			}
+		},
+		"starfinder": {
+			"useThreshold": {
+				"name": "Use Vehicle Threshold",
+				"hint": "Defines which estimation table will be used when calculating a Vehicle's estimatives."
+			},
+			"addStamina": {
+				"name": "Account for Stamina",
+				"hint": "With this setting on, Stamina will be added to HP for calculations."
+			}
+		},
+		"worldbuilding": {
+			"simpleRule": {
+				"name": "Estimation Rule",
+				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
+			}
+		},
+		"swade": {
+			"defaultWildCardMaxWounds": {
+				"name": "Default Wild Card's Max Wounds",
+				"hint": "This is used to calculate the max wounds a Wild Card NPC should have by default for estimations."
+			},
+			"showIncap": {
+				"name": "{incap} Status Effect",
+				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their current estimates. Doesn't work for tokens that are vehicles or dead."
+			}
+		}
+	}
+}
