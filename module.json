@@ -13,9 +13,18 @@
 			}
 		}
 	],
-	"scripts": ["lib/chroma.min.js", "lib/grapick.min.js", "lib/spectrum.min.js"],
-	"esmodules": ["healthEstimate.js"],
-	"styles": ["css/healthEstimate.css", "lib/spectrum.min.css"],
+	"scripts": [
+		"lib/chroma.min.js",
+		"lib/grapick.min.js",
+		"lib/spectrum.min.js"
+	],
+	"esmodules": [
+		"healthEstimate.js"
+	],
+	"styles": [
+		"css/healthEstimate.css",
+		"lib/spectrum.min.css"
+	],
 	"languages": [
 		{
 			"lang": "en",
@@ -71,6 +80,11 @@
 			"lang": "ja",
 			"name": "日本語",
 			"path": "lang/ja.json"
+		},
+		{
+			"lang": "cs",
+			"name": "Čeština",
+			"path": "lang/cs.json"
 		}
 	],
 	"url": "https://github.com/mclemente/healthEstimate",
