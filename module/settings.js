@@ -68,10 +68,8 @@ export const registerSettings = function () {
 		onChange: (value) => {
 			if (value && game.user.isGM) {
 				Hooks.on("updateActor", onUpdateActor);
-				if (!game.version > 11) Hooks.on("updateToken", onUpdateToken);
 			} else if (game.user.isGM) {
 				Hooks.off("updateActor", onUpdateActor);
-				if (!game.version > 11) Hooks.off("updateToken", onUpdateToken);
 			}
 		},
 	});
@@ -109,10 +107,8 @@ export const registerSettings = function () {
 			game.healthEstimate.alwaysShow = value;
 			if (value) {
 				Hooks.on("updateActor", game.healthEstimate.alwaysOnUpdateActor);
-				if (!game.version > 11) Hooks.on("updateToken", alwaysOnUpdateToken);
 			} else {
 				Hooks.off("updateActor", game.healthEstimate.alwaysOnUpdateActor);
-				if (!game.version > 11) Hooks.off("updateToken", alwaysOnUpdateToken);
 			}
 		},
 	});
@@ -627,16 +623,4 @@ export function onUpdateActor(actor, data, options, userId) {
 			outputStageChange(token);
 		}
 	});
-}
-
-// Starting in V11, this no longer works for changing a token's HP
-export function onUpdateToken(token, change, options, userId) {
-	if (!game.user.isGM || !canvas.scene) return;
-	if (
-		!game.healthEstimate.breakOverlayRender(token.object) &&
-		token.object.id in game.healthEstimate.actorsCurrentHP &&
-		!game.healthEstimate.hideEstimate(token.object)
-	) {
-		outputStageChange(token.object);
-	}
 }

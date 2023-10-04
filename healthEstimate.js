@@ -2,7 +2,6 @@ import { addCharacter, onRenderChatMessage } from "./lib/HealthMonitor.js";
 import { HealthEstimate } from "./module/logic.js";
 import {
 	onUpdateActor,
-	onUpdateToken,
 	renderHealthEstimateStyleSettingsHandler,
 	renderSettingsConfigHandler,
 	renderTokenConfigHandler,
@@ -21,7 +20,6 @@ Hooks.once("setup", function () {
 Hooks.once("ready", function () {
 	if (game.settings.get("healthEstimate", "core.outputChat") && game.user.isGM) {
 		Hooks.on("updateActor", onUpdateActor);
-		if (!game.version > 11) Hooks.on("updateToken", onUpdateToken);
 	}
 });
 

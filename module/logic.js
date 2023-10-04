@@ -62,7 +62,6 @@ export class HealthEstimate {
 			});
 			if (this.scaleToZoom) Hooks.on("canvasPan", this.onCanvasPan);
 			Hooks.on("updateActor", this.alwaysOnUpdateActor);
-			if (!(game.version > 11)) Hooks.on("updateToken", this.alwaysOnUpdateToken);
 		}
 		Hooks.on("canvasInit", this.canvasInit.bind(this));
 	}
