@@ -1,0 +1,296 @@
+{
+	"healthEstimate": {
+		"core": {
+			"custom": {
+				"FractionMath": {
+					"name": "Rovnice pro zlomky",
+					"hint": "Kondice ve vašem systému může být odlišná od výchozího nastavení. Vyberte rovnici použitou k odhadu podílu zdraví.",
+					"choices": {
+						"0": "(Aktuální kondice)/(Maximální kondice)",
+						"1": "(Maximální - Aktuální kondice)/(Maximální kondice)"
+					}
+				},
+				"FractionHP": {
+					"name": "Datová cesta k atributu Kondice",
+					"hint": "Váš systém může používat jinou datovou cestu. Pokud se odhad nezobrazuje správně, vložte cestu ke správnému atributu (např. actor.system.health)."
+				}
+			},
+			"estimates": {
+				"plural": "Odhady",
+				"worst": "Nejhorší",
+				"best": "Nejlepší",
+				"states": {
+					"0": "Bezvědomí",
+					"1": "Blízko smrti",
+					"2": "Těžce zraněný",
+					"4": "Lehce zraněný",
+					"5": "Nezraněný",
+					"3": "Zraněný"
+				},
+				"vehicles": {
+					"0": "Zničený",
+					"1": "Hořící",
+					"2": "Kouřící",
+					"3": "Otlučený",
+					"4": "Poškrábaný",
+					"5": "Neporušený"
+				},
+				"thresholds": {
+					"0": "Zničený",
+					"1": "Zlomený",
+					"2": "Plně funkční"
+				}
+			},
+			"estimationSettings": {
+				"AddEstimate": "Přidat Odhad",
+				"addTable": "Přidat tabulku",
+				"default": "Výchozí",
+				"deleteTable": "Smazat tabulku",
+				"estimate": "Odhad",
+				"jsRule": "Pravidlo JavaScriptu",
+				"prioDecrease": "Snížení priority",
+				"prioIncrease": "Zvýšení priority",
+				"ignoreColor": {
+					"name": "Ignorovat barvu",
+					"hint": "Ignoruje barvy z této tabulky a použije barvy z další platné tabulky pro token. Toto je určeno pro podmínky, které by měly mít přednost před odhadem, ale přesto by měly používat barvu tohoto odhadu."
+				},
+				"title": "Nastavení odhadů"
+			},
+			"keybinds": {
+				"markDead": {
+					"name": "Označit jako Mrtvého",
+					"hint": "Označí všechny vybrané tokeny za mrtvé. Pokud všechny vybrané tokeny jsi mrtvé jsou, budou obnoveny jako živé."
+				},
+				"customEstimates": {
+					"name": "Odhady na míru",
+					"hint": "Nastaví vlastní odhady pro vybrané tokeny. Pro resetování ji ponechte prázdnou.",
+					"options": {
+						"1": "Tokeny a Postavy",
+						"2": "Pouze tokeny"
+					}
+				},
+				"dontMarkDead": {
+					"name": "Neoznačovat za mrtvého",
+					"hint": "Umožňuje, aby se NPC nezobrazovala jako mrtvá, když její kondice dosáhne 0 (např. se zobrazí V bezvědomí). To je užitečné pouze v případě, že používáte nastavení {nastavení}."
+				},
+				"hideEstimates": {
+					"name": "Skryj Odhady",
+					"hint": "Skryje před hráči odhady vybraných tokenů. Skryté odhady nebudou vypsány do chatu, pokud je nastavení zapnuto, a budou zobrazeny s hvězdičkou (*) pro GM."
+				},
+				"hideNames": {
+					"name": "Skrytí jmen",
+					"hint": "Skryje jména vybraných tokenů při použití nastavení {setting}."
+				},
+				"hideEstimatesAndNames": {
+					"name": "Skrytí Odhadů a jmen",
+					"hint": "Skryje jak odhady, tak jména vybraných tokenů."
+				}
+			},
+			"isNow": "{name} je nyní {desc}.",
+			"unknownEntity": {
+				"name": "Pojmenování neznámé entity",
+				"default": "Neznámá entita",
+				"warningCUB": "Pokud používáte CUB funkci ke skrytí jmen, má tato prioritu před tímto nastavením.",
+				"hint": "Nastaví, jak bude nazývána skrytá bytost.{warning}",
+				"warningPF2eWorkbench": "Pokud používáte funkci \"PF2e Workbench\" k utajení jmen, tato bude mít prioritu před tímto nastavením."
+			},
+			"alwaysShow": {
+				"name": "Vždy zobraz Odhady",
+				"hint": "Učiní Odhady vždy viditelnými namísto pouze při najetí nad token."
+			},
+			"combatOnly": {
+				"name": "Zobraz pouze v Boji",
+				"hint": "Zobrazí odhady pouze, je-li aktivní Boj."
+			},
+			"showDescription": {
+				"name": "Zobraz Odhady: Uživatel",
+				"hint": "Zobrazí odhady pro následující uživatele.",
+				"choices": {
+					"all": "Vše",
+					"GM": "Vypravěč (GM)",
+					"Players": "Hráči",
+					"PC": "Hráčské postavy",
+					"NPC": "Ne-hráčské postavy (NPC)"
+				}
+			},
+			"showDescriptionTokenType": {
+				"name": "Zobraz Odhady: Tokeny",
+				"hint": "Zobrazí odhady následujících tokenů."
+			},
+			"deathState": {
+				"name": "Stav Mrtvý v Podmínce",
+				"hint2": "Zobrazí token jak je definováno v {setting} nastavení, když byl označen v boji jako Poražený.",
+				"hint1": "Zobrazí token jak je definováno v {setting} nastavení, pokud je dotčen některou z podmínek, které používají ikon nastavených v {setting2} nastavení."
+			},
+			"deathStateName": {
+				"name": "Jméno stavu Smrt",
+				"hint": "Popis, zobrazený pokud je token mrtev.",
+				"default": "Smrt"
+			},
+			"deathMarker": {
+				"name": "Označení smrti",
+				"hint": "Cesta ke stavové ikoně, která označí mrtvý token."
+			},
+			"NPCsJustDie": {
+				"name": "NPC zemřou ihned",
+				"hint": "Poslední stádium tokenů jejichž postavy nejsou vybrány hráči je nahrazena {setting}. Pro více informací co znamená \"vybrány hráči\", si přečtěte sekci Uživatelská konfigurace ve Foundry v článku \"Uživatelé a oprávnění\"."
+			},
+			"outputChat": {
+				"name": "Zobrazí Odhad v chatu",
+				"hint": "Zobrazí každou změnu Odhadu v chatu. Postavy označené konfigurací \"Skryj jméno tokenu\" budou zobrazeny jako popis podle {setting} nastavení."
+			},
+			"addTemp": {
+				"name": "Přidá Dočasné zdraví",
+				"hint": "Zahrne dočasné body zdraví do kalkulace, jaký popis zobrazit.\nNapř. se zapnutým nastavením bude token, který obdržel dočasné body zdraví, jevit jako \"zdravější\", pokud již není na maximálním zdraví."
+			},
+			"breakOnZeroMaxHP": {
+				"name": "Skryje Odhady pro token s nulovou maximální kondicí",
+				"hint": "Užitečné pro objekty s tokeny."
+			},
+			"menuSettings": {
+				"behaviorSettings": {
+					"name": "Nastavení chování",
+					"plural": "Nastavení chování"
+				},
+				"deathSettings": {
+					"name": "Nastavení smrti",
+					"plural": "Nastavení smrti"
+				},
+				"styleSettings": {
+					"name": "Nastavení stylu",
+					"plural": "Nastavení stylu"
+				},
+				"fontSize": {
+					"name": "Velikost písma",
+					"hint": "Akceptuje každou platnou vlastnost pro CSS velikost písma"
+				},
+				"useColor": {
+					"name": "Použití barvy",
+					"hint": "Odhad bude zobrazen v černé a bílé."
+				},
+				"smoothGradient": {
+					"name": "Hladký přechod",
+					"hint": "S tímto nastavením vypnutým se barva změní pouze, když je dosaženo dalšího popisu. Se zapnutým bude odrážet zdraví procentuálně."
+				},
+				"deadColor": {
+					"name": "Barva mrtvých tokenů"
+				},
+				"outline": {
+					"name": "Kontura",
+					"darken": "Ztmavit",
+					"brighten": "Zesvětlit"
+				},
+				"position": {
+					"name": "Pozice",
+					"top": "Nahoře",
+					"middle": "Ve středu",
+					"bottom": "Dole",
+					"hint": "Pozice je nastavena relativně k rámu tokenu. Záporné hodnoty ji posouvají výš, kladné níž."
+				},
+				"positionAdjustment": {
+					"name": "Úprava rozpětí",
+					"hint": "Upraví rozpětí textu. Kladné hodnoty zvyšují; záporné snižují."
+				},
+				"scaleToZoom": {
+					"name": "Měřítko Odhadů pro zvětšení",
+					"hint": "Škáluje odhad na základě vzdálenosti přiblížení. Hodnota nastavení {setting2} bude při oddálení ignorována."
+				}
+			}
+		},
+		"custom-system-builder": {
+			"FractionHP": {
+				"hint": "Toto bude zřejmě {dataPath1} nebo {dataPath2}."
+			},
+			"tempHP": {
+				"name": "Datová cesta k atributu Dočasné kondice",
+				"hint": "Ponechte prázdné, pokud systém nemá nebo pokud je nechcete přidávat do Odhadů."
+			}
+		},
+		"cyberpunk-red-core": {
+			"unorganics": {
+				"4": "Nedotčený",
+				"3": "Provozuschopný",
+				"2": "Poruchový",
+				"0": "Vypnutý"
+			}
+		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "Úroveň zdraví pro poškozené postavy",
+				"hint": "Nastavuje maximální úroveň zdraví (aktuální / maximální, zlomek 0,0 - 1,0), která může být hlášena pro postavu, která je poškozena na \"Death Track\""
+			},
+			"debilitated": {
+				"name": "Úroveň zdraví pro oslabené postavy",
+				"hint": "Nastavuje maximální úroveň zdraví (aktuální / maximální, zlomek 0,0 - 1,0), kterou lze nahlásit u postavy, který je oslabena na \"Death Track\""
+			}
+		},
+		"PF1": {
+			"addNonlethal": {
+				"name": "Použít ne-smrtící poškození",
+				"hint": "Pokud povoleno nesmrtící poškození bude odečteno od aktuálního zdraví pro Odhad."
+			},
+			"showExtra": {
+				"name": "Zobraz {condition1} & {condition2}",
+				"hint": "Zobrazí popis {condition1} a {condition2}, když jsou splněny jejich předpoklady."
+			},
+			"disabledName": {
+				"name": "Odstupňovaná fáze",
+				"default": "Odstupňované"
+			},
+			"dyingName": {
+				"name": "Fáze Bezvědomí",
+				"default": "Bezvědomí"
+			}
+		},
+		"PF2E": {
+			"hideHazardHP": {
+				"name": "Skrýt odhady nebezpečí",
+				"hint": "Skryje odhady nebezpečí."
+			},
+			"hideVehicleHP": {
+				"name": "Skryje odhady pro Vozidla",
+				"hint": "Skryje odhad u vozidel."
+			},
+			"staminaToHp": {
+				"name": "Výdrž do Odhadů",
+				"hint": "Přidá body výdrže do odhadů."
+			},
+			"workbenchMystifier": {
+				"name": "(EXPERIMENTÁLNĚ) \"PF2e Workbench\" podpora mystifikace",
+				"hint": "Pokud je umožněno nastavení Mystifikace u NPC, výstup v chatu bude ignorovat {setting} nastavení jména a použije jméno tokenu, pokud je odlišné od jeho prototypového jména tokenu v Postavě."
+			}
+		},
+		"numenera": {
+			"countPools": {
+				"name": "Počítání prázdných \"Pools\"",
+				"hint": "Počítá prázdné \"pools\" namísto sumy jejich hodnot, s odhadem měnícím se pouze, pokud \"pool\" je vyčerpán nebo obnoven."
+			}
+		},
+		"starfinder": {
+			"useThreshold": {
+				"name": "Použít prahovou hodnotu Vozidla",
+				"hint": "Definuje jaká tabulka odhadů bude použita když se kalkuluje Odhad u Vozidla."
+			},
+			"addStamina": {
+				"name": "Body výdrže",
+				"hint": "Když je zapnuto, body výdrže budou přidány ke kondici pro kalkulace."
+			}
+		},
+		"worldbuilding": {
+			"simpleRule": {
+				"name": "Pravidlo odhadů",
+				"hint": "Vzorec JS pro výpočet podílu zdraví, které token má. Měňte s opatrností. Ve výchozím nastavení se předpokládá prostý sestupný výpočet zdraví, např. začínáte s 10/10 v poli zdraví a při poškození klesáte na 0/10."
+			}
+		},
+		"swade": {
+			"defaultWildCardMaxWounds": {
+				"name": "Výchozí maximální zranění Divoké karty",
+				"hint": "Toto je použito pro výpočet maximálního zranění, kterou \"Wild Card NPC\" může mít ve výchozím nastavení pro odhady."
+			},
+			"showIncap": {
+				"name": "{incap} status efekt",
+				"hint": "Tokeny se statusem {incap} budou zobrazeny jako {incap} namísto jejich aktuálních odhadů. Nefunguje pro tokeny, které jsou vozidla nebo mrtvé."
+			}
+		}
+	}
+}
