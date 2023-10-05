@@ -204,10 +204,6 @@ export class HealthEstimateHooks {
 		const deadColorForm = html.find('input[name="deadColor"]').parent()[0];
 		const outlineModeForm = html.find('select[id="outlineMode"]').parent()[0];
 
-		const scaleToZoom = game.settings.get("healthEstimate", "core.menuSettings.scaleToZoom");
-		const scaleToZoomCheckbox = html.find('input[name="scaleToZoom"]');
-		const positionAdjustmentForm = html.find('input[name="positionAdjustment"]').parent()[0];
-
 		function hideForm(form, boolean) {
 			form.style.display = !boolean ? "none" : "flex";
 		}
@@ -217,16 +213,11 @@ export class HealthEstimateHooks {
 		hideForm(deadColorForm, useColor);
 		hideForm(outlineModeForm, useColor);
 
-		hideForm(positionAdjustmentForm, !scaleToZoom);
-
 		useColorCheckbox.on("change", (event) => {
 			hideForm(smoothGradientForm, event.target.checked);
 			hideForm(gradientForm, event.target.checked);
 			hideForm(deadColorForm, event.target.checked);
 			hideForm(outlineModeForm, event.target.checked);
-		});
-		scaleToZoomCheckbox.on("change", (event) => {
-			hideForm(positionAdjustmentForm, !event.target.checked);
 		});
 	}
 

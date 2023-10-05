@@ -265,7 +265,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			deadColor: this.prepSetting("deadColor"),
 			fontSize: this.prepSetting("fontSize"),
 			position: this.prepSetting("position"),
-			positionAdjustment: this.prepSetting("positionAdjustment"),
+			position2: this.prepSelection("position2"),
 			mode: this.prepSelection("mode"),
 			outline: this.prepSelection("outline"),
 			outlineIntensity: this.prepSetting("outlineIntensity"),
@@ -289,7 +289,6 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.outlineIntensity = document.getElementById("outlineIntensity");
 		this.fontSize = document.getElementById("fontSize");
 		this.textPosition = document.getElementById("position");
-		this.positionAdjustment = document.getElementById("positionAdjustment");
 		this.smoothGradient = document.getElementById("smoothGradient");
 		this.gradEx = document.getElementById("gradientExampleHE");
 
@@ -342,7 +341,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.smoothGradient.addEventListener("change", () => {
 			this.updateGradient();
 		});
-		for (let el of [this.fontSize, this.textPosition, this.positionAdjustment]) {
+		for (let el of [this.fontSize, this.textPosition]) {
 			el.addEventListener("change", () => {
 				this.updateSample();
 			});
@@ -459,8 +458,8 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 				"menuSettings.smoothGradient",
 				"menuSettings.deadColor",
 				"menuSettings.fontSize",
-				"menuSettings.positionAdjustment",
 				"menuSettings.position",
+				"menuSettings.position2",
 				"menuSettings.mode",
 				"menuSettings.outline",
 				"menuSettings.outlineIntensity",

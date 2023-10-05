@@ -182,10 +182,14 @@
 				},
 				"position": {
 					"name": "Height",
-					"hint": "The position is set relative to the token's frame. Negative values push it higher; positive, lower.",
+					"hint": "The height is set relative to the token's frame. Negative values push it higher; positive, lower.",
 					"top": "Top",
 					"middle": "Middle",
 					"bottom": "Bottom"
+				},
+				"position2": {
+					"name": "Position",
+					"hint": "The position relative to the token's frame."
 				},
 				"positionAdjustment": {
 					"name": "Margin Adjustment",

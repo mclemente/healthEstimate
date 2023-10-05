@@ -63,13 +63,14 @@ export class HealthEstimate {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc) {
 					const zoomLevel = Math.min(1, canvas.stage.scale.x);
-					const yPosition = token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65);
+					const yPosition = token.tooltip.y + this.height;
+					const position = { a: 0, b: 1, c: 2 }[this.position];
 					if (!token.healthEstimate?._texture) {
 						const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
 						token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
 						token.healthEstimate.scale.set(0.25);
-						token.healthEstimate.anchor.set(0.5, this.scaleToZoom ? 1 : this.margin);
-						token.healthEstimate.position.set(token.tooltip.x, yPosition);
+						token.healthEstimate.anchor.set(0.5, this.scaleToZoom ? 1 : 0);
+						token.healthEstimate.position.set(token.tooltip.x, token.tooltip.x * position + yPosition);
 					} else {
 						if (this.scaleToZoom && zoomLevel < 1) {
 							token.healthEstimate.style.fontSize = (this.fontSize * 4) / zoomLevel;
@@ -78,7 +79,7 @@ export class HealthEstimate {
 						token.healthEstimate.style.fill = color;
 						token.healthEstimate.style.stroke = stroke;
 						token.healthEstimate.visible = true;
-						token.healthEstimate.position.set(token.tooltip.x, yPosition);
+						token.healthEstimate.position.set(token.tooltip.x, token.tooltip.x * position + yPosition);
 					}
 				}
 			} else if (token.healthEstimate) {
@@ -330,8 +331,8 @@ export class HealthEstimate {
 
 		this.smoothGradient = sGet("core.menuSettings.smoothGradient");
 
-		this.alignment = sGet("core.menuSettings.position");
-		this.margin = sGet("core.menuSettings.positionAdjustment");
+		this.height = sGet("core.menuSettings.position");
+		this.position = sGet("core.menuSettings.position2");
 		this.fontSize = sGet("core.menuSettings.fontSize");
 
 		this.colors = sGet("core.variables.colors");

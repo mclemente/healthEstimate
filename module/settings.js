@@ -250,18 +250,23 @@ export const registerSettings = function () {
 		type: Number,
 		default: 3,
 	});
+	addMenuSetting("core.menuSettings.position2", {
+		type: String,
+		default: "a",
+		choices: {
+			a: t("core.menuSettings.position.top"),
+			b: t("core.menuSettings.position.middle"),
+			c: t("core.menuSettings.position.bottom"),
+		},
+		onChange: (value) => {
+			game.healthEstimate.position = value;
+		},
+	});
 	addMenuSetting("core.menuSettings.position", {
 		type: Number,
 		default: -65,
 		onChange: (value) => {
-			game.healthEstimate.alignment = value;
-		},
-	});
-	addMenuSetting("core.menuSettings.positionAdjustment", {
-		type: Number,
-		default: -1,
-		onChange: (value) => {
-			game.healthEstimate.margin = value;
+			game.healthEstimate.height = value;
 		},
 	});
 	addMenuSetting("core.menuSettings.fontSize", {
