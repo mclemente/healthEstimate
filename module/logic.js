@@ -59,58 +59,37 @@ export class HealthEstimate {
 			return;
 
 		// Create PIXI
-		if (!token.healthEstimate?._texture) {
-			try {
-				if (hovered) {
-					const { desc, color, stroke } = this.getEstimation(token);
-					if (!desc) {
-						return;
-					}
+		try {
+			if (hovered) {
+				const { desc, color, stroke } = this.getEstimation(token);
+				if (desc) {
 					const zoomLevel = Math.min(1, canvas.stage.scale.x);
-					const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
-					token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
-					// Scale size down by 4 since font size is 4 times bigger
-					token.healthEstimate.scale.set(0.25);
-
-					const yAnchor = this.scaleToZoom ? 1 : this.margin;
-					token.healthEstimate.anchor.set(0.5, yAnchor);
-					// This is need if anything changes the token's tooltip position (see https://github.com/mclemente/healthEstimate/issues/156)
 					const yPosition = token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65);
-					token.healthEstimate.position.set(token.tooltip.x, yPosition);
-				}
-			} catch (err) {
-				console.error(
-					`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`,
-					err
-				);
-			}
-		} else {
-			try {
-				if (hovered) {
-					const { desc, color, stroke } = this.getEstimation(token);
-					if (!desc) {
-						return;
+					if (!token.healthEstimate?._texture) {
+						const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
+						token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
+						token.healthEstimate.scale.set(0.25);
+						token.healthEstimate.anchor.set(0.5, this.scaleToZoom ? 1 : this.margin);
+						token.healthEstimate.position.set(token.tooltip.x, yPosition);
+					} else {
+						if (this.scaleToZoom && zoomLevel < 1) {
+							token.healthEstimate.style.fontSize = (this.fontSize * 4) / zoomLevel;
+						}
+						token.healthEstimate.text = desc;
+						token.healthEstimate.style.fill = color;
+						token.healthEstimate.style.stroke = stroke;
+						token.healthEstimate.visible = true;
+						token.healthEstimate.position.set(token.tooltip.x, yPosition);
 					}
-					const zoomLevel = Math.min(1, canvas.stage.scale.x);
-					if (this.scaleToZoom && zoomLevel < 1) {
-						token.healthEstimate.style.fontSize = (this.fontSize * 4) / zoomLevel;
-					}
-					token.healthEstimate.text = desc;
-					token.healthEstimate.style.fill = color;
-					token.healthEstimate.style.stroke = stroke;
-					token.healthEstimate.visible = true;
-
-					const yPosition = token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65);
-					token.healthEstimate.position.set(token.tooltip.x, yPosition);
-				} else if (token.healthEstimate) {
-					token.healthEstimate.visible = false;
 				}
-			} catch (err) {
-				console.error(
-					`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`,
-					err
-				);
+			} else if (token.healthEstimate) {
+				token.healthEstimate.visible = false;
 			}
+		} catch (err) {
+			console.error(
+				`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`,
+				err
+			);
 		}
 	}
 
