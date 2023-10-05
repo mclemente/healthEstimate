@@ -17,7 +17,6 @@ export class HealthEstimateHooks {
 		Hooks.on("refreshToken", HealthEstimateHooks.refreshToken);
 		if (game.healthEstimate.alwaysShow) {
 			canvas.tokens?.placeables.forEach((token) => game.healthEstimate._handleOverlay(token, true));
-			Hooks.on("updateActor", HealthEstimateHooks.alwaysOnUpdateActor);
 		}
 		if (game.healthEstimate.scaleToZoom) Hooks.on("canvasPan", HealthEstimateHooks.onCanvasPan);
 		Hooks.on("canvasInit", HealthEstimateHooks.canvasInit);
@@ -61,31 +60,35 @@ export class HealthEstimateHooks {
 	// ACTOR //
 	///////////
 
-	static alwaysOnUpdateActor(actor, updates, options, userId) {
-		//Get all the tokens on the off-chance there's two tokens of the same linked actor.
-		const tokens = canvas.tokens?.placeables.filter((token) => token.actor?.id === actor.id);
-		// Call the _handleOverlay method for each token.
-		tokens?.forEach((token) => {
-			game.healthEstimate._handleOverlay(token, true);
-		});
-	}
-
 	static onUpdateActor(actor, data, options, userId) {
-		// Find a single token associated with the updated actor.
-		const token = canvas.tokens?.placeables.find((token) => {
-			if (options?.syntheticActorUpdate) return token?.id === actor.token.id;
-			return token?.actor.id === actor.id;
-		});
-		if (token) {
-			const tokenId = token?.id;
-			const tokenHP = game.healthEstimate.actorsCurrentHP?.[tokenId];
-			if (
-				tokenId &&
-				tokenHP &&
-				!game.healthEstimate.breakOverlayRender(token) &&
-				!game.healthEstimate.hideEstimate(token)
-			) {
-				outputStageChange(token);
+		if (game.healthEstimate.alwaysShow) {
+			//Get all the tokens on the off-chance there's two tokens of the same linked actor.
+			const tokens = canvas.tokens?.placeables.filter((token) => {
+				if (options?.syntheticActorUpdate) return token?.id === actor.token.id;
+				return token.actor?.id === actor.id;
+			});
+			// Call the _handleOverlay method for each token.
+			tokens?.forEach((token) => {
+				game.healthEstimate._handleOverlay(token, true);
+			});
+		}
+		if (game.healthEstimate.outputChat && game.user.isGM) {
+			// Find a single token associated with the updated actor.
+			const token = canvas.tokens?.placeables.find((token) => {
+				if (options?.syntheticActorUpdate) return token?.id === actor.token.id;
+				return token?.actor.id === actor.id;
+			});
+			if (token) {
+				const tokenId = token?.id;
+				const tokenHP = game.healthEstimate.actorsCurrentHP?.[tokenId];
+				if (
+					tokenId &&
+					tokenHP &&
+					!game.healthEstimate.breakOverlayRender(token) &&
+					!game.healthEstimate.hideEstimate(token)
+				) {
+					outputStageChange(token);
+				}
 			}
 		}
 	}

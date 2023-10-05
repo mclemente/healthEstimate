@@ -65,11 +65,7 @@ export const registerSettings = function () {
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
-			if (value && game.user.isGM) {
-				Hooks.on("updateActor", HealthEstimateHooks.onUpdateActor);
-			} else if (game.user.isGM) {
-				Hooks.off("updateActor", HealthEstimateHooks.onUpdateActor);
-			}
+			game.healthEstimate.outputChat = value;
 		},
 	});
 	let warning = " ";
@@ -104,15 +100,9 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.alwaysShow = value;
-			if (value) {
-				canvas.tokens?.placeables.forEach((token) => game.healthEstimate._handleOverlay(token, true));
-				Hooks.on("updateActor", HealthEstimateHooks.alwaysOnUpdateActor);
-			} else {
-				canvas.tokens?.placeables.forEach((token) =>
-					game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover))
-				);
-				Hooks.off("updateActor", HealthEstimateHooks.alwaysOnUpdateActor);
-			}
+			canvas.tokens?.placeables.forEach((token) =>
+				game.healthEstimate._handleOverlay(token, value || game.healthEstimate.showCondition(token.hover))
+			);
 		},
 	});
 	addMenuSetting("core.combatOnly", {

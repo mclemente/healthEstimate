@@ -53,7 +53,7 @@ export class HealthEstimate {
 			!token?.actor ||
 			this.breakOverlayRender(token) ||
 			(!game.user.isGM && this.hideEstimate(token)) ||
-			!token.isVisible
+			(!token.isVisible && !this.alwaysShow)
 		)
 			return;
 
@@ -328,6 +328,7 @@ export class HealthEstimate {
 		this.NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
+		this.outputChat = sGet("core.outputChat");
 
 		this.smoothGradient = sGet("core.menuSettings.smoothGradient");
 

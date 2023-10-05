@@ -7,15 +7,7 @@ Hooks.once("i18nInit", function () {
 	game.healthEstimate = new HealthEstimate();
 });
 
-Hooks.once("setup", function () {
-	game.healthEstimate.setup();
-});
-
-Hooks.once("ready", function () {
-	if (game.settings.get("healthEstimate", "core.outputChat") && game.user.isGM) {
-		Hooks.on("updateActor", HealthEstimateHooks.onUpdateActor);
-	}
-});
+Hooks.once("setup", () => game.healthEstimate.setup());
 
 //Canvas
 Hooks.once("canvasReady", HealthEstimateHooks.onceCanvasReady);
@@ -23,6 +15,7 @@ Hooks.on("canvasReady", HealthEstimateHooks.onCanvasReady);
 Hooks.on("createToken", HealthEstimateHooks.onCreateToken);
 
 //Actor
+Hooks.on("updateActor", HealthEstimateHooks.onUpdateActor);
 Hooks.on("deleteActor", HealthEstimateHooks.deleteActor);
 Hooks.on("deleteActiveEffect", HealthEstimateHooks.deleteActiveEffect);
 
