@@ -1,12 +1,17 @@
 import * as providers from "./EstimationProvider.js";
+import { HealthEstimateHooks } from "./hooks.js";
 import { registerSettings } from "./settings.js";
 import { addSetting, isEmpty, sGet, t } from "./utils.js";
 
 export class HealthEstimate {
-	/** Changes which users get to see the overlay. */
-	breakConditions = {
-		default: `false`,
-	};
+	constructor() {
+		/** Changes which users get to see the overlay. */
+		this.breakConditions = {
+			default: `false`,
+		};
+		this.actorsCurrentHP = {};
+		this.lastZoom = null;
+	}
 
 	//Hooks
 	setup() {
@@ -40,38 +45,11 @@ export class HealthEstimate {
 		return new providers[providerClassName](`native.${providerString}`);
 	}
 
-	canvasInit(canvas) {
-		this.combatRunning = this.isCombatRunning();
-	}
-
-	/**
-	 * Sets all the hooks related to a game with a canvas enabled.
-	 */
-	canvasReady() {
-		this.actorsCurrentHP = {};
-		this.combatOnly = sGet("core.combatOnly");
-		if (this.combatOnly) this.combatHooks(this.combatOnly);
-		this.alwaysShow = sGet("core.alwaysShow");
-		this.combatRunning = this.isCombatRunning();
-		Hooks.on("refreshToken", (token) => {
-			this._handleOverlay(token, this.showCondition(token.hover));
-		});
-		if (this.alwaysShow) {
-			canvas.tokens?.placeables.forEach((token) => {
-				this._handleOverlay(token, true);
-			});
-			if (this.scaleToZoom) Hooks.on("canvasPan", this.onCanvasPan);
-			Hooks.on("updateActor", this.alwaysOnUpdateActor);
-		}
-		Hooks.on("canvasInit", this.canvasInit.bind(this));
-	}
-
 	/**
 	 * @param {Token} token
 	 * @param {Boolean} hovered
 	 */
 	_handleOverlay(token, hovered) {
-		if (token.healthEstimate?._texture) token.healthEstimate.destroy();
 		if (
 			!token?.actor ||
 			this.breakOverlayRender(token) ||
@@ -80,42 +58,75 @@ export class HealthEstimate {
 		)
 			return;
 
-		try {
-			if (hovered) {
-				const { desc, color, stroke } = this.getEstimation(token);
-				if (!desc) {
-					return;
-				}
-				const zoomLevel = Math.min(1, canvas.stage.scale.x);
-				const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
-				token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
-				token.healthEstimate.scale.set(0.25);
+		// Create PIXI
+		if (!token.healthEstimate?._texture) {
+			try {
+				if (hovered) {
+					const { desc, color, stroke } = this.getEstimation(token);
+					if (!desc) {
+						return;
+					}
+					const zoomLevel = Math.min(1, canvas.stage.scale.x);
+					const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
+					token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
+					// Scale size down by 4 since font size is 4 times bigger
+					token.healthEstimate.scale.set(0.25);
 
-				token.healthEstimate.anchor.set(0.5, this.scaleToZoom && zoomLevel < 1 ? 0 : this.margin);
-				token.healthEstimate.position.set(
-					token.tooltip.x,
-					token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65)
+					const yAnchor = this.scaleToZoom ? 1 : this.margin;
+					token.healthEstimate.anchor.set(0.5, yAnchor);
+					// This is need if anything changes the token's tooltip position (see https://github.com/mclemente/healthEstimate/issues/156)
+					const yPosition = token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65);
+					token.healthEstimate.position.set(token.tooltip.x, yPosition);
+				}
+			} catch (err) {
+				console.error(
+					`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`,
+					err
 				);
-			} else if (token.healthEstimate) token.healthEstimate.visible = false;
-		} catch (err) {
-			console.error(
-				`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`,
-				err
-			);
+			}
+		} else {
+			try {
+				if (hovered) {
+					const { desc, color, stroke } = this.getEstimation(token);
+					if (!desc) {
+						return;
+					}
+					const zoomLevel = Math.min(1, canvas.stage.scale.x);
+					if (this.scaleToZoom && zoomLevel < 1) {
+						token.healthEstimate.style.fontSize = (this.fontSize * 4) / zoomLevel;
+					}
+					token.healthEstimate.text = desc;
+					token.healthEstimate.style.fill = color;
+					token.healthEstimate.style.stroke = stroke;
+					token.healthEstimate.visible = true;
+
+					const yPosition = token.tooltip.y + (Number.isNumeric(this.alignment) ? this.alignment : -65);
+					token.healthEstimate.position.set(token.tooltip.x, yPosition);
+				} else if (token.healthEstimate) {
+					token.healthEstimate.visible = false;
+				}
+			} catch (err) {
+				console.error(
+					`Health Estimate | Error on function _handleOverlay(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`,
+					err
+				);
+			}
 		}
 	}
 
 	_getUserTextStyle(zoomLevel, color, stroke) {
-		if (this.scaleToZoom && zoomLevel < 1) var fontSize = 24 * (1 / zoomLevel);
-		else fontSize = Number.isNumeric(this.fontSize) ? this.fontSize : 24;
+		let fontSize = this.fontSize;
+		if (this.scaleToZoom && zoomLevel < 1) fontSize /= zoomLevel;
 
 		return {
+			// Multiply font size to increase resolution quality
 			fontSize: fontSize * 4,
 			fontFamily: CONFIG.canvasTextStyle.fontFamily,
 			fill: color,
 			stroke,
 			strokeThickness: 12,
 			padding: 5,
+			dropShadow: true,
 		};
 	}
 
@@ -235,58 +246,13 @@ export class HealthEstimate {
 
 	//Utils
 	hideEstimate(token) {
-		return (
+		return Boolean(
 			token.document.getFlag("healthEstimate", "hideHealthEstimate") ||
-			token.actor.getFlag("healthEstimate", "hideHealthEstimate")
+				token.actor.getFlag("healthEstimate", "hideHealthEstimate")
 		);
 	}
 
-	//Hooked functions don't interact correctly with "this"
-	onCanvasPan(canvas, constrained) {
-		if (game.healthEstimate.alwaysShow) {
-			canvas.tokens?.placeables.forEach((token) => {
-				game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hovered));
-			});
-		}
-	}
-
-	//Hooked functions don't interact correctly with "this"
-	alwaysOnUpdateActor(actor, updates, options, userId) {
-		//Get all the tokens on the off-chance there's two tokens of the same linked actor.
-		const tokens = canvas.tokens?.placeables.filter((token) => token.actor?.id === actor.id);
-		// Call the _handleOverlay method for each token.
-		tokens?.forEach((token) => {
-			game.healthEstimate._handleOverlay(token, true);
-		});
-	}
-
-	combatStart(combat, updateData) {
-		game.healthEstimate.combatRunning = true;
-		canvas.tokens?.placeables.forEach((token) => {
-			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
-		});
-	}
-
-	updateCombat(combat, options, userId) {
-		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
-		canvas.tokens?.placeables.forEach((token) => {
-			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
-		});
-	}
-
-	combatHooks(value) {
-		if (value) {
-			Hooks.on("combatStart", game.healthEstimate.combatStart);
-			Hooks.on("updateCombat", game.healthEstimate.updateCombat);
-			Hooks.on("deleteCombat", game.healthEstimate.updateCombat);
-		} else {
-			Hooks.off("combatStart", game.healthEstimate.combatStart);
-			Hooks.off("updateCombat", game.healthEstimate.updateCombat);
-			Hooks.off("deleteCombat", game.healthEstimate.updateCombat);
-		}
-	}
-
-	isCombatRunning() {
+	static isCombatRunning() {
 		return [...game.combats].some(
 			(combat) => combat.started && (combat._source.scene == canvas.scene._id || combat._source.scene == null)
 		);

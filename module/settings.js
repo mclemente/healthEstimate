@@ -1,10 +1,9 @@
-import { outputStageChange } from "../lib/HealthMonitor.js";
-import { injectConfig } from "../lib/injectConfig.js";
 import {
 	HealthEstimateBehaviorSettings,
 	HealthEstimateEstimationSettings,
 	HealthEstimateStyleSettings,
 } from "./HealthEstimateSettings.js";
+import { HealthEstimateHooks } from "./hooks.js";
 import { addSetting, f, t } from "./utils.js";
 
 export const registerSettings = function () {
@@ -67,9 +66,9 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			if (value && game.user.isGM) {
-				Hooks.on("updateActor", onUpdateActor);
+				Hooks.on("updateActor", HealthEstimateHooks.onUpdateActor);
 			} else if (game.user.isGM) {
-				Hooks.off("updateActor", onUpdateActor);
+				Hooks.off("updateActor", HealthEstimateHooks.onUpdateActor);
 			}
 		},
 	});
@@ -106,9 +105,13 @@ export const registerSettings = function () {
 		onChange: (value) => {
 			game.healthEstimate.alwaysShow = value;
 			if (value) {
-				Hooks.on("updateActor", game.healthEstimate.alwaysOnUpdateActor);
+				canvas.tokens?.placeables.forEach((token) => game.healthEstimate._handleOverlay(token, true));
+				Hooks.on("updateActor", HealthEstimateHooks.alwaysOnUpdateActor);
 			} else {
-				Hooks.off("updateActor", game.healthEstimate.alwaysOnUpdateActor);
+				canvas.tokens?.placeables.forEach((token) =>
+					game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover))
+				);
+				Hooks.off("updateActor", HealthEstimateHooks.alwaysOnUpdateActor);
 			}
 		},
 	});
@@ -117,7 +120,7 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.combatOnly = value;
-			game.healthEstimate.combatHooks(value);
+			HealthEstimateHooks.combatHooks(value);
 		},
 	});
 	addMenuSetting("core.showDescription", {
@@ -191,13 +194,14 @@ export const registerSettings = function () {
 		hint: f("core.menuSettings.scaleToZoom.hint", {
 			setting: t("core.menuSettings.fontSize.name"),
 			setting2: t("core.menuSettings.positionAdjustment.name"),
+			setting3: t("core.alwaysShow.name"),
 		}),
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.scaleToZoom = value;
-			if (value) Hooks.on("canvasPan", game.healthEstimate.onCanvasPan);
-			else Hooks.off("canvasPan", game.healthEstimate.onCanvasPan);
+			if (value) Hooks.on("canvasPan", HealthEstimateHooks.onCanvasPan);
+			else Hooks.off("canvasPan", HealthEstimateHooks.onCanvasPan);
 		},
 	});
 	addMenuSetting("core.menuSettings.smoothGradient", {
@@ -496,131 +500,3 @@ export const registerSettings = function () {
 		},
 	});
 };
-
-/**
- * Handler called when token configuration window is opened. Injects custom form html and deals
- * with updating token.
- * @category GMOnly
- * @function
- * @async
- * @param {SettingsConfig} settingsConfig
- * @param {JQuery} html
- */
-export function renderSettingsConfigHandler(settingsConfig, html) {
-	// Chat Output setting changes
-	const outputChat = game.settings.get("healthEstimate", "core.outputChat");
-	const outputChatCheckbox = html.find('input[name="healthEstimate.core.outputChat"]');
-	const unknownEntityInput = html.find('input[name="healthEstimate.core.unknownEntity"]');
-	disableCheckbox(unknownEntityInput, outputChat);
-	outputChatCheckbox.on("change", (event) => {
-		disableCheckbox(unknownEntityInput, event.target.checked);
-	});
-
-	// Additional PF1 system settings
-	if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
-		const showExtra = game.settings.get("healthEstimate", "PF1.showExtra");
-		const showExtraCheckbox = html.find('input[name="healthEstimate.PF1.showExtra"]');
-		const disabledNameInput = html.find('input[name="healthEstimate.PF1.disabledName"]');
-		const dyingNameInput = html.find('input[name="healthEstimate.PF1.dyingName"]');
-		disableCheckbox(disabledNameInput, showExtra);
-		disableCheckbox(dyingNameInput, showExtra);
-
-		showExtraCheckbox.on("change", (event) => {
-			disableCheckbox(disabledNameInput, event.target.checked);
-			disableCheckbox(dyingNameInput, event.target.checked);
-		});
-	}
-
-	// Additional PF2e system settings
-	if (game.settings.settings.has("healthEstimate.PF2E.workbenchMystifier")) {
-		const workbenchMystifierCheckbox = html.find('input[name="healthEstimate.PF2E.workbenchMystifier"]');
-		disableCheckbox(workbenchMystifierCheckbox, outputChat);
-
-		outputChatCheckbox.on("change", (event) => {
-			disableCheckbox(workbenchMystifierCheckbox, event.target.checked);
-		});
-	}
-}
-
-export function renderHealthEstimateStyleSettingsHandler(settingsConfig, html) {
-	const useColor = game.settings.get("healthEstimate", "core.menuSettings.useColor");
-	const useColorCheckbox = html.find('input[name="useColor"]');
-	const smoothGradientForm = html.find('input[name="smoothGradient"]').parent()[0];
-	const gradientForm = html.find('div[class="form-group gradient"]')[0];
-	const deadColorForm = html.find('input[name="deadColor"]').parent()[0];
-	const outlineModeForm = html.find('select[id="outlineMode"]').parent()[0];
-
-	function hideForm(form, boolean) {
-		form.style.display = !boolean ? "none" : "flex";
-	}
-
-	hideForm(smoothGradientForm, useColor);
-	hideForm(gradientForm, useColor);
-	hideForm(deadColorForm, useColor);
-	hideForm(outlineModeForm, useColor);
-
-	useColorCheckbox.on("change", (event) => {
-		hideForm(smoothGradientForm, event.target.checked);
-		hideForm(gradientForm, event.target.checked);
-		hideForm(deadColorForm, event.target.checked);
-		hideForm(outlineModeForm, event.target.checked);
-	});
-}
-
-export function disableCheckbox(checkbox, boolean) {
-	checkbox.prop("disabled", !boolean);
-}
-
-/**
- * Handler called when token configuration window is opened. Injects custom form html and deals
- * with updating token.
- * @category GMOnly
- * @function
- * @async
- * @param {TokenConfig} tokenConfig
- * @param {JQuery} html
- */
-export async function renderTokenConfigHandler(tokenConfig, html) {
-	const moduleId = "healthEstimate";
-	const tab = {
-		name: moduleId,
-		label: "Estimates",
-		icon: "fas fa-scale-balanced",
-	};
-	injectConfig.inject(tokenConfig, html, { moduleId, tab }, tokenConfig.object);
-
-	const posTab = html.find(`.tab[data-tab="${moduleId}"]`);
-	const tokenFlags = tokenConfig.options.sheetConfig
-		? tokenConfig.object.flags?.healthEstimate
-		: tokenConfig.token.flags?.healthEstimate;
-
-	const data = {
-		hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
-		hideName: tokenFlags?.hideName ? "checked" : "",
-		dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
-		dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
-		hideNameHint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
-	};
-
-	const insertHTML = await renderTemplate(`modules/${moduleId}/templates/token-config.html`, data);
-	posTab.append(insertHTML);
-}
-
-export function onUpdateActor(actor, data, options, userId) {
-	// Filter tokens associated with the updated actor.
-	const tokens = canvas.tokens?.placeables.filter((token) => token.actor?.id === actor.id);
-
-	// Iterate through the filtered tokens and render the estimate if the conditions are met.
-	tokens?.forEach((token) => {
-		const tokenId = token?.id;
-		const tokenHP = game.healthEstimate.actorsCurrentHP?.[tokenId];
-		if (
-			tokenId &&
-			tokenHP &&
-			!game.healthEstimate.breakOverlayRender(token) &&
-			!game.healthEstimate.hideEstimate(token)
-		) {
-			outputStageChange(token);
-		}
-	});
-}

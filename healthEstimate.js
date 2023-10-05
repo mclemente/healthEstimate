@@ -1,67 +1,36 @@
-import { addCharacter, onRenderChatMessage } from "./lib/HealthMonitor.js";
+import { HealthEstimateHooks } from "./module/hooks.js";
 import { HealthEstimate } from "./module/logic.js";
-import {
-	onUpdateActor,
-	renderHealthEstimateStyleSettingsHandler,
-	renderSettingsConfigHandler,
-	renderTokenConfigHandler,
-} from "./module/settings.js";
 import { f, t } from "./module/utils.js";
 
-/**
- * Have to register Settings here, because doing so at init breaks i18n
- */
-Hooks.once("setup", function () {
+Hooks.once("i18nInit", function () {
 	setKeybinds();
 	game.healthEstimate = new HealthEstimate();
+});
+
+Hooks.once("setup", function () {
 	game.healthEstimate.setup();
 });
 
 Hooks.once("ready", function () {
 	if (game.settings.get("healthEstimate", "core.outputChat") && game.user.isGM) {
-		Hooks.on("updateActor", onUpdateActor);
+		Hooks.on("updateActor", HealthEstimateHooks.onUpdateActor);
 	}
 });
 
-Hooks.once("canvasReady", function () {
-	game.healthEstimate.canvasReady();
-});
+//Canvas
+Hooks.once("canvasReady", HealthEstimateHooks.onceCanvasReady);
+Hooks.on("canvasReady", HealthEstimateHooks.onCanvasReady);
+Hooks.on("createToken", HealthEstimateHooks.onCreateToken);
 
-/**
- * HP storing code for canvas load or token created
- */
-Hooks.on("canvasReady", function () {
-	/** @type {[Token]} */
-	const tokens = canvas.tokens?.placeables.filter((e) => e.actor) ?? [];
-	tokens.forEach(addCharacter);
-});
+//Actor
+Hooks.on("deleteActor", HealthEstimateHooks.deleteActor);
+Hooks.on("deleteActiveEffect", HealthEstimateHooks.deleteActiveEffect);
 
-Hooks.on("createToken", function (tokenDocument, options, userId) {
-	addCharacter(tokenDocument.object);
-});
-
-Hooks.on("deleteActor", function (actorDocument, options, userId) {
-	let tokens = canvas.tokens?.placeables.filter((e) => e.document.actorId === actorDocument.id);
-	tokens.forEach((token) => token.refresh());
-});
-
-/**
- * Chat Styling
- */
-Hooks.on("renderChatMessage", onRenderChatMessage);
-
-Hooks.on("renderSettingsConfig", renderSettingsConfigHandler);
-Hooks.on("renderHealthEstimateStyleSettings", renderHealthEstimateStyleSettingsHandler);
-Hooks.on("renderTokenConfig", renderTokenConfigHandler);
-
-Hooks.on("deleteActiveEffect", (activeEffect, options, userId) => {
-	if (activeEffect.icon == game.healthEstimate.deathMarker) {
-		let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id == activeEffect.parent.id);
-		for (let token of tokens) {
-			if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");
-		}
-	}
-});
+//Rendering
+Hooks.on("renderChatMessage", HealthEstimateHooks.onRenderChatMessage);
+Hooks.on("renderSettingsConfig", HealthEstimateHooks.renderSettingsConfigHandler);
+Hooks.on("renderHealthEstimateStyleSettings", HealthEstimateHooks.renderHealthEstimateStyleSettingsHandler);
+Hooks.on("renderTokenConfig", HealthEstimateHooks.renderTokenConfigHandler);
 
 function setKeybinds() {
 	game.keybindings.register("healthEstimate", "markDead", {

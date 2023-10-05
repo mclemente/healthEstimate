@@ -181,7 +181,7 @@
 					"brighten": "Brighten"
 				},
 				"position": {
-					"name": "Position",
+					"name": "Height",
 					"hint": "The position is set relative to the token's frame. Negative values push it higher; positive, lower.",
 					"top": "Top",
 					"middle": "Middle",
@@ -193,7 +193,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Scale Estimates to Zoom",
-					"hint": "Scales the estimate based on the zoom distance. {setting2} setting's value will be ignored while zooming out."
+					"hint": "Scales the estimate based on the zoom distance. This will cause a drop in performance when used along {setting3}."
 				}
 			}
 		},

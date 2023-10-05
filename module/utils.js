@@ -68,3 +68,7 @@ export function sGet(key) {
 export function settingData(key) {
 	return game.settings.settings.get(`healthEstimate.${key}`);
 }
+
+export function disableCheckbox(checkbox, boolean) {
+	checkbox.prop("disabled", !boolean);
+}

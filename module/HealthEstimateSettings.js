@@ -41,6 +41,7 @@ class HealthEstimateSettings extends FormApplication {
 		const path = `core.${key}`;
 		const defaultValue = game.settings.settings.get(`healthEstimate.${path}`).default;
 		await game.settings.set("healthEstimate", path, defaultValue);
+		if (game.healthEstimate.alwaysShow) canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 
 	/**
@@ -54,10 +55,7 @@ class HealthEstimateSettings extends FormApplication {
 				await sSet(`core.${key}`, value);
 			})
 		);
-		canvas.scene?.tokens.forEach((tokenDocument) => {
-			const token = tokenDocument.object;
-			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hovered));
-		});
+		if (game.healthEstimate.alwaysShow) canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 }
 
@@ -508,6 +506,6 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		];
 		await Promise.all(variableUpdates);
 
-		canvas.scene?.tokens.forEach((token) => token.object.refresh());
+		if (game.healthEstimate.alwaysShow) canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 }
