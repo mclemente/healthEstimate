@@ -80,11 +80,11 @@
 					"brighten": "Éclairci"
 				},
 				"position": {
-					"name": "Position",
+					"name": "Hauteur",
 					"top": "Haut",
 					"middle": "Milieu",
 					"bottom": "Bas",
-					"hint": "L'emplacement est fixé en fonction du cadre du jeton. Des valeurs négatives le montent, les positives l'abaissent."
+					"hint": "La hauteur est fixée en fonction du cadre du jeton. Des valeurs négatives le montent, les positives l'abaissent."
 				},
 				"positionAdjustment": {
 					"name": "Ajustement de la marge",
@@ -92,7 +92,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Mettre l'estimation à l'échelle pour Zoomer",
-					"hint": "Met l'estimation à l'échelle en fonction de la distance du zoom. La valeur de réglage {setting2} sera ignorée en dézoomant."
+					"hint": "Met à l'échelle l'estimation en fonction de la distance du zoom. Cela provoque une baisse de performance lorsque c'est utilisé avec {setting3}."
 				},
 				"deathSettings": {
 					"name": "Réglage de la mort",
@@ -105,6 +105,10 @@
 				"behaviorSettings": {
 					"name": "Réglage du comportement",
 					"plural": "Réglages du comportement"
+				},
+				"position2": {
+					"name": "Position",
+					"hint": "La position relative par rapport au cadre du jeton."
 				}
 			},
 			"custom": {
