@@ -1,5 +1,4 @@
 import * as providers from "./EstimationProvider.js";
-import { HealthEstimateHooks } from "./hooks.js";
 import { registerSettings } from "./settings.js";
 import { addSetting, isEmpty, sGet, t } from "./utils.js";
 
@@ -96,6 +95,7 @@ export class HealthEstimate {
 	_getUserTextStyle(zoomLevel, color, stroke) {
 		let fontSize = this.fontSize;
 		if (this.scaleToZoom && zoomLevel < 1) fontSize /= zoomLevel;
+		const dropShadowColor = sGet("core.menuSettings.outline") === "brighten" ? "white" : "black";
 
 		return {
 			// Multiply font size to increase resolution quality
@@ -106,6 +106,7 @@ export class HealthEstimate {
 			strokeThickness: 12,
 			padding: 5,
 			dropShadow: true,
+			dropShadowColor,
 		};
 	}
 

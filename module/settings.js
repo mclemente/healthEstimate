@@ -239,6 +239,12 @@ export const registerSettings = function () {
 			darken: t("core.menuSettings.outline.darken"),
 			brighten: t("core.menuSettings.outline.brighten"),
 		},
+		onChange: (s) => {
+			const color = s === "darken" ? "black" : "white";
+			canvas.tokens?.placeables
+				.filter((token) => token.healthEstimate)
+				.forEach((token) => (token.healthEstimate.style.dropShadowColor = color));
+		},
 	});
 	addMenuSetting("core.menuSettings.outlineIntensity", {
 		type: Number,
