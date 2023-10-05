@@ -264,7 +264,7 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.menuSettings.position", {
 		type: Number,
-		default: -65,
+		default: 0,
 		onChange: (value) => {
 			game.healthEstimate.height = value;
 		},

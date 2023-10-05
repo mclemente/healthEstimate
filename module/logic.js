@@ -69,7 +69,7 @@ export class HealthEstimate {
 						const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
 						token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
 						token.healthEstimate.scale.set(0.25);
-						token.healthEstimate.anchor.set(0.5, this.scaleToZoom ? 1 : 0);
+						token.healthEstimate.anchor.set(0.5, 1);
 						token.healthEstimate.position.set(token.tooltip.x, token.tooltip.x * position + yPosition);
 					} else {
 						if (this.scaleToZoom && zoomLevel < 1) {
