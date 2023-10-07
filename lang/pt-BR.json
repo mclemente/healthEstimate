@@ -180,11 +180,11 @@
 					"brighten": "Clarear"
 				},
 				"position": {
-					"name": "Posição",
+					"name": "Altura",
 					"top": "Topo",
 					"middle": "Meio",
 					"bottom": "Base",
-					"hint": "A posição é definida em relação ao quadro do token. Valores negativos posicionam para cima; valores positivos posicionam para baixo."
+					"hint": "A altura é definida em relação à estrutura do token. Valores negativos a elevam; positivos, a abaixam."
 				},
 				"positionAdjustment": {
 					"name": "Ajuste de Margem",
@@ -204,7 +204,11 @@
 				},
 				"scaleToZoom": {
 					"name": "Escalar para o nível de zoom",
-					"hint": "Escala a estimativa de acordo com a distância do zoom. O valor da configuração {setting2} será ignorado enquanto estiver afastando o zoom."
+					"hint": "Escala a estimativa com base na distância de zoom. Isso causará uma queda no desempenho quando usado juntamente com {setting3}."
+				},
+				"position2": {
+					"name": "Posição",
+					"hint": "A posição em relação ao quadro do token."
 				}
 			},
 			"combatOnly": {
