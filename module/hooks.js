@@ -5,7 +5,7 @@ import { disableCheckbox, f, sGet, t } from "./utils.js";
 
 export class HealthEstimateHooks {
 	static canvasInit(canvas) {
-		game.healthEstimate.combatRunning = HealthEstimate.isCombatRunning();
+		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 		game.healthEstimate.lastZoom = null;
 	}
 
@@ -13,7 +13,7 @@ export class HealthEstimateHooks {
 		game.healthEstimate.combatOnly = sGet("core.combatOnly");
 		if (game.healthEstimate.combatOnly) HealthEstimateHooks.combatHooks(game.healthEstimate.combatOnly);
 		game.healthEstimate.alwaysShow = sGet("core.alwaysShow");
-		game.healthEstimate.combatRunning = HealthEstimate.isCombatRunning();
+		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 		Hooks.on("refreshToken", HealthEstimateHooks.refreshToken);
 		if (game.healthEstimate.alwaysShow) {
 			canvas.tokens?.placeables.forEach((token) => game.healthEstimate._handleOverlay(token, true));

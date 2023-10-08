@@ -233,7 +233,7 @@ export class HealthEstimate {
 		);
 	}
 
-	static isCombatRunning() {
+	isCombatRunning() {
 		return [...game.combats].some(
 			(combat) => combat.started && (combat._source.scene == canvas.scene._id || combat._source.scene == null)
 		);
