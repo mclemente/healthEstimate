@@ -1526,12 +1526,17 @@ export class twodsixEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		switch (token.actor.type) {
 			case "traveller":
+			case "robot":
 			case "animal": {
 				const hp = token.actor.system.hits;
 				return hp.value / hp.max;
 			}
 			case "ship": {
 				const hp = token.actor.system.shipStats.hull;
+				return hp.value / hp.max;
+			}
+			case "space-object": {
+				const hp = token.actor.system.count;
 				return hp.value / hp.max;
 			}
 			case "vehicle": {
@@ -1564,8 +1569,18 @@ export class twodsixEstimationProvider extends EstimationProvider {
 		}
 	}
 
+	get settings() {
+		return {
+			"twodsix.hideSpaceObjectHP": {
+				type: Boolean,
+				default: false,
+			},
+		};
+	}
+
 	get breakCondition() {
 		return `
+        || token.actor.type === "space-object" && game.settings.get('healthEstimate', 'twodsix.hideSpaceObjectHP')
         || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
 		|| token.actor.type !== "vehicle"
 			&& game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
