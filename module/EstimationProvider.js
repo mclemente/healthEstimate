@@ -1567,7 +1567,7 @@ export class twodsixEstimationProvider extends EstimationProvider {
 	get breakCondition() {
 		return `
         || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		|| token.actor.type !== "vehicle
+		|| token.actor.type !== "vehicle"
 			&& game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
 			&& (token.actor.system?.hits?.max === 0 || token.actor.system?.shipStats?.hull.max === 0)`;
 	}
