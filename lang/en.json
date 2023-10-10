@@ -280,12 +280,6 @@
 				"hint": "With this setting on, Stamina will be added to HP for calculations."
 			}
 		},
-		"twodsix": {
-			"hideSpaceObjectHP": {
-				"name": "Hide Space Object's Estimate",
-				"hint": ""
-			}
-		},
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Estimation Rule",

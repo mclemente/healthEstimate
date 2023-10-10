@@ -1569,22 +1569,12 @@ export class twodsixEstimationProvider extends EstimationProvider {
 		}
 	}
 
-	get settings() {
-		return {
-			"twodsix.hideSpaceObjectHP": {
-				type: Boolean,
-				default: false,
-			},
-		};
-	}
-
 	get breakCondition() {
 		return `
-        || token.actor.type === "space-object" && game.settings.get('healthEstimate', 'twodsix.hideSpaceObjectHP')
         || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
 		|| token.actor.type !== "vehicle"
 			&& game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
-			&& (token.actor.system?.hits?.max === 0 || token.actor.system?.shipStats?.hull.max === 0)`;
+			&& (token.actor.system?.hits?.max === 0 || token.actor.system?.shipStats?.hull.max === 0) || token.actor.system?.count?.max === 0`;
 	}
 }
 
