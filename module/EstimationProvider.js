@@ -475,7 +475,7 @@ export class cyberpunkRedCoreEstimationProvider extends EstimationProvider {
 				],
 			},
 			{
-				name: `${game.i18n.localize("ACTOR.TypeBlackice")}/${game.i18n.localize("ACTOR.TypeDemon")}`,
+				name: `${game.i18n.localize("TYPES.Actor.Blackice")}/${game.i18n.localize("TYPES.Actor.Demon")}`,
 				rule: `type === "blackIce" || type === "demon"`,
 				estimates: [
 					{ value: 0, label: t("cyberpunk-red-core.unorganics.0") },
