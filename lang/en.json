@@ -201,6 +201,23 @@
 				}
 			}
 		},
+		"notifications": {
+			"terms": {
+				"shown": {
+					"singular": "shown",
+					"plural": "shown"
+				},
+				"hidden": {
+					"singular": "hidden",
+					"plural": "hidden"
+				}
+			},
+			"toggleEstimate": "{tokenName}'s health estimate is being {term} from players.",
+			"toggleName": "{tokenName}'s name is being {term} from players.",
+			"toggleEstimateName": "{tokenName}'s health estimate and name are being {term} from players.",
+			"invalidFontSize": "Your Font Size style setting has been reset. Check the Style Settings to change it. Previous value: {fontSize}"
+		},
+
 		"custom-system-builder": {
 			"FractionHP": {
 				"hint": "This will probably {dataPath1} or {dataPath2}."

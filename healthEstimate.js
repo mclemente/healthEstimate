@@ -57,12 +57,15 @@ function setKeybinds() {
 			for (let e of canvas.tokens?.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideHealthEstimate");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
-				if (hidden)
-					ui.notifications.info(`${e.actor.name}'s health estimate is hidden from players.`, {
-						console: false,
-					});
-				else
-					ui.notifications.info(`${e.actor.name}'s health estimate is shown to players.`, { console: false });
+
+				const term = hidden
+					? game.i18n.localize("healthEstimate.notifications.hidden.singular")
+					: game.i18n.localize("healthEstimate.notifications.shown.singular");
+				const notification = game.i18n.format("healthEstimate.notifications.toggleEstimate", {
+					tokenName: e.actor.name,
+					term,
+				});
+				ui.notifications.info(notification, { console: false });
 			}
 		},
 		restricted: true,
@@ -75,8 +78,15 @@ function setKeybinds() {
 			for (let e of canvas.tokens?.controlled) {
 				let hidden = !e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideName", hidden);
-				if (hidden) ui.notifications.info(`${e.actor.name}'s name is hidden from players.`, { console: false });
-				else ui.notifications.info(`${e.actor.name}'s name is shown to players.`, { console: false });
+
+				const term = hidden
+					? game.i18n.localize("healthEstimate.notifications.hidden.singular")
+					: game.i18n.localize("healthEstimate.notifications.shown.singular");
+				const notification = game.i18n.format("healthEstimate.notifications.toggleName", {
+					tokenName: e.actor.name,
+					term,
+				});
+				ui.notifications.info(notification, { console: false });
 			}
 		},
 		restricted: true,
@@ -92,14 +102,15 @@ function setKeybinds() {
 					!e.document.getFlag("healthEstimate", "hideName");
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
 				e.document.setFlag("healthEstimate", "hideName", hidden);
-				if (hidden)
-					ui.notifications.info(`${e.actor.name}'s health estimate and name are hidden from players.`, {
-						console: false,
-					});
-				else
-					ui.notifications.info(`${e.actor.name}'s health estimate and name are shown to players.`, {
-						console: false,
-					});
+
+				const term = hidden
+					? game.i18n.localize("healthEstimate.notifications.hidden.plural")
+					: game.i18n.localize("healthEstimate.notifications.shown.plural");
+				const notification = game.i18n.format("healthEstimate.notifications.toggleEstimateName", {
+					tokenName: e.actor.name,
+					term,
+				});
+				ui.notifications.info(notification, { console: false });
 			}
 		},
 		restricted: true,

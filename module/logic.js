@@ -340,5 +340,21 @@ export class HealthEstimate {
 		this.outline = sGet("core.variables.outline");
 		this.deadColor = sGet("core.variables.deadColor");
 		this.deadOutline = sGet("core.variables.deadOutline");
+
+		// Setting change handling
+		if (!Number.isNumeric(this.fontSize)) {
+			if (fontSize.match(/[0-9]*\.?[0-9]+(px|%)+/i)) {
+				this.fontSize = Number(this.fontSize.replace(/(px|%)+/i, ""));
+			} else {
+				ui.notifications.warn(
+					`Health Estimate | ${game.i18n.format("healthEstimate.notifications.invalidFontSize", {
+						fontSize: this.fontSize,
+					})}`,
+					{ permanent: true }
+				);
+				this.fontSize = 24;
+			}
+			sSet("core.menuSettings.fontSize", this.fontSize || 24);
+		}
 	}
 }
