@@ -368,6 +368,22 @@
 				"name": "Niveau de santé pour un PJ affaibli",
 				"hint": "Fixer le niveau de santé maximal (actuel/maximal, fraction de 0,0 à 1,0) qui peut être reporté pour un PJ qui est affaibli sur le compteur de mort"
 			}
+		},
+		"notifications": {
+			"toggleEstimate": "L'estimation de la santé de {tokenName} est {term} aux joueurs.",
+			"toggleName": "Le nom de {tokenName} est {term} aux joueurs.",
+			"terms": {
+				"shown": {
+					"singular": "montré(e)",
+					"plural": "montré(e)s"
+				},
+				"hidden": {
+					"singular": "caché(e)",
+					"plural": "caché(e)s"
+				}
+			},
+			"invalidFontSize": "Votre réglage de style de taille de police a été réinitialisé. Vérifiez les paramètres de style pour le changer. Valeur précédente : {fontSize}",
+			"toggleEstimateName": "L'estimation de la santé et le nom de {tokenName} sont {term} aux joueurs."
 		}
 	}
 }
