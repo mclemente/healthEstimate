@@ -1259,23 +1259,22 @@ export class shadowrun5eEstimationProvider extends EstimationProvider {
 		var stun;
 		var physical;
 		var matrix;
-		switch (token.actor.type) {	
-			case 'character':
+		switch (token.actor.type) {
+			case "character":
 				stun = token.actor.system.track.stun;
 				physical = token.actor.system.track.physical;
 				return Math.min((stun.max - stun.value) / stun.max, (physical.max - physical.value) / physical.max);
-			case 'vehicle':
+			case "vehicle":
 				physical = token.actor.system.track.physical;
 				return (physical.max - physical.value) / physical.max;
-			case 'sprite':
-				matrix =  token.actor.system.matrix.condition_monitor;
+			case "sprite":
+				matrix = token.actor.system.matrix.condition_monitor;
 				return (matrix.max - matrix.value) / matrix.max;
-			case 'spirit':
+			case "spirit":
 				stun = token.actor.system.track.stun;
 				physical = token.actor.system.track.physical;
 				return Math.min((stun.max - stun.value) / stun.max, (physical.max - physical.value) / physical.max);
 		}
-		
 	}
 }
 
