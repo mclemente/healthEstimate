@@ -38,8 +38,12 @@ export class HealthEstimate {
 		const providerArray = Object.keys(providers);
 		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
 		const systemsRegex = new RegExp(supportedSystems);
-		if (systemsRegex.test(game.system.id)) var providerString = game.system.id;
-		else providerString = providers.providerKeys[game.system.id] || "Generic";
+		let providerString = "Generic";
+		if (game.system.id in providers.providerKeys) {
+			providerString = providers.providerKeys[game.system.id] || "Generic";
+		} else if (systemsRegex.test(game.system.id)) {
+			providerString = game.system.id;
+		}
 		const providerClassName = `${providerString}EstimationProvider`;
 		return new providers[providerClassName](`native.${providerString}`);
 	}
