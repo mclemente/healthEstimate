@@ -353,6 +353,22 @@
 				"name": "Caminho de dados do atributo de pontos de vida temporários",
 				"hint": "Deixe em branco se o sistema não tiver um ou se você não quiser que ele seja adicionado à estimativa."
 			}
+		},
+		"notifications": {
+			"terms": {
+				"shown": {
+					"plural": "exibidos",
+					"singular": "exibido"
+				},
+				"hidden": {
+					"singular": "escondido",
+					"plural": "escondidos"
+				}
+			},
+			"toggleEstimate": "A estimativa de saúde de {tokenName} está sendo {term} dos jogadores.",
+			"toggleName": "O nome de {tokenName} está sendo {term} dos jogadores.",
+			"toggleEstimateName": "A estimativa de saúde e o nome de {tokenName} estão sendo {term} dos jogadores.",
+			"invalidFontSize": "A configuração de estilo do tamanho da fonte foi redefinida. Verifique as configurações de estilo para alterá-lo. Valor anterior: {fontSize}"
 		}
 	}
 }
