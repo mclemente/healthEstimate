@@ -360,5 +360,16 @@ export class HealthEstimate {
 			}
 			sSet("core.menuSettings.fontSize", this.fontSize || 24);
 		}
+		if (!Number.isNumeric(this.height)) {
+			const heights = {
+				top: "a",
+				center: "b",
+				end: "c",
+			};
+			this.position = heights[this.height];
+			this.height = 0;
+			sSet("core.menuSettings.position", 0);
+			sSet("core.menuSettings.position2", this.position);
+		}
 	}
 }
