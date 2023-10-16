@@ -295,7 +295,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.gradEx = document.getElementById("gradientExampleHE");
 
 		this.fontSize.value = Number.isNumeric(this.fontSize.value) ? this.fontSize.value : 24;
-		this.textPosition.value = Number.isNumeric(this.textPosition.value) ? this.textPosition.value : "-65";
+		this.textPosition.value = Number.isNumeric(this.textPosition.value) ? this.textPosition.value : 0;
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",
