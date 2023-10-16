@@ -102,8 +102,8 @@ export class HealthEstimate {
 		const dropShadowColor = sGet("core.menuSettings.outline") === "brighten" ? "white" : "black";
 		return {
 			// Multiply font size to increase resolution quality
-			fontFamily: CONFIG.canvasTextStyle.fontFamily,
 			fontSize: (this.fontSize / this.zoomLevel) * 4,
+			fontFamily: this.fontFamily,
 			fill: color,
 			stroke,
 			strokeThickness: 12,
@@ -336,6 +336,7 @@ export class HealthEstimate {
 
 		this.height = sGet("core.menuSettings.position");
 		this.position = sGet("core.menuSettings.position2");
+		this.fontFamily = sGet("core.menuSettings.fontFamily");
 		this.fontSize = sGet("core.menuSettings.fontSize");
 
 		this.colors = sGet("core.variables.colors");

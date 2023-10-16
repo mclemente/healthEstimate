@@ -259,6 +259,31 @@ export const registerSettings = function () {
 			game.healthEstimate.height = value;
 		},
 	});
+
+	const getFonts = () => {
+		const obj = {};
+		Object.keys(CONFIG.fontDefinitions).forEach((f) => {
+			obj[f] = f;
+		});
+		if (!(CONFIG.canvasTextStyle.fontFamily in obj)) {
+			obj[CONFIG.canvasTextStyle.fontFamily] = CONFIG.canvasTextStyle.fontFamily;
+		}
+		return obj;
+	};
+	addMenuSetting("core.menuSettings.fontFamily", {
+		name: game.i18n.localize("EDITOR.Font"),
+		type: String,
+		default: CONFIG.canvasTextStyle.fontFamily,
+		choices: getFonts(),
+		onChange: (value) => {
+			game.healthEstimate.fontFamily = value;
+			canvas.scene?.tokens.forEach((token) => {
+				if (token.object.healthEstimate) {
+					token.object.healthEstimate.style.fontFamily = value;
+				}
+			});
+		},
+	});
 	addMenuSetting("core.menuSettings.fontSize", {
 		type: Number,
 		default: 24,

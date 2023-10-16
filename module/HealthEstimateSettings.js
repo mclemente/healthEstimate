@@ -260,6 +260,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 
 	getData(options) {
 		return {
+			fontFamily: this.prepSelection("fontFamily"),
 			useColor: this.prepSetting("useColor"),
 			smoothGradient: this.prepSetting("smoothGradient"),
 			deadColor: this.prepSetting("deadColor"),
@@ -279,6 +280,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		const mode = document.getElementById(`mode`);
 		const useColorCheckbox = document.querySelector('input[name="useColor"]');
 
+		this.fontFamily = document.getElementById("fontFamily");
 		this.useColor = sGet("core.menuSettings.useColor");
 
 		const deadColor = document.querySelector("input[name=deadColor]");
@@ -341,7 +343,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.smoothGradient.addEventListener("change", () => {
 			this.updateGradient();
 		});
-		for (let el of [this.fontSize, this.textPosition]) {
+		for (let el of [this.fontFamily, this.fontSize, this.textPosition]) {
 			el.addEventListener("change", () => {
 				this.updateSample();
 			});
@@ -412,6 +414,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		const deadSample = document.getElementById("healthEstimateSample").children[0];
 		const deadColor = this.useColor ? this.deadColor.value : "#FFF";
 		const deadOutline = this.useColor ? this.deadOutline : "#000";
+		sample.style.fontFamily = this.fontFamily.value;
 		sample.style.fontSize = `${this.fontSize.value}px`;
 
 		deadSample.style.color = deadColor;
