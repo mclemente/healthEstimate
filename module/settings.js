@@ -264,6 +264,11 @@ export const registerSettings = function () {
 		default: 24,
 		onChange: (value) => {
 			game.healthEstimate.fontSize = value;
+			canvas.scene?.tokens.forEach((token) => {
+				if (token.object.healthEstimate) {
+					token.object.healthEstimate.style.fontSize = (value / this.zoomLevel) * 4;
+				}
+			});
 		},
 	});
 

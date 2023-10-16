@@ -12,6 +12,10 @@ export class HealthEstimate {
 		this.lastZoom = null;
 	}
 
+	get zoomLevel() {
+		return this.scaleToZoom ? Math.min(1, canvas.stage.scale.x) : 1;
+	}
+
 	//Hooks
 	setup() {
 		this.estimationProvider = this.prepareSystemSpecifics();
@@ -66,19 +70,16 @@ export class HealthEstimate {
 			if (hovered) {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc) {
-					const zoomLevel = Math.min(1, canvas.stage.scale.x);
 					const yPosition = token.tooltip.y + this.height;
 					const position = { a: 0, b: 1, c: 2 }[this.position];
 					if (!token.healthEstimate?._texture) {
-						const userTextStyle = this._getUserTextStyle(zoomLevel, color, stroke);
+						const userTextStyle = this._getUserTextStyle(color, stroke);
 						token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
 						token.healthEstimate.scale.set(0.25);
 						token.healthEstimate.anchor.set(0.5, 1);
 						token.healthEstimate.position.set(token.tooltip.x, token.tooltip.x * position + yPosition);
 					} else {
-						if (this.scaleToZoom && zoomLevel < 1) {
-							token.healthEstimate.style.fontSize = (this.fontSize * 4) / zoomLevel;
-						}
+						token.healthEstimate.style.fontSize = (this.fontSize / this.zoomLevel) * 4;
 						token.healthEstimate.text = desc;
 						token.healthEstimate.style.fill = color;
 						token.healthEstimate.style.stroke = stroke;
@@ -97,15 +98,12 @@ export class HealthEstimate {
 		}
 	}
 
-	_getUserTextStyle(zoomLevel, color, stroke) {
-		let fontSize = this.fontSize;
-		if (this.scaleToZoom && zoomLevel < 1) fontSize /= zoomLevel;
+	_getUserTextStyle(color, stroke) {
 		const dropShadowColor = sGet("core.menuSettings.outline") === "brighten" ? "white" : "black";
-
 		return {
 			// Multiply font size to increase resolution quality
-			fontSize: fontSize * 4,
 			fontFamily: CONFIG.canvasTextStyle.fontFamily,
+			fontSize: (this.fontSize / this.zoomLevel) * 4,
 			fill: color,
 			stroke,
 			strokeThickness: 12,
