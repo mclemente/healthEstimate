@@ -87,8 +87,5 @@
 	"compatibility": {
 		"minimum": "11",
 		"verified": "11"
-	},
-	"flags": {
-		"attributions": "https://github.com/mclemente/healthEstimate/blob/master/ATTRIBUTIONS.md"
 	}
 }
