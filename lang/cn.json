@@ -155,11 +155,11 @@
 					"brighten": "亮色"
 				},
 				"position": {
-					"name": "位置",
+					"name": "高度",
 					"top": "顶部",
 					"middle": "中部",
 					"bottom": "底部",
-					"hint": "设置与指示物框的相对位置。负值更高，正值更低。"
+					"hint": "设置与指示物框的相对高度。负值更高，正值更低。"
 				},
 				"positionAdjustment": {
 					"name": "边缘调整",
@@ -167,7 +167,11 @@
 				},
 				"scaleToZoom": {
 					"name": "调整健康状况缩放",
-					"hint": "根据缩放调整健康状况文字尺寸。 {setting2}的值将在缩小地图时被忽略。"
+					"hint": "根据缩放调整健康状况文字尺寸。 与 {setting3} 一起使用时，性能会下降。"
+				},
+				"position2": {
+					"name": "位置",
+					"hint": "相对于指示物框架的位置。"
 				}
 			},
 			"estimates": {
@@ -348,6 +352,22 @@
 				"name": "身体虚弱的PC的健康状况等级",
 				"hint": "设置追踪死亡时为疲惫（Debilitated）PC显示的最大HP水平（当前 / 最大，小数点从0.0 - 1.0）"
 			}
+		},
+		"notifications": {
+			"terms": {
+				"shown": {
+					"singular": "显示",
+					"plural": "显示"
+				},
+				"hidden": {
+					"singular": "隐藏",
+					"plural": "隐藏"
+				}
+			},
+			"toggleEstimate": "{tokenName}的健康状况正对玩家{term}。",
+			"toggleName": "{tokenName}的姓名正对玩家{term}。",
+			"toggleEstimateName": "{tokenName}的健康状况和姓名正对玩家{term}。",
+			"invalidFontSize": "您的字体大小设置已被重置。请查看样式设置进行更改。上一值：{fontSize}"
 		}
 	}
 }
