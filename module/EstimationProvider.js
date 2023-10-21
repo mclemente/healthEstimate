@@ -1089,8 +1089,8 @@ export class pf2eEstimationProvider extends EstimationProvider {
 		}
 		let temp = sGet("core.addTemp") && hp.temp ? hp.temp : 0;
 		let sp =
-			game.settings.get("pf2e", "staminaVariant") && sGet("PF2E.staminaToHp") && data.sp
-				? data.sp
+			game.settings.get("pf2e", "staminaVariant") && sGet("PF2E.staminaToHp") && hp.sp
+				? hp.sp
 				: { value: 0, max: 0 };
 		return Math.min((hp.value + sp.value + temp) / (hp.max + sp.max), 1);
 	}
