@@ -1,0 +1,7 @@
+node_modules
+.idea
+foundryconfig.json
+
+*.png~
+*.bak
+/package/

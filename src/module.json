@@ -14,8 +14,8 @@
 		}
 	],
 	"scripts": ["lib/chroma.min.js", "lib/grapick.min.js", "lib/spectrum.min.js"],
-	"esmodules": ["healthEstimate.js"],
-	"styles": ["css/healthEstimate.css", "lib/spectrum.min.css"],
+	"esmodules": ["module/healthEstimate.js"],
+	"styles": ["styles/healthEstimate.css", "lib/spectrum.min.css"],
 	"languages": [
 		{
 			"lang": "en",

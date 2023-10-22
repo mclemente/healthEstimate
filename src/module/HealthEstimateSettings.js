@@ -6,6 +6,7 @@ class HealthEstimateSettings extends FormApplication {
 		/** Set path property */
 		this.path = "core";
 	}
+
 	/**
 	 * Default Options for this FormApplication
 	 */
@@ -112,6 +113,7 @@ export class HealthEstimateEstimationSettings extends HealthEstimateSettings {
 		this.estimations = deepClone(sGet("core.estimations"));
 		this.changeTabs = null;
 	}
+
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			id: "health-estimate-estimation-form",
@@ -276,8 +278,8 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 	}
 
 	initHooks() {
-		const gradientPositions = game.settings.get(`healthEstimate`, `core.menuSettings.gradient`);
-		const mode = document.getElementById(`mode`);
+		const gradientPositions = game.settings.get("healthEstimate", "core.menuSettings.gradient");
+		const mode = document.getElementById("mode");
 		const useColorCheckbox = document.querySelector('input[name="useColor"]');
 
 		this.fontFamily = document.getElementById("fontFamily");
@@ -357,7 +359,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 	}
 
 	updateGradientFunction() {
-		const mode = document.getElementById(`mode`).value;
+		const mode = document.getElementById("mode").value;
 		/**
 		 *
 		 * @param {Number} amount
@@ -373,6 +375,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 		this.updateOutlineFunction();
 		this.updateGradient();
 	}
+
 	updateOutlineFunction() {
 		const outlineHandler = this.outlineMode.value;
 		const outlineAmount = this.outlineIntensity.value;
@@ -448,7 +451,7 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 				document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}`, null);
 				document.documentElement.style.setProperty(`--healthEstimate-keyframe-${index}-outline`, null);
 			}
-		} catch (err) {
+		} catch(err) {
 			console.error("Health Estimate | Error clearing document styles", err);
 		}
 	}
@@ -495,16 +498,16 @@ export class HealthEstimateStyleSettings extends HealthEstimateSettings {
 			formData.deadColor = "#FFF";
 		}
 		const variableUpdates = [
-			sSet(`core.menuSettings.gradient`, {
+			sSet("core.menuSettings.gradient", {
 				colors: this.gp.handlers.map((a) => a.color),
 				positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
 			}),
-			sSet(`core.menuSettings.outline`, formData.outlineMode),
-			sSet(`core.menuSettings.outlineIntensity`, formData.outlineIntensity),
-			sSet(`core.variables.colors`, this.gradColors),
-			sSet(`core.variables.outline`, this.outlColors),
-			sSet(`core.variables.deadColor`, formData.deadColor),
-			sSet(`core.variables.deadOutline`, this.deadOutline),
+			sSet("core.menuSettings.outline", formData.outlineMode),
+			sSet("core.menuSettings.outlineIntensity", formData.outlineIntensity),
+			sSet("core.variables.colors", this.gradColors),
+			sSet("core.variables.outline", this.outlColors),
+			sSet("core.variables.deadColor", formData.deadColor),
+			sSet("core.variables.deadOutline", this.deadOutline),
 		];
 		await Promise.all(variableUpdates);
 

@@ -1,5 +1,5 @@
-//Modified code from Token Tooltip Alt by Marian Bucatariu (bmarian)
-//License: MIT
+// Modified code from Token Tooltip Alt by Marian Bucatariu (bmarian)
+// License: MIT
 
 export const REG = {
 	// searches if the string is one path

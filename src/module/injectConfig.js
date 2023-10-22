@@ -1,6 +1,6 @@
-//injectConfig library by @theripper93
-//License: MIT
-//Documentation: https://github.com/theripper93/injectConfig
+// injectConfig library by @theripper93
+// License: MIT
+// Documentation: https://github.com/theripper93/injectConfig
 
 export var injectConfig = {
 	inject: function injectConfig(app, html, data, object) {
@@ -23,10 +23,10 @@ export var injectConfig = {
 		for (const [k, v] of Object.entries(data)) {
 			if (k === "moduleId" || k === "inject" || k === "tab") continue;
 			const elemData = data[k];
-			const flag = "flags." + moduleId + "." + (k || "");
+			const flag = `flags.${moduleId}.${k || ""}`;
 			const flagValue = object?.getFlag(moduleId, k) ?? elemData.default ?? getDefaultFlag(k);
 			const notes = v.notes ? `<p class="notes">${v.notes}</p>` : "";
-			v.label = v.units ? v.label + `<span class="units"> (${v.units})</span>` : v.label;
+			v.label = v.units ? `${v.label}<span class="units"> (${v.units})</span>` : v.label;
 			switch (elemData.type) {
 				case "text":
 					injectHtml += `<div class="form-group">
@@ -104,7 +104,7 @@ export var injectConfig = {
 		}
 		injectHtml = $(injectHtml);
 		injectHtml.on("click", ".file-picker", this.fpTypes, _bindFilePicker);
-		injectHtml.on("change", `input[type="color"]`, _colorChange);
+		injectHtml.on("change", "input[type=\"color\"]", _colorChange);
 		if (data.tab) {
 			const injectTab = createTab(data.tab.name, data.tab.label, data.tab.icon).append(injectHtml);
 			injectPoint.after(injectTab);
@@ -116,7 +116,7 @@ export var injectConfig = {
 		return injectHtml;
 
 		function createTab(name, label, icon) {
-			/*let tabs = html.find(".sheet-tabs").last();
+			/* let tabs = html.find(".sheet-tabs").last();
             if(!tabs.length) tabs = html.find(`nav[data-group="main"]`);*/
 			const tabs = html.find(".sheet-tabs").first().find(".item").last();
 			const tab = `<a class="item" data-tab="${name}"><i class="${icon}"></i> ${label}</a>`;
@@ -183,7 +183,7 @@ export var injectConfig = {
         <a class="item active" data-tab="basic"><i class="${icon}"></i> ${game.i18n.localize("LIGHT.HeaderBasic")}</a>
         </nav>
         <div class="tab active" data-tab="basic"></div>`);
-		//move all content of form into tab
+		// move all content of form into tab
 		const form = html.find("form").first();
 		form.children().each((i, e) => {
 			$($tabs[2]).append(e);

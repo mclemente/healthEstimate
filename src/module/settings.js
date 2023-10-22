@@ -144,7 +144,7 @@ export const registerSettings = function () {
 			? f("core.deathState.hint1", {
 					setting: t("core.deathStateName.name"),
 					setting2: t("core.deathMarker.name"),
-			  })
+				})
 			: f("core.deathState.hint2", { setting: t("core.deathStateName.name") }),
 		type: Boolean,
 		default: game.healthEstimate.estimationProvider.deathState,
@@ -204,13 +204,13 @@ export const registerSettings = function () {
 	addMenuSetting("core.menuSettings.gradient", {
 		type: Object,
 		default: {
-			colors: [`#FF0000`, `#00FF00`],
+			colors: ["#FF0000", "#00FF00"],
 			positions: [0, 1],
 		},
 	});
-	addMenuSetting(`core.menuSettings.mode`, {
+	addMenuSetting("core.menuSettings.mode", {
 		type: String,
-		default: `hsl`,
+		default: "hsl",
 		choices: {
 			bez: "Bezier",
 			rgb: "RGB",

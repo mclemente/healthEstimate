@@ -1,7 +1,7 @@
-import { f, sGet, t } from "../module/utils.js";
+import { f, sGet } from "../module/utils.js";
 
-//Modified code from Health Monitor by Jesse Vo (jessev14)
-//License: MIT
+// Modified code from Health Monitor by Jesse Vo (jessev14)
+// License: MIT
 
 /**
  *
@@ -17,7 +17,7 @@ function getActorHealth(token) {
 		}
 
 		return { estimate, index, isDead };
-	} catch (err) {
+	} catch(err) {
 		console.error(
 			`Health Estimate | Error on function getActorHealth(). Token Name: "${token.name}". ID: "${token.id}". Type: "${token.document.actor.type}".`,
 			err
@@ -58,7 +58,7 @@ export function outputStageChange(token) {
 	const { estimate, index, isDead } = getActorHealth(token);
 
 	// Update data state if needed
-	if (index != oldStage.index || isDead || actorData.dead != isDead) {
+	if (index !== oldStage.index || isDead || actorData.dead !== isDead) {
 		actorData.stage = { estimate, index };
 		actorData.dead = isDead;
 	}
@@ -67,17 +67,17 @@ export function outputStageChange(token) {
 	if (game.cub && game.cub.hideNames.shouldReplaceName(token.actor)) {
 		name = game.cub.hideNames.getReplacementName(token.actor);
 	} else if (
-		game.modules.get("xdy-pf2e-workbench")?.active &&
-		game.settings.get("xdy-pf2e-workbench", "npcMystifier") &&
-		game.settings.get("healthEstimate", "PF2E.workbenchMystifier") &&
-		token.name !== (token?.actor?.prototypeToken.name ?? "") &&
-		!token.actor.hasPlayerOwner
+		game.modules.get("xdy-pf2e-workbench")?.active
+		&& game.settings.get("xdy-pf2e-workbench", "npcMystifier")
+		&& game.settings.get("healthEstimate", "PF2E.workbenchMystifier")
+		&& token.name !== (token?.actor?.prototypeToken.name ?? "")
+		&& !token.actor.hasPlayerOwner
 	) {
 		name = token?.name;
 	} else if (
-		token.document.getFlag("healthEstimate", "hideName") &&
-		[0, 10, 20, 40].includes(token.document.displayName) &&
-		!token.actor.hasPlayerOwner
+		token.document.getFlag("healthEstimate", "hideName")
+		&& [0, 10, 20, 40].includes(token.document.displayName)
+		&& !token.actor.hasPlayerOwner
 	) {
 		name = sGet("core.unknownEntity");
 	}
@@ -87,9 +87,9 @@ export function outputStageChange(token) {
 	if (!game.users.activeGM?.isSelf) return;
 	// Output change if label isn't empty and is different from the last, for the case where
 	// the same stage is used for different fractions e.g. "Unconscious, Bloodied, Hurt, Hurt, Injured"
-	if (estimate.label && estimate.label != oldStage.estimate.label) {
+	if (estimate.label && estimate.label !== oldStage.estimate.label) {
 		const chatData = {
-			content: css + f("core.isNow", { name, desc: estimate.label }) + "</span>",
+			content: `${css + f("core.isNow", { name, desc: estimate.label })}</span>`,
 		};
 		ChatMessage.create(chatData, {});
 	}

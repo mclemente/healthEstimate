@@ -1,6 +1,5 @@
-import { addCharacter, outputStageChange } from "../lib/HealthMonitor.js";
-import { injectConfig } from "../lib/injectConfig.js";
-import { HealthEstimate } from "./logic.js";
+import { addCharacter, outputStageChange } from "./HealthMonitor.js";
+import { injectConfig } from "./injectConfig.js";
 import { disableCheckbox, f, sGet, t } from "./utils.js";
 
 export class HealthEstimateHooks {
@@ -56,13 +55,13 @@ export class HealthEstimateHooks {
 		addCharacter(tokenDocument.object);
 	}
 
-	///////////
+	// /////////
 	// ACTOR //
-	///////////
+	// /////////
 
 	static onUpdateActor(actor, data, options, userId) {
 		if (game.healthEstimate.alwaysShow) {
-			//Get all the tokens on the off-chance there's two tokens of the same linked actor.
+			// Get all the tokens on the off-chance there's two tokens of the same linked actor.
 			const tokens = canvas.tokens?.placeables.filter((token) => {
 				if (options?.syntheticActorUpdate) return token?.id === actor.token.id;
 				return token.actor?.id === actor.id;
@@ -82,10 +81,10 @@ export class HealthEstimateHooks {
 				const tokenId = token?.id;
 				const tokenHP = game.healthEstimate.actorsCurrentHP?.[tokenId];
 				if (
-					tokenId &&
-					tokenHP &&
-					!game.healthEstimate.breakOverlayRender(token) &&
-					!game.healthEstimate.hideEstimate(token)
+					tokenId
+					&& tokenHP
+					&& !game.healthEstimate.breakOverlayRender(token)
+					&& !game.healthEstimate.hideEstimate(token)
 				) {
 					outputStageChange(token);
 				}
@@ -99,17 +98,17 @@ export class HealthEstimateHooks {
 	}
 
 	static deleteActiveEffect(activeEffect, options, userId) {
-		if (activeEffect.icon == game.healthEstimate.deathMarker) {
-			let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id == activeEffect.parent.id);
+		if (activeEffect.icon === game.healthEstimate.deathMarker) {
+			let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id === activeEffect.parent.id);
 			for (let token of tokens) {
 				if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");
 			}
 		}
 	}
 
-	///////////
+	// /////////
 	// TOKEN //
-	///////////
+	// /////////
 
 	static refreshToken(token) {
 		game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
@@ -142,9 +141,9 @@ export class HealthEstimateHooks {
 		});
 	}
 
-	///////////////
+	// /////////////
 	// RENDERING //
-	///////////////
+	// /////////////
 
 	/**
 	 * Chat Styling
