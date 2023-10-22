@@ -1,4 +1,5 @@
-import * as providers from "./EstimationProvider.js";
+import * as providers from "./providers/_module.js";
+import { providerKeys } from "./providers/_shared.js";
 import { registerSettings } from "./settings.js";
 import { addSetting, isEmpty, sGet, sSet } from "./utils.js";
 
@@ -43,8 +44,8 @@ export class HealthEstimate {
 		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
 		const systemsRegex = new RegExp(supportedSystems);
 		let providerString = "Generic";
-		if (game.system.id in providers.providerKeys) {
-			providerString = providers.providerKeys[game.system.id] || "Generic";
+		if (game.system.id in providerKeys) {
+			providerString = providerKeys[game.system.id] || "Generic";
 		} else if (systemsRegex.test(game.system.id)) {
 			providerString = game.system.id;
 		}
