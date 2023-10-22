@@ -1,8 +1,4 @@
-import {
-	HealthEstimateBehaviorSettings,
-	HealthEstimateEstimationSettings,
-	HealthEstimateStyleSettings,
-} from "./HealthEstimateSettings.js";
+import * as forms from "./forms/_module.js";
 import { HealthEstimateHooks } from "./hooks.js";
 import { addSetting, f, t } from "./utils.js";
 
@@ -27,21 +23,21 @@ export const registerSettings = function () {
 		name: t("core.menuSettings.behaviorSettings.plural"),
 		label: t("core.menuSettings.behaviorSettings.plural"),
 		icon: "fas fa-gear",
-		type: HealthEstimateBehaviorSettings,
+		type: forms.BehaviorSettings,
 		restricted: true,
 	});
 	game.settings.registerMenu("healthEstimate", "estimationSettings", {
 		name: t("core.estimationSettings.title"),
 		label: t("core.estimationSettings.title"),
 		icon: "fas fa-scale-balanced",
-		type: HealthEstimateEstimationSettings,
+		type: forms.EstimationSettings,
 		restricted: true,
 	});
 	game.settings.registerMenu("healthEstimate", "styleSettings", {
 		name: t("core.menuSettings.styleSettings.plural"),
 		label: t("core.menuSettings.styleSettings.plural"),
 		icon: "fas fa-palette",
-		type: HealthEstimateStyleSettings,
+		type: forms.StyleSettings,
 		restricted: true,
 	});
 
