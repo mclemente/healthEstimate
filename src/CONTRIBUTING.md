@@ -2,7 +2,9 @@
 ## Adding Support to a System
 
 1. Get your system's id (`game.system.id`).
-2. Go to the [module/EstimationProvider.js](./module/EstimationProvider.js) file.
-3. Create your own subclass of EstimationProvider to the list. It needs to be named exactly as your system. If your system's name has invalid characters (e.g. `name-with-hyphens`), then you'll need to set its name in the `providerKeys` constant at the top of the file.
-4. Follow the instructions in the EstimationProvider class. Check out some other subclasses, like PF2e, SWADE, etc.
+2. Go to the [src/module/providers](./src/module/providers/) folder.
+3. Make a copy of `templates/Generic.js` file on the providers folder and name it with your system's name.
+4. Rename the GenericEstimationProvider subclass to to the exact ID of the system, unless it contains invalid characters like hyphens.
+  - If it does include invalid characters, go to the `_shared.js` file and add a `[system id]: [subclass name]` to the providerKeys.
+5. Check the documentation in the EstimationProvider class on `templates/Base.js`. Consider checking other system's subclasses, like D&D5e, PF2e, SWADE, etc.
     - The minimum needed is a fraction function, everything else is optional.
