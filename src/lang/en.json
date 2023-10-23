@@ -197,7 +197,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Scale Estimates to Zoom",
-					"hint": "Scales the estimate based on the zoom distance. This will cause a drop in performance when used along {setting3}."
+					"hint": "Scales the estimate based on the zoom distance."
 				}
 			}
 		},
