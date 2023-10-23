@@ -40,7 +40,7 @@ export class HealthEstimateHooks {
 		const scale = () => {
 			const zoomLevel = Math.min(1, canvas.stage.scale.x);
 			if (zoomLevel < 1 && game.healthEstimate.lastZoom !== zoomLevel) {
-					canvas.tokens?.placeables
+				canvas.tokens?.placeables
 					.filter((t) => t.healthEstimate?.visible)
 					.forEach((token) => {
 						let fontSize = game.healthEstimate.fontSize / zoomLevel;
