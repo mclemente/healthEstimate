@@ -37,18 +37,21 @@ export class HealthEstimateHooks {
 	}
 
 	static onCanvasPan(canvas, constrained) {
-		const zoomLevel = Math.min(1, canvas.stage.scale.x);
-		if (zoomLevel < 1 && game.healthEstimate.lastZoom !== zoomLevel) {
-			canvas.tokens?.placeables
-				.filter((t) => t.healthEstimate?.visible)
-				.forEach((token) => {
-					let fontSize = game.healthEstimate.fontSize / zoomLevel;
-					if (token.healthEstimate?._texture) {
-						token.healthEstimate.style.fontSize = fontSize * 4;
-					}
-				});
-		}
-		game.healthEstimate.lastZoom = zoomLevel;
+		if (this.timeout) clearTimeout(this.timeout);
+			this.timeout = setTimeout(() => {
+			const zoomLevel = Math.min(1, canvas.stage.scale.x);
+			if (zoomLevel < 1 && game.healthEstimate.lastZoom !== zoomLevel) {
+					canvas.tokens?.placeables
+					.filter((t) => t.healthEstimate?.visible)
+					.forEach((token) => {
+						let fontSize = game.healthEstimate.fontSize / zoomLevel;
+						if (token.healthEstimate?._texture) {
+							token.healthEstimate.style.fontSize = fontSize * 4;
+						}
+					});
+			}
+			game.healthEstimate.lastZoom = zoomLevel;
+		}, 100);
 	}
 
 	static onCreateToken(tokenDocument, options, userId) {
