@@ -37,8 +37,7 @@ export class HealthEstimateHooks {
 	}
 
 	static onCanvasPan(canvas, constrained) {
-		if (this.timeout) clearTimeout(this.timeout);
-			this.timeout = setTimeout(() => {
+		const scale = () => {
 			const zoomLevel = Math.min(1, canvas.stage.scale.x);
 			if (zoomLevel < 1 && game.healthEstimate.lastZoom !== zoomLevel) {
 					canvas.tokens?.placeables
@@ -51,7 +50,11 @@ export class HealthEstimateHooks {
 					});
 			}
 			game.healthEstimate.lastZoom = zoomLevel;
-		}, 100);
+		};
+		if (game.healthEstimate.alwaysShow) {
+			if (this.timeout) clearTimeout(this.timeout);
+			this.timeout = setTimeout(scale, 100);
+		} else scale();
 	}
 
 	static onCreateToken(tokenDocument, options, userId) {
