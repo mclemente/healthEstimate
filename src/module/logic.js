@@ -349,11 +349,10 @@ export class HealthEstimate {
 			if (!isNaN(this.fontSize) && this.fontSize.match(/[0-9]*\.?[0-9]+(px|%)+/i)) {
 				this.fontSize = Number(this.fontSize.replace(/(px|%)+/i, ""));
 			} else {
-				ui.notifications.warn(
+				console.warn(
 					`Health Estimate | ${game.i18n.format("healthEstimate.notifications.invalidFontSize", {
 						fontSize: this.fontSize,
-					})}`,
-					{ permanent: true }
+					})}`
 				);
 				this.fontSize = 24;
 			}
