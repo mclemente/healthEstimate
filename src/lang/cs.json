@@ -193,7 +193,11 @@
 				},
 				"scaleToZoom": {
 					"name": "Měřítko Odhadů pro zvětšení",
-					"hint": "Škáluje odhad na základě vzdálenosti přiblížení. Hodnota nastavení {setting2} bude při oddálení ignorována."
+					"hint": "Škáluje odhad na základě vzdálenosti přiblížení."
+				},
+				"position2": {
+					"name": "Umístění",
+					"hint": "Poloha vzhledem k rámu tokenu."
 				}
 			}
 		},
@@ -291,6 +295,22 @@
 				"name": "{incap} status efekt",
 				"hint": "Tokeny se statusem {incap} budou zobrazeny jako {incap} namísto jejich aktuálních odhadů. Nefunguje pro tokeny, které jsou vozidla nebo mrtvé."
 			}
+		},
+		"notifications": {
+			"terms": {
+				"shown": {
+					"singular": "zobrazeno",
+					"plural": "zobrazeno"
+				},
+				"hidden": {
+					"singular": "skryto",
+					"plural": "skryto"
+				}
+			},
+			"toggleEstimate": "Odhad zdraví {tokenName} je {term} od hráčů.",
+			"toggleName": "Jméno {tokenName} je {term} od hráčů.",
+			"toggleEstimateName": "Odhad zdraví a jméno {tokenName} jsou {term} od hráčů.",
+			"invalidFontSize": "Nastavení stylu Velikost písma bylo resetováno. Chcete-li jej změnit, podívejte se do Nastavení stylu. Předchozí hodnota: Předchozí hodnota: {fontSize}"
 		}
 	}
 }
