@@ -92,7 +92,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Mettre l'estimation à l'échelle pour Zoomer",
-					"hint": "Met à l'échelle l'estimation en fonction de la distance du zoom. Cela provoque une baisse de performance lorsque c'est utilisé avec {setting3}."
+					"hint": "Met à l'échelle l'estimation en fonction de la distance du zoom."
 				},
 				"deathSettings": {
 					"name": "Réglage de la mort",
