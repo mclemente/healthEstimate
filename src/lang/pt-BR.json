@@ -204,7 +204,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Escalar para o nível de zoom",
-					"hint": "Escala a estimativa com base na distância de zoom. Isso causará uma queda no desempenho quando usado juntamente com {setting3}."
+					"hint": "Escala a estimativa com base na distância de zoom."
 				},
 				"position2": {
 					"name": "Posição",
