@@ -122,7 +122,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Schätzungen zum Zoomen skalieren",
-					"hint": "Skaliert die Schätzung auf der Grundlage des Zoomabstands. Der Wert der Einstellung {setting2} wird beim Herauszoomen ignoriert."
+					"hint": "Skaliert die Schätzung auf der Grundlage des Zoomabstands."
 				}
 			},
 			"keybinds": {

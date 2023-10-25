@@ -47,7 +47,7 @@
 				},
 				"scaleToZoom": {
 					"name": "調整健康狀況縮放",
-					"hint": "縮放健康狀況。 注意：{setting}不接受\"larger\"和\"smaller\"值，且{setting2}的數值會被忽略。"
+					"hint": "縮放健康狀況。"
 				}
 			},
 			"custom": {

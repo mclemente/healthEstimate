@@ -114,7 +114,7 @@
 				},
 				"scaleToZoom": {
 					"name": "Escala las estimaciones al zoom",
-					"hint": "Escalas las estimaciones basándose en la distancia de zoom. Los valores de la configuración {setting2} serán ignorados mientras alejas el zoom."
+					"hint": "Escalas las estimaciones basándose en la distancia de zoom."
 				},
 				"deathSettings": {
 					"name": "Configuración de muerte",

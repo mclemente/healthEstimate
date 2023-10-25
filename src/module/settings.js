@@ -177,11 +177,6 @@ export const registerSettings = function () {
 		default: true,
 	});
 	addMenuSetting("core.menuSettings.scaleToZoom", {
-		hint: f("core.menuSettings.scaleToZoom.hint", {
-			setting: t("core.menuSettings.fontSize.name"),
-			setting2: t("core.menuSettings.positionAdjustment.name"),
-			setting3: t("core.alwaysShow.name"),
-		}),
 		type: Boolean,
 		default: false,
 		onChange: (value) => {
