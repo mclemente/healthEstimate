@@ -77,7 +77,7 @@ export class HealthEstimateHooks {
 				game.healthEstimate._handleOverlay(token, true);
 			});
 		}
-		if (game.healthEstimate.outputChat && game.user.isGM) {
+		if (game.healthEstimate.outputChat && game.users.activeGM?.isSelf) {
 			// Find a single token associated with the updated actor.
 			const token = canvas.tokens?.placeables.find((token) => {
 				if (options?.syntheticActorUpdate) return token?.id === actor.token.id;
