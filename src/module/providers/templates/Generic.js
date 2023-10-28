@@ -11,10 +11,10 @@ export default class GenericEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const hpPath = sGet("core.custom.FractionHP");
 		let hp = (hpPath && getNestedData(token, hpPath))
-			|| (game.system.primaryTokenAttribute
+			?? (game.system.primaryTokenAttribute
 				&& getNestedData(token, `actor.system.${game.system.primaryTokenAttribute}`))
-			|| token.actor.system.attributes?.hp
-			|| token.actor.system.hp;
+			?? token.actor.system.attributes?.hp
+			?? token.actor.system.hp;
 		let temp = 0;
 		if (sGet("core.addTemp")) temp = Number(hp?.temp) || 0;
 
