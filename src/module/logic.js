@@ -35,6 +35,34 @@ export class HealthEstimate {
 		this.updateSettings();
 	}
 
+	ready() {
+		// Setting change handling
+		if (!Number.isNumeric(this.fontSize)) {
+			if (!isNaN(this.fontSize) && this.fontSize.match(/[0-9]*\.?[0-9]+(px|%)+/i)) {
+				this.fontSize = Number(this.fontSize.replace(/(px|%)+/i, ""));
+			} else {
+				console.warn(
+					`Health Estimate | ${game.i18n.format("healthEstimate.notifications.invalidFontSize", {
+						fontSize: this.fontSize,
+					})}`
+				);
+				this.fontSize = 24;
+			}
+			sSet("core.menuSettings.fontSize", this.fontSize || 24);
+		}
+		if (!Number.isNumeric(this.height)) {
+			const heights = {
+				top: "a",
+				center: "b",
+				end: "c",
+			};
+			this.position = heights[this.height];
+			this.height = 0;
+			sSet("core.menuSettings.position", 0);
+			sSet("core.menuSettings.position2", this.position);
+		}
+	}
+
 	/**
 	 * Gets system specifics, such as its hp attribute and other settings.
 	 * @returns {providers.EstimationProvider}
@@ -343,31 +371,5 @@ export class HealthEstimate {
 		this.outline = sGet("core.variables.outline");
 		this.deadColor = sGet("core.variables.deadColor");
 		this.deadOutline = sGet("core.variables.deadOutline");
-
-		// Setting change handling
-		if (!Number.isNumeric(this.fontSize)) {
-			if (!isNaN(this.fontSize) && this.fontSize.match(/[0-9]*\.?[0-9]+(px|%)+/i)) {
-				this.fontSize = Number(this.fontSize.replace(/(px|%)+/i, ""));
-			} else {
-				console.warn(
-					`Health Estimate | ${game.i18n.format("healthEstimate.notifications.invalidFontSize", {
-						fontSize: this.fontSize,
-					})}`
-				);
-				this.fontSize = 24;
-			}
-			sSet("core.menuSettings.fontSize", this.fontSize || 24);
-		}
-		if (!Number.isNumeric(this.height)) {
-			const heights = {
-				top: "a",
-				center: "b",
-				end: "c",
-			};
-			this.position = heights[this.height];
-			this.height = 0;
-			sSet("core.menuSettings.position", 0);
-			sSet("core.menuSettings.position2", this.position);
-		}
 	}
 }
