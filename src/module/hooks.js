@@ -69,8 +69,10 @@ export class HealthEstimateHooks {
 		if (game.healthEstimate.alwaysShow) {
 			// Get all the tokens on the off-chance there's two tokens of the same linked actor.
 			const tokens = canvas.tokens?.placeables.filter((token) => {
-				if (options?.syntheticActorUpdate) return token?.id === actor.token.id;
-				return token.actor?.id === actor.id;
+				if (options?.syntheticActorUpdate) {
+					return token?.id === actor.token.id;
+				}
+				return token?.actor?.id === actor.id;
 			});
 			// Call the _handleOverlay method for each token.
 			tokens?.forEach((token) => {
@@ -80,7 +82,9 @@ export class HealthEstimateHooks {
 		if (game.healthEstimate.outputChat && game.users.activeGM?.isSelf) {
 			// Find a single token associated with the updated actor.
 			const token = canvas.tokens?.placeables.find((token) => {
-				if (options?.syntheticActorUpdate) return token?.id === actor.token.id;
+				if (options?.syntheticActorUpdate) {
+					return token?.id === actor.token.id;
+				}
 				return token?.actor?.id === actor.id;
 			});
 			if (token) {
