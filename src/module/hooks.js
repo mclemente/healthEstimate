@@ -81,7 +81,7 @@ export class HealthEstimateHooks {
 			// Find a single token associated with the updated actor.
 			const token = canvas.tokens?.placeables.find((token) => {
 				if (options?.syntheticActorUpdate) return token?.id === actor.token.id;
-				return token?.actor.id === actor.id;
+				return token?.actor?.id === actor.id;
 			});
 			if (token) {
 				const tokenId = token?.id;
