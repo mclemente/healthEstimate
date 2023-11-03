@@ -67,7 +67,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			this.render();
 		});
 		html.find("button[data-action=table-delete]").on("click", (event) => {
-			const { idx } = event.target?.dataset;
+			const { idx } = event.target.dataset ?? {};
 			this.estimations.splice(Number(idx), 1);
 			this.changeTabs = Number(idx) - 1;
 			this.render();
@@ -88,6 +88,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		});
 		for (const input of html[0].querySelectorAll(".form-group input, .form-group textarea")) {
 			input.addEventListener("change", (event) => {
+				// eslint-disable-next-line no-unused-vars
 				const [_, tableIndex, property] = event.target.name.split(".");
 				this.estimations[tableIndex][property] = event.target.value;
 				event.preventDefault();
@@ -110,7 +111,8 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		}
 		for (const element of html[0].querySelectorAll(".estimation-types input")) {
 			element.addEventListener("change", async (event) => {
-				const [_, table, tableIndex, estimateIndex, rule] = event.target?.name.split(".");
+				// eslint-disable-next-line no-unused-vars
+				const [_, table, tableIndex, estimateIndex, rule] = event.target?.name.split(".") ?? [];
 				if (this.estimations[table]?.estimates?.[estimateIndex]?.[rule]) {
 					this.estimations[table].estimates[estimateIndex][rule] = event.target?.value;
 				}

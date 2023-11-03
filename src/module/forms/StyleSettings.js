@@ -5,7 +5,6 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 	constructor(object, options = {}) {
 		super(object, options);
 		this.path = "core.menuSettings";
-		this.gradFn = new Function();
 		this.gradColors = [];
 		Hooks.once("renderHealthEstimateStyleSettings", this.initHooks.bind(this));
 		Hooks.once("closeHealthEstimateStyleSettings", () => {
