@@ -257,6 +257,7 @@ export class HealthEstimateHooks {
 			: tokenConfig.token.flags?.healthEstimate;
 
 		const data = {
+			hasPlayerOwner: tokenConfig.token.hasPlayerOwner,
 			hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
 			hideName: tokenFlags?.hideName ? "checked" : "",
 			dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
