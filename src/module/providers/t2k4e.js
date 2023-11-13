@@ -30,7 +30,7 @@ export default class t2k4eEstimationProvider extends EstimationProvider {
 		if (type === "vehicle") {
 			hp = token.actor.system.reliability;
 		} else {
-			hp = token.actor.system.health.toughness;
+			hp = token.actor.system.health;
 		}
 		let temp = 0;
 		if (type !== "vehicle" && sGet("core.addTemp")) {
@@ -44,6 +44,10 @@ export default class t2k4eEstimationProvider extends EstimationProvider {
         || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
 		|| token.actor.type == "unit"
 		|| token.actor.type == "party"
-		|| game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.health.toughness.max === 0`;
+		|| game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
+			&& (
+				(${this.isVehicle} && token.actor.system.reliability.max === 0)
+				|| (!${this.isVehicle} && token.actor.system.health.max === 0)
+			)`;
 	}
 }
