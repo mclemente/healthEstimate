@@ -4,7 +4,7 @@ import { HealthEstimateSettings } from "./templates/Base.js";
 export default class HealthEstimateEstimationSettings extends HealthEstimateSettings {
 	constructor(object, options = {}) {
 		super(object, options);
-		this.estimations = deepClone(sGet("core.estimations"));
+		this.estimations = foundry.utils.deepClone(sGet("core.estimations"));
 		this.changeTabs = null;
 	}
 

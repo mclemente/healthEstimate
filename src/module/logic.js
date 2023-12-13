@@ -171,7 +171,10 @@ export class HealthEstimate {
 				if (estimation.ignoreColor) {
 					special = estimation;
 				} else {
-					return { estimation: deepClone(estimation), special: deepClone(special) };
+					return {
+						estimation: foundry.utils.deepClone(estimation),
+						special: foundry.utils.deepClone(special)
+					};
 				}
 			}
 		}

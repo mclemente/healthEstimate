@@ -24,7 +24,7 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 	}
 
 	fraction(token) {
-		const data = deepClone(token.actor.system.attributes);
+		const data = foundry.utils.deepClone(token.actor.system.attributes);
 		const hp = data.hp;
 		if (token.actor.type === "familiar" && token.actor.system?.master) {
 			const master = token.actor.system.master;
