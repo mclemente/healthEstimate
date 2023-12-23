@@ -123,6 +123,10 @@
 				"scaleToZoom": {
 					"name": "Schätzungen zum Zoomen skalieren",
 					"hint": "Skaliert die Schätzung auf der Grundlage des Zoomabstands."
+				},
+				"position2": {
+					"name": "Position",
+					"hint": "Die Position in Relation zum Rahmen des Tokens."
 				}
 			},
 			"keybinds": {
