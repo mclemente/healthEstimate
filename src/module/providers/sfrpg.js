@@ -4,6 +4,7 @@ import EstimationProvider from "./templates/Base.js";
 export default class sfrpgEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
+		this.organicTypes.push("npc2");
 		this.vehicleRules = {
 			config: true,
 			vehicles: ["starship", "vehicle"],
