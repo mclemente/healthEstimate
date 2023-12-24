@@ -40,6 +40,7 @@ export { default as tormenta20EstimationProvider } from "./tormenta20.js";
 export { default as trpgEstimationProvider } from "./trpg.js";
 export { default as twodsixEstimationProvider } from "./twodsix.js";
 export { default as uesrpgEstimationProvider } from "./uesrpg-d100.js";
+export { default as weirdwizardEstimationProvider } from "./weirdwizard.js";
 export { default as wfrp4eEstimationProvider } from "./wfrp4e.js";
 export { default as worldbuildingEstimationProvider } from "./worldbuilding.js";
 export { default as wrathAndGloryEstimationProvider } from "./wrath-and-glory.js";
