@@ -24,8 +24,8 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Game Specifics (please complete the following information):**
- - Game System and version: [e.g. dnd5e 1.3.6]
- - Version [e.g. 22]
+ - Game System and version: [e.g. dnd5e 2.4.1]
+ - Module Version [e.g. 31.7.11]
 
 **Additional context**
 Add any other context about the problem here.
