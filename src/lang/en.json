@@ -217,10 +217,9 @@
 			"toggleEstimateName": "{tokenName}'s health estimate and name are being {term} from players.",
 			"invalidFontSize": "Your Font Size style setting has been reset. Check the Style Settings to change it. Previous value: {fontSize}"
 		},
-
 		"custom-system-builder": {
 			"FractionHP": {
-				"hint": "This will probably {dataPath1} or {dataPath2}."
+				"hint": "This will probably be {dataPath1} or {dataPath2}."
 			},
 			"tempHP": {
 				"name": "Temporary Hit Points Attribute Data Path",
