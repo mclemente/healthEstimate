@@ -97,7 +97,7 @@ export class HealthEstimate {
 		try {
 			if (hovered) {
 				const { desc, color, stroke } = this.getEstimation(token);
-				if (desc) {
+				if (desc !== undefined) {
 					const yPosition = token.tooltip.y + this.height;
 					const position = { a: 0, b: 1, c: 2 }[this.position];
 					if (!token.healthEstimate?._texture) {
