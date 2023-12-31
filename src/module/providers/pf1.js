@@ -36,6 +36,10 @@ export default class pf1EstimationProvider extends EstimationProvider {
 
 	fraction(token) {
 		const { variants } = game.settings.get("pf1", "healthConfig");
+		const hp = token.actor.system.attributes.hp;
+		let addTemp = 0;
+		let addNonlethal = 0;
+
 		if ((token.actor.type === "character" && variants.pc.useWoundsAndVigor)
 			|| (token.actor.type === "npc" && variants.npc.useWoundsAndVigor)) {
 			const vigor = token.actor.system.attributes.vigor;
@@ -45,9 +49,6 @@ export default class pf1EstimationProvider extends EstimationProvider {
 			}
 			return (vigor.value + wounds.value + addTemp) / (vigor.max + wounds.max);
 		}
-		const hp = token.actor.system.attributes.hp;
-		let addTemp = 0;
-		let addNonlethal = 0;
 		if (sGet("core.addTemp")) {
 			addTemp = hp.temp;
 		}
