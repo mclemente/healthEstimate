@@ -129,7 +129,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 		 */
 		this.gradFn = (amount, colors, colorPositions) => {
 			if (mode === "bez") return chroma.bezier(colors).scale().domain(colorPositions).colors(amount);
-			else return chroma.scale(colors).mode(mode).domain(colorPositions).colors(amount);
+			return chroma.scale(colors).mode(mode).domain(colorPositions).colors(amount);
 		};
 
 		this.updateOutlineFunction();
@@ -146,7 +146,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 		 */
 		this.outlFn = (color = false) => {
 			if (color) return chroma(color)[outlineHandler](outlineAmount).hex();
-			else return this.gradColors.map((c) => chroma(c)[outlineHandler](outlineAmount).hex());
+			return this.gradColors.map((c) => chroma(c)[outlineHandler](outlineAmount).hex());
 		};
 	}
 

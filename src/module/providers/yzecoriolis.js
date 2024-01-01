@@ -27,8 +27,7 @@ export default class yzecoriolisEstimationProvider extends EstimationProvider {
 		let hp;
 		if (type === "ship") {
 			hp = token.actor.system.hullPoints;
-		}
-		else hp = token.actor.system.hitPoints;
+		} else hp = token.actor.system.hitPoints;
 		return hp.value / hp.max;
 	}
 }

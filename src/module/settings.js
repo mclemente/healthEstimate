@@ -138,9 +138,9 @@ export const registerSettings = function () {
 	addMenuSetting("core.deathState", {
 		hint: game.healthEstimate.estimationProvider.deathMarker.config
 			? f("core.deathState.hint1", {
-					setting: t("core.deathStateName.name"),
-					setting2: t("core.deathMarker.name"),
-				})
+				setting: t("core.deathStateName.name"),
+				setting2: t("core.deathMarker.name"),
+			})
 			: f("core.deathState.hint2", { setting: t("core.deathStateName.name") }),
 		type: Boolean,
 		default: game.healthEstimate.estimationProvider.deathState,

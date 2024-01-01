@@ -15,18 +15,16 @@ export default class numeneraEstimationProvider extends EstimationProvider {
 					}
 				}
 				return fullPools / 3;
-			} else {
-				let [total, max] = [0, 0];
-				for (let pool of [might, speed, intellect]) {
-					total += pool.pool.current;
-					max += pool.pool.maximum;
-				}
-				return total / max;
 			}
-		} else {
-			const hp = token.actor.system.health;
-			return hp.current / hp.max;
+			let [total, max] = [0, 0];
+			for (let pool of [might, speed, intellect]) {
+				total += pool.pool.current;
+				max += pool.pool.maximum;
+			}
+			return total / max;
 		}
+		const hp = token.actor.system.health;
+		return hp.current / hp.max;
 	}
 
 	get settings() {

@@ -34,10 +34,9 @@ export default class alienrpgEstimationProvider extends EstimationProvider {
 			const hull = token.actor.system.attributes.hull.value;
 			const damage = token.actor.system.attributes.damage.value;
 			return (hull - damage) / hull;
-		} else {
-			const hp = token.actor.system.header.health;
-			return hp.value / hp.max;
 		}
+		const hp = token.actor.system.header.health;
+		return hp.value / hp.max;
 	}
 
 	get breakCondition() {

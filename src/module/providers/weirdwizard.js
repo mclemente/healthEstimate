@@ -1,7 +1,7 @@
 import EstimationProvider from "./templates/Base.js";
 
 export default class weirdwizardEstimationProvider extends EstimationProvider {
-  constructor() {
+	constructor() {
 		super();
 		this.deathStateName = game.i18n.localize("WW.Health.Estimation.Dead");
 		this.estimations = [
