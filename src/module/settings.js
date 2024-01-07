@@ -1,24 +1,8 @@
 import * as forms from "./forms/_module.js";
 import { HealthEstimateHooks } from "./hooks.js";
-import { addSetting, f, t } from "./utils.js";
+import { addMenuSetting, addSetting, f, t } from "./utils.js";
 
 export const registerSettings = function () {
-	/**
-	 * Shorthand for addSetting.
-	 * Default data: {scope: "world", config: false}
-	 * @param {string} key
-	 * @param {object} data
-	 */
-	function addMenuSetting(key, data) {
-		const commonData = {
-			name: t(`${key}.name`),
-			hint: t(`${key}.hint`),
-			scope: "world",
-			config: false,
-		};
-		game.settings.register("healthEstimate", key, Object.assign(commonData, data));
-	}
-
 	game.settings.registerMenu("healthEstimate", "behaviorSettings", {
 		name: t("core.menuSettings.behaviorSettings.plural"),
 		label: t("core.menuSettings.behaviorSettings.plural"),

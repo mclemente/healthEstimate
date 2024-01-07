@@ -16,6 +16,23 @@ export function addSetting(key, data) {
 }
 
 /**
+ * Shorthand for game.settings.register().
+ * Default data: {scope: "world", config: false}
+ * @function addSetting
+ * @param {string} key
+ * @param {object} data
+ */
+export function addMenuSetting(key, data) {
+	const commonData = {
+		name: t(`${key}.name`),
+		hint: t(`${key}.hint`),
+		scope: "world",
+		config: false,
+	};
+	game.settings.register("healthEstimate", key, Object.assign(commonData, data));
+}
+
+/**
  * Check whether the entry is an empty string or a falsey value
  * @param string
  * @returns {boolean}
