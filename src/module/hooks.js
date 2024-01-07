@@ -126,6 +126,7 @@ export class HealthEstimateHooks {
 
 	// Not an actual hook
 	static combatHooks(value) {
+		if (!canvas.ready) return;
 		if (value) {
 			Hooks.on("combatStart", HealthEstimateHooks.onCombatStart);
 			Hooks.on("updateCombat", HealthEstimateHooks.onUpdateCombat);
