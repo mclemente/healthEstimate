@@ -16,20 +16,22 @@ export default class D35EEstimationProvider extends EstimationProvider {
 		this.estimations = [
 			...this.estimations,
 			{
-				name: game.i18n.localize("D35E.CondStaggered"),
+				name: game.i18n.localize("D35E.Disabled"),
 				ignoreColor: true,
-				rule: `
-					game.settings.get("healthEstimate", "PF1.showExtra") &&
-					(totalHp === 0 ||
-						(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
-						Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("D35E.CondStaggered")))`,
-				estimates: [{ value: 100, label: game.i18n.localize("D35E.CondStaggered") }],
+				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (totalHp === 0 || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Disabled\")))",
+				estimates: [{ value: 100, label: game.i18n.localize("D35E.Disabled") }],
 			},
 			{
-				name: t("PF1.dyingName.name"),
+				name: game.i18n.localize("D35E.Staggered"),
 				ignoreColor: true,
-				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && hp.nonlethal > totalHp",
-				estimates: [{ value: 100, label: t("core.estimates.states.0") }],
+				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (totalHp === 0 || hp.nonlethal > 0 && totalHp == hp.nonlethal) || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Staggered\"))",
+				estimates: [{ value: 100, label: game.i18n.localize("D35E.Staggered") }],
+			},
+			{
+				name: game.i18n.localize("D35E.Unconscious"),
+				ignoreColor: true,
+				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (hp.nonlethal > totalHp || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Unconscious\")))",
+				estimates: [{ value: 100, label: game.i18n.localize("D35E.Unconscious") }],
 			},
 		];
 	}
