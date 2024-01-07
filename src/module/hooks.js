@@ -58,7 +58,7 @@ export class HealthEstimateHooks {
 	}
 
 	static onCreateToken(tokenDocument, options, userId) {
-		addCharacter(tokenDocument.object);
+		if (tokenDocument.object) addCharacter(tokenDocument.object);
 	}
 
 	// /////////
