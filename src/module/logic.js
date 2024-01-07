@@ -154,8 +154,9 @@ export class HealthEstimate {
 				const customLogic = this.estimationProvider.customLogic;
 				const actor = token?.actor;
 				const type = token.actor.type;
+				const logic = `${customLogic}\nreturn ${rule}`;
 				// eslint-disable-next-line no-new-func
-				return new Function("actor", "token", "type", `${customLogic}return ${rule}`)(actor, token, type);
+				return new Function("actor", "token", "type", logic)(actor, token, type);
 			} catch(err) {
 				const name = estimation.name || iteration;
 				console.warn(
