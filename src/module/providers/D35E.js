@@ -24,7 +24,7 @@ export default class D35EEstimationProvider extends EstimationProvider {
 			{
 				name: game.i18n.localize("D35E.Staggered"),
 				ignoreColor: true,
-				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (totalHp === 0 || hp.nonlethal > 0 && totalHp == hp.nonlethal) || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Staggered\"))",
+				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (hp.nonlethal > 0 && totalHp == hp.nonlethal) || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Staggered\"))",
 				estimates: [{ value: 100, label: game.i18n.localize("D35E.Staggered") }],
 			},
 			{
