@@ -54,6 +54,7 @@ export class HealthEstimateSettings extends FormApplication {
 		await Promise.all(
 			Object.entries(formData).map(async ([key, value]) => {
 				let current = game.settings.get("healthEstimate", `core.${key}`);
+				// eslint-disable-next-line eqeqeq
 				if (value != current) await sSet(`core.${key}`, value);
 			})
 		);
