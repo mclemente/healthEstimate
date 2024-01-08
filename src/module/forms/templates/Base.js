@@ -53,7 +53,8 @@ export class HealthEstimateSettings extends FormApplication {
 	async _updateObject(event, formData) {
 		await Promise.all(
 			Object.entries(formData).map(async ([key, value]) => {
-				await sSet(`core.${key}`, value);
+				let current = game.settings.get("healthEstimate", `core.${key}`);
+				if (value != current) await sSet(`core.${key}`, value);
 			})
 		);
 		if (game.healthEstimate.alwaysShow) canvas.scene?.tokens.forEach((token) => token.object.refresh());
