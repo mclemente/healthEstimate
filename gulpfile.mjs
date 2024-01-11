@@ -6,7 +6,6 @@
 import fs from "fs-extra";
 import gulp from "gulp";
 import sourcemaps from "gulp-sourcemaps";
-import merge from "merge-stream";
 import path from "node:path";
 import buffer from "vinyl-buffer";
 import source from "vinyl-source-stream";
