@@ -347,7 +347,7 @@
 		},
 		"custom-system-builder": {
 			"FractionHP": {
-				"hint": "Isso provavelmente será {dataPath1} ou {dataPath2}."
+				"hint": "Provavelmente será {dataPath1} ou {dataPath2}."
 			},
 			"tempHP": {
 				"name": "Caminho de dados do atributo de pontos de vida temporários",
