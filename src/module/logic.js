@@ -107,7 +107,7 @@ export class HealthEstimate {
 						token.healthEstimate.anchor.set(0.5, 1);
 						token.healthEstimate.position.set(token.tooltip.x, (token.tooltip.x * position) + yPosition);
 					} else {
-						token.healthEstimate.style.fontSize = (this.fontSize / this.zoomLevel) * 4;
+						token.healthEstimate.style.fontSize = this._getFontSize();
 						token.healthEstimate.text = desc;
 						token.healthEstimate.style.fill = color;
 						token.healthEstimate.style.stroke = stroke;
@@ -126,11 +126,15 @@ export class HealthEstimate {
 		}
 	}
 
+	_getFontSize() {
+		return (this.fontSize / this.zoomLevel) * 4;
+	}
+
 	_getUserTextStyle(color, stroke) {
 		const dropShadowColor = sGet("core.menuSettings.outline") === "brighten" ? "white" : "black";
 		return {
 			// Multiply font size to increase resolution quality
-			fontSize: (this.fontSize / this.zoomLevel) * 4,
+			fontSize: this._getFontSize(),
 			fontFamily: this.fontFamily,
 			fill: color,
 			stroke,
