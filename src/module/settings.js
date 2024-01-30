@@ -160,6 +160,13 @@ export const registerSettings = function () {
 		type: Boolean,
 		default: true,
 	});
+	addMenuSetting("core.menuSettings.scaleToGridSize", {
+		type: Boolean,
+		default: false,
+		onChange: (value) => {
+			game.healthEstimate.scaleToGridSize = value;
+		},
+	});
 	addMenuSetting("core.menuSettings.scaleToZoom", {
 		type: Boolean,
 		default: false,

@@ -32,6 +32,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 			mode: this.prepSelection("mode"),
 			outline: this.prepSelection("outline"),
 			outlineIntensity: this.prepSetting("outlineIntensity"),
+			scaleToGridSize: this.prepSetting("scaleToGridSize"),
 			scaleToZoom: this.prepSetting("scaleToZoom"),
 			deadText: game.settings.get("healthEstimate", "core.deathStateName"),
 		};
@@ -229,6 +230,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 				"menuSettings.mode",
 				"menuSettings.outline",
 				"menuSettings.outlineIntensity",
+				"menuSettings.scaleToGridSize",
 				"menuSettings.scaleToZoom",
 				"variables.colors",
 				"variables.outline",

@@ -13,6 +13,10 @@ export class HealthEstimate {
 		this.lastZoom = null;
 	}
 
+	get gridScale() {
+		return this.scaleToGridSize ? canvas.scene.dimensions.size / 100 : 1;
+	}
+
 	get zoomLevel() {
 		return this.scaleToZoom ? Math.min(1, canvas.stage.scale.x) : 1;
 	}
@@ -127,7 +131,7 @@ export class HealthEstimate {
 	}
 
 	_getFontSize() {
-		return (this.fontSize / this.zoomLevel) * 4;
+		return ((this.fontSize * this.gridScale) / this.zoomLevel) * 4;
 	}
 
 	_getUserTextStyle(color, stroke) {
@@ -365,6 +369,7 @@ export class HealthEstimate {
 		this.showDead = sGet("core.deathState");
 		this.NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
+		this.scaleToGridSize = sGet("core.menuSettings.scaleToGridSize");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 		this.outputChat = sGet("core.outputChat");
 

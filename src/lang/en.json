@@ -195,6 +195,10 @@
 					"name": "Margin Adjustment",
 					"hint": "Adjust the text's margin. Positive values push it higher; negative, lower."
 				},
+				"scaleToGridSize": {
+					"name": "Scale Estimates to Grid Size",
+					"hint": "Scales the estimate based on the grid size, assuming 100px as the baseline."
+				},
 				"scaleToZoom": {
 					"name": "Scale Estimates to Zoom",
 					"hint": "Scales the estimate based on the zoom distance."
