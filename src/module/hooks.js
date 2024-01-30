@@ -43,9 +43,8 @@ export class HealthEstimateHooks {
 				canvas.tokens?.placeables
 					.filter((t) => t.healthEstimate?.visible)
 					.forEach((token) => {
-						let fontSize = game.healthEstimate.fontSize / zoomLevel;
 						if (token.healthEstimate?._texture) {
-							token.healthEstimate.style.fontSize = fontSize * 4;
+							token.healthEstimate.style.fontSize = game.healthEstimate._getFontSize();
 						}
 					});
 			}
