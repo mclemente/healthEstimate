@@ -98,7 +98,7 @@
 					"brighten": "Aufhellen"
 				},
 				"position": {
-					"name": "Position",
+					"name": "Höhe",
 					"top": "Oben",
 					"middle": "Mitte",
 					"bottom": "Unten",
@@ -170,7 +170,7 @@
 			"unknownEntity": {
 				"default": "Unbekannte Entität",
 				"hint": "Legt fest, wie ein versteckter Charakter aufgerufen werden soll.{warning}",
-				"name": "Unbekannte Entität",
+				"name": "Unbekannter Entitätenname",
 				"warningPF2eWorkbench": "Wenn Sie die Funktion von \"PF2e Workbench\" zum Verschleiern von Namen verwenden, hat diese Vorrang vor dieser Einstellung.",
 				"warningCUB": "Wenn Sie die Funktion von CUB zum Ausblenden von Namen verwenden, hat diese Vorrang vor dieser Einstellung."
 			},
@@ -349,6 +349,18 @@
 				"name": "Gesundheitslevel für geschwächte SC",
 				"hint": "Legt den maximalen Gesundheitszustand (aktuell / maximal, Bereich 0.0 - 1.0) fest, der für einen SC gemeldet werden kann, der auf dem \"Death Track\" geschwächt ist"
 			}
+		},
+		"notifications": {
+			"terms": {
+				"shown": {
+					"singular": "zeige"
+				},
+				"hidden": {
+					"singular": "versteckt"
+				}
+			},
+			"toggleName": "{tokenName}s Name ist {term} vor den Spieler_innen.",
+			"toggleEstimate": "{tokenName}s Gesundheitseinschätzung ist {term} vor den Spieler_innen."
 		}
 	}
 }
