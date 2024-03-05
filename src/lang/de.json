@@ -127,6 +127,10 @@
 				"position2": {
 					"name": "Position",
 					"hint": "Die Position in Relation zum Rahmen des Tokens."
+				},
+				"scaleToGridSize": {
+					"name": "Skalierung auf Rastergröße",
+					"hint": "Skaliert auf der Grundlage der Rastergröße, wobei 100px als Basiswert angenommen wird."
 				}
 			},
 			"keybinds": {
@@ -353,14 +357,18 @@
 		"notifications": {
 			"terms": {
 				"shown": {
-					"singular": "zeige"
+					"singular": "zeige",
+					"plural": "sichtbar"
 				},
 				"hidden": {
-					"singular": "versteckt"
+					"singular": "versteckt",
+					"plural": "versteckt"
 				}
 			},
 			"toggleName": "{tokenName}s Name ist {term} vor den Spieler_innen.",
-			"toggleEstimate": "{tokenName}s Gesundheitseinschätzung ist {term} vor den Spieler_innen."
+			"toggleEstimate": "{tokenName}s Gesundheitseinschätzung ist {term} vor den Spieler_innen.",
+			"invalidFontSize": "Einstellung für die Schriftgröße wurde zurückgesetzt. Überprüfe die Stil-Einstellungen, um sie zu ändern. Vorheriger Wert: {fontSize}",
+			"toggleEstimateName": "{TokenName}s Gesundheitszustand und Name werden von Spielern {term}."
 		}
 	}
 }
