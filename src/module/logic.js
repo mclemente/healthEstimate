@@ -146,6 +146,7 @@ export class HealthEstimate {
 			padding: 5,
 			dropShadow: true,
 			dropShadowColor,
+			lineJoin: "round",
 		};
 	}
 
