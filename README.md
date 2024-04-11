@@ -15,8 +15,13 @@ See the [CONTRIBUTING](/CONTRIBUTING.md) file for information about how you can 
 
 ## Attribution
 This project is released under the the MIT License, and is a fork of the original [Health Estimate](https://github.com/Shylight/healthEstimate), by Shylight.
+
 This project uses the [chroma.js](https://github.com/gka/chroma.js) library released under [BSD-3-Clause license](http://opensource.org/licenses/BSD-3-Clause).
+
 This project uses the [Grapick](https://www.npmjs.com/package/grapick) library licensed under MIT License.
+
 This project uses code of [Health Monitor](https://github.com/jessev14/health-monitor), released under the MIT License.
+
 This project uses code of [Token Tooltip Alt](https://github.com/bmarian/token-tooltip-alt/), released under the MIT License.
+
 This project uses the [injectConfig](https://github.com/theripper93/injectConfig) library, released under the MIT License.
