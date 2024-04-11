@@ -102,55 +102,13 @@ export class HealthEstimate {
 			if (hovered) {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc !== undefined && color && stroke) {
-					const yPosition = token.tooltip.y + this.height;
+					const y = token.tooltip.y + this.height;
 					const position = { a: 0, b: 1, c: 2 }[this.position];
-					if (!token.healthEstimate?._texture) {
-						const userTextStyle = this._getUserTextStyle(color, stroke);
-						token.healthEstimate = token.addChild(new PIXI.Text(desc, userTextStyle));
-						token.healthEstimate.scale.set(0.25);
-						token.healthEstimate.anchor.set(0.5, 1);
-						token.healthEstimate.position.set(token.tooltip.x, (token.tooltip.x * position) + yPosition);
-					} else {
-						token.healthEstimate.style.fontSize = this._getFontSize();
-						token.healthEstimate.text = desc;
-						token.healthEstimate.style.fill = color;
-						token.healthEstimate.style.stroke = stroke;
-						token.healthEstimate.visible = true;
-						token.healthEstimate.position.set(token.tooltip.x, (token.tooltip.x * position) + yPosition);
-					}
-					if (game.Levels3DPreview?._active) {
-						const { tokens, THREE } = game.Levels3DPreview;
-						const token3d = tokens[token.id];
-
-						const getThreeSpriteMaterial = async (text) => {
-							const userTextStyle = this._getUserTextStyle(color, stroke);
-							text = new PIXI.Text(desc, userTextStyle);
-							const container = new PIXI.Container();
-							container.addChild(text);
-							const base64 = await canvas.app.renderer.extract.base64(container);
-							const spriteMaterial = new THREE.SpriteMaterial({
-								map: await new THREE.TextureLoader().loadAsync(base64),
-								transparent: true,
-								alphaTest: 0.1,
-							});
-							spriteMaterial.pixiText = text;
-							return spriteMaterial;
-						};
-
-						const spriteMaterial = await getThreeSpriteMaterial("text");
-						const sprite = new THREE.Sprite(spriteMaterial);
-						sprite.center.set(0.5, 0.5);
-
-						token3d.mesh.remove(token3d.healthEstimate);
-						token3d.healthEstimate = sprite;
-						token3d.healthEstimate.userData.ignoreIntersect = true;
-						token3d.healthEstimate.userData.ignoreHover = true;
-						const width = spriteMaterial.pixiText.width / token3d.factor;
-						const height = spriteMaterial.pixiText.height / token3d.factor;
-						token3d.healthEstimate.scale.set(width, height, 1);
-						token3d.healthEstimate.position.set(0, token3d.d + (height / 2) + 0.042, 0);
-						token3d.mesh.add(token3d.healthEstimate);
-					}
+					const x = token.tooltip.x * position;
+					const style = this._getUserTextStyle(color, stroke);
+					if (!token.healthEstimate?._texture) this._createHealthEstimate(token, { desc, style, x, y });
+					else this._updateHealthEstimate(token, { desc, color, stroke, x, y });
+					if (game.Levels3DPreview?._active) this._update3DHealthEstimate(token, { desc, color, stroke });
 				}
 			} else if (token.healthEstimate) {
 				token.healthEstimate.visible = false;
@@ -166,6 +124,60 @@ export class HealthEstimate {
 				err
 			);
 		}
+	}
+
+	_createHealthEstimate(token, config = {}) {
+		const { desc, style, x, y } = config;
+		token.healthEstimate = token.addChild(new PIXI.Text(desc, style));
+		token.healthEstimate.scale.set(0.25);
+		token.healthEstimate.anchor.set(0.5, 1);
+		token.healthEstimate.position.set(token.tooltip.x, x + y);
+	}
+
+	_updateHealthEstimate(token, config = {}) {
+		const { desc, color, stroke, x, y } = config;
+		token.healthEstimate.style.fontSize = this._getFontSize();
+		token.healthEstimate.text = desc;
+		token.healthEstimate.style.fill = color;
+		token.healthEstimate.style.stroke = stroke;
+		token.healthEstimate.visible = true;
+		token.healthEstimate.position.set(token.tooltip.x, x + y);
+	}
+
+	async _update3DHealthEstimate(token, config = {}) {
+		const { desc, color, stroke } = config;
+		const { tokens, THREE } = game.Levels3DPreview;
+		const token3d = tokens[token.id];
+
+		const spriteMaterial = await this._getThreeSpriteMaterial(desc, color, stroke);
+		const sprite = new THREE.Sprite(spriteMaterial);
+		sprite.center.set(0.5, 0.5);
+
+		token3d.mesh.remove(token3d.healthEstimate);
+		token3d.healthEstimate = sprite;
+		token3d.healthEstimate.userData.ignoreIntersect = true;
+		token3d.healthEstimate.userData.ignoreHover = true;
+		const width = spriteMaterial.pixiText.width / token3d.factor;
+		const height = spriteMaterial.pixiText.height / token3d.factor;
+		token3d.healthEstimate.scale.set(width, height, 1);
+		token3d.healthEstimate.position.set(0, token3d.d + (height / 2) + 0.042, 0);
+		token3d.mesh.add(token3d.healthEstimate);
+	}
+
+	async _getThreeSpriteMaterial(desc, color, stroke) {
+		const { THREE } = game.Levels3DPreview;
+		const style = this._getUserTextStyle(color, stroke);
+		const text = new PIXI.Text(desc, style);
+		const container = new PIXI.Container();
+		container.addChild(text);
+		const base64 = await canvas.app.renderer.extract.base64(container);
+		const spriteMaterial = new THREE.SpriteMaterial({
+			map: await new THREE.TextureLoader().loadAsync(base64),
+			transparent: true,
+			alphaTest: 0.1,
+		});
+		spriteMaterial.pixiText = text;
+		return spriteMaterial;
 	}
 
 	_getFontSize() {
