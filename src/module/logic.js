@@ -89,7 +89,7 @@ export class HealthEstimate {
 	 * @param {Token} token
 	 * @param {Boolean} hovered
 	 */
-	_handleOverlay(token, hovered) {
+	async _handleOverlay(token, hovered) {
 		if (
 			!token?.actor
 			|| this.breakOverlayRender(token)
@@ -118,9 +118,47 @@ export class HealthEstimate {
 						token.healthEstimate.visible = true;
 						token.healthEstimate.position.set(token.tooltip.x, (token.tooltip.x * position) + yPosition);
 					}
+					if (game.Levels3DPreview?._active) {
+						const { tokens, THREE } = game.Levels3DPreview;
+						const token3d = tokens[token.id];
+
+						const getThreeSpriteMaterial = async (text) => {
+							const userTextStyle = this._getUserTextStyle(color, stroke);
+							text = new PIXI.Text(desc, userTextStyle);
+							const container = new PIXI.Container();
+							container.addChild(text);
+							const base64 = await canvas.app.renderer.extract.base64(container);
+							const spriteMaterial = new THREE.SpriteMaterial({
+								map: await new THREE.TextureLoader().loadAsync(base64),
+								transparent: true,
+								alphaTest: 0.1,
+							});
+							spriteMaterial.pixiText = text;
+							return spriteMaterial;
+						};
+
+						const spriteMaterial = await getThreeSpriteMaterial("text");
+						const sprite = new THREE.Sprite(spriteMaterial);
+						sprite.center.set(0.5, 0.5);
+
+						token3d.mesh.remove(token3d.healthEstimate);
+						token3d.healthEstimate = sprite;
+						token3d.healthEstimate.userData.ignoreIntersect = true;
+						token3d.healthEstimate.userData.ignoreHover = true;
+						const width = spriteMaterial.pixiText.width / token3d.factor;
+						const height = spriteMaterial.pixiText.height / token3d.factor;
+						token3d.healthEstimate.scale.set(width, height, 1);
+						token3d.healthEstimate.position.set(0, token3d.d + (height / 2) + 0.042, 0);
+						token3d.mesh.add(token3d.healthEstimate);
+					}
 				}
 			} else if (token.healthEstimate) {
 				token.healthEstimate.visible = false;
+				if (game.Levels3DPreview?._active) {
+					const { tokens } = game.Levels3DPreview;
+					const token3d = tokens[token.id];
+					if (token3d.healthEstimate) token3d.healthEstimate.visible = false;
+				}
 			}
 		} catch(err) {
 			console.error(
