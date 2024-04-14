@@ -108,7 +108,9 @@ export class HealthEstimate {
 					const style = this._getUserTextStyle(color, stroke);
 					if (!token.healthEstimate?._texture) this._createHealthEstimate(token, { desc, style, x, y });
 					else this._updateHealthEstimate(token, { desc, color, stroke, x, y });
-					if (game.Levels3DPreview?._active) this._update3DHealthEstimate(token, { desc, color, stroke });
+					if (game.Levels3DPreview?._active) {
+						await this._update3DHealthEstimate(token, { desc, color, stroke });
+					}
 				}
 			} else if (token.healthEstimate) {
 				token.healthEstimate.visible = false;
@@ -144,6 +146,8 @@ export class HealthEstimate {
 		token.healthEstimate.position.set(token.tooltip.x, x + y);
 	}
 
+	_3DCache = {};
+
 	async _update3DHealthEstimate(token, config = {}) {
 		const { desc, color, stroke } = config;
 		const { tokens, THREE } = game.Levels3DPreview;
@@ -165,6 +169,7 @@ export class HealthEstimate {
 	}
 
 	async _getThreeSpriteMaterial(desc, color, stroke) {
+		if (this._3DCache[desc + color + stroke]) return this._3DCache[desc + color + stroke];
 		const { THREE } = game.Levels3DPreview;
 		const style = this._getUserTextStyle(color, stroke);
 		const text = new PIXI.Text(desc, style);
@@ -177,6 +182,7 @@ export class HealthEstimate {
 			alphaTest: 0.1,
 		});
 		spriteMaterial.pixiText = text;
+		this._3DCache[desc + color + stroke] = spriteMaterial;
 		return spriteMaterial;
 	}
 
