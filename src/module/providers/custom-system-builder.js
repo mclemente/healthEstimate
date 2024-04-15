@@ -9,19 +9,7 @@ export default class CustomSystemBuilderEstimationProvider extends EstimationPro
 		const thpPath = sGet("custom-system-builder.tempHP");
 		const temp = thpPath && token.actor.type === "character" ? Number(getNestedData(token, thpPath).temp) : 0;
 
-		if (hp === undefined && hpPath === "") throw new Error(
-			`The HP is undefined, try using the ${game.i18n.localize(
-				"healthEstimate.core.custom.FractionHP.name"
-			)} setting.`
-		);
-		else if (hp === undefined) throw new Error(
-			`The ${game.i18n.localize(
-				"healthEstimate.core.custom.FractionHP.name"
-			)} setting ("${hpPath}") is wrong.`
-		);
-		else if (hp.max === undefined) throw new Error(
-			`Token ${token.name}'s HP has no maximum value. Set it up if you intend for the estimation to work.`
-		);
+		this._checkValidHP(token, hp, hpPath);
 		const FractionMath = sGet("core.custom.FractionMath");
 		switch (FractionMath) {
 			case 0:

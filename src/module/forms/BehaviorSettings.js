@@ -1,4 +1,4 @@
-import { settingData, t } from "../utils.js";
+import { t } from "../utils.js";
 import { HealthEstimateSettings } from "./templates/Base.js";
 
 export default class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
@@ -21,7 +21,7 @@ export default class HealthEstimateBehaviorSettings extends HealthEstimateSettin
 			deathState: this.prepSetting("deathState"),
 			deathStateName: this.prepSetting("deathStateName"),
 			NPCsJustDie: this.prepSetting("NPCsJustDie"),
-			deathMarkerEnabled: settingData("core.deathMarker").config,
+			deathMarkerEnabled: game.healthEstimate.estimationProvider.deathMarker.config,
 			deathMarker: this.prepSetting("deathMarker"),
 		};
 	}

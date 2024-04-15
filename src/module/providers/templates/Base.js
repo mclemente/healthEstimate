@@ -139,5 +139,27 @@ export default class EstimationProvider {
 	static tokenEffects(token) {
 		return undefined;
 	}
+
+	_checkValidHP(token, hp, hpPath) {
+		if (hp === undefined || hp === null) {
+			if (hpPath === "") {
+				throw new Error(
+					`The HP is undefined, try using the ${game.i18n.localize(
+						"healthEstimate.core.custom.FractionHP.name"
+					)} setting.`
+				);
+			} else {
+				throw new Error(
+					`The ${game.i18n.localize(
+						"healthEstimate.core.custom.FractionHP.name"
+					)} setting ("${hpPath}") is wrong.`
+				);
+			}
+		} else if (hp.max === undefined) {
+			throw new Error(
+				`Token ${token.name}'s HP has no maximum value. Set it up if you intend for the estimation to work.`
+			);
+		}
+	}
 }
 
