@@ -375,7 +375,9 @@ export class HealthEstimate {
 		const deadIcon = this.estimationProvider.deathMarker.config
 			? this.deathMarker
 			: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon ?? this.deathMarker;
-		return Array.from(token.actor.effects.values()).some((x) => x.icon === deadIcon);
+		return Array.from(token.actor.effects.values()).some((x) => x.icon === deadIcon)
+			|| token.document.overlayEffect === deadIcon
+			|| token.document.overlayEffect === "icons/svg/skull.svg";
 	}
 
 	updateBreakConditions() {
