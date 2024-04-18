@@ -87,6 +87,7 @@ export default class EstimationProvider {
 	/**
 	 * Calculates the fraction of the current health divided by the maximum health.
 	 * @param {TokenDocument} token
+	 * @returns {Number}	Number between 0.0 and 1.0.
 	 */
 	fraction(token) {
 		throw new Error("A subclass of the SystemProvider must implement the fraction method.");
@@ -140,6 +141,12 @@ export default class EstimationProvider {
 		return undefined;
 	}
 
+	/**
+	 * Validates if a given HP object is valid.
+	 * @param {TokenDocument} token
+	 * @param {{value: Number, max: Number, temp: Number?}} hp	The HP object.
+	 * @param {String} hpPath	The HP Data Path.
+	 */
 	_checkValidHP(token, hp, hpPath) {
 		if (hp === undefined || hp === null) {
 			if (hpPath === "") {
