@@ -24,7 +24,6 @@ export class HealthEstimate {
 	// Hooks
 	setup() {
 		this.estimationProvider = this.prepareSystemSpecifics();
-		this.fractionFormula = this.estimationProvider.fraction;
 		if (this.estimationProvider.breakCondition !== undefined) {
 			this.breakConditions.system = this.estimationProvider.breakCondition;
 		}
@@ -284,7 +283,7 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getFraction(token) {
-		const fraction = Math.max(0, Math.min(this.fractionFormula(token), 1));
+		const fraction = Math.max(0, Math.min(this.estimationProvider.fraction(token), 1));
 		if (!Number.isNumeric(fraction)) {
 			throw Error("Token's fraction is not valid, it probably doesn't have a numerical HP or Max HP value.");
 		}

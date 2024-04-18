@@ -1,5 +1,6 @@
 export { default as CoC7EstimationProvider } from "./CoC7.js";
 export { default as D35EEstimationProvider } from "./D35E.js";
+export { default as a5eSystemEstimationProvider } from "./a5e.js";
 export { default as ageSystemEstimationProvider } from "./age-system.js";
 export { default as alienrpgEstimationProvider } from "./alienrpg.js";
 export { default as archmageEstimationProvider } from "./archmage.js";

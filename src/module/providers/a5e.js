@@ -1,5 +1,5 @@
-import { sGet } from "../../utils.js";
-import EstimationProvider from "./Base.js";
+import { sGet } from "../utils.js";
+import EstimationProvider from "./templates/Base.js";
 
 export default class a5eEstimationProvider extends EstimationProvider {
 	/*
