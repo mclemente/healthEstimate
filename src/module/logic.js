@@ -17,6 +17,10 @@ export class HealthEstimate {
 		return this.scaleToGridSize ? canvas.scene.dimensions.size / 100 : 1;
 	}
 
+	get provider() {
+		return this.estimationProvider;
+	}
+
 	get zoomLevel() {
 		return this.scaleToZoom ? Math.min(1, canvas.stage.scale.x) : 1;
 	}
