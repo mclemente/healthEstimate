@@ -131,6 +131,32 @@ export class HealthEstimate {
 		}
 	}
 
+	/**
+	 * @typedef {Object} TextStyle
+	 * @property {Number} fontSize
+	 * @property {String} fontFamily
+	 * @property {String} fill
+	 * @property {String} stroke
+	 * @property {Number} strokeThickness
+	 * @property {Number} padding
+	 * @property {Boolean} dropShadow
+	 * @property {String} dropShadowColor
+	 * @property {String} lineJoin
+	 */
+
+	/**
+	 * @typedef {Object} EstimateConfig
+	 * @property {String} desc	The text to be displayed.
+	 * @property {TextStyle} style	The styling rules to be drawn by PIXI.Text.
+	 * @property {Number} x	The estimate's x position, based on the token's tooltip position and the module's setting.
+	 * @property {Number} y The estimate's y position, based on the token's tooltip position and the module's setting.
+	 */
+
+	/**
+	 * Creates an estimate as a PIXI.Text object and adds it to the token.
+	 * @param {Token} token
+	 * @param {EstimateConfig} config
+	 */
 	_createHealthEstimate(token, config = {}) {
 		const { desc, style, x, y } = config;
 		token.healthEstimate = token.addChild(new PIXI.Text(desc, style));
@@ -139,6 +165,11 @@ export class HealthEstimate {
 		token.healthEstimate.position.set(token.tooltip.x, x + y);
 	}
 
+	/**
+	 * Updates an estimate's properties.
+	 * @param {Token} token
+	 * @param {EstimateConfig} config
+	 */
 	_updateHealthEstimate(token, config = {}) {
 		const { desc, color, stroke, x, y } = config;
 		token.healthEstimate.style.fontSize = this._getFontSize();
@@ -149,14 +180,22 @@ export class HealthEstimate {
 		token.healthEstimate.position.set(token.tooltip.x, x + y);
 	}
 
+	/**
+	 * Caches estimates for the 3D Canvas modules.
+	 * @type {{SpriteMaterial}}
+	 */
 	_3DCache = {};
 
+	/**
+	 * Creates an estimate as a 3D object and adds it to the token3d.
+	 * @param {Token} token
+	 * @param {Object} config
+	 */
 	async _update3DHealthEstimate(token, config = {}) {
-		const { desc, color, stroke } = config;
 		const { tokens, THREE } = game.Levels3DPreview;
 		const token3d = tokens[token.id];
 
-		const spriteMaterial = await this._getThreeSpriteMaterial(desc, color, stroke);
+		const spriteMaterial = await this._getThreeSpriteMaterial(config);
 		const sprite = new THREE.Sprite(spriteMaterial);
 		sprite.center.set(0.5, 0.5);
 
@@ -171,7 +210,13 @@ export class HealthEstimate {
 		token3d.mesh.add(token3d.healthEstimate);
 	}
 
-	async _getThreeSpriteMaterial(desc, color, stroke) {
+	/**
+	 * Creates a Sprite based on a PIXI.Text.
+	 * @param {Object} config
+	 * @returns {SpriteMaterial}
+	 */
+	async _getThreeSpriteMaterial(config) {
+		const { desc, color, stroke } = config;
 		if (this._3DCache[desc + color + stroke]) return this._3DCache[desc + color + stroke];
 		const { THREE } = game.Levels3DPreview;
 		const style = this._getUserTextStyle(color, stroke);
@@ -193,6 +238,12 @@ export class HealthEstimate {
 		return ((this.fontSize * this.gridScale) / this.zoomLevel) * 4;
 	}
 
+	/**
+	 * Creates a PIXI.TextStyle object.
+	 * @param {String} color
+	 * @param {String} stroke
+	 * @returns {TextStyle}
+	 */
 	_getUserTextStyle(color, stroke) {
 		const dropShadowColor = sGet("core.menuSettings.outline") === "brighten" ? "white" : "black";
 		return {
@@ -299,6 +350,7 @@ export class HealthEstimate {
 	 * @property {string} label
 	 * @property {number} value
 	 */
+
 	/**
 	 * Returns the estimate and its index.
 	 * @param {TokenDocument} token
@@ -327,6 +379,12 @@ export class HealthEstimate {
 	}
 
 	// Utils
+
+	/**
+	 * Checks if a Token's or TokenDocument's estimate should be hidden.
+	 * @param {Token|TokenDocument} token
+	 * @returns {Boolean}
+	 */
 	hideEstimate(token) {
 		return Boolean(
 			token.document.getFlag("healthEstimate", "hideHealthEstimate")
@@ -334,6 +392,10 @@ export class HealthEstimate {
 		);
 	}
 
+	/**
+	 * Checks if any combat, linked to the current scene or unlinked, is active.
+	 * @returns {Boolean}
+	 */
 	isCombatRunning() {
 		return [...game.combats].some(
 			(combat) => combat.started && (combat._source.scene === canvas.scene._id || combat._source.scene == null)
@@ -364,6 +426,11 @@ export class HealthEstimate {
 		return isOrganicType && (isNPCJustDie || isShowDead || isDefeated || isFlaggedDead);
 	}
 
+	/**
+	 * Checks if the estimate should be displayed based on the current conditions.
+	 * @param {Boolean} hovered
+	 * @returns {Boolean}
+	 */
 	showCondition(hovered) {
 		const combatTrigger = this.combatOnly && this.combatRunning;
 		return (
@@ -373,6 +440,7 @@ export class HealthEstimate {
 
 	/**
 	 * Path of the token's effects. Useful for systems that change how it is handled (e.g. PF2e, DSA5, SWADE).
+	 * @returns {Boolean}
 	 */
 	tokenEffectsPath(token) {
 		const deadIcon = this.estimationProvider.deathMarker.config
@@ -383,6 +451,10 @@ export class HealthEstimate {
 			|| token.document.overlayEffect === "icons/svg/skull.svg";
 	}
 
+	/**
+	 * Updates the Break Conditions and the Overlay Render's Break Condition method.
+	 * @returns {Boolean}
+	 */
 	updateBreakConditions() {
 		this.breakConditions.onlyGM = sGet("core.showDescription") === 1 ? "|| !game.user.isGM" : "";
 		this.breakConditions.onlyNotGM = sGet("core.showDescription") === 2 ? "|| game.user.isGM" : "";
