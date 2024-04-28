@@ -13,28 +13,59 @@ export class HealthEstimate {
 		this.lastZoom = null;
 	}
 
+	/**
+	 * @type {Number}
+	 */
 	get gridScale() {
 		return this.scaleToGridSize ? canvas.scene.dimensions.size / 100 : 1;
 	}
 
+	/**
+	 * The module's Estimate Provider.
+	 * @type {EstimationProvider}
+	 */
 	get provider() {
 		return this.estimationProvider;
 	}
 
 	/**
+	 * The Font Size scaled to the current grid scale and zoom level.
+	 * Multiplies by 4 to increase the resolution.
+	 * @todo Remove the multiplication and replace PIXI.Text for Foundry's PreciseText.
 	 * @type {Number}
 	 */
 	get scaledFontSize() {
 		return ((this.fontSize * this.gridScale) / this.zoomLevel) * 4;
 	}
 
+	/**
+	 * The current zoom level. If the Scale to Zoom setting is disabled, always returns 1.
+	 * @type {Number}
+	 */
 	get zoomLevel() {
 		return this.scaleToZoom ? Math.min(1, canvas.stage.scale.x) : 1;
 	}
 
 	// Hooks
+
+	/**
+	 * Sets the module's estimation provider, registers settings and updates break conditions.
+	 */
 	setup() {
-		this.estimationProvider = this.prepareSystemSpecifics();
+		// Set the module's provider.
+		const providerArray = Object.keys(providers);
+		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
+		const systemsRegex = new RegExp(supportedSystems);
+		let providerString = "Generic";
+		if (game.system.id in providerKeys) {
+			providerString = providerKeys[game.system.id] || "Generic";
+		} else if (systemsRegex.test(game.system.id)) {
+			providerString = game.system.id;
+		}
+
+		/** @type {EstimateProvider} */
+		this.estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
+
 		if (this.estimationProvider.breakCondition !== undefined) {
 			this.breakConditions.system = this.estimationProvider.breakCondition;
 		}
@@ -75,24 +106,6 @@ export class HealthEstimate {
 			sSet("core.menuSettings.position", 0);
 			sSet("core.menuSettings.position2", this.position);
 		}
-	}
-
-	/**
-	 * Gets system specifics, such as its hp attribute and other settings.
-	 * @returns {providers.EstimationProvider}
-	 */
-	prepareSystemSpecifics() {
-		const providerArray = Object.keys(providers);
-		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
-		const systemsRegex = new RegExp(supportedSystems);
-		let providerString = "Generic";
-		if (game.system.id in providerKeys) {
-			providerString = providerKeys[game.system.id] || "Generic";
-		} else if (systemsRegex.test(game.system.id)) {
-			providerString = game.system.id;
-		}
-		const providerClassName = `${providerString}EstimationProvider`;
-		return new providers[providerClassName](`native.${providerString}`);
 	}
 
 	/**
