@@ -273,7 +273,7 @@ export const registerSettings = function () {
 			game.healthEstimate.fontSize = value;
 			canvas.scene?.tokens.forEach((token) => {
 				if (token.object.healthEstimate) {
-					token.object.healthEstimate.style.fontSize = game.healthEstimate._getFontSize();
+					token.object.healthEstimate.style.fontSize = game.healthEstimate.scaledFontSize;
 				}
 			});
 		},

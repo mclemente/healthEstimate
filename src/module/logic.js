@@ -21,6 +21,13 @@ export class HealthEstimate {
 		return this.estimationProvider;
 	}
 
+	/**
+	 * @type {Number}
+	 */
+	get scaledFontSize() {
+		return ((this.fontSize * this.gridScale) / this.zoomLevel) * 4;
+	}
+
 	get zoomLevel() {
 		return this.scaleToZoom ? Math.min(1, canvas.stage.scale.x) : 1;
 	}
@@ -172,7 +179,7 @@ export class HealthEstimate {
 	 */
 	_updateHealthEstimate(token, config = {}) {
 		const { desc, color, stroke, x, y } = config;
-		token.healthEstimate.style.fontSize = this._getFontSize();
+		token.healthEstimate.style.fontSize = this.scaledFontSize;
 		token.healthEstimate.text = desc;
 		token.healthEstimate.style.fill = color;
 		token.healthEstimate.style.stroke = stroke;
@@ -234,10 +241,6 @@ export class HealthEstimate {
 		return spriteMaterial;
 	}
 
-	_getFontSize() {
-		return ((this.fontSize * this.gridScale) / this.zoomLevel) * 4;
-	}
-
 	/**
 	 * Creates a PIXI.TextStyle object.
 	 * @param {String} color
@@ -248,7 +251,7 @@ export class HealthEstimate {
 		const dropShadowColor = sGet("core.menuSettings.outline") === "brighten" ? "white" : "black";
 		return {
 			// Multiply font size to increase resolution quality
-			fontSize: this._getFontSize(),
+			fontSize: this.scaledFontSize,
 			fontFamily: this.fontFamily,
 			fill: color,
 			stroke,

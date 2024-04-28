@@ -44,7 +44,7 @@ export class HealthEstimateHooks {
 					.filter((t) => t.healthEstimate?.visible)
 					.forEach((token) => {
 						if (token.healthEstimate?._texture) {
-							token.healthEstimate.style.fontSize = game.healthEstimate._getFontSize();
+							token.healthEstimate.style.fontSize = game.healthEstimate.scaledFontSize;
 						}
 					});
 			}
