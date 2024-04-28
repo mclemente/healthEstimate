@@ -92,7 +92,7 @@ export class HealthEstimate {
 	 * @param {Token} token
 	 * @param {Boolean} hovered
 	 */
-	async _handleOverlay(token, hovered) {
+	_handleOverlay(token, hovered) {
 		if (
 			!token?.actor
 			|| this.breakOverlayRender(token)
@@ -112,7 +112,7 @@ export class HealthEstimate {
 					if (!token.healthEstimate?._texture) this._createHealthEstimate(token, { desc, style, x, y });
 					else this._updateHealthEstimate(token, { desc, color, stroke, x, y });
 					if (game.Levels3DPreview?._active) {
-						await this._update3DHealthEstimate(token, { desc, color, stroke });
+						this._update3DHealthEstimate(token, { desc, color, stroke });
 					}
 				}
 			} else if (token.healthEstimate) {
