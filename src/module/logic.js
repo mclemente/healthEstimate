@@ -31,7 +31,6 @@ export class HealthEstimate {
 	/**
 	 * The Font Size scaled to the current grid scale and zoom level.
 	 * Multiplies by 4 to increase the resolution.
-	 * @todo Remove the multiplication and replace PIXI.Text for Foundry's PreciseText.
 	 * @type {Number}
 	 */
 	get scaledFontSize() {
