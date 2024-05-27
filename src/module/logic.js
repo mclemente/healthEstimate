@@ -313,7 +313,7 @@ export class HealthEstimate {
 				}
 			}
 		}
-		return { estimation: deepClone(this.estimations[0]), special: deepClone(special) };
+		return { estimation: foundry.utils.deepClone(this.estimations[0]), special: foundry.utils.deepClone(special) };
 	}
 
 	/**
