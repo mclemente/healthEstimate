@@ -11,7 +11,7 @@ export class HealthEstimateSettings extends FormApplication {
 	 * Default Options for this FormApplication
 	 */
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			classes: ["form", "healthEstimate"],
 			width: 640,
 			height: "fit-content",
@@ -61,4 +61,3 @@ export class HealthEstimateSettings extends FormApplication {
 		if (game.healthEstimate.alwaysShow) canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 }
-

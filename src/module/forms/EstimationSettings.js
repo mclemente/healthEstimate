@@ -9,7 +9,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	}
 
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			id: "health-estimate-estimation-form",
 			title: `Health Estimate: ${t("core.estimationSettings.title")}`,
 			template: "./modules/healthEstimate/templates/EstimationSettings.hbs",

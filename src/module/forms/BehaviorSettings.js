@@ -3,7 +3,7 @@ import { HealthEstimateSettings } from "./templates/Base.js";
 
 export default class HealthEstimateBehaviorSettings extends HealthEstimateSettings {
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			id: "health-estimate-behavior-form",
 			title: `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/behaviorSettings.hbs",
