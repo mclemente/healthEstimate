@@ -12,6 +12,7 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 			height: "auto",
 		},
 		form: {
+			handler: HealthEstimateSettingsV2.#onSubmit,
 			closeOnSubmit: true,
 		},
 		tag: "form",
@@ -70,14 +71,9 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 	 * @param {Event} event - the form submission event
 	 * @param {Object} formData - the form data
 	 */
-	async _updateObject(event, formData) {
-		await Promise.all(
-			Object.entries(formData).map(async ([key, value]) => {
-				let current = game.settings.get("healthEstimate", `core.${key}`);
-				// eslint-disable-next-line eqeqeq
-				if (value != current) await sSet(`core.${key}`, value);
-			})
-		);
+	static async #onSubmit(event, form, formData) {
+		const settings = foundry.utils.expandObject(formData.object);
+		await Promise.all(Object.entries(settings).map(([key, value]) => sSet(`core.${key}`, value)));
 		if (game.healthEstimate.alwaysShow) canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 }

@@ -1,34 +1,34 @@
-<form autocomplete="off" onsubmit="event.preventDefault()">
+<div class="standard-form">
 	<div class="form-group">
 		{{#with alwaysShow}}
 			<label>{{localize name}}</label>
 			<input type="checkbox" name="alwaysShow" id="alwaysShow" {{checked value}} />
-			<p class="notes">{{localize hint}}</p>
+			<p class="hint">{{localize hint}}</p>
 		{{/with}}
 	</div>
 	<div class="form-group">
 		{{#with combatOnly}}
 			<label>{{localize name}}</label>
 			<input type="checkbox" name="combatOnly" id="combatOnly" {{checked value}} />
-			<p class="notes">{{localize hint}}</p>
+			<p class="hint">{{localize hint}}</p>
 		{{/with}}
 	</div>
 	<div class="form-group">
 		{{#with showDescription}}
 			<label>{{localize name}}</label>
 			<select name="showDescription" class="form-fields" id="showDescription">
-				{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
+				{{selectOptions select selected=selected valueAttr="key" labelAttr="value"}}
 			</select>
-			<p class="notes">{{localize hint}}</p>
+			<p class="hint">{{localize hint}}</p>
 		{{/with}}
 	</div>
 	<div class="form-group">
 		{{#with showDescriptionTokenType}}
 			<label>{{localize name}}</label>
 			<select name="showDescriptionTokenType" class="form-fields" id="showDescriptionTokenType">
-				{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
+				{{selectOptions select selected=selected valueAttr="key" labelAttr="value"}}
 			</select>
-			<p class="notes">{{localize hint}}</p>
+			<p class="hint">{{localize hint}}</p>
 		{{/with}}
 	</div>
 
@@ -36,21 +36,21 @@
 		{{#with deathState}}
 			<label>{{localize name}}</label>
 			<input type="checkbox" name="deathState" id="deathState" {{checked value}} />
-			<p class="notes">{{localize hint}}</p>
+			<p class="hint">{{localize hint}}</p>
 		{{/with}}
 	</div>
 	<div class="form-group">
 		{{#with deathStateName}}
 			<label>{{localize name}}</label>
 			<input type="text" name="deathStateName" id="deathStateName" value="{{value}}" />
-			<p class="notes">{{localize hint}}</p>
+			<p class="hint">{{localize hint}}</p>
 		{{/with}}
 	</div>
 	<div class="form-group">
 		{{#with NPCsJustDie}}
 			<label>{{localize name}}</label>
 			<input type="checkbox" name="NPCsJustDie" id="NPCsJustDie" {{checked value}} />
-			<p class="notes">{{localize hint}}</p>
+			<p class="hint">{{localize hint}}</p>
 		{{/with}}
 	</div>
 	{{#if deathMarkerEnabled}}
@@ -67,18 +67,8 @@
 						value="{{value}}"
 					/>
 				</div>
-				<p class="notes">{{localize hint}}</p>
+				<p class="hint">{{localize hint}}</p>
 			{{/with}}
 		</div>
 	{{/if}}
-	<footer class="sheet-footer flexrow">
-		<button type="submit" name="submit">
-			<i class="far fa-save"></i>
-			{{localize "SETTINGS.Save"}}
-		</button>
-		<button type="button" name="reset" data-action="reset">
-			<i class="fas fa-undo"></i>
-			{{localize "SETTINGS.Reset"}}
-		</button>
-	</footer>
-</form>
+</div>
