@@ -32,7 +32,7 @@ export default class HealthEstimateBehaviorSettings extends HealthEstimateSettin
 			NPCsJustDie: this.prepSetting("NPCsJustDie"),
 			deathMarkerEnabled: game.healthEstimate.estimationProvider.deathMarker.config,
 			deathMarker: this.prepSetting("deathMarker"),
-			...HealthEstimateSettingsV2.BUTTONS,
+			buttons: this._getButtons(),
 		};
 	}
 

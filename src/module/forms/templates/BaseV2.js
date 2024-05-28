@@ -27,12 +27,12 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 		},
 	};
 
-	static BUTTONS = {
-		buttons: [
+	_getButtons() {
+		return [
 			{ type: "submit", icon: "fa-solid fa-save", label: "SETTINGS.Save" },
 			{ type: "reset", action: "reset", icon: "fa-solid fa-undo", label: "SETTINGS.Reset" },
-		],
-	};
+		];
+	}
 
 	get title() {
 		return `Health Estimate: ${game.i18n.localize(this.options.window.title)}`;

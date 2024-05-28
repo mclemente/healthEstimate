@@ -43,7 +43,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 			scaleToGridSize: this.prepSetting("scaleToGridSize"),
 			scaleToZoom: this.prepSetting("scaleToZoom"),
 			deadText: game.settings.get("healthEstimate", "core.deathStateName"),
-			...HealthEstimateSettingsV2.BUTTONS,
+			buttons: this._getButtons(),
 		};
 	}
 
