@@ -34,10 +34,8 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 		],
 	};
 
-	_initializeApplicationOptions(options) {
-		options = super._initializeApplicationOptions(options);
-		options.uniqueId = `${this.constructor.name}`;
-		return options;
+	get title() {
+		return `Health Estimate: ${game.i18n.localize(this.options.window.title)}`;
 	}
 
 	prepSelection(key) {

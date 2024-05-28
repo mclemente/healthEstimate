@@ -1,13 +1,14 @@
-import { t } from "../utils.js";
 import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 
 export default class HealthEstimateBehaviorSettings extends HealthEstimateSettingsV2 {
 	static DEFAULT_OPTIONS = {
+		id: "health-estimate-behavior-form",
 		actions: {
 			reset: HealthEstimateBehaviorSettings.reset,
 		},
 		window: {
 			icon: "fas fa-gear",
+			title: "healthEstimate.core.menuSettings.behaviorSettings.plural",
 		},
 	};
 
@@ -18,10 +19,6 @@ export default class HealthEstimateBehaviorSettings extends HealthEstimateSettin
 		},
 		...HealthEstimateSettingsV2.PARTS,
 	};
-
-	get title() {
-		return `Health Estimate: ${t("core.menuSettings.behaviorSettings.plural")}`;
-	}
 
 	_prepareContext(options) {
 		return {

@@ -1,4 +1,4 @@
-import { sGet, sSet, t } from "../utils.js";
+import { sGet, sSet } from "../utils.js";
 import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 
 export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV2 {
@@ -7,6 +7,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 	path = "core.menuSettings";
 
 	static DEFAULT_OPTIONS = {
+		id: "health-estimate-style-form",
 		actions: {
 			reset: HealthEstimateStyleSettings.reset,
 		},
@@ -15,6 +16,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		},
 		window: {
 			icon: "fas fa-palette",
+			title: "healthEstimate.core.menuSettings.styleSettings.plural",
 		},
 	};
 
@@ -25,10 +27,6 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		},
 		...HealthEstimateSettingsV2.PARTS,
 	};
-
-	get title() {
-		return `Health Estimate: ${t("core.menuSettings.styleSettings.plural")}`;
-	}
 
 	_prepareContext(options) {
 		return {
