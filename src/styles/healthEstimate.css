@@ -239,7 +239,7 @@ li.hm_messagetaken {
 }
 .gradient-settings {
 	display: flex;
-	flex: 0 !important;
+	flex: 0 0 auto !important;
 	align-items: center;
 	justify-content: center;
 	margin-left: 10px;

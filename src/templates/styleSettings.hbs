@@ -1,24 +1,32 @@
-<form autocomplete="off" onsubmit="event.preventDefault()">
+<div class="standard-form">
 	<div class="form-group">
 		<label>{{useColor.name}}</label>
-		<input type="checkbox" name="useColor" id="useColor" {{checked useColor.value}} />
-		<p class="notes">{{useColor.hint}}</p>
+		<div class="form-fields">
+			<input type="checkbox" name="useColor" id="useColor" {{checked useColor.value}} />
+		</div>
+		<p class="hint">{{useColor.hint}}</p>
 	</div>
 	<div class="form-group">
 		<label>{{scaleToGridSize.name}}</label>
-		<input type="checkbox" name="scaleToGridSize" id="scaleToGridSize" {{checked scaleToGridSize.value}} />
-		<p class="notes">{{scaleToGridSize.hint}}</p>
+		<div class="form-fields">
+			<input type="checkbox" name="scaleToGridSize" id="scaleToGridSize" {{checked scaleToGridSize.value}} />
+		</div>
+		<p class="hint">{{scaleToGridSize.hint}}</p>
 	</div>
 	<div class="form-group">
 		<label>{{scaleToZoom.name}}</label>
-		<input type="checkbox" name="scaleToZoom" id="scaleToZoom" {{checked scaleToZoom.value}} />
-		<p class="notes">{{scaleToZoom.hint}}</p>
+		<div class="form-fields">
+			<input type="checkbox" name="scaleToZoom" id="scaleToZoom" {{checked scaleToZoom.value}} />
+		</div>
+		<p class="hint">{{scaleToZoom.hint}}</p>
 	</div>
 	<div class="form-group">
 		{{#with smoothGradient}}
 			<label>{{localize name}}</label>
-			<input type="checkbox" name="smoothGradient" id="smoothGradient" {{checked value}} />
-			<p class="notes">{{localize hint}}</p>
+			<div class="form-fields">
+				<input type="checkbox" name="smoothGradient" id="smoothGradient" {{checked value}} />
+			</div>
+			<p class="hint">{{localize hint}}</p>
 		{{/with}}
 	</div>
 	<div class="form-group gradient">
@@ -29,7 +37,7 @@
 		<span class="gradient-settings">
 			{{#with mode}}
 				<select name="mode" id="mode">
-					{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
+					{{selectOptions select selected=selected valueAttr="key" labelAttr="value"}}
 				</select>
 			{{/with}}
 		</span>
@@ -37,7 +45,7 @@
 	<div class="form-group healthEstimate deadColor">
 		{{#with deadColor}}
 			<label>{{localize name}}</label>
-			{{colorPicker name="deadColor" value=value}}
+			<color-picker name="deadColor" value="{{value}}"></color-picker>
 		{{/with}}
 	</div>
 	<div class="form-group">
@@ -49,87 +57,49 @@
 		</span>
 	</div>
 	<div class="form-group">
-		<div>
-			<div class="form-group">
-				{{#with outline}}
-					<label>{{localize name}}</label>
-					<select name="outlineMode" class="form-fields" id="outlineMode">
-						{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
-					</select>
-				{{/with}}
-				{{#with outlineIntensity}}
-					<input
-						type="range"
-						name="outlineIntensity"
-						id="outlineIntensity"
-						value="{{value}}"
-						min="0"
-						max="10"
-						step="0.1"
-					/>
-					<span class="range-value">{{value}}</span>
-				{{/with}}
-			</div>
-			<div class="form-group">
-				{{#with fontFamily}}
-					<label>{{name}}</label>
-					<select name="fontFamily" id="fontFamily">
-						{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
-					</select>
-				{{/with}}
-			</div>
-			<div class="form-group">
-				{{#with fontSize}}
-					<label>{{localize name}}</label>
-					<input
-						type="range"
-						name="fontSize"
-						id="fontSize"
-						data-dtype="Number"
-						value="{{value}}"
-						min="1"
-						max="72"
-						step="1"
-					/>
-					<span class="range-value">{{value}}</span>
-				{{/with}}
-			</div>
-			<div class="form-group">
-				{{#with position2}}
-					<label>{{localize name}}</label>
-					<select name="position2" id="position2">
-						{{selectOptions select selected=selected nameAttr="key" labelAttr="value"}}
-					</select>
-					<p class="notes">{{localize hint}}</p>
-				{{/with}}
-			</div>
-			<div class="form-group">
-				{{#with position}}
-					<label>{{localize name}}</label>
-					<input
-						type="range"
-						name="position"
-						id="position"
-						data-dtype="Number"
-						value="{{value}}"
-						min="-100"
-						max="100"
-						step="1"
-					/>
-					<span class="range-value">{{value}}</span>
-					<p class="notes">{{localize hint}}</p>
-				{{/with}}
-			</div>
+		<label>{{localize outline.name}}</label>
+		<div class="form-fields">
+			<select name="outlineMode" class="form-fields" id="outlineMode">
+				{{selectOptions outline.select selected=outline.selected valueAttr="key" labelAttr="value"}}
+			</select>
+			{{rangePicker name="outlineIntensity" value=outlineIntensity.value min="0" max="10" step="0.1"}}
 		</div>
 	</div>
-	<footer class="sheet-footer flexrow">
-		<button type="submit" name="submit">
-			<i class="far fa-save"></i>
-			{{localize "SETTINGS.Save"}}
-		</button>
-		<button type="button" name="reset" data-action="reset">
-			<i class="fas fa-undo"></i>
-			{{localize "SETTINGS.Reset"}}
-		</button>
-	</footer>
-</form>
+	<div class="form-group">
+		{{#with fontFamily}}
+			<label>{{name}}</label>
+			<select name="fontFamily" id="fontFamily">
+				{{selectOptions select selected=selected valueAttr="key" labelAttr="value"}}
+			</select>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with fontSize}}
+			<label>{{localize name}}</label>
+			<div class="form-fields">
+				{{rangePicker name="fontSize" value=value min="1" max="72" step="1"}}
+			</div>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with position2}}
+			<label>{{localize name}}</label>
+			<div class="form-fields">
+				<select name="position2" id="position2">
+					{{selectOptions select selected=selected valueAttr="key" labelAttr="value"}}
+				</select>
+			</div>
+			<p class="hint">{{localize hint}}</p>
+		{{/with}}
+	</div>
+	<div class="form-group">
+		{{#with position}}
+			<label>{{localize name}}</label>
+			<div class="form-fields">
+				{{rangePicker name="position" value=value min="-100" max="100" step="1"}}
+			</div>
+			<p class="hint">{{localize hint}}</p>
+		{{/with}}
+	</div>
+
+</div>

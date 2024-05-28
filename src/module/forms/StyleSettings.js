@@ -1,26 +1,36 @@
 import { sGet, sSet, t } from "../utils.js";
-import { HealthEstimateSettings } from "./templates/Base.js";
+import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 
-export default class HealthEstimateStyleSettings extends HealthEstimateSettings {
-	constructor(object, options = {}) {
-		super(object, options);
-		this.path = "core.menuSettings";
-		this.gradColors = [];
-		Hooks.once("renderHealthEstimateStyleSettings", this.initHooks.bind(this));
-		Hooks.once("closeHealthEstimateStyleSettings", () => {
-			delete this.gp;
-		});
-	}
+export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV2 {
+	gradColors = [];
 
-	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+	path = "core.menuSettings";
+
+	static DEFAULT_OPTIONS = {
+		actions: {
+			reset: HealthEstimateStyleSettings.reset,
+		},
+		form: {
+			handler: HealthEstimateStyleSettings.#onSubmit,
+		},
+		window: {
+			icon: "fas fa-palette",
+		},
+	};
+
+	static PARTS = {
+		form: {
 			id: "health-estimate-style-form",
-			title: `Health Estimate: ${t("core.menuSettings.styleSettings.plural")}`,
 			template: "./modules/healthEstimate/templates/styleSettings.hbs",
-		});
+		},
+		...HealthEstimateSettingsV2.PARTS,
+	};
+
+	get title() {
+		return `Health Estimate: ${t("core.menuSettings.styleSettings.plural")}`;
 	}
 
-	getData(options) {
+	_prepareContext(options) {
 		return {
 			fontFamily: this.prepSelection("fontFamily"),
 			useColor: this.prepSetting("useColor"),
@@ -35,30 +45,37 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 			scaleToGridSize: this.prepSetting("scaleToGridSize"),
 			scaleToZoom: this.prepSetting("scaleToZoom"),
 			deadText: game.settings.get("healthEstimate", "core.deathStateName"),
+			...HealthEstimateSettingsV2.BUTTONS,
 		};
 	}
 
-	initHooks() {
+	_onRender(context, options) {
 		const gradientPositions = game.settings.get("healthEstimate", "core.menuSettings.gradient");
-		const mode = document.getElementById("mode");
-		const useColorCheckbox = document.querySelector('input[name="useColor"]');
+		const mode = this.element.querySelector("#mode");
+		const useColorCheckbox = this.element.querySelector('input[name="useColor"]');
 
-		this.fontFamily = document.getElementById("fontFamily");
+		this.fontFamily = this.element.querySelector("#fontFamily");
 		this.useColor = sGet("core.menuSettings.useColor");
 
-		const deadColor = document.querySelector("input[name=deadColor]");
-		this.deadColor = document.querySelector("input[data-edit=deadColor]");
+		this.deadColor = this.element.querySelector("color-picker[name=deadColor]");
 		this.deadOutline = sGet("core.variables.deadOutline");
 
-		this.outlineMode = document.getElementById("outlineMode");
-		this.outlineIntensity = document.getElementById("outlineIntensity");
-		this.fontSize = document.getElementById("fontSize");
-		this.textPosition = document.getElementById("position");
-		this.smoothGradient = document.getElementById("smoothGradient");
-		this.gradEx = document.getElementById("gradientExampleHE");
+		this.outlineMode = this.element.querySelector("#outlineMode");
+		this.outlineIntensity = this.element.querySelector("input[name=outlineIntensity]");
+		this.fontSize = this.element.querySelector("input[name=fontSize]");
+		this.textPosition = this.element.querySelector("input[name=position]");
+		this.smoothGradient = this.element.querySelector("#smoothGradient");
+		this.gradEx = this.element.querySelector("#gradientExampleHE");
 
 		this.fontSize.value = Number.isNumeric(this.fontSize.value) ? this.fontSize.value : 24;
 		this.textPosition.value = Number.isNumeric(this.textPosition.value) ? this.textPosition.value : 0;
+
+		const gradientForm = this.element.querySelector('div[class="form-group gradient"]');
+
+		this.hideForm(this.smoothGradient.parentElement, this.useColor);
+		this.hideForm(gradientForm, this.useColor);
+		this.hideForm(this.deadColor.parentElement, this.useColor);
+		this.hideForm(this.outlineMode.parentElement, this.useColor);
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",
@@ -82,18 +99,25 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 			this.updateGradientFunction();
 		});
 
-		for (let el of [deadColor, this.deadColor]) {
-			el.addEventListener("change", (ev) => {
-				this.deadOutline = this.outlFn(ev.target.value);
-				this.deadColor.value = ev.target.value;
-				this.updateSample();
-			});
-		}
+		this.deadColor.addEventListener("change", (ev) => {
+			this.deadOutline = this.outlFn(ev.target.value);
+			// this.deadColor.value = ev.target.value;
+			this.updateSample();
+		});
 		useColorCheckbox.addEventListener("change", (ev) => {
 			this.useColor = !this.useColor;
 			this.updateSample();
+			this.hideForm(this.smoothGradient.parentElement, ev.target.checked);
+			this.hideForm(gradientForm, ev.target.checked);
+			this.hideForm(this.deadColor.parentElement, ev.target.checked);
+			this.hideForm(this.outlineMode.parentElement, ev.target.checked);
 		});
 
+		for (const range of this.element.querySelectorAll("input[type=range]")) {
+			range.addEventListener("change", (event) => {
+				range.nextElementSibling.innerHTML = event.target.value;
+			});
+		}
 		this.gp.on("change", (complete) => {
 			this.updateGradient();
 		});
@@ -113,6 +137,10 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 		}
 	}
 
+	hideForm(form, boolean) {
+		form.style.display = !boolean ? "none" : "flex";
+	}
+
 	async setHandlers(positions) {
 		for (let [i, v] of positions.colors.entries()) {
 			this.gp.addHandler(positions.positions[i] * 100, v);
@@ -120,7 +148,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 	}
 
 	updateGradientFunction() {
-		const mode = document.getElementById("mode").value;
+		const mode = this.element.querySelector("#mode").value;
 		/**
 		 *
 		 * @param {Number} amount
@@ -173,9 +201,9 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 	}
 
 	updateSample() {
-		const sample = document.getElementById("healthEstimateSample");
-		const sampleAnimation = document.getElementById("SampleAnimation");
-		const deadSample = document.getElementById("healthEstimateSample").children[0];
+		const sample = this.element.querySelector("#healthEstimateSample");
+		const sampleAnimation = this.element.querySelector("#SampleAnimation");
+		const deadSample = this.element.querySelector("#healthEstimateSample").children[0];
 		const deadColor = this.useColor ? this.deadColor.value : "#FFF";
 		const deadOutline = this.useColor ? this.deadOutline : "#000";
 		sample.style.fontFamily = this.fontFamily.value;
@@ -217,58 +245,56 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettings 
 		}
 	}
 
-	async activateListeners(html) {
-		super.activateListeners(html);
-		html.find("button[name=reset]").on("click", async (event) => {
-			const paths = [
-				"menuSettings.useColor",
-				"menuSettings.smoothGradient",
-				"menuSettings.deadColor",
-				"menuSettings.fontSize",
-				"menuSettings.position",
-				"menuSettings.position2",
-				"menuSettings.mode",
-				"menuSettings.outline",
-				"menuSettings.outlineIntensity",
-				"menuSettings.scaleToGridSize",
-				"menuSettings.scaleToZoom",
-				"variables.colors",
-				"variables.outline",
-				"variables.deadColor",
-				"variables.deadOutline",
-			];
-			await Promise.all(paths.map(this.resetToDefault));
-			this.close();
-		});
+	static async reset() {
+		const paths = [
+			"menuSettings.useColor",
+			"menuSettings.smoothGradient",
+			"menuSettings.deadColor",
+			"menuSettings.fontSize",
+			"menuSettings.position",
+			"menuSettings.position2",
+			"menuSettings.mode",
+			"menuSettings.outline",
+			"menuSettings.outlineIntensity",
+			"menuSettings.scaleToGridSize",
+			"menuSettings.scaleToZoom",
+			"variables.colors",
+			"variables.outline",
+			"variables.deadColor",
+			"variables.deadOutline",
+		];
+		await Promise.all(paths.map(this.resetToDefault));
+		this.close();
 	}
 
 	async close(options = {}) {
 		this.clearKeyframes();
+		// delete this.gp;
 		super.close(options);
 	}
 
-	async _updateObject(event, formData) {
-		if (event.type !== "submit") return;
-		const menuSettingsKeys = Object.keys(formData).filter((key) => key.indexOf("outline") === -1);
-		const updates = menuSettingsKeys.map((key) => sSet(`core.menuSettings.${key}`, formData[key]));
+	static async #onSubmit(event, form, formData) {
+		const settings = foundry.utils.expandObject(formData.object);
+		const menuSettingsKeys = Object.keys(settings).filter((key) => key.indexOf("outline") === -1);
+		const updates = menuSettingsKeys.map((key) => sSet(`core.menuSettings.${key}`, settings[key]));
 		await Promise.all(updates);
 
-		if (!formData.useColor) {
+		if (!settings.useColor) {
 			this.gradColors = ["#FFF"];
 			this.outlColors = ["#000"];
 			this.deadOutline = "#000";
-			formData.deadColor = "#FFF";
+			settings.deadColor = "#FFF";
 		}
 		const variableUpdates = [
 			sSet("core.menuSettings.gradient", {
 				colors: this.gp.handlers.map((a) => a.color),
 				positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
 			}),
-			sSet("core.menuSettings.outline", formData.outlineMode),
-			sSet("core.menuSettings.outlineIntensity", formData.outlineIntensity),
+			sSet("core.menuSettings.outline", settings.outlineMode),
+			sSet("core.menuSettings.outlineIntensity", settings.outlineIntensity),
 			sSet("core.variables.colors", this.gradColors),
 			sSet("core.variables.outline", this.outlColors),
-			sSet("core.variables.deadColor", formData.deadColor),
+			sSet("core.variables.deadColor", settings.deadColor),
 			sSet("core.variables.deadOutline", this.deadOutline),
 		];
 		await Promise.all(variableUpdates);

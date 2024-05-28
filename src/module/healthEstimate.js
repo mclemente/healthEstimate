@@ -24,7 +24,6 @@ Hooks.on("deleteActiveEffect", HealthEstimateHooks.deleteActiveEffect);
 // Rendering
 Hooks.on("renderChatMessage", HealthEstimateHooks.onRenderChatMessage);
 Hooks.on("renderSettingsConfig", HealthEstimateHooks.renderSettingsConfigHandler);
-Hooks.on("renderHealthEstimateStyleSettings", HealthEstimateHooks.renderHealthEstimateStyleSettingsHandler);
 Hooks.on("renderTokenConfig", HealthEstimateHooks.renderTokenConfigHandler);
 
 function setKeybinds() {

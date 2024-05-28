@@ -208,31 +208,6 @@ export class HealthEstimateHooks {
 		}
 	}
 
-	static renderHealthEstimateStyleSettingsHandler(settingsConfig, html) {
-		const useColor = game.settings.get("healthEstimate", "core.menuSettings.useColor");
-		const useColorCheckbox = html.find('input[name="useColor"]');
-		const smoothGradientForm = html.find('input[name="smoothGradient"]').parent()[0];
-		const gradientForm = html.find('div[class="form-group gradient"]')[0];
-		const deadColorForm = html.find('input[name="deadColor"]').parent()[0];
-		const outlineModeForm = html.find('select[id="outlineMode"]').parent()[0];
-
-		function hideForm(form, boolean) {
-			form.style.display = !boolean ? "none" : "flex";
-		}
-
-		hideForm(smoothGradientForm, useColor);
-		hideForm(gradientForm, useColor);
-		hideForm(deadColorForm, useColor);
-		hideForm(outlineModeForm, useColor);
-
-		useColorCheckbox.on("change", (event) => {
-			hideForm(smoothGradientForm, event.target.checked);
-			hideForm(gradientForm, event.target.checked);
-			hideForm(deadColorForm, event.target.checked);
-			hideForm(outlineModeForm, event.target.checked);
-		});
-	}
-
 	/**
 	 * Handler called when token configuration window is opened. Injects custom form html and deals
 	 * with updating token.
