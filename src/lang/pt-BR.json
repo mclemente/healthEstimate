@@ -209,6 +209,10 @@
 				"position2": {
 					"name": "Posição",
 					"hint": "A posição em relação ao quadro do token."
+				},
+				"scaleToGridSize": {
+					"name": "Dimensionar Estimativas com o Tamanho da Grade",
+					"hint": "Dimensiona as estimativas com o tamanho da grade, assumindo 100px como o padrão."
 				}
 			},
 			"combatOnly": {
