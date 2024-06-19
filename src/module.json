@@ -2,15 +2,10 @@
 	"id": "healthEstimate",
 	"title": "Health Estimate",
 	"description": "Gives players ability to see approximate health status of a token",
-	"version": "30",
 	"authors": [
 		{
 			"name": "Matheus Clemente",
-			"discord": "mclemente#5524",
-			"flags": {
-				"github": "mclemente",
-				"ko-fi": "mclemente"
-			}
+			"discord": "mclemente"
 		}
 	],
 	"scripts": ["lib/chroma.min.js", "lib/grapick.min.js", "lib/spectrum.min.js"],
@@ -78,14 +73,12 @@
 			"path": "lang/cs.json"
 		}
 	],
-	"url": "https://github.com/mclemente/healthEstimate",
-	"manifest": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.json",
-	"download": "https://github.com/mclemente/healthEstimate/releases/latest/download/module.zip",
-	"changelog": "https://github.com/mclemente/healthEstimate/blob/master/CHANGELOG.md",
-	"license": "https://choosealicense.com/licenses/mit/",
-	"bugs": "https://github.com/mclemente/healthEstimate/issues",
 	"compatibility": {
 		"minimum": "12",
 		"verified": "12"
-	}
+	},
+	"url": "This is auto replaced",
+	"version": "This is auto replaced",
+	"manifest": "This is auto replaced",
+	"download": "This is auto replaced"
 }
