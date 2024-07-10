@@ -90,7 +90,6 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.combatOnly = value;
-			HealthEstimateHooks.combatHooks(value);
 		},
 	});
 	addMenuSetting("core.showDescription", {

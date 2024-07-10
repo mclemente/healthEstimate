@@ -12,6 +12,9 @@ Hooks.once("ready", () => game.healthEstimate.ready());
 
 // Canvas
 Hooks.once("canvasReady", HealthEstimateHooks.onceCanvasReady);
+Hooks.on("combatStart", HealthEstimateHooks.onCombatStart);
+Hooks.on("updateCombat", HealthEstimateHooks.onUpdateCombat);
+Hooks.on("deleteCombat", HealthEstimateHooks.onUpdateCombat);
 Hooks.on("canvasReady", HealthEstimateHooks.onCanvasReady);
 Hooks.on("3DCanvasSceneReady", () => setTimeout(HealthEstimateHooks.onCanvasReady, 10));
 Hooks.on("createToken", HealthEstimateHooks.onCreateToken);

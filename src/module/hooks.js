@@ -10,7 +10,6 @@ export class HealthEstimateHooks {
 
 	static onceCanvasReady() {
 		game.healthEstimate.combatOnly = sGet("core.combatOnly");
-		if (game.healthEstimate.combatOnly) HealthEstimateHooks.combatHooks(game.healthEstimate.combatOnly);
 		game.healthEstimate.alwaysShow = sGet("core.alwaysShow");
 		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 		Hooks.on("refreshToken", HealthEstimateHooks.refreshToken);
@@ -111,21 +110,8 @@ export class HealthEstimateHooks {
 		game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
 	}
 
-	// Not an actual hook
-	static combatHooks(value) {
-		if (!canvas.ready) return;
-		if (value) {
-			Hooks.on("combatStart", HealthEstimateHooks.onCombatStart);
-			Hooks.on("updateCombat", HealthEstimateHooks.onUpdateCombat);
-			Hooks.on("deleteCombat", HealthEstimateHooks.onUpdateCombat);
-		} else {
-			Hooks.off("combatStart", HealthEstimateHooks.onCombatStart);
-			Hooks.off("updateCombat", HealthEstimateHooks.onUpdateCombat);
-			Hooks.off("deleteCombat", HealthEstimateHooks.onUpdateCombat);
-		}
-	}
-
 	static onCombatStart(combat, updateData) {
+		if (!game.healthEstimate.combatOnly) return;
 		game.healthEstimate.combatRunning = true;
 		canvas.tokens?.placeables.forEach((token) => {
 			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
@@ -133,6 +119,7 @@ export class HealthEstimateHooks {
 	}
 
 	static onUpdateCombat(combat, options, userId) {
+		if (!game.healthEstimate.combatOnly) return;
 		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 		canvas.tokens?.placeables.forEach((token) => {
 			game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
