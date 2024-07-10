@@ -68,8 +68,4 @@ export default class pf2eEstimationProvider extends EstimationProvider {
         || token.actor.type === 'party'
         || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
 	}
-
-	tokenEffects(token) {
-		return token.document.overlayEffect === game.healthEstimate.deathMarker;
-	}
 }

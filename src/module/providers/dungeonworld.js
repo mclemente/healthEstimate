@@ -14,8 +14,4 @@ export default class dungeonworldEstimationProvider extends EstimationProvider {
 	get breakCondition() {
 		return "|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)";
 	}
-
-	tokenEffects(token) {
-		return token.document.overlayEffect === game.healthEstimate.deathMarker;
-	}
 }

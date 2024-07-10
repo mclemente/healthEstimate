@@ -49,12 +49,6 @@ export default class D35EEstimationProvider extends EstimationProvider {
 		return (hp.value - addNonlethal + addTemp) / hp.max;
 	}
 
-	tokenEffects(token) {
-		const deadIcons = CONFIG.statusEffects.filter((x) => x.id === "dead").map((x) => x.icon);
-		return Array.from(token.actor.effects.values()).some((x) => deadIcons.includes(x.icon))
-			|| deadIcons.includes(token.document.overlayEffect);
-	}
-
 	get settings() {
 		return {
 			"PF1.addNonlethal": {
