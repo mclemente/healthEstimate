@@ -94,7 +94,7 @@ export class HealthEstimateHooks {
 	}
 
 	static deleteActiveEffect(activeEffect, options, userId) {
-		if (activeEffect.icon === game.healthEstimate.deathMarker) {
+		if (activeEffect.img === game.healthEstimate.deathMarker) {
 			let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id === activeEffect.parent.id);
 			for (let token of tokens) {
 				if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");

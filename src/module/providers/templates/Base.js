@@ -37,7 +37,7 @@ export default class EstimationProvider {
 				|| game.modules.get("combat-utility-belt")?.active
 				|| game.modules.get("condition-lab-triggler")?.active,
 			/** Sets the setting's default value */
-			default: CONFIG.statusEffects.find((x) => x.id === "dead")?.icon || "icons/svg/skull.svg",
+			default: CONFIG.statusEffects.find((x) => x.id === "dead")?.img || "icons/svg/skull.svg",
 		};
 
 		/**
