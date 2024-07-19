@@ -22,6 +22,11 @@
 			"name": "Español (Spanish)",
 			"path": "lang/es.json"
 		},
+    {
+			"lang": "it",
+			"name": "Italiano (Italian)",
+			"path": "lang/it.json"
+		},
 		{
 			"lang": "ko",
 			"name": "한국어 (Korean)",
