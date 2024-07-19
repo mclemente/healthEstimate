@@ -127,11 +127,12 @@ export class HealthEstimate {
 					const y = token.tooltip.y + this.height;
 					const position = { a: 0, b: 1, c: 2 }[this.position];
 					const x = token.tooltip.x * position;
-					const style = this._getUserTextStyle(color, stroke);
-					if (!token.healthEstimate?._texture) this._createHealthEstimate(token, { desc, style, x, y });
-					else this._updateHealthEstimate(token, { desc, color, stroke, x, y });
+					const config = { desc, color, stroke, x, y };
+					if (!token.healthEstimate?._texture) {
+						this._createHealthEstimate(token, config);
+					} else this._updateHealthEstimate(token, config);
 					if (game.Levels3DPreview?._active) {
-						this._update3DHealthEstimate(token, { desc, color, stroke });
+						this._update3DHealthEstimate(token, config);
 					}
 				}
 			} else if (token.healthEstimate) {
@@ -177,7 +178,8 @@ export class HealthEstimate {
 	 * @param {EstimateConfig} config
 	 */
 	_createHealthEstimate(token, config = {}) {
-		const { desc, style, x, y } = config;
+		const { desc, color, stroke, x, y } = config;
+		const style = this._getUserTextStyle(color, stroke);
 		token.healthEstimate = token.addChild(new PIXI.Text(desc, style));
 		token.healthEstimate.scale.set(0.25);
 		token.healthEstimate.anchor.set(0.5, 1);
