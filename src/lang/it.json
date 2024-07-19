@@ -1,1 +1,64 @@
-{}
+{
+	"healthEstimate": {
+		"core": {
+			"estimationSettings": {
+				"deleteTable": "Cancella Tabella",
+				"title": "Impostazioni Stima",
+				"AddEstimate": "Aggiungi Stima",
+				"addTable": "Aggiungi Tabella",
+				"default": "Predefinito",
+				"estimate": "Stima"
+			},
+			"custom": {
+				"FractionHP": {
+					"name": "Percorso Dati Attributo Punti Ferita"
+				},
+				"FractionMath": {
+					"choices": {
+						"0": "(PF Attuali)/(PF Max)",
+						"1": "(PF Max - PF Attuali)/(PF Max)"
+					}
+				}
+			},
+			"estimates": {
+				"vehicles": {
+					"2": "Fumante",
+					"3": "Malconcio",
+					"4": "Graffiato",
+					"5": "Incontaminato",
+					"1": "Fiammeggiante",
+					"0": "Distrutto"
+				},
+				"thresholds": {
+					"0": "Distrutto",
+					"1": "Rotto",
+					"2": "Perfettamente funzionante"
+				},
+				"plural": "Stime",
+				"worst": "Peggiore",
+				"best": "Migliore",
+				"states": {
+					"0": "Privo di Sensi",
+					"1": "Vicino alla Morte",
+					"2": "Gravemente Ferito",
+					"3": "Ferito",
+					"4": "Leggermente Ferito",
+					"5": "Illeso"
+				}
+			}
+		},
+		"PF2E": {
+			"hideVehicleHP": {
+				"hint": "Nasconde la stima dai Veicoli."
+			},
+			"workbenchMystifier": {
+				"name": "(SPERIMENTALE) Supporto Mystifier di PF2e Workbench"
+			}
+		},
+		"PF1": {
+			"dyingName": {
+				"default": "Privo di Sensi"
+			}
+		}
+	}
+}
