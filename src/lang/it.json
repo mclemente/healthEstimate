@@ -1,19 +1,14 @@
 {
 	"healthEstimate": {
 		"core": {
-			"estimationSettings": {
-				"deleteTable": "Cancella Tabella",
-				"title": "Impostazioni Stima",
-				"AddEstimate": "Aggiungi Stima",
-				"addTable": "Aggiungi Tabella",
-				"default": "Predefinito",
-				"estimate": "Stima"
-			},
 			"custom": {
 				"FractionHP": {
-					"name": "Percorso Dati Attributo Punti Ferita"
+					"name": "Percorso Dati Attributo Punti Ferita",
+					"hint": "Il tuo sistema potrebbe utilizzare un altro percorso dati.  Se la stima non viene visualizzata correttamente, inserisci il percorso dei dati nell'attributo corretto (es. actor.system.health)."
 				},
 				"FractionMath": {
+					"name": "Equazione Frazione PF",
+					"hint": "L'equazione PF del tuo sistema potrebbe essere diversa da quella predefinita, scegli l'equazione utilizzata per stimare la frazione di salute.",
 					"choices": {
 						"0": "(PF Attuali)/(PF Max)",
 						"1": "(PF Max - PF Attuali)/(PF Max)"
@@ -21,19 +16,6 @@
 				}
 			},
 			"estimates": {
-				"vehicles": {
-					"2": "Fumante",
-					"3": "Malconcio",
-					"4": "Graffiato",
-					"5": "Incontaminato",
-					"1": "Fiammeggiante",
-					"0": "Distrutto"
-				},
-				"thresholds": {
-					"0": "Distrutto",
-					"1": "Rotto",
-					"2": "Perfettamente funzionante"
-				},
 				"plural": "Stime",
 				"worst": "Peggiore",
 				"best": "Migliore",
@@ -44,20 +26,294 @@
 					"3": "Ferito",
 					"4": "Leggermente Ferito",
 					"5": "Illeso"
+				},
+				"vehicles": {
+					"0": "Distrutto",
+					"1": "In Fiamme",
+					"2": "Fumante",
+					"3": "Malconcio",
+					"4": "Graffiato",
+					"5": "Integro"
+				},
+				"thresholds": {
+					"0": "Distrutto",
+					"1": "Rotto",
+					"2": "Totalmente funzionante"
+				}
+			},
+			"estimationSettings": {
+				"title": "Impostazioni Stima",
+				"AddEstimate": "Aggiungi Stima",
+				"addTable": "Aggiungi Tabella",
+				"default": "Predefinito",
+				"deleteTable": "Cancella Tabella",
+				"estimate": "Stima",
+				"jsRule": "Regola JS",
+				"prioDecrease": "Diminuisci Priorità",
+				"prioIncrease": "Aumenta Priorità",
+				"ignoreColor": {
+					"name": "Ignora Colore",
+					"hint": "Ignora i colori di questa tabella e utilizza i colori della successiva tabella valida per il token. Questo è pensato per le condizioni che dovrebbero avere la priorità su una stima, ma dovrebbero comunque utilizzare il colore di quella stima."
+				}
+			},
+			"keybinds": {
+				"markDead": {
+					"name": "Contrassegna come Morto",
+					"hint": "Contrassegna tutti i token selezionati come Morti. Se tutti i token selezionati sono già Morti, verranno reimpostati su Vivi."
+				},
+				"customEstimates": {
+					"name": "Stime Personalizzate",
+					"hint": "Imposta stime personalizzate per i token selezionati. Lasciarle vuote per ripristinarle.",
+					"options": {
+						"1": "Token e Personaggi",
+						"2": "Solo Token"
+					}
+				},
+				"dontMarkDead": {
+					"name": "Non contrassegnare come Morto",
+					"hint": "Gli NPC non vengano mostrati come Morti quando i loro PF raggiungono 0 (es mostrerà Privo di Sensi). Ciò è utile solo se utilizzi l'impostazione {setting}."
+				},
+				"hideEstimates": {
+					"name": "Nascondi Stime",
+					"hint": "Nasconde ai giocatori le stime dei token selezionati. Le stime nascoste non verranno visualizzate nella chat se l'impostazione è attiva e verranno mostrate con un asterisco (*) per il DM."
+				},
+				"hideNames": {
+					"name": "Nascondi Nomi",
+					"hint": "Nasconde i nomi dei token selezionati quando utilizzi l'impostazione {setting}."
+				},
+				"hideEstimatesAndNames": {
+					"name": "Nascondi Stime e Nomi",
+					"hint": "Nasconde sia le stime che i nomi dei token selezionati."
+				}
+			},
+			"isNow": "{name} è ora {desc}.",
+			"unknownEntity": {
+				"name": "Nome Entità sconosciuta",
+				"hint": "Imposta come verrà chiamato un personaggio nascosto {warning}",
+				"default": "Entità sconosciuta",
+				"warningCUB": "Se stai utilizzando la funzionalità di CUB per nascondere i nomi, avrà la priorità su questa impostazione.",
+				"warningPF2eWorkbench": "Se stai utilizzando la funzionalità di PF2e Workbench per mistificare i nomi, avrà la priorità su questa impostazione."
+			},
+			"alwaysShow": {
+				"name": "Mostra Sempre Stime",
+				"hint": "Rende le stime sempre visibili e non solo quando si passa sopra un token."
+			},
+			"combatOnly": {
+				"name": "Mostra Solo in Combattimento",
+				"hint": "Mostra le stime solo quando è attivo un combattimento."
+			},
+			"showDescription": {
+				"name": "Mostra Stime: Utenti",
+				"hint": "Mostra stime ai seguenti utenti.",
+				"choices": {
+					"all": "Tutti",
+					"GM": "DM",
+					"Players": "Giocatori",
+					"NPC": "PNG",
+					"PC": "PG"
+				}
+			},
+			"showDescriptionTokenType": {
+				"name": "Mostra Stime: Token",
+				"hint": "Mostra le stime dei seguenti token."
+			},
+			"deathState": {
+				"name": "Stato Morte su Condizione",
+				"hint1": "Mostra il token come definito nell'impostazione {setting} quando è stato influenzato da qualsiasi condizione che utilizza l'icona impostata nell'impostazione {setting2}.",
+				"hint2": "Mostra il token come definito nell'impostazione {setting} quando è stato contrassegnato come sconfitto in combattimento."
+			},
+			"deathStateName": {
+				"name": "Nome Stato Morte",
+				"hint": "La descrizione mostrata quando un token è morto.",
+				"default": "Morto"
+			},
+			"deathMarker": {
+				"name": "Indicatore Morte",
+				"hint": "Percorso dell'icona della condizione che contrassegna i token morti."
+			},
+			"NPCsJustDie": {
+				"name": "PNG muoiono immediatamente",
+				"hint": "The last stage of tokens whose actors aren't selected by players is replaced by the {setting}. For more information on what \"selected by players\" means, read the User Configuration section in Foundry's \"Users and Permissions\" article."
+			},
+			"outputChat": {
+				"name": "Stima Output in chat",
+				"hint": "Invia eventuali modifiche della stima in chat. I personaggi contrassegnati con la configurazione del token Nascondi Nome verranno visualizzati come descrizione dell'impostazione {setting}."
+			},
+			"addTemp": {
+				"name": "Aggiungi Salute Temporanea",
+				"hint": "Include temporary health points in calculating what description to show.\nE.g. with the setting turned on the token receiving temp HP will look \"healthier\" unless it's already at max health."
+			},
+			"breakOnZeroMaxHP": {
+				"name": "Nascondi le stime sui token con 0 PF massimi",
+				"hint": "Utile per oggetti con token."
+			},
+			"menuSettings": {
+				"behaviorSettings": {
+					"name": "Impostazione Comportamento",
+					"plural": "Impostazioni Comportamento"
+				},
+				"deathSettings": {
+					"name": "Impostazione Morte",
+					"plural": "Impostazioni Morte"
+				},
+				"styleSettings": {
+					"name": "Impostazione Stile",
+					"plural": "Impostazioni Stile"
+				},
+				"fontSize": {
+					"name": "Dimensione Font",
+					"hint": "Accetta qualsiasi proprietà valida per la dimensione del carattere CSS"
+				},
+				"useColor": {
+					"name": "Usa Colore",
+					"hint": "Le stime verranno mostrate in bianco e nero."
+				},
+				"smoothGradient": {
+					"name": "Gradiente uniforme",
+					"hint": "Con questa impostazione disattivata il colore cambierà solo quando verrà raggiunta la descrizione successiva, con questa impostazione rifletterà la percentuale di salute."
+				},
+				"deadColor": {
+					"name": "Colore dei token morti"
+				},
+				"outline": {
+					"name": "Contorno",
+					"darken": "Scuro",
+					"brighten": "Chiaro"
+				},
+				"position": {
+					"name": "Altezza",
+					"hint": "L'altezza è impostata rispetto al frame del token. I valori negativi lo spingono più in alto, quelli positivipiù in basso.",
+					"top": "In Alto",
+					"middle": "Al Centro",
+					"bottom": "In Basso"
+				},
+				"position2": {
+					"name": "Posizione",
+					"hint": "La posizione relativa al frame del token."
+				},
+				"positionAdjustment": {
+					"name": "Regolazione Margine",
+					"hint": "Regola il margine del testo. I valori positivi lo spingono più in alto quelli negativi più in basso."
+				},
+				"scaleToGridSize": {
+					"name": "Ridimensiona le stime in base alle dimensioni della griglia",
+					"hint": "Ridimensiona la stima in base alla dimensione della griglia, assumendo 100 px come base."
+				},
+				"scaleToZoom": {
+					"name": "Ridimensiona le stime in base allo zoom",
+					"hint": "Ridimensiona la stima in base alla distanza dello zoom."
 				}
 			}
 		},
-		"PF2E": {
-			"hideVehicleHP": {
-				"hint": "Nasconde la stima dai Veicoli."
+		"notifications": {
+			"terms": {
+				"shown": {
+					"singular": "mostrato",
+					"plural": "mostrati"
+				},
+				"hidden": {
+					"singular": "nascosto",
+					"plural": "nascosti"
+				}
 			},
-			"workbenchMystifier": {
-				"name": "(SPERIMENTALE) Supporto Mystifier di PF2e Workbench"
+			"toggleEstimate": "{tokenName}'s health estimate is being {term} from players.",
+			"toggleName": "{tokenName}'s name is being {term} from players.",
+			"toggleEstimateName": "{tokenName}'s health estimate and name are being {term} from players.",
+			"invalidFontSize": "Your Font Size style setting has been reset. Check the Style Settings to change it. Previous value: {fontSize}"
+		},
+		"custom-system-builder": {
+			"FractionHP": {
+				"hint": "This will probably be {dataPath1} or {dataPath2}."
+			},
+			"tempHP": {
+				"name": "Temporary Hit Points Attribute Data Path",
+				"hint": "Leave it blank if the system doesn't have one or if you don't want it to be added to the estimation."
+			}
+		},
+		"cyberpunk-red-core": {
+			"unorganics": {
+				"4": "Intact",
+				"3": "Operational",
+				"2": "Malfunctioning",
+				"0": "Disabled"
+			}
+		},
+		"cyphersystem": {
+			"impaired": {
+				"name": "Health level for Impaired PCs",
+				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Impaired on the Death Track"
+			},
+			"debilitated": {
+				"name": "Health level for Debilitated PCs",
+				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Debilitated on the Death Track"
 			}
 		},
 		"PF1": {
+			"addNonlethal": {
+				"name": "Usa danno non letale",
+				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
+			},
+			"showExtra": {
+				"name": "Show {condition1} & {condition2}",
+				"hint": "Shows the {condition1} and {condition2} descriptions when their prerequisites are fulfilled."
+			},
+			"disabledName": {
+				"name": "Staggered Stage",
+				"default": "Staggered"
+			},
 			"dyingName": {
-				"default": "Privo di Sensi"
+				"name": "Unconscious Stage",
+				"default": "Unconscious"
+			}
+		},
+		"PF2E": {
+			"staminaToHp": {
+				"name": "Stamina to Estimate",
+				"hint": "Add Stamina Points to the estimate."
+			},
+			"hideHazardHP": {
+				"name": "Hide Hazard's Estimate",
+				"hint": "Hides the estimate from Hazards."
+			},
+			"hideVehicleHP": {
+				"name": "Nascondi Stima Veicolo",
+				"hint": "Hides the estimate from Vehicles."
+			},
+			"workbenchMystifier": {
+				"name": "(EXPERIMENTAL) PF2e Workbench's Mystifier Support",
+				"hint": "If the NPC Mystification settings are enabled, Chat Outputs will ignore the {setting} setting's name and use the token's name if it is different from its actor's Prototype Token's name."
+			}
+		},
+		"numenera": {
+			"countPools": {
+				"name": "Count Empty Pools",
+				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted or replenished."
+			}
+		},
+		"starfinder": {
+			"useThreshold": {
+				"name": "Usa Soglia Veicolo",
+				"hint": "Defines which estimation table will be used when calculating a Vehicle's estimatives."
+			},
+			"addStamina": {
+				"name": "Account for Stamina",
+				"hint": "With this setting on, Stamina will be added to HP for calculations."
+			}
+		},
+		"worldbuilding": {
+			"simpleRule": {
+				"name": "Estimation Rule",
+				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
+			}
+		},
+		"swade": {
+			"defaultWildCardMaxWounds": {
+				"name": "Default Wild Card's Max Wounds",
+				"hint": "This is used to calculate the max wounds a Wild Card NPC should have by default for estimations."
+			},
+			"showIncap": {
+				"name": "{incap} Status Effect",
+				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their current estimates. Doesn't work for tokens that are vehicles or dead."
 			}
 		}
 	}
