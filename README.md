@@ -22,6 +22,4 @@ This project uses the [Grapick](https://www.npmjs.com/package/grapick) library l
 
 This project uses code of [Health Monitor](https://github.com/jessev14/health-monitor), released under the MIT License.
 
-This project uses code of [Token Tooltip Alt](https://github.com/bmarian/token-tooltip-alt/), released under the MIT License.
-
 This project uses the [injectConfig](https://github.com/theripper93/injectConfig) library, released under the MIT License.

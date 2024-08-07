@@ -1,4 +1,3 @@
-import { getNestedData } from "../../TokenTooltipAlt.js";
 import { sGet, t } from "../../utils.js";
 import EstimationProvider from "./Base.js";
 
@@ -12,12 +11,12 @@ export default class GenericEstimationProvider extends EstimationProvider {
 		const hpPath = sGet("core.custom.FractionHP");
 		let hp;
 		if (hpPath) {
-			hp = getNestedData(token, hpPath);
+			hp = foundry.utils.getProperty(token, hpPath);
 		} else {
 			const primaryTokenAttribute = game.system.primaryTokenAttribute;
 
 			hp = primaryTokenAttribute
-				? getNestedData(token, `actor.system.${primaryTokenAttribute}`)
+				? foundry.utils.getProperty(token, `actor.system.${primaryTokenAttribute}`)
 				: token.actor.system?.attributes?.hp || token.actor.system?.hp;
 		}
 		let temp = 0;
