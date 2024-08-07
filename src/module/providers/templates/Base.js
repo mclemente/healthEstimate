@@ -164,7 +164,7 @@ export default class EstimationProvider {
 			}
 		} else if (hp.max === undefined) {
 			throw new Error(
-				`Token ${token.name}'s HP has no maximum value. Set it up if you intend for the estimation to work.`
+				`Token ${token.name}'s HP has no maximum value and the etimation can't be calculated without it.`
 			);
 		}
 	}
