@@ -133,7 +133,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "PNG muoiono immediatamente",
-				"hint": "The last stage of tokens whose actors aren't selected by players is replaced by the {setting}. For more information on what \"selected by players\" means, read the User Configuration section in Foundry's \"Users and Permissions\" article."
+				"hint": "L'ultima fase dei token i cui attori non sono selezionati dai giocatori è sostituita dall'{impostazione}.  Per ulteriori informazioni su cosa significa \"selezionato dai giocatori\", leggere la sezione Configurazione utente nell'articolo \"Utenti e permessi\" di Foundry."
 			},
 			"outputChat": {
 				"name": "Stima Output in chat",
@@ -141,7 +141,7 @@
 			},
 			"addTemp": {
 				"name": "Aggiungi Salute Temporanea",
-				"hint": "Include temporary health points in calculating what description to show.\nE.g. with the setting turned on the token receiving temp HP will look \"healthier\" unless it's already at max health."
+				"hint": "Includi punti salute temporanei nel calcolo della descrizione da mostrare.\nEs. con l'impostazione attivata, il token che riceve gli HP temporanei sembrerà \"più sano\" a meno che non sia già al massimo della salute."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Nascondi le stime sui token con 0 PF massimi",
@@ -196,11 +196,11 @@
 					"hint": "Regola il margine del testo. I valori positivi lo spingono più in alto quelli negativi più in basso."
 				},
 				"scaleToGridSize": {
-					"name": "Ridimensiona le stime in base alle dimensioni della griglia",
+					"name": "Ridimensiona stime in base a dimensioni griglia",
 					"hint": "Ridimensiona la stima in base alla dimensione della griglia, assumendo 100 px come base."
 				},
 				"scaleToZoom": {
-					"name": "Ridimensiona le stime in base allo zoom",
+					"name": "Ridimensiona stime in base a zoom",
 					"hint": "Ridimensiona la stima in base alla distanza dello zoom."
 				}
 			}
@@ -216,26 +216,26 @@
 					"plural": "nascosti"
 				}
 			},
-			"toggleEstimate": "{tokenName}'s health estimate is being {term} from players.",
-			"toggleName": "{tokenName}'s name is being {term} from players.",
-			"toggleEstimateName": "{tokenName}'s health estimate and name are being {term} from players.",
-			"invalidFontSize": "Your Font Size style setting has been reset. Check the Style Settings to change it. Previous value: {fontSize}"
+			"toggleEstimate": "La stima della salute di {tokenName} sta per essere {term} dai giocatori.",
+			"toggleName": "Il nome di {tokenName} sta per essere {term} dai giocatori.",
+			"toggleEstimateName": "La stima della salute ed il nome di {tokenName} stanno per essere {term} dai giocatori.",
+			"invalidFontSize": "L'impostazione dello stile della dimensione del carattere è stata ripristinata. Controlla le Impostazioni stile per modificarlo. Valore precedente: {fontSize}"
 		},
 		"custom-system-builder": {
 			"FractionHP": {
-				"hint": "This will probably be {dataPath1} or {dataPath2}."
+				"hint": "Questo probabilmente sarà {dataPath1} o {dataPath2}."
 			},
 			"tempHP": {
-				"name": "Temporary Hit Points Attribute Data Path",
-				"hint": "Leave it blank if the system doesn't have one or if you don't want it to be added to the estimation."
+				"name": "Percorso dati attributo Punti Ferita temporanei",
+				"hint": "Lascialo vuoto se il sistema non ne ha uno o se non vuoi che venga aggiunto alla stima."
 			}
 		},
 		"cyberpunk-red-core": {
 			"unorganics": {
-				"4": "Intact",
-				"3": "Operational",
-				"2": "Malfunctioning",
-				"0": "Disabled"
+				"4": "Intatto",
+				"3": "Operativo",
+				"2": "Malfunzionante",
+				"0": "Disabilitato"
 			}
 		},
 		"cyphersystem": {
@@ -272,12 +272,12 @@
 				"hint": "Add Stamina Points to the estimate."
 			},
 			"hideHazardHP": {
-				"name": "Hide Hazard's Estimate",
-				"hint": "Hides the estimate from Hazards."
+				"name": "Nascondi Stima  dei Pericoli",
+				"hint": "Nasconde la stima dai Pericoli."
 			},
 			"hideVehicleHP": {
 				"name": "Nascondi Stima Veicolo",
-				"hint": "Hides the estimate from Vehicles."
+				"hint": "Nasconde la stima del veicolo."
 			},
 			"workbenchMystifier": {
 				"name": "(EXPERIMENTAL) PF2e Workbench's Mystifier Support",
@@ -293,7 +293,7 @@
 		"starfinder": {
 			"useThreshold": {
 				"name": "Usa Soglia Veicolo",
-				"hint": "Defines which estimation table will be used when calculating a Vehicle's estimatives."
+				"hint": "Definisce quale tabella di stima verrà utilizzata durante il calcolo delle stime di un Veicolo."
 			},
 			"addStamina": {
 				"name": "Account for Stamina",
@@ -302,7 +302,7 @@
 		},
 		"worldbuilding": {
 			"simpleRule": {
-				"name": "Estimation Rule",
+				"name": "Regola Stima",
 				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
 			}
 		},
