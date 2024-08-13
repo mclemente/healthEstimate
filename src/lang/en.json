@@ -132,8 +132,8 @@
 				"hint": "Path to the condition icon that marks the dead tokens."
 			},
 			"tooltipPosition": {
-				"name": "Death Marker",
-				"hint": "Path to the condition icon that marks the dead tokens.",
+				"name": "Elevation Tooltip Position",
+				"hint": "Moves the Elevation Tooltip to avoid conflicts with the Estimate when rendered at the top of the token.",
 				"options": {
 					"left": "Left",
 					"default": "Default (no change)",
