@@ -124,10 +124,11 @@ export class HealthEstimate {
 			if (hovered) {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc !== undefined && color && stroke) {
-					const y = token.tooltip.y + this.height;
+					const { width } = token.getSize();
+					const y = -2 + this.height;
 					const position = { a: 0, b: 1, c: 2 }[this.position];
-					const x = token.tooltip.x * position;
-					const config = { desc, color, stroke, x, y };
+					const x = (width / 2) * position;
+					const config = { desc, color, stroke, width, x, y };
 					if (!token.healthEstimate?._texture) {
 						this._createHealthEstimate(token, config);
 					} else this._updateHealthEstimate(token, config);
@@ -178,12 +179,12 @@ export class HealthEstimate {
 	 * @param {EstimateConfig} config
 	 */
 	_createHealthEstimate(token, config = {}) {
-		const { desc, color, stroke, x, y } = config;
+		const { desc, color, stroke, width, x, y } = config;
 		const style = this._getUserTextStyle(color, stroke);
 		token.healthEstimate = token.addChild(new PIXI.Text(desc, style));
 		token.healthEstimate.scale.set(0.25);
 		token.healthEstimate.anchor.set(0.5, 1);
-		token.healthEstimate.position.set(token.tooltip.x, x + y);
+		token.healthEstimate.position.set(width / 2, x + y);
 	}
 
 	/**
@@ -192,13 +193,13 @@ export class HealthEstimate {
 	 * @param {EstimateConfig} config
 	 */
 	_updateHealthEstimate(token, config = {}) {
-		const { desc, color, stroke, x, y } = config;
+		const { desc, color, stroke, width, x, y } = config;
 		token.healthEstimate.style.fontSize = this.scaledFontSize;
 		token.healthEstimate.text = desc;
 		token.healthEstimate.style.fill = color;
 		token.healthEstimate.style.stroke = stroke;
 		token.healthEstimate.visible = true;
-		token.healthEstimate.position.set(token.tooltip.x, x + y);
+		token.healthEstimate.position.set(width / 2, x + y);
 	}
 
 	/**
@@ -533,5 +534,7 @@ export class HealthEstimate {
 		this.outline = sGet("core.variables.outline");
 		this.deadColor = sGet("core.variables.deadColor");
 		this.deadOutline = sGet("core.variables.deadOutline");
+
+		this.tooltipPosition = sGet("core.tooltipPosition");
 	}
 }

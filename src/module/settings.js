@@ -1,6 +1,6 @@
 import * as forms from "./forms/_module.js";
 import { HealthEstimateHooks } from "./hooks.js";
-import { addMenuSetting, addSetting, f, t } from "./utils.js";
+import { addMenuSetting, addSetting, f, repositionTooltip, t } from "./utils.js";
 
 export const registerSettings = function () {
 	game.settings.registerMenu("healthEstimate", "behaviorSettings", {
@@ -40,6 +40,20 @@ export const registerSettings = function () {
 			canvas.scene?.tokens.forEach((token) => token.object.refresh());
 		},
 	});
+	addSetting("core.tooltipPosition", {
+		type: String,
+		default: "default",
+		choices: {
+			left: "healthEstimate.core.tooltipPosition.options.left",
+			default: "healthEstimate.core.tooltipPosition.options.default",
+			right: "healthEstimate.core.tooltipPosition.options.right",
+		},
+		onChange: (value) => {
+			game.healthEstimate.tooltipPosition = value;
+			canvas.tokens?.placeables.forEach(repositionTooltip);
+		},
+	});
+
 	addSetting("core.outputChat", {
 		hint: f("core.outputChat.hint", { setting: t("core.unknownEntity.name") }),
 		type: Boolean,

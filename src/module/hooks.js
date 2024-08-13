@@ -1,6 +1,6 @@
 import { addCharacter, outputStageChange } from "./HealthMonitor.js";
 import { injectConfig } from "./injectConfig.js";
-import { disableCheckbox, f, sGet, t } from "./utils.js";
+import { disableCheckbox, f, repositionTooltip, sGet, t } from "./utils.js";
 
 export class HealthEstimateHooks {
 	static canvasInit(canvas) {
@@ -106,8 +106,9 @@ export class HealthEstimateHooks {
 	// TOKEN //
 	// /////////
 
-	static refreshToken(token) {
+	static refreshToken(token, flags) {
 		game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
+		if (flags.refreshSize) repositionTooltip(token);
 	}
 
 	static onCombatStart(combat, updateData) {

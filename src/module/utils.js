@@ -89,3 +89,11 @@ export function settingData(key) {
 export function disableCheckbox(checkbox, boolean) {
 	checkbox.prop("disabled", !boolean);
 }
+
+export function repositionTooltip(token) {
+	const tooltipPosition = game.healthEstimate.tooltipPosition;
+	const { width } = token.getSize();
+	if (tooltipPosition === "left") token.tooltip.x = width * (-0.35);
+	else if (tooltipPosition === "default") token.tooltip.x = width / 2;
+	else if (tooltipPosition === "right") token.tooltip.x = width * 1.35;
+}
