@@ -50,7 +50,7 @@ export const registerSettings = function () {
 		},
 		onChange: (value) => {
 			game.healthEstimate.tooltipPosition = value;
-			canvas.tokens?.placeables.forEach(repositionTooltip);
+			canvas.tokens?.placeables.forEach((token) => repositionTooltip(token, true));
 		},
 	});
 

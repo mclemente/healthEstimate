@@ -90,10 +90,17 @@ export function disableCheckbox(checkbox, boolean) {
 	checkbox.prop("disabled", !boolean);
 }
 
-export function repositionTooltip(token) {
+/**
+ * Repositions the token's elevation tooltip.
+ * @param {Token} token 	The token being refreshed
+ * @param {Boolean} force 	Flag that enforces the default position. It is meant to avoid conflict with any modules that change the value.
+ */
+export function repositionTooltip(token, force = false) {
 	const tooltipPosition = game.healthEstimate.tooltipPosition;
+	const docWidth = token.document.width;
 	const { width } = token.getSize();
-	if (tooltipPosition === "left") token.tooltip.x = width * (-0.35);
-	else if (tooltipPosition === "default") token.tooltip.x = width / 2;
-	else if (tooltipPosition === "right") token.tooltip.x = width * 1.35;
+	const offset = 0.35 / Math.max(1, docWidth);
+	if (tooltipPosition === "left") token.tooltip.x = width * (-offset);
+	else if (force && tooltipPosition === "default") token.tooltip.x = width / 2;
+	else if (tooltipPosition === "right") token.tooltip.x = width * (1 + offset);
 }
