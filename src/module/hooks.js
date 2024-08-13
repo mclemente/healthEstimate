@@ -38,7 +38,7 @@ export class HealthEstimateHooks {
 	static onCanvasPan(canvas, constrained) {
 		const scale = () => {
 			const zoomLevel = Math.min(1, canvas.stage.scale.x);
-			if (zoomLevel < 1 && game.healthEstimate.lastZoom !== zoomLevel) {
+			if (game.healthEstimate.lastZoom !== zoomLevel) {
 				canvas.tokens?.placeables
 					.filter((t) => t.healthEstimate?.visible)
 					.forEach((token) => {
