@@ -41,6 +41,7 @@ export const registerSettings = function () {
 		},
 	});
 	addSetting("core.tooltipPosition", {
+		config: !game.modules.get("elevation-module").active,
 		type: String,
 		default: "default",
 		choices: {

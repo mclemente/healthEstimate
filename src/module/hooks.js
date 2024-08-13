@@ -108,7 +108,7 @@ export class HealthEstimateHooks {
 
 	static refreshToken(token, flags) {
 		game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
-		if (flags.refreshSize) repositionTooltip(token);
+		if (flags.refreshSize && game.healthEstimate.tooltipPosition) repositionTooltip(token);
 	}
 
 	static onCombatStart(combat, updateData) {
