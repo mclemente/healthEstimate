@@ -535,6 +535,6 @@ export class HealthEstimate {
 		this.deadColor = sGet("core.variables.deadColor");
 		this.deadOutline = sGet("core.variables.deadOutline");
 
-		this.tooltipPosition = game.modules.get("elevation-module").active ? null : sGet("core.tooltipPosition");
+		this.tooltipPosition = game.modules.get("elevation-module")?.active ? null : sGet("core.tooltipPosition");
 	}
 }
