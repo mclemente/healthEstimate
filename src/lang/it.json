@@ -131,6 +131,15 @@
 				"name": "Indicatore Morte",
 				"hint": "Percorso dell'icona della condizione che contrassegna i token morti."
 			},
+      "tooltipPosition": {
+				"name": "Posizione Indicazione Elevazione",
+				"hint": "Sposta l'indicazione dell'elevazione per evitare conflitti con la stima quando viene eseguito il rendering nella parte superiore del token.",
+				"options": {
+					"left": "Sinistra",
+					"default": "Predefinito (nessuna modifica)",
+					"right": "Destra"
+				}
+			},
 			"NPCsJustDie": {
 				"name": "PNG muoiono immediatamente",
 				"hint": "L'ultima fase dei token i cui attori non sono selezionati dai giocatori è sostituita dall'{impostazione}.  Per ulteriori informazioni su cosa significa \"selezionato dai giocatori\", leggere la sezione Configurazione utente nell'articolo \"Utenti e permessi\" di Foundry."
