@@ -257,14 +257,21 @@ export const registerSettings = function () {
 	});
 
 	const getFonts = () => {
-		const obj = {};
-		Object.keys(CONFIG.fontDefinitions).forEach((f) => {
-			obj[f] = f;
-		});
-		if (!(CONFIG.canvasTextStyle.fontFamily in obj)) {
-			obj[CONFIG.canvasTextStyle.fontFamily] = CONFIG.canvasTextStyle.fontFamily;
+		const fontSources = {
+			...CONFIG.fontDefinitions,
+			...game.settings.get("core", "fonts"),
+		};
+		const fonts = Object.keys(fontSources).reduce((acc, font) => {
+			acc[font] = font;
+			return acc;
+		}, {});
+
+		const defaultFont = CONFIG.canvasTextStyle.fontFamily;
+		if (!(defaultFont in fonts)) {
+			fonts[defaultFont] = defaultFont;
 		}
-		return obj;
+
+		return fonts;
 	};
 	addMenuSetting("core.menuSettings.fontFamily", {
 		name: game.i18n.localize("EDITOR.Font"),
