@@ -4,7 +4,7 @@
 			"custom": {
 				"FractionHP": {
 					"name": "Percorso Dati Attributo Punti Ferita",
-					"hint": "Il tuo sistema potrebbe utilizzare un altro percorso dati.  Se la stima non viene visualizzata correttamente, inserisci il percorso dei dati nell'attributo corretto (es. actor.system.health)."
+					"hint": "Il tuo sistema potrebbe utilizzare un altro percorso dati. Se la stima non viene visualizzata correttamente, inserisci il percorso dei dati nell'attributo corretto (es. actor.system.health)."
 				},
 				"FractionMath": {
 					"name": "Equazione Frazione PF",
@@ -131,7 +131,7 @@
 				"name": "Indicatore Morte",
 				"hint": "Percorso dell'icona della condizione che contrassegna i token morti."
 			},
-      "tooltipPosition": {
+			"tooltipPosition": {
 				"name": "Posizione Indicazione Elevazione",
 				"hint": "Sposta l'indicazione dell'elevazione per evitare conflitti con la stima quando viene eseguito il rendering nella parte superiore del token.",
 				"options": {
@@ -142,7 +142,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "PNG muoiono immediatamente",
-				"hint": "L'ultima fase dei token i cui attori non sono selezionati dai giocatori è sostituita dall'{impostazione}.  Per ulteriori informazioni su cosa significa \"selezionato dai giocatori\", leggere la sezione Configurazione utente nell'articolo \"Utenti e permessi\" di Foundry."
+				"hint": "L'ultima fase dei token i cui attori non sono selezionati dai giocatori è sostituita dall'{impostazione}. Per ulteriori informazioni su cosa significa \"selezionato dai giocatori\", leggere la sezione Configurazione utente nell'articolo \"Utenti e permessi\" di Foundry."
 			},
 			"outputChat": {
 				"name": "Stima Output in chat",
@@ -249,21 +249,21 @@
 		},
 		"cyphersystem": {
 			"impaired": {
-				"name": "Health level for Impaired PCs",
-				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Impaired on the Death Track"
+				"name": "Livello di salute per PG indeboliti",
+				"hint": "Imposta il livello di salute massimo (attuale/massimo, frazione 0,0 - 1,0) che può essere segnalato per un PG indeblito sul Death Track"
 			},
 			"debilitated": {
-				"name": "Health level for Debilitated PCs",
-				"hint": "Sets the maximum health level (current / maximum, fraction 0.0 - 1.0) that can be reported for a PC that is Debilitated on the Death Track"
+				"name": "Livello di salute per i PG debilitati",
+				"hint": "mposta il livello di salute massimo (attuale/massimo, frazione 0,0 - 1,0) che può essere segnalato per un PG debilitato sul Death Track"
 			}
 		},
 		"PF1": {
 			"addNonlethal": {
 				"name": "Usa danno non letale",
-				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
+				"hint": "Se abilitato, il danno non letale verrà sottratto dalla salute attuale per la stima."
 			},
 			"showExtra": {
-				"name": "Show {condition1} & {condition2}",
+				"name": "Mostra {condition1} & {condition2}",
 				"hint": "Shows the {condition1} and {condition2} descriptions when their prerequisites are fulfilled."
 			},
 			"disabledName": {
