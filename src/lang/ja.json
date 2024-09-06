@@ -17,8 +17,8 @@
 			},
 			"estimates": {
 				"plural": "推定",
-				"worst": "Worst",
-				"best": "Best",
+				"worst": "最悪",
+				"best": "最高",
 				"states": {
 					"0": "気絶状態",
 					"1": "瀕死",
@@ -131,6 +131,15 @@
 				"name": "「死亡」マーカー",
 				"hint": "死亡したコマをマークする時の状態アイコンのファイルパス"
 			},
+			"tooltipPosition": {
+				"name": "高度ツールチップの位置",
+				"hint": "健康度がコマの上部にレンダーされる時、被らないように高度ツールチップを移動します。",
+				"options": {
+					"left": "左",
+					"default": "既定（変更なし）",
+					"right": "右"
+				}
+			},
 			"NPCsJustDie": {
 				"name": "NPCは即死する",
 				"hint": "プレイヤーによって選択されていないコマの最終段階は {setting} に変わります。 \"プレイヤーに選択された\" 状態の詳細については、Foundryの \"Users and Permissions\" の記事をご参照ください。"
@@ -181,25 +190,49 @@
 					"brighten": "明るく"
 				},
 				"position": {
-					"name": "位置",
-					"hint": "コマのフレームに相対して位置が設定されます。負の値は上げ、正の値なら下げます。",
+					"name": "高さ",
+					"hint": "コマのフレームに相対する高さが設定されます。負の値は上げ、正の値なら下げます。",
 					"top": "上",
 					"middle": "中央",
 					"bottom": "下"
+				},
+				"position2": {
+					"name": "位置",
+					"hint": "コマのフレームに相対する位置です。"
 				},
 				"positionAdjustment": {
 					"name": "マージン調整",
 					"hint": "テキストのマージンを調整します。正の値は上げ、負の値なら下げます。 "
 				},
+				"scaleToGridSize": {
+					"name": "グリッドサイズと健康度の縮尺を合わせる",
+					"hint": "100pxを基準と想定し、健康度をグリッドサイズに合わせます。"
+				},
 				"scaleToZoom": {
 					"name": "拡大率と健康度の縮尺を合わせる",
-					"hint": "健康度を、拡大理宇に応じて縮尺を合わせます。"
+					"hint": "健康度を、拡大率に応じて縮尺を合わせます。"
 				}
 			}
 		},
+		"notifications": {
+			"terms": {
+				"shown": {
+					"singular": "表示",
+					"plural": "表示"
+				},
+				"hidden": {
+					"singular": "hidden",
+					"plural": "hidden"
+				}
+			},
+			"toggleEstimate": "{tokenName}'s health estimate is being {term} from players.",
+			"toggleName": "{tokenName}'s name is being {term} from players.",
+			"toggleEstimateName": "{tokenName}'s health estimate and name are being {term} from players.",
+			"invalidFontSize": "Your Font Size style setting has been reset. Check the Style Settings to change it. Previous value: {fontSize}"
+		},
 		"custom-system-builder": {
 			"FractionHP": {
-				"hint": "This will probably {dataPath1} or {dataPath2}."
+				"hint": "これはおおむね{dataPath1}か{dataPath2}になります。"
 			},
 			"tempHP": {
 				"name": "一時的ヒット・ポイントのデータ・パス",
@@ -230,7 +263,7 @@
 				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
 			},
 			"showExtra": {
-				"name": "Show {condition1} & {condition2}",
+				"name": "{condition1}と{condition2}を表示",
 				"hint": "Shows the {condition1} and {condition2} descriptions when their prerequisites are fulfilled."
 			},
 			"disabledName": {
