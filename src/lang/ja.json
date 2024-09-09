@@ -227,8 +227,8 @@
 			},
 			"toggleEstimate": "{tokenName}の推定体力はプレイヤーから「{term}」になっています。",
 			"toggleName": "{tokenName}の名前はプレイヤーから「{term}」になっています。",
-			"toggleEstimateName": "{tokenName}'s health estimate and name are being {term} from players.",
-			"invalidFontSize": "Your Font Size style setting has been reset. Check the Style Settings to change it. Previous value: {fontSize}"
+			"toggleEstimateName": "{tokenName}の推定体力と名前はプレイヤーから「{term} 」になっています。",
+			"invalidFontSize": "あなたのFont Sizeのスタイル設定が初期化されました。変更するにはスタイル設定を確認してください。元の値：{fontSize}"
 		},
 		"custom-system-builder": {
 			"FractionHP": {
@@ -312,7 +312,7 @@
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "推定ルール",
-				"hint": "コマの体力を推定するための、JS形式の計算式です。変更には細心を払ってください。Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
+				"hint": "コマの体力を推定するための、JS形式の計算式です。変更には細心を払ってください。デフォルトでは単純な減少する体力とみなします。例えば、あなたの体力フィールドが10/10で始まり、ダメージを受けて0/10まで減少します。"
 			}
 		},
 		"swade": {
