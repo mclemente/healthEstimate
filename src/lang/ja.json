@@ -221,12 +221,12 @@
 					"plural": "表示"
 				},
 				"hidden": {
-					"singular": "hidden",
-					"plural": "hidden"
+					"singular": "非表示",
+					"plural": "非表示"
 				}
 			},
-			"toggleEstimate": "{tokenName}'s health estimate is being {term} from players.",
-			"toggleName": "{tokenName}'s name is being {term} from players.",
+			"toggleEstimate": "{tokenName}の推定体力はプレイヤーから「{term}」になっています。",
+			"toggleName": "{tokenName}の名前はプレイヤーから「{term}」になっています。",
 			"toggleEstimateName": "{tokenName}'s health estimate and name are being {term} from players.",
 			"invalidFontSize": "Your Font Size style setting has been reset. Check the Style Settings to change it. Previous value: {fontSize}"
 		},
@@ -311,8 +311,8 @@
 		},
 		"worldbuilding": {
 			"simpleRule": {
-				"name": "Estimation Rule",
-				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
+				"name": "推定ルール",
+				"hint": "コマの体力を推定するための、JS形式の計算式です。変更には細心を払ってください。Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
 			}
 		},
 		"swade": {
