@@ -218,6 +218,15 @@
 			"combatOnly": {
 				"hint": "Mostra as estimativas apenas quando um combate estiver ativo.",
 				"name": "Mostrar apenas em combate"
+			},
+			"tooltipPosition": {
+				"hint": "Move a dica de ferramenta de elevação para evitar conflitos com a estimativa quando renderizada na parte superior do token.",
+				"name": "Posição da dica de ferramenta de elevação",
+				"options": {
+					"right": "Direita",
+					"left": "Esquerda",
+					"default": "Padrão (sem alteração)"
+				}
 			}
 		},
 		"cyberpunk-red-core": {
