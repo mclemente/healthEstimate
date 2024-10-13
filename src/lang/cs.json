@@ -198,6 +198,19 @@
 				"position2": {
 					"name": "Umístění",
 					"hint": "Poloha vzhledem k rámu tokenu."
+				},
+				"scaleToGridSize": {
+					"name": "Měřítko Odhadů podle velikosti mřížky",
+					"hint": "Škáluje odhad na základě velikosti mřížky, přičemž předpokládá 100px jako základ."
+				}
+			},
+			"tooltipPosition": {
+				"hint": "Přesune výšku nápovědy k zabránění konfliktu s Odhady, když je vykreslováno na vrcholku tokenu.",
+				"name": "Výšková pozice nápovědy",
+				"options": {
+					"left": "Vlevo",
+					"default": "Výchozí (beze změny)",
+					"right": "Vpravo"
 				}
 			}
 		},
