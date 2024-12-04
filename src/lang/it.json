@@ -277,7 +277,7 @@
 		},
 		"PF2E": {
 			"staminaToHp": {
-				"name": "Stamina to Estimate",
+				"name": "Stamina da Stimare",
 				"hint": "Add Stamina Points to the estimate."
 			},
 			"hideHazardHP": {
