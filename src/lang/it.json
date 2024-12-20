@@ -264,24 +264,24 @@
 			},
 			"showExtra": {
 				"name": "Mostra {condition1} & {condition2}",
-				"hint": "Shows the {condition1} and {condition2} descriptions when their prerequisites are fulfilled."
+				"hint": "Mostra descrizioni {condition1} e {condition2} quando i loro prerequisiti sono soddisfatti."
 			},
 			"disabledName": {
-				"name": "Staggered Stage",
-				"default": "Staggered"
+				"name": "Condizione Barcollante",
+				"default": "Barcollante"
 			},
 			"dyingName": {
-				"name": "Unconscious Stage",
-				"default": "Unconscious"
+				"name": "Condizione Privo di Sensi",
+				"default": "Privo di sensi"
 			}
 		},
 		"PF2E": {
 			"staminaToHp": {
-				"name": "Stamina to Estimate",
+				"name": "Stamina da Stimare",
 				"hint": "Add Stamina Points to the estimate."
 			},
 			"hideHazardHP": {
-				"name": "Nascondi Stima  dei Pericoli",
+				"name": "Nascondi Stima dei Pericoli",
 				"hint": "Nasconde la stima dai Pericoli."
 			},
 			"hideVehicleHP": {
@@ -321,8 +321,8 @@
 				"hint": "This is used to calculate the max wounds a Wild Card NPC should have by default for estimations."
 			},
 			"showIncap": {
-				"name": "{incap} Status Effect",
-				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their current estimates. Doesn't work for tokens that are vehicles or dead."
+				"name": "Effetto di Stato {incap}",
+				"hint": "I token con l'effetto di stato {incap} verranno mostrati come {incap} invece delle loro stime attuali. Non funziona con i token che sono veicoli o morti."
 			}
 		}
 	}
