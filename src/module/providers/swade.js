@@ -37,9 +37,9 @@ export default class swadeEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const hp = token.actor.system.wounds;
 		let maxHP = Math.max(hp.max, 1);
-		if (token.actor.system.wildcard) {
+		if (hp.max || token.actor.system.wildcard) {
 			const defaultWildCardMaxWounds = sGet("swade.defaultWildCardMaxWounds");
-			maxHP = 1 + Math.max(hp.max || defaultWildCardMaxWounds, 1);
+			maxHP = 1 + (hp.max || defaultWildCardMaxWounds);
 		}
 		return (maxHP - hp.value) / maxHP;
 	}
