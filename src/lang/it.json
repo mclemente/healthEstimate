@@ -278,7 +278,7 @@
 		"PF2E": {
 			"staminaToHp": {
 				"name": "Stamina da Stimare",
-				"hint": "Add Stamina Points to the estimate."
+				"hint": "Aggiungere i Punti Stamina alla stima."
 			},
 			"hideHazardHP": {
 				"name": "Nascondi Stima dei Pericoli",
@@ -289,14 +289,14 @@
 				"hint": "Nasconde la stima del veicolo."
 			},
 			"workbenchMystifier": {
-				"name": "(EXPERIMENTAL) PF2e Workbench's Mystifier Support",
-				"hint": "If the NPC Mystification settings are enabled, Chat Outputs will ignore the {setting} setting's name and use the token's name if it is different from its actor's Prototype Token's name."
+				"name": "(SPERIMENTALE) Supporto Mystifier di PF2e Workbench",
+				"hint": "Se le impostazioni di NPC Mystification sono abilitate, gli output della chat ignoreranno il nome dell'impostazione {setting} e utilizzeranno il nome del token se è diverso dal nome del token prototipo del suo personaggio."
 			}
 		},
 		"numenera": {
 			"countPools": {
-				"name": "Count Empty Pools",
-				"hint": "Count empty pools instead of sum of their values, with the estimation only changing when a pool is depleted or replenished."
+				"name": "Conta Pool Vuoti",
+				"hint": "Contare i pool vuoti anziché sommare i loro valori, con la stima che cambia solo quando un pool viene esaurito o rifornito."
 			}
 		},
 		"starfinder": {
@@ -305,20 +305,20 @@
 				"hint": "Definisce quale tabella di stima verrà utilizzata durante il calcolo delle stime di un Veicolo."
 			},
 			"addStamina": {
-				"name": "Account for Stamina",
-				"hint": "With this setting on, Stamina will be added to HP for calculations."
+				"name": "Tieni conto della Stamina",
+				"hint": "Attivando questa impostazione, la Stamina verrà aggiunta agli PF per i calcoli."
 			}
 		},
 		"worldbuilding": {
 			"simpleRule": {
 				"name": "Regola Stima",
-				"hint": "The JS formula for calculating the fraction of health token has. Alter with caution. Default assumes simple descending health, e.g. you start with 10/10 in your health field and go down to 0/10 when taking damage."
+				"hint": "La formula JS per calcolare la frazione di salute ha il token. Modificare con cautela. Di default si presume una salute semplice decrescente, ad esempio si inizia con 10/10 nel campo salute e si scende a 0/10 quando si subiscono danni."
 			}
 		},
 		"swade": {
 			"defaultWildCardMaxWounds": {
-				"name": "Default Wild Card's Max Wounds",
-				"hint": "This is used to calculate the max wounds a Wild Card NPC should have by default for estimations."
+				"name": "Ferite massime della Wild Card predefinita",
+				"hint": "Viene utilizzato per calcolare il numero massimo di ferite che un PNG Wild Card dovrebbe avere di default per le stime."
 			},
 			"showIncap": {
 				"name": "Effetto di Stato {incap}",
