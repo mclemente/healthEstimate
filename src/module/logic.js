@@ -286,7 +286,7 @@ export class HealthEstimate {
 	getTokenEstimate(token) {
 		let special;
 		const validateEstimation = (iteration, token, estimation) => {
-			const rule = estimation.rule;
+			const { name, rule } = estimation;
 			try {
 				const customLogic = this.estimationProvider.customLogic;
 				const actor = token?.actor;
@@ -295,9 +295,8 @@ export class HealthEstimate {
 				// eslint-disable-next-line no-new-func
 				return new Function("actor", "token", "type", logic)(actor, token, type);
 			} catch(err) {
-				const name = estimation.name || iteration;
 				console.warn(
-					`Health Estimate | Estimation Table "${name}" has an invalid JS Rule and has been skipped. ${err.name}: ${err.message}`
+					`Health Estimate | Estimation Table "${name || iteration}" has an invalid JS Rule and has been skipped. ${err.name}: ${err.message}`
 				);
 				return false;
 			}
