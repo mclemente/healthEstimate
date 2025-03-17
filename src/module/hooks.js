@@ -107,7 +107,8 @@ export class HealthEstimateHooks {
 	// /////////
 
 	static refreshToken(token, flags) {
-		game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
+		const displayed = token.hover || canvas.tokens.highlightObjects;
+		game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(displayed));
 		if (flags.refreshSize && game.healthEstimate.tooltipPosition) repositionTooltip(token);
 	}
 
