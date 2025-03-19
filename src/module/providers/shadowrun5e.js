@@ -13,6 +13,10 @@ export default class shadowrun5eEstimationProvider extends EstimationProvider {
 				const physical = token.actor.system.track.physical;
 				return (physical.max - physical.value) / physical.max;
 			}
+			case "ic": {
+				const matrix = token.actor.system.track.matrix;
+				return (matrix.max - matrix.value) / matrix.max;
+			}
 			case "sprite": {
 				const matrix = token.actor.system.matrix.condition_monitor;
 				return (matrix.max - matrix.value) / matrix.max;
