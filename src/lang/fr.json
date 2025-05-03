@@ -109,6 +109,10 @@
 				"position2": {
 					"name": "Position",
 					"hint": "La position relative par rapport au cadre du jeton."
+				},
+				"scaleToGridSize": {
+					"name": "Mettre l'estimation à la taille de la grille",
+					"hint": "Met à l'échelle l'estimation en fonction de la taille de la grille en partant du principe que la base de référence est de 100 px."
 				}
 			},
 			"custom": {
@@ -230,6 +234,15 @@
 				},
 				"addTable": "Ajouter une table",
 				"prioIncrease": "Augmenter la priorité"
+			},
+			"tooltipPosition": {
+				"name": "Position d'élévation de l'infobulle",
+				"hint": "Déplace l'élévation de l'infobulle pour éviter les conflits avec l'estimation lorsqu'elle est présentée au-dessus d'un jeton.",
+				"options": {
+					"left": "gauche",
+					"default": "Défaut (pas de changement)",
+					"right": "Droite"
+				}
 			}
 		},
 		"dnd5e": {
