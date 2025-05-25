@@ -124,7 +124,7 @@ export class HealthEstimate {
 			if (hovered) {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc !== undefined && color && stroke) {
-					const { width } = token.getSize();
+					const { width } = token.document.getSize();
 					const y = -2 + this.height;
 					const position = { a: 0, b: 1, c: 2 }[this.position];
 					const x = (width / 2) * position;

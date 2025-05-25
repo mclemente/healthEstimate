@@ -98,7 +98,7 @@ export function disableCheckbox(checkbox, boolean) {
 export function repositionTooltip(token, force = false) {
 	const tooltipPosition = game.healthEstimate.tooltipPosition;
 	const docWidth = token.document.width;
-	const { width } = token.getSize();
+	const { width } = token.document.getSize();
 	const offset = 0.35 / Math.max(1, docWidth);
 	if (tooltipPosition === "left") token.tooltip.x = width * (-offset);
 	else if (force && tooltipPosition === "default") token.tooltip.x = width / 2;

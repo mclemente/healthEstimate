@@ -22,7 +22,7 @@
 			"name": "Español (Spanish)",
 			"path": "lang/es.json"
 		},
-    {
+		{
 			"lang": "it",
 			"name": "Italiano (Italian)",
 			"path": "lang/it.json"
@@ -79,8 +79,8 @@
 		}
 	],
 	"compatibility": {
-		"minimum": "12",
-		"verified": "12"
+		"minimum": "13",
+		"verified": "13"
 	},
 	"url": "This is auto replaced",
 	"version": "This is auto replaced",
