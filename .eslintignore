@@ -4,5 +4,4 @@
 
 dist
 gulpfile.mjs
-injectConfig.js
 lib

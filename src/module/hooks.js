@@ -1,6 +1,5 @@
 import { addCharacter, outputStageChange } from "./HealthMonitor.js";
-import { injectConfig } from "./injectConfig.js";
-import { disableCheckbox, f, repositionTooltip, sGet, t } from "./utils.js";
+import { disableCheckbox, repositionTooltip, sGet } from "./utils.js";
 
 export class HealthEstimateHooks {
 	static canvasInit(canvas) {
@@ -152,23 +151,23 @@ export class HealthEstimateHooks {
 	static renderSettingsConfigHandler(settingsConfig, html) {
 		// Chat Output setting changes
 		const outputChat = game.settings.get("healthEstimate", "core.outputChat");
-		const outputChatCheckbox = html.find('input[name="healthEstimate.core.outputChat"]');
-		const unknownEntityInput = html.find('input[name="healthEstimate.core.unknownEntity"]');
+		const outputChatCheckbox = html.querySelector('input[name="healthEstimate.core.outputChat"]');
+		const unknownEntityInput = html.querySelector('input[name="healthEstimate.core.unknownEntity"]');
 		disableCheckbox(unknownEntityInput, outputChat);
-		outputChatCheckbox.on("change", (event) => {
+		outputChatCheckbox.addEventListener("change", (event) => {
 			disableCheckbox(unknownEntityInput, event.target.checked);
 		});
 
 		// Additional PF1 system settings
 		if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
 			const showExtra = game.settings.get("healthEstimate", "PF1.showExtra");
-			const showExtraCheckbox = html.find('input[name="healthEstimate.PF1.showExtra"]');
-			const disabledNameInput = html.find('input[name="healthEstimate.PF1.disabledName"]');
-			const dyingNameInput = html.find('input[name="healthEstimate.PF1.dyingName"]');
+			const showExtraCheckbox = html.querySelector('input[name="healthEstimate.PF1.showExtra"]');
+			const disabledNameInput = html.querySelector('input[name="healthEstimate.PF1.disabledName"]');
+			const dyingNameInput = html.querySelector('input[name="healthEstimate.PF1.dyingName"]');
 			disableCheckbox(disabledNameInput, showExtra);
 			disableCheckbox(dyingNameInput, showExtra);
 
-			showExtraCheckbox.on("change", (event) => {
+			showExtraCheckbox.addEventListener("change", (event) => {
 				disableCheckbox(disabledNameInput, event.target.checked);
 				disableCheckbox(dyingNameInput, event.target.checked);
 			});
@@ -176,48 +175,12 @@ export class HealthEstimateHooks {
 
 		// Additional PF2e system settings
 		if (game.settings.settings.has("healthEstimate.PF2E.workbenchMystifier")) {
-			const workbenchMystifierCheckbox = html.find('input[name="healthEstimate.PF2E.workbenchMystifier"]');
+			const workbenchMystifierCheckbox = html.querySelector('input[name="healthEstimate.PF2E.workbenchMystifier"]');
 			disableCheckbox(workbenchMystifierCheckbox, outputChat);
 
-			outputChatCheckbox.on("change", (event) => {
+			outputChatCheckbox.addEventListener("change", (event) => {
 				disableCheckbox(workbenchMystifierCheckbox, event.target.checked);
 			});
 		}
-	}
-
-	/**
-	 * Handler called when token configuration window is opened. Injects custom form html and deals
-	 * with updating token.
-	 * @category GMOnly
-	 * @function
-	 * @async
-	 * @param {TokenConfig} tokenConfig
-	 * @param {JQuery} html
-	 */
-	static async renderTokenConfigHandler(tokenConfig, html) {
-		const moduleId = "healthEstimate";
-		const tab = {
-			name: moduleId,
-			label: "Estimates",
-			icon: "fas fa-scale-balanced",
-		};
-		injectConfig.inject(tokenConfig, html, { moduleId, tab }, tokenConfig.object);
-
-		const posTab = html.find(`.tab[data-tab="${moduleId}"]`);
-		const tokenFlags = tokenConfig.options.sheetConfig
-			? tokenConfig.object.flags?.healthEstimate
-			: tokenConfig.token.flags?.healthEstimate;
-
-		const data = {
-			hasPlayerOwner: tokenConfig.token.hasPlayerOwner,
-			hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
-			hideName: tokenFlags?.hideName ? "checked" : "",
-			dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
-			dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
-			hideNameHint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
-		};
-
-		const insertHTML = await renderTemplate(`modules/${moduleId}/templates/token-config.html`, data);
-		posTab.append(insertHTML);
 	}
 }

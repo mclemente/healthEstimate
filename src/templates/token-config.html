@@ -1,17 +1,25 @@
-<div class="form-group">
-	<label>{{localize "healthEstimate.core.keybinds.dontMarkDead.name"}}</label>
-	<input type="checkbox" name="flags.healthEstimate.dontMarkDead" data-dtype="Boolean" {{dontMarkDead}} />
-	<p class="notes">{{dontMarkDeadHint}}</p>
+<div class="tab {{#if tab.active}} active{{/if}}" data-group="sheet" data-tab="healthEstimate">
+	<div class="form-group">
+		<label for="{{rootId}}-dontMarkDead">{{localize "healthEstimate.core.keybinds.dontMarkDead.name"}}</label>
+		<div class="form-fields">
+			<input id="{{rootId}}-dontMarkDead" type="checkbox" name="flags.healthEstimate.dontMarkDead" data-dtype="Boolean" {{dontMarkDead}} />
+		</div>
+		<p class="hint">{{dontMarkDeadHint}}</p>
+	</div>
+	<div class="form-group">
+		<label for="{{rootId}}-hideHealthEstimate">{{localize "healthEstimate.core.keybinds.hideEstimates.name"}}</label>
+		<div class="form-fields">
+			<input id="{{rootId}}-hideHealthEstimate" type="checkbox" name="flags.healthEstimate.hideHealthEstimate" data-dtype="Boolean" {{hideHealthEstimate}} />
+		</div>
+		<p class="hint">{{localize "healthEstimate.core.keybinds.hideEstimates.hint"}}</p>
+	</div>
+	{{#unless hasPlayerOwner}}
+	<div class="form-group">
+		<label for="{{rootId}}-hideName">{{localize "healthEstimate.core.keybinds.hideNames.name"}}</label>
+		<div class="form-fields">
+			<input id="{{rootId}}-hideName" type="checkbox" name="flags.healthEstimate.hideName" data-dtype="Boolean" {{hideName}} />
+		</div>
+		<p class="hint">{{hideNameHint}}</p>
+	</div>
+	{{/unless}}
 </div>
-<div class="form-group">
-	<label>{{localize "healthEstimate.core.keybinds.hideEstimates.name"}}</label>
-	<input type="checkbox" name="flags.healthEstimate.hideHealthEstimate" data-dtype="Boolean" {{hideHealthEstimate}} />
-	<p class="notes">{{localize "healthEstimate.core.keybinds.hideEstimates.hint"}}</p>
-</div>
-{{#unless hasPlayerOwner}}
-<div class="form-group">
-	<label>{{localize "healthEstimate.core.keybinds.hideNames.name"}}</label>
-	<input type="checkbox" name="flags.healthEstimate.hideName" data-dtype="Boolean" {{hideName}} />
-	<p class="notes">{{hideNameHint}}</p>
-</div>
-{{/unless}}

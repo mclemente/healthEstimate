@@ -21,5 +21,3 @@ This project uses the [chroma.js](https://github.com/gka/chroma.js) library rele
 This project uses the [Grapick](https://www.npmjs.com/package/grapick) library licensed under MIT License.
 
 This project uses code of [Health Monitor](https://github.com/jessev14/health-monitor), released under the MIT License.
-
-This project uses the [injectConfig](https://github.com/theripper93/injectConfig) library, released under the MIT License.
