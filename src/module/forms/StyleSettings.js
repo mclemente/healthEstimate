@@ -59,9 +59,9 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		this.deadOutline = sGet("core.variables.deadOutline");
 
 		this.outlineMode = this.element.querySelector("#outlineMode");
-		this.outlineIntensity = this.element.querySelector("input[name=outlineIntensity]");
-		this.fontSize = this.element.querySelector("input[name=fontSize]");
-		this.textPosition = this.element.querySelector("input[name=position]");
+		this.outlineIntensity = this.element.querySelector("range-picker[name=outlineIntensity]");
+		this.fontSize = this.element.querySelector("range-picker[name=fontSize]");
+		this.textPosition = this.element.querySelector("range-picker[name=position]");
 		this.smoothGradient = this.element.querySelector("#smoothGradient");
 		this.gradEx = this.element.querySelector("#gradientExampleHE");
 

@@ -116,12 +116,16 @@
 .healthEstimate.deadColor input[type="color"][data-edit] {
 	flex: 1.4;
 }
+#health-estimate-style-form.form.healthEstimate section .standard-form {
+	overflow: hidden auto;
+	padding-inline-end: 0.25rem;
+}
 .form.healthEstimate .estimation-buttons button:disabled {
 	cursor: default;
 	color: grey;
 }
-.form.healthEstimate .form-group.gradient {
-	margin-bottom: 7px;
+.form.healthEstimate .form-group.gradient > span {
+	padding-left: 0.5rem;
 }
 .form.healthEstimate input[type="number"] {
 	text-align: center;
