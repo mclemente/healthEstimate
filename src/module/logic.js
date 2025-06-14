@@ -289,11 +289,21 @@ export class HealthEstimate {
 			const { name, rule } = estimation;
 			try {
 				const customLogic = this.estimationProvider.customLogic;
-				const actor = token?.actor;
-				const type = token.actor.type;
+				const actor = token.actor;
+				const args = {
+					actor,
+					items: actor.items,
+					effects: actor.effects,
+					flags: actor.flags,
+					name: actor.name,
+					system: actor.system,
+					token,
+					type: actor.type,
+					...actor.getRollData()
+				};
 				const logic = `${customLogic}\nreturn ${rule}`;
 				// eslint-disable-next-line no-new-func
-				return new Function("actor", "token", "type", logic)(actor, token, type);
+				return new Function(...Object.keys(args), logic)(...Object.values(args));
 			} catch(err) {
 				console.warn(
 					`Health Estimate | Estimation Table "${name || iteration}" has an invalid JS Rule and has been skipped. ${err.name}: ${err.message}`
