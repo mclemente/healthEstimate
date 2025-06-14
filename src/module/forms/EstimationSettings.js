@@ -41,10 +41,8 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	async activateListeners(html) {
 		super.activateListeners(html);
 		html.find("button[name=reset]").on("click", async (event) => {
-			await this.resetToDefault("estimations");
-			this.estimations = sGet("core.estimations");
-			canvas.scene?.tokens.forEach((token) => token.object.refresh());
-			this.close();
+			this.estimations = foundry.utils.deepClone(game.settings.settings.get("healthEstimate.core.estimations").default);
+			this.render();
 		});
 
 		// Handle all changes to tables
