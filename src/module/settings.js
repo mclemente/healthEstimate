@@ -2,6 +2,8 @@ import * as forms from "./forms/_module.js";
 import { HealthEstimateHooks } from "./hooks.js";
 import { addMenuSetting, addSetting, f, repositionTooltip, t } from "./utils.js";
 
+const { ArrayField, BooleanField, NumberField, SchemaField, StringField } = foundry.data.fields;
+
 export const registerSettings = function () {
 	game.settings.registerMenu("healthEstimate", "behaviorSettings", {
 		name: t("core.menuSettings.behaviorSettings.plural"),
@@ -33,8 +35,27 @@ export const registerSettings = function () {
 		config: false,
 	});
 	addMenuSetting("core.estimations", {
-		type: Array,
-		default: game.healthEstimate.estimationProvider.estimations,
+		type: new ArrayField(
+			new SchemaField({
+				name: new StringField({ label: "Name", localize: true }),
+				ignoreColor: new BooleanField({
+					label: "healthEstimate.core.estimationSettings.ignoreColor.name",
+					hint: "healthEstimate.core.estimationSettings.ignoreColor.hint",
+					localize: true
+				}),
+				rule: new StringField({ initial: "", label: "healthEstimate.core.estimationSettings.jsRule", localize: true }),
+				estimates: new ArrayField(
+					new SchemaField({
+						value: new NumberField({ required: true, min: 0, max: 100, nullable: false }),
+						label: new StringField({ required: true })
+					})
+				)
+			}),
+			{
+				empty: false,
+				initial: game.healthEstimate.estimationProvider.estimations
+			}
+		),
 		onChange: (value) => {
 			game.healthEstimate.estimations = value;
 			canvas.scene?.tokens.forEach((token) => token.object.refresh());

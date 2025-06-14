@@ -130,9 +130,8 @@
 .form.healthEstimate input[type="number"] {
 	text-align: center;
 }
-.form.healthEstimate .estimation-types div.value {
+.form.healthEstimate .estimation-types td:has(input[type="number"]) {
 	width: 2rem;
-	margin: auto;
 }
 .form.healthEstimate .estimation-types input {
 	background: none;

@@ -22,7 +22,124 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	getData(options) {
 		return {
 			estimations: this.estimations,
+			fields: game.settings.settings.get("healthEstimate.core.estimations"),
+			widget: this.#estimationWidget.bind(this)
 		};
+	}
+
+	#estimationWidget(field, _groupConfig, inputConfig) {
+		const div = document.createElement("div");
+		const { fields } = field.element;
+		const { localize, value } = inputConfig;
+		value.forEach((data, index) => {
+			const { estimates, ignoreColor, name, rule } = data;
+			const hidden = index === 0;
+			const tab = document.createElement("div");
+			tab.className = "tab";
+			tab.dataset.tab = index;
+
+			const nameInput = fields.name.toFormGroup({ hidden, localize }, { name: `estimations.${index}.name`, value: name });
+			const ruleInput = fields.rule.toFormGroup({ hidden, localize }, { name: `estimations.${index}.rule`, value: rule, elementType: "code-mirror" });
+			const ignoreColorInput = fields.ignoreColor.toFormGroup({ hidden, localize }, { name: `estimations.${index}.ignoreColor`, value: ignoreColor });
+
+			const estimatesTable = document.createElement("table");
+			estimatesTable.className = "estimation-types";
+			const tableHeader = document.createElement("tr");
+			tableHeader.innerHTML = `
+				<th>${game.i18n.localize("healthEstimate.core.estimationSettings.estimate")}</th>
+				<th>%</th>
+				<th class="delete-cell"></th>
+			`;
+			estimatesTable.append(tableHeader);
+
+			estimates.forEach((estimate, i) => {
+				const row = document.createElement("tr");
+				const labelCell = document.createElement("td");
+				labelCell.append(
+					foundry.applications.fields.createTextInput({
+						name: `estimations.${index}.estimates.${i}.label`,
+						value: estimate.label
+					})
+				);
+				const valueCell = document.createElement("td");
+				valueCell.append(
+					foundry.applications.fields.createNumberInput({
+						name: `estimations.${index}.estimates.${i}.value`,
+						value: estimate.value,
+						min: 0,
+						max: 100
+					})
+				);
+
+				const deleteTD = document.createElement("td");
+				deleteTD.className = "delete-cell";
+				deleteTD.innerHTML = `
+					<a class="delete-button" data-action="estimation-delete">
+						<i class="fas fa-times" data-table="${index}" data-idx="${i}"></i>
+					</a>
+				`;
+
+				row.append(labelCell, valueCell, deleteTD);
+				estimatesTable.append(row);
+			});
+
+			tab.append(nameInput, ruleInput, ignoreColorInput, estimatesTable);
+			if (index !== 0) {
+				tab.append(HealthEstimateEstimationSettings.createEstimationButtons(index, index === value.length - 1));
+			}
+			div.append(tab);
+		});
+		return div;
+	}
+
+	static createEstimationButtons(idx, isLast) {
+		const container = document.createElement("div");
+		container.classList.add("flexrow", "estimation-buttons");
+
+		// Left button
+		const leftBtn = document.createElement("button");
+		leftBtn.type = "button";
+		if (idx === 1) {
+			leftBtn.disabled = true;
+		} else {
+			leftBtn.dataset.tooltip = game.i18n.localize("healthEstimate.core.estimationSettings.prioIncrease");
+			leftBtn.dataset.action = "change-prio";
+			leftBtn.dataset.prio = "increase";
+			leftBtn.dataset.idx = idx;
+		}
+		const leftIcon = document.createElement("i");
+		leftIcon.classList.add("far", "fa-chevron-left");
+		leftBtn.appendChild(leftIcon);
+		container.appendChild(leftBtn);
+
+		// Delete button
+		const deleteBtn = document.createElement("button");
+		deleteBtn.type = "button";
+		deleteBtn.dataset.action = "table-delete";
+		deleteBtn.dataset.idx = idx;
+		const trashIcon = document.createElement("i");
+		trashIcon.classList.add("fas", "fa-trash");
+		deleteBtn.appendChild(trashIcon);
+		deleteBtn.append(" ", game.i18n.localize("healthEstimate.core.estimationSettings.deleteTable"));
+		container.appendChild(deleteBtn);
+
+		// Right button
+		const rightBtn = document.createElement("button");
+		rightBtn.type = "button";
+		if (isLast) {
+			rightBtn.disabled = true;
+		} else {
+			rightBtn.dataset.tooltip = game.i18n.localize("healthEstimate.core.estimationSettings.prioDecrease");
+			rightBtn.dataset.action = "change-prio";
+			rightBtn.dataset.prio = "reduce";
+			rightBtn.dataset.idx = idx;
+		}
+		const rightIcon = document.createElement("i");
+		rightIcon.classList.add("far", "fa-chevron-right");
+		rightBtn.appendChild(rightIcon);
+		container.appendChild(rightBtn);
+
+		return container;
 	}
 
 	/**
