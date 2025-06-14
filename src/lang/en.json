@@ -53,7 +53,7 @@
 				"prioIncrease": "Increase Priority",
 				"ignoreColor": {
 					"name": "Ignore Color",
-					"hint": "Ignores the colors from this table and use the colors from the next valid table for the token. This is meant for conditions that should have priority over an estimate, but should still use that estimate's color."
+					"hint": "Ignores the colors from this table and uses the colors from the next valid table for the token. This is intended for conditions that should take priority over an estimate, but still reflect the estimate's color scheme."
 				}
 			},
 			"keybinds": {
