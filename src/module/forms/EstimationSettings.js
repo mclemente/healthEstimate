@@ -39,7 +39,12 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			tab.dataset.tab = index;
 
 			const nameInput = fields.name.toFormGroup({ hidden, localize }, { name: `estimations.${index}.name`, value: name });
-			const ruleInput = fields.rule.toFormGroup({ hidden, localize }, { name: `estimations.${index}.rule`, value: rule, elementType: "code-mirror" });
+			const ruleInput = fields.rule.toFormGroup({ hidden, localize }, {
+				name: `estimations.${index}.rule`,
+				value: rule,
+				elementType: "code-mirror",
+				language: "javascript"
+			});
 			const ignoreColorInput = fields.ignoreColor.toFormGroup({ hidden, localize }, { name: `estimations.${index}.ignoreColor`, value: ignoreColor });
 
 			const estimatesTable = document.createElement("table");
