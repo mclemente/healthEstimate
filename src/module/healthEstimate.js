@@ -24,6 +24,7 @@ Hooks.on("createToken", HealthEstimateHooks.onCreateToken);
 // Actor
 Hooks.on("updateActor", HealthEstimateHooks.onUpdateActor);
 Hooks.on("deleteActor", HealthEstimateHooks.deleteActor);
+Hooks.on("deleteToken", HealthEstimateHooks.deleteToken);
 Hooks.on("deleteActiveEffect", HealthEstimateHooks.deleteActiveEffect);
 
 // Rendering

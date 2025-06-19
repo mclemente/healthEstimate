@@ -121,6 +121,7 @@ export class HealthEstimate {
 
 		// Create PIXI
 		try {
+			const estimate = this._cache[token.id];
 			if (hovered) {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc !== undefined && color && stroke) {
@@ -129,15 +130,15 @@ export class HealthEstimate {
 					const position = { a: 0, b: 1, c: 2 }[this.position];
 					const x = (width / 2) * position;
 					const config = { desc, color, stroke, width, x, y };
-					if (!token.healthEstimate?._texture) {
+					if (!estimate?._texture) {
 						this._createHealthEstimate(token, config);
 					} else this._updateHealthEstimate(token, config);
 					if (game.Levels3DPreview?._active) {
 						this._update3DHealthEstimate(token, config);
 					}
 				}
-			} else if (token.healthEstimate) {
-				token.healthEstimate.visible = false;
+			} else if (estimate) {
+				estimate.visible = false;
 				if (game.Levels3DPreview?._active) {
 					const { tokens } = game.Levels3DPreview;
 					const token3d = tokens[token.id];
@@ -181,10 +182,11 @@ export class HealthEstimate {
 	_createHealthEstimate(token, config = {}) {
 		const { desc, color, stroke, width, x, y } = config;
 		const style = this._getUserTextStyle(color, stroke);
-		token.healthEstimate = token.addChild(new PIXI.Text(desc, style));
-		token.healthEstimate.scale.set(0.25);
-		token.healthEstimate.anchor.set(0.5, 1);
-		token.healthEstimate.position.set(width / 2, x + y);
+		const estimate = canvas.interface.healthEstimate.addChild(new PIXI.Text(desc, style));
+		this._cache[token.id] = estimate;
+		estimate.scale.set(0.25);
+		estimate.anchor.set(0.5, 1);
+		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
 
 	/**
@@ -194,13 +196,16 @@ export class HealthEstimate {
 	 */
 	_updateHealthEstimate(token, config = {}) {
 		const { desc, color, stroke, width, x, y } = config;
-		token.healthEstimate.style.fontSize = this.scaledFontSize;
-		token.healthEstimate.text = desc;
-		token.healthEstimate.style.fill = color;
-		token.healthEstimate.style.stroke = stroke;
-		token.healthEstimate.visible = true;
-		token.healthEstimate.position.set(width / 2, x + y);
+		const estimate = this._cache[token.id];
+		estimate.style.fontSize = this.scaledFontSize;
+		estimate.text = desc;
+		estimate.style.fill = color;
+		estimate.style.stroke = stroke;
+		estimate.visible = true;
+		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
+
+	_cache = {};
 
 	/**
 	 * Caches estimates for the 3D Canvas modules.

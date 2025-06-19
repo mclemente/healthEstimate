@@ -249,8 +249,8 @@ export const registerSettings = function () {
 		onChange: (s) => {
 			const color = s === "darken" ? "black" : "white";
 			canvas.tokens?.placeables
-				.filter((token) => token.healthEstimate)
-				.forEach((token) => (token.healthEstimate.style.dropShadowColor = color));
+				.filter((token) => game.healthEstimate._cache[token.id])
+				.forEach((token) => (game.healthEstimate._cache[token.id].style.dropShadowColor = color));
 		},
 	});
 	addMenuSetting("core.menuSettings.outlineIntensity", {

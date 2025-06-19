@@ -23,6 +23,14 @@ export class HealthEstimateHooks {
 	 * HP storing code for canvas load or token created
 	 */
 	static onCanvasReady() {
+		canvas.interface.healthEstimate = canvas.interface.addChild(new PIXI.Container());
+		const { width, height } = canvas.dimensions;
+		canvas.interface.healthEstimate.width = width;
+		canvas.interface.healthEstimate.height = height;
+		canvas.interface.healthEstimate.eventMode = "none";
+		canvas.interface.healthEstimate.interactiveChildren = false;
+		canvas.interface.healthEstimate.zIndex = CONFIG.Canvas.groups.interface.zIndexScrollingText;
+
 		/** @type {[Token]} */
 		const tokens = canvas.tokens?.placeables.filter((e) => e.actor) ?? [];
 		tokens.forEach(addCharacter);
@@ -41,8 +49,9 @@ export class HealthEstimateHooks {
 				canvas.tokens?.placeables
 					.filter((t) => t.healthEstimate?.visible)
 					.forEach((token) => {
-						if (token.healthEstimate?._texture) {
-							token.healthEstimate.style.fontSize = game.healthEstimate.scaledFontSize;
+						const estimate = game.healthEstimate._cache[token.id];
+						if (estimate?._texture) {
+							estimate.style.fontSize = game.healthEstimate.scaledFontSize;
 						}
 					});
 			}
@@ -90,6 +99,14 @@ export class HealthEstimateHooks {
 	static deleteActor(actorDocument, options, userId) {
 		let tokens = canvas.tokens?.placeables.filter((e) => e.document.actorId === actorDocument.id);
 		tokens.forEach((token) => token.refresh());
+	}
+
+	static deleteToken(tokenDocument, options, userId) {
+		const estimate = game.healthEstimate._cache[tokenDocument.id];
+		if (!estimate) return;
+		delete game.healthEstimate._cache[tokenDocument.id];
+		canvas.interface.healthEstimate.removeChild(estimate);
+		estimate.destroy();
 	}
 
 	static deleteActiveEffect(activeEffect, options, userId) {
