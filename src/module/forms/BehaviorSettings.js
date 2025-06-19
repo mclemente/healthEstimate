@@ -22,7 +22,6 @@ export default class HealthEstimateBehaviorSettings extends HealthEstimateSettin
 
 	_prepareContext(options) {
 		return {
-			alwaysShow: this.prepSetting("alwaysShow"),
 			combatOnly: this.prepSetting("combatOnly"),
 			showDescription: this.prepSelection("showDescription"),
 			showDescriptionTokenType: this.prepSelection("showDescriptionTokenType"),
@@ -38,7 +37,6 @@ export default class HealthEstimateBehaviorSettings extends HealthEstimateSettin
 
 	static async reset(event, form, formData) {
 		const paths = [
-			"alwaysShow",
 			"combatOnly",
 			"showDescription",
 			"showDescriptionTokenType",

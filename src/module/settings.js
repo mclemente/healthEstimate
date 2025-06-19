@@ -28,7 +28,19 @@ export const registerSettings = function () {
 	});
 
 	/* Settings for the main settings menu */
-
+	addSetting("core.alwaysShow", {
+		name: "healthEstimate.core.alwaysShow.name",
+		hint: "healthEstimate.core.alwaysShow.hint",
+		scope: "user",
+		type: Boolean,
+		default: false,
+		onChange: (value) => {
+			game.healthEstimate.alwaysShow = value;
+			canvas.tokens?.placeables.forEach((token) =>
+				game.healthEstimate._handleOverlay(token, value || game.healthEstimate.showCondition(token.hover))
+			);
+		},
+	});
 	addSetting("core.stateNames", {
 		type: String,
 		default: "",
@@ -111,16 +123,6 @@ export const registerSettings = function () {
 	});
 
 	/* Settings for the behavior menu */
-	addMenuSetting("core.alwaysShow", {
-		type: Boolean,
-		default: false,
-		onChange: (value) => {
-			game.healthEstimate.alwaysShow = value;
-			canvas.tokens?.placeables.forEach((token) =>
-				game.healthEstimate._handleOverlay(token, value || game.healthEstimate.showCondition(token.hover))
-			);
-		},
-	});
 	addMenuSetting("core.combatOnly", {
 		type: Boolean,
 		default: false,
