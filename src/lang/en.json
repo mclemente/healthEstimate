@@ -48,7 +48,7 @@
 				"default": "Default",
 				"deleteTable": "Delete Table",
 				"estimate": "Estimate",
-				"jsRule": "JS Rule",
+				"jsRule": "JavaScript Rule",
 				"prioDecrease": "Decrease Priority",
 				"prioIncrease": "Increase Priority",
 				"ignoreColor": {

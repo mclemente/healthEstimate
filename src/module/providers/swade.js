@@ -10,7 +10,7 @@ export default class swadeEstimationProvider extends EstimationProvider {
 		this.estimations = [
 			{
 				name: "",
-				rule: "default",
+				rule: "",
 				estimates: [
 					{ value: 0, label: game.i18n.localize("SWADE.Incap") },
 					{ value: 25, label: t("core.estimates.states.1") },

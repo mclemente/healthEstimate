@@ -11,7 +11,7 @@ export default class cyberpunkRedCoreEstimationProvider extends EstimationProvid
 		this.estimations = [
 			{
 				name: "",
-				rule: "default",
+				rule: "",
 				estimates: [
 					{ value: 0, label: game.i18n.localize("CPR.global.woundState.dead") },
 					{ value: 1, label: game.i18n.localize("CPR.global.woundState.mortallyWounded") },

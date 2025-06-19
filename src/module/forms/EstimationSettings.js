@@ -32,20 +32,15 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		const { fields } = field.element;
 		const { localize, value } = inputConfig;
 		value.forEach((data, index) => {
-			const { estimates, ignoreColor, name, rule } = data;
-			const hidden = index === 0;
 			const tab = document.createElement("div");
 			tab.className = "tab";
 			tab.dataset.tab = index;
 
-			const nameInput = fields.name.toFormGroup({ hidden, localize }, { name: `estimations.${index}.name`, value: name });
-			const ruleInput = fields.rule.toFormGroup({ hidden, localize }, {
-				name: `estimations.${index}.rule`,
-				value: rule,
-				elementType: "code-mirror",
-				language: "javascript"
-			});
-			const ignoreColorInput = fields.ignoreColor.toFormGroup({ hidden, localize }, { name: `estimations.${index}.ignoreColor`, value: ignoreColor });
+			function createInput(id) {
+				let inputValue = data[id];
+				if (id === "rule" && inputValue === "default") inputValue = "";
+				return fields[id].toFormGroup({ hidden: index === 0, localize }, { name: `estimations.${index}.${id}`, value: inputValue });
+			}
 
 			const estimatesTable = document.createElement("table");
 			estimatesTable.className = "estimation-types";
@@ -57,7 +52,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			`;
 			estimatesTable.append(tableHeader);
 
-			estimates.forEach((estimate, i) => {
+			data.estimates.forEach((estimate, i) => {
 				const row = document.createElement("tr");
 				const labelCell = document.createElement("td");
 				labelCell.append(
@@ -88,7 +83,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 				estimatesTable.append(row);
 			});
 
-			tab.append(nameInput, ruleInput, ignoreColorInput, estimatesTable);
+			tab.append(...["name", "rule", "ignoreColor"].map(createInput), estimatesTable);
 			if (index !== 0) {
 				tab.append(HealthEstimateEstimationSettings.createEstimationButtons(index, index === value.length - 1));
 			}

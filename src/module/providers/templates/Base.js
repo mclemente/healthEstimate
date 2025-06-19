@@ -71,7 +71,7 @@ export default class EstimationProvider {
 			{
 				name: "",
 				ignoreColor: false,
-				rule: "default",
+				rule: "",
 				estimates: [
 					{ value: 0, label: t("core.estimates.states.0") },
 					{ value: 25, label: t("core.estimates.states.1") },

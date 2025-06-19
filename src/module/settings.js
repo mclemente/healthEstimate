@@ -2,7 +2,7 @@ import * as forms from "./forms/_module.js";
 import { HealthEstimateHooks } from "./hooks.js";
 import { addMenuSetting, addSetting, f, repositionTooltip, t } from "./utils.js";
 
-const { ArrayField, BooleanField, NumberField, SchemaField, StringField } = foundry.data.fields;
+const { ArrayField, BooleanField, JavaScriptField, NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export const registerSettings = function () {
 	game.settings.registerMenu("healthEstimate", "behaviorSettings", {
@@ -55,7 +55,11 @@ export const registerSettings = function () {
 					hint: "healthEstimate.core.estimationSettings.ignoreColor.hint",
 					localize: true
 				}),
-				rule: new StringField({ initial: "", label: "healthEstimate.core.estimationSettings.jsRule", localize: true }),
+				rule: new JavaScriptField({
+					initial: "",
+					label: "healthEstimate.core.estimationSettings.jsRule",
+					localize: true
+				}),
 				estimates: new ArrayField(
 					new SchemaField({
 						value: new NumberField({ required: true, min: 0, max: 100, nullable: false }),
