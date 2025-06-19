@@ -23,6 +23,8 @@ export default class wfrp4eEstimationProvider extends EstimationProvider {
 		];
 	}
 
+	_breakAttribute = "token.actor.system.status.wounds";
+
 	fraction(token) {
 		const hp = token.actor.system.status.wounds;
 		return hp.value / hp.max;
@@ -31,6 +33,6 @@ export default class wfrp4eEstimationProvider extends EstimationProvider {
 	get breakCondition() {
 		return `
         || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.status.wounds === 0)`;
+		${super.breakCondition}`;
 	}
 }

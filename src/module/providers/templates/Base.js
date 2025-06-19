@@ -84,6 +84,8 @@ export default class EstimationProvider {
 		];
 	}
 
+	_breakAttribute = "token.actor.system.attributes.hp.max";
+
 	/**
 	 * Calculates the fraction of the current health divided by the maximum health.
 	 * @param {TokenDocument} token
@@ -124,8 +126,26 @@ export default class EstimationProvider {
 	 * @see dnd5eEstimationProvider
 	 * @see pf2eEstimationProvider
 	 */
-	static get breakCondition() {
-		return undefined;
+	get breakCondition() {
+		const breakOnZeroMaxHP = game.settings.get("healthEstimate", "core.breakOnZeroMaxHP");
+		// "false" was the original value of "none" for when the setting was a Boolean
+		if (this.breakOnZeroMaxHP && !["false", "none"].includes(breakOnZeroMaxHP)) {
+			return `|| ${this.breakAttribute} ${this.breakMaxHPValue}`;
+		}
+		return "false";
+	}
+
+	get breakAttribute() {
+		return this._breakAttribute;
+	}
+
+	// eslint-disable-next-line getter-return
+	get breakMaxHPValue() {
+		const breakOnZeroMaxHP = game.settings.get("healthEstimate", "core.breakOnZeroMaxHP");
+		// "true" was the original value of 0 for when the setting was a Boolean
+		if (breakOnZeroMaxHP === "zero" || breakOnZeroMaxHP === "true") return "=== 0";
+		if (breakOnZeroMaxHP === "one") return "=== 1";
+		if (breakOnZeroMaxHP === "zeroOrOne") return "<= 1";
 	}
 
 	/**

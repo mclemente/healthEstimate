@@ -82,6 +82,6 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 		return `
         || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
         || token.actor.type === 'hazard'
-        || game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0`;
+        ${super.breakCondition}`;
 	}
 }

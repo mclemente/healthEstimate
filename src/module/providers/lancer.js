@@ -6,14 +6,10 @@ export default class lancerEstimationProvider extends EstimationProvider {
 		this.breakOnZeroMaxHP = true;
 	}
 
+	_breakAttribute = "token.actor.system?.hp?.max";
+
 	fraction(token) {
 		const hp = token.actor.system.hp;
 		return hp.value / hp.max;
-	}
-
-	get breakCondition() {
-		return `
-        || game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
-        && (token.actor.system?.hp?.max === 0)`;
 	}
 }

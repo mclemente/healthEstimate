@@ -6,12 +6,10 @@ export default class ageSystemEstimationProvider extends EstimationProvider {
 		this.breakOnZeroMaxHP = true;
 	}
 
+	_breakAttribute = "token.actor.system.health";
+
 	fraction(token) {
 		const hp = token.actor.system.health;
 		return hp.value / hp.max;
-	}
-
-	get breakCondition() {
-		return "|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.health.max === 0)";
 	}
 }

@@ -8,6 +8,8 @@ export default class tormenta20EstimationProvider extends EstimationProvider {
 		this.breakOnZeroMaxHP = true;
 	}
 
+	_breakAttribute = "token.actor.system.attributes.pv.max";
+
 	fraction(token) {
 		const hp = token.actor.system.attributes.pv;
 		let temp = 0;
@@ -15,9 +17,5 @@ export default class tormenta20EstimationProvider extends EstimationProvider {
 			temp = hp.temp;
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);
-	}
-
-	get breakCondition() {
-		return "||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.pv.max === 0";
 	}
 }

@@ -111,8 +111,16 @@ export const registerSettings = function () {
 	});
 	addSetting("core.breakOnZeroMaxHP", {
 		config: game.healthEstimate.estimationProvider.breakOnZeroMaxHP,
-		type: Boolean,
-		default: true,
+		type: new StringField({
+			required: true, nullable: false, blank: true, choices: {
+				none: "healthEstimate.core.breakOnZeroMaxHP.options.none",
+				zero: "healthEstimate.core.breakOnZeroMaxHP.options.zero",
+				one: "healthEstimate.core.breakOnZeroMaxHP.options.one",
+				zeroOrOne: "healthEstimate.core.breakOnZeroMaxHP.options.zeroOrOne"
+			}}),
+		onChange: () => {
+			game.healthEstimate.updateBreakConditions();
+		}
 	});
 	addSetting("core.hideVehicleHP", {
 		name: "healthEstimate.PF2E.hideVehicleHP.name",

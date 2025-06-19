@@ -16,8 +16,4 @@ export default class trpgEstimationProvider extends EstimationProvider {
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);
 	}
-
-	get breakCondition() {
-		return "||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0";
-	}
 }

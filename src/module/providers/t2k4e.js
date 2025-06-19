@@ -40,14 +40,17 @@ export default class t2k4eEstimationProvider extends EstimationProvider {
 	}
 
 	get breakCondition() {
+		let str = "false";
+		if (!["false", "none"].includes(game.settings.get("healthEstimate", "core.breakOnZeroMaxHP"))) {
+			str = `
+				(${this.isVehicle} && token.actor.system.reliability.max ${this.breakMaxHPValue})
+				|| (!${this.isVehicle} && token.actor.system.health.max ${this.breakMaxHPValue})
+			`;
+		}
 		return `
         || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
 		|| token.actor.type == "unit"
 		|| token.actor.type == "party"
-		|| game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
-			&& (
-				(${this.isVehicle} && token.actor.system.reliability.max === 0)
-				|| (!${this.isVehicle} && token.actor.system.health.max === 0)
-			)`;
+		|| ${str}`;
 	}
 }

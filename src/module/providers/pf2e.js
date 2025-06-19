@@ -66,6 +66,6 @@ export default class pf2eEstimationProvider extends EstimationProvider {
         || token.actor.type === 'hazard' && game.settings.get('healthEstimate', 'PF2E.hideHazardHP')
         || token.actor.type === 'loot'
         || token.actor.type === 'party'
-        || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0)`;
+        ${super.breakCondition}`;
 	}
 }

@@ -79,8 +79,4 @@ export default class D35EEstimationProvider extends EstimationProvider {
 			},
 		};
 	}
-
-	get breakCondition() {
-		return "||game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attributes.hp.max === 0";
-	}
 }

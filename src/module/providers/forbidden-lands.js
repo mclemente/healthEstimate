@@ -6,6 +6,8 @@ export default class forbiddenLandsEstimationProvider extends EstimationProvider
 		this.breakOnZeroMaxHP = true;
 	}
 
+	_breakAttribute = "token.actor.system.attribute.strength.max";
+
 	fraction(token) {
 		switch (token.actor.type) {
 			case "character":
@@ -22,6 +24,6 @@ export default class forbiddenLandsEstimationProvider extends EstimationProvider
 		return `
         || token.actor.type === "party"
         || token.actor.type === "stronghold"
-        || (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP') && token.actor.system.attribute.strength.max === 0)`;
+        ${super.breakCondition}`;
 	}
 }

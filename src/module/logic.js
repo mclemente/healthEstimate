@@ -64,14 +64,12 @@ export class HealthEstimate {
 
 		/** @type {EstimateProvider} */
 		this.estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
+		registerSettings();
 
-		if (this.estimationProvider.breakCondition !== undefined) {
-			this.breakConditions.system = this.estimationProvider.breakCondition;
-		}
+		this.breakConditions.system = this.estimationProvider.breakCondition;
 		if (this.estimationProvider.tokenEffects !== undefined) {
 			this.tokenEffectsPath = this.estimationProvider.tokenEffects;
 		}
-		registerSettings();
 		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
 			addSetting(key, data);
 		}
@@ -205,6 +203,10 @@ export class HealthEstimate {
 		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
 
+	/**
+	 * Caches estimates.
+	 * @type {{PIXI.Text}}
+	 */
 	_cache = {};
 
 	/**
