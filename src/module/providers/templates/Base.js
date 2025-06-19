@@ -132,7 +132,7 @@ export default class EstimationProvider {
 		if (this.breakOnZeroMaxHP && !["false", "none"].includes(breakOnZeroMaxHP)) {
 			return `|| ${this.breakAttribute} ${this.breakMaxHPValue}`;
 		}
-		return "false";
+		return "|| false";
 	}
 
 	get breakAttribute() {
