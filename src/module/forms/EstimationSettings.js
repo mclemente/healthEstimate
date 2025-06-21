@@ -15,6 +15,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			deleteTable: HealthEstimateEstimationSettings.deleteTable,
 			changePrio: HealthEstimateEstimationSettings.changePrio,
 			addEstimation: HealthEstimateEstimationSettings.addEstimation,
+			deleteEstimation: HealthEstimateEstimationSettings.deleteEstimation,
 			reset: HealthEstimateEstimationSettings.reset,
 		},
 		form: {
@@ -122,7 +123,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			const deleteTD = document.createElement("td");
 			deleteTD.className = "delete-cell";
 			deleteTD.innerHTML = `
-				<a class="delete-button" data-action="estimation-delete">
+				<a class="delete-button" data-action="deleteEstimation">
 					<i class="fas fa-times" data-table="${index}" data-idx="${i}"></i>
 				</a>
 			`;
@@ -130,6 +131,18 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			row.append(labelCell, valueCell, deleteTD);
 			estimatesTable.append(row);
 		});
+		const lastRow = document.createElement("tr");
+		const labelCell = document.createElement("td");
+		labelCell.dataset.action = "addCell";
+		lastRow.innerHTML = `
+			<td colspan="3" class="add-cell">
+				<a data-action="addEstimation">
+					<i class="fas fa-plus" data-idx="${index}"></i>
+					${game.i18n.localize("healthEstimate.core.estimationSettings.AddEstimate")}
+				</a>
+			</td>
+		`;
+		estimatesTable.append(lastRow);
 
 		div.append(estimatesTable, ...["name", "rule", "ignoreColor"].map(createInput));
 		if (index !== 0) {

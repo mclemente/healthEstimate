@@ -141,8 +141,11 @@
 .form.healthEstimate input[type="number"] {
 	text-align: center;
 }
+.form.healthEstimate .estimation-types td {
+	padding: 0;
+}
 .form.healthEstimate .estimation-types td:has(input[type="number"]) {
-	width: 2rem;
+	width: 3rem;
 }
 .form.healthEstimate .estimation-types input {
 	background: none;
@@ -150,8 +153,6 @@
 .form.healthEstimate .estimation-types input[type="text"],
 .form.healthEstimate .estimation-types input[type="number"] {
 	border: none;
-	border-bottom: 1px solid var(--color-border-light-tertiary);
-	border-radius: 0;
 }
 .form.healthEstimate .estimation-types input[type="text"]:focus,
 .form.healthEstimate .estimation-types input[type="number"]:focus {
@@ -160,6 +161,7 @@
 .form.healthEstimate .add-cell,
 .form.healthEstimate .delete-cell {
 	text-align: center;
+	padding-left: 1rem;
 }
 .form.healthEstimate select[name="outlineMode"] {
 	flex: 0 1 103px;
