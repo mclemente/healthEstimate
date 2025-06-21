@@ -68,10 +68,12 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 
 		const gradientForm = this.element.querySelector('div[class="form-group gradient"]');
 
-		this.hideForm(this.smoothGradient.parentElement, this.useColor);
+		this.hideForm(this.smoothGradient.closest(".form-group"), this.useColor);
 		this.hideForm(gradientForm, this.useColor);
-		this.hideForm(this.deadColor.parentElement, this.useColor);
-		this.hideForm(this.outlineMode.parentElement, this.useColor);
+		this.hideForm(this.deadColor.closest(".form-group"), this.useColor);
+		this.hideForm(this.outlineMode.closest(".form-group"), this.useColor);
+		this.hideForm(this.outlineMode.closest(".form-group"), this.useColor);
+		this.hideForm(this.element.querySelector("#healthEstimateSample").closest(".form-group"), this.useColor);
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",
@@ -103,10 +105,11 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		useColorCheckbox.addEventListener("change", (ev) => {
 			this.useColor = !this.useColor;
 			this.updateSample();
-			this.hideForm(this.smoothGradient.parentElement, ev.target.checked);
+			this.hideForm(this.smoothGradient.parentElement.parentElement, ev.target.checked);
 			this.hideForm(gradientForm, ev.target.checked);
 			this.hideForm(this.deadColor.parentElement, ev.target.checked);
-			this.hideForm(this.outlineMode.parentElement, ev.target.checked);
+			this.hideForm(this.outlineMode.parentElement.parentElement, ev.target.checked);
+			this.hideForm(this.element.querySelector("#healthEstimateSample").closest(".form-group"), this.useColor);
 		});
 
 		for (const range of this.element.querySelectorAll("input[type=range]")) {
@@ -134,7 +137,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 	}
 
 	hideForm(form, boolean) {
-		form.style.display = !boolean ? "none" : "flex";
+		form.hidden = !boolean;
 	}
 
 	async setHandlers(positions) {

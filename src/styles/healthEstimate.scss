@@ -1,0 +1,92 @@
+@use "style-settings";
+@use "health-monitor";
+
+.healthEstimate {
+	&.form {
+		min-height: 600px;
+		min-width: 560px;
+
+		.window-content { padding-top: 0; }
+
+		.estimation-buttons {
+			margin-bottom: 0.5em;
+
+			button:disabled {
+				cursor: default;
+				color: grey;
+			}
+		}
+
+		.form-group.gradient {
+			display: flex;
+			> span { padding-left: 0.5rem; }
+		}
+
+		input[type="number"] { text-align: center; }
+
+		.estimation-types {
+			td {
+				padding: 0;
+
+				&:has(input[type="number"]) {
+					width: 3rem;
+				}
+			}
+
+			input {
+				background: none;
+
+				&[type="text"],
+				&[type="number"] {
+					border: none;
+
+					&:focus {
+						clip-path: inset(1px 1px -15px 1px);
+					}
+				}
+			}
+
+			th:first-of-type {
+				padding-left: 3px;
+				text-align: left;
+			}
+		}
+
+		.add-cell,
+		.delete-cell {
+			text-align: center;
+			padding-left: 1rem;
+		}
+
+		range-picker[name="outlineIntensity"] {
+			flex: 2;
+		}
+	}
+}
+
+#health-estimate-estimation-form {
+	.window-content {
+		display: grid;
+		grid-template-columns: 1fr 3fr;
+	}
+
+	footer {
+		grid-column: span 2;
+		align-content: end;
+	}
+
+	[data-application-part="form"] {
+		overflow: hidden auto;
+	}
+}
+
+#healthEstimate {
+	display: grid;
+	font-size: var(--healthEstimate-text-size);
+	grid-template-columns: 10em;
+	grid-auto-rows: auto;
+	align-content: var(--healthEstimate-alignment);
+	justify-content: unsafe center;
+	margin-top: var(--healthEstimate-margin);
+	width: var(--healthEstimate-width) !important;
+}

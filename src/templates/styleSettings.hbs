@@ -42,14 +42,14 @@
 			{{/with}}
 		</span>
 	</div>
-	<div class="form-group healthEstimate deadColor">
+	<div class="form-group">
 		{{#with deadColor}}
 			<label>{{localize name}}</label>
 			<color-picker name="deadColor" value="{{value}}"></color-picker>
 		{{/with}}
 	</div>
 	<div class="form-group">
-		<span id="sampleFrameHE" class="sampleFrameHE flexcol">
+		<span class="flexcol">
 			<div id="healthEstimateSample" class="healthEstimateSample">
 				<span class="healthEstimateColor">{{deadText}}&nbsp;</span>
 				<span id="SampleAnimation" class="healthEstimateAnimate">{{localize "healthEstimate.core.sample"}}</span>
