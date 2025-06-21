@@ -1,98 +1,145 @@
-import { sGet, t } from "../utils.js";
-import { HealthEstimateSettings } from "./templates/Base.js";
+import { sGet, sSet, t } from "../utils.js";
+import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 
-export default class HealthEstimateEstimationSettings extends HealthEstimateSettings {
+export default class HealthEstimateEstimationSettings extends HealthEstimateSettingsV2 {
 	constructor(object, options = {}) {
 		super(object, options);
 		this.estimations = foundry.utils.deepClone(sGet("core.estimations"));
-		this.changeTabs = null;
+		this.changeTabs = 0;
 	}
 
-	static get defaultOptions() {
-		return foundry.utils.mergeObject(super.defaultOptions, {
-			id: "health-estimate-estimation-form",
-			title: `Health Estimate: ${t("core.estimationSettings.title")}`,
-			template: "./modules/healthEstimate/templates/EstimationSettings.hbs",
-			classes: ["form", "healthEstimate", "estimationSettings"],
-			height: "auto",
-			tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "behavior" }],
-		});
+	static DEFAULT_OPTIONS = {
+		id: "health-estimate-estimation-form",
+		actions: {
+			addTable: HealthEstimateEstimationSettings.addTable,
+			deleteTable: HealthEstimateEstimationSettings.deleteTable,
+			changePrio: HealthEstimateEstimationSettings.changePrio,
+			addEstimation: HealthEstimateEstimationSettings.addEstimation,
+			reset: HealthEstimateEstimationSettings.reset,
+		},
+		form: {
+			handler: HealthEstimateEstimationSettings.#onSubmit,
+		},
+		window: {
+			icon: "fas fa-scale-balanced",
+			contentClasses: ["standard-form", "healthEstimate", "estimationSettings"],
+			title: "healthEstimate.core.estimationSettings.title"
+		}
+	};
+
+	static PARTS = {
+		tabs: { template: "templates/generic/tab-navigation.hbs" },
+		form: { template: "./modules/healthEstimate/templates/EstimationSettings.hbs" },
+		...HealthEstimateSettingsV2.PARTS,
+	};
+
+	_estimations;
+
+	get estimations() {
+		return this._estimations ??= foundry.utils.deepClone(sGet("core.estimations"));
 	}
 
-	getData(options) {
+	set estimations(value) {
+		this._estimations = value;
+	}
+
+	tabGroups = {
+		main: "default",
+		...this.estimations.reduce((types, _, index) => {
+			types[index] = "basics";
+			return types;
+		}, {})
+	};
+
+	#prepareTabs() {
+		const fields = game.settings.settings.get("healthEstimate.core.estimations").type.element.fields;
+		return this.estimations.reduce((tabs, tabData, index) => {
+			const active = index === this.changeTabs;
+			tabs[index] = {
+				id: index,
+				group: "main",
+				label: index === 0 ? game.i18n.localize("healthEstimate.core.estimationSettings.default") : tabData.name,
+				active,
+				cssClass: active ? "active" : "",
+				fields,
+				data: tabData
+			};
+			return tabs;
+		}, {});
+	}
+
+	_prepareContext(options) {
 		return {
+			tabs: this.#prepareTabs(),
+			verticalTabs: true,
 			estimations: this.estimations,
 			fields: game.settings.settings.get("healthEstimate.core.estimations"),
-			widget: this.#estimationWidget.bind(this)
+			widget: this.#estimationWidget.bind(this),
+			buttons: this._getButtons(),
 		};
 	}
 
 	#estimationWidget(field, _groupConfig, inputConfig) {
 		const div = document.createElement("div");
 		const { fields } = field.element;
-		const { localize, value } = inputConfig;
-		value.forEach((data, index) => {
-			const tab = document.createElement("div");
-			tab.className = "tab";
-			tab.dataset.tab = index;
+		const { index, localize, value } = inputConfig;
 
-			function createInput(id) {
-				let inputValue = data[id];
-				if (id === "rule" && inputValue === "default") inputValue = "";
-				return fields[id].toFormGroup({ hidden: index === 0, localize }, { name: `estimations.${index}.${id}`, value: inputValue });
-			}
+		function createInput(id) {
+			let inputValue = value[id];
+			if (id === "rule" && inputValue === "default") inputValue = "";
+			return fields[id].toFormGroup({ hidden: index === 0, localize }, { name: `estimations.${index}.${id}`, value: inputValue });
+		}
 
-			const estimatesTable = document.createElement("table");
-			estimatesTable.className = "estimation-types";
-			const tableHeader = document.createElement("tr");
-			tableHeader.innerHTML = `
-				<th>${game.i18n.localize("healthEstimate.core.estimationSettings.estimate")}</th>
-				<th>%</th>
-				<th class="delete-cell"></th>
+		const estimatesTable = document.createElement("table");
+		estimatesTable.className = "estimation-types";
+		const tableHeader = document.createElement("tr");
+		tableHeader.innerHTML = `
+			<th>${game.i18n.localize("healthEstimate.core.estimationSettings.estimate")}</th>
+			<th>%</th>
+			<th class="delete-cell"></th>
+		`;
+		estimatesTable.append(tableHeader);
+
+		value.estimates.forEach((estimate, i) => {
+			const row = document.createElement("tr");
+			const labelCell = document.createElement("td");
+			labelCell.append(
+				foundry.applications.fields.createTextInput({
+					name: `estimations.${index}.estimates.${i}.label`,
+					value: estimate.label
+				})
+			);
+			const valueCell = document.createElement("td");
+			valueCell.append(
+				foundry.applications.fields.createNumberInput({
+					name: `estimations.${index}.estimates.${i}.value`,
+					value: estimate.value,
+					min: 0,
+					max: 100
+				})
+			);
+
+			const deleteTD = document.createElement("td");
+			deleteTD.className = "delete-cell";
+			deleteTD.innerHTML = `
+				<a class="delete-button" data-action="estimation-delete">
+					<i class="fas fa-times" data-table="${index}" data-idx="${i}"></i>
+				</a>
 			`;
-			estimatesTable.append(tableHeader);
 
-			data.estimates.forEach((estimate, i) => {
-				const row = document.createElement("tr");
-				const labelCell = document.createElement("td");
-				labelCell.append(
-					foundry.applications.fields.createTextInput({
-						name: `estimations.${index}.estimates.${i}.label`,
-						value: estimate.label
-					})
-				);
-				const valueCell = document.createElement("td");
-				valueCell.append(
-					foundry.applications.fields.createNumberInput({
-						name: `estimations.${index}.estimates.${i}.value`,
-						value: estimate.value,
-						min: 0,
-						max: 100
-					})
-				);
-
-				const deleteTD = document.createElement("td");
-				deleteTD.className = "delete-cell";
-				deleteTD.innerHTML = `
-					<a class="delete-button" data-action="estimation-delete">
-						<i class="fas fa-times" data-table="${index}" data-idx="${i}"></i>
-					</a>
-				`;
-
-				row.append(labelCell, valueCell, deleteTD);
-				estimatesTable.append(row);
-			});
-
-			tab.append(...["name", "rule", "ignoreColor"].map(createInput), estimatesTable);
-			if (index !== 0) {
-				tab.append(HealthEstimateEstimationSettings.createEstimationButtons(index, index === value.length - 1));
-			}
-			div.append(tab);
+			row.append(labelCell, valueCell, deleteTD);
+			estimatesTable.append(row);
 		});
+
+		div.append(estimatesTable, ...["name", "rule", "ignoreColor"].map(createInput));
+		if (index !== 0) {
+			const isLast = index === this.estimations.length - 1;
+			div.append(this.createEstimationButtons(index, isLast));
+		}
 		return div;
 	}
 
-	static createEstimationButtons(idx, isLast) {
+	createEstimationButtons(idx, isLast) {
 		const container = document.createElement("div");
 		container.classList.add("flexrow", "estimation-buttons");
 
@@ -103,19 +150,19 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			leftBtn.disabled = true;
 		} else {
 			leftBtn.dataset.tooltip = game.i18n.localize("healthEstimate.core.estimationSettings.prioIncrease");
-			leftBtn.dataset.action = "change-prio";
+			leftBtn.dataset.action = "changePrio";
 			leftBtn.dataset.prio = "increase";
 			leftBtn.dataset.idx = idx;
 		}
 		const leftIcon = document.createElement("i");
-		leftIcon.classList.add("far", "fa-chevron-left");
+		leftIcon.classList.add("far", "fa-chevron-up");
 		leftBtn.appendChild(leftIcon);
 		container.appendChild(leftBtn);
 
 		// Delete button
 		const deleteBtn = document.createElement("button");
 		deleteBtn.type = "button";
-		deleteBtn.dataset.action = "table-delete";
+		deleteBtn.dataset.action = "deleteTable";
 		deleteBtn.dataset.idx = idx;
 		const trashIcon = document.createElement("i");
 		trashIcon.classList.add("fas", "fa-trash");
@@ -130,78 +177,31 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			rightBtn.disabled = true;
 		} else {
 			rightBtn.dataset.tooltip = game.i18n.localize("healthEstimate.core.estimationSettings.prioDecrease");
-			rightBtn.dataset.action = "change-prio";
+			rightBtn.dataset.action = "changePrio";
 			rightBtn.dataset.prio = "reduce";
 			rightBtn.dataset.idx = idx;
 		}
 		const rightIcon = document.createElement("i");
-		rightIcon.classList.add("far", "fa-chevron-right");
+		rightIcon.classList.add("far", "fa-chevron-down");
 		rightBtn.appendChild(rightIcon);
 		container.appendChild(rightBtn);
 
 		return container;
 	}
 
-	/**
-	 * This is the earliest method called after render() where changing tabs can be called
-	 * @param {*} html
-	 */
-	_activateCoreListeners(html) {
-		super._activateCoreListeners(html);
-		if (this.changeTabs !== null) {
-			const tabName = this.changeTabs.toString();
-			if (tabName !== this._tabs[0].active) this._tabs[0].activate(tabName);
-			this.changeTabs = null;
-		}
-	}
+	_onRender(context, options) {
+		const a = document.createElement("a");
+		a.dataset.action = "addTable";
+		a.dataset.tab = "";
+		const span = document.createElement("span");
+		const i = document.createElement("i");
+		i.className = "far fa-plus";
+		span.append(i);
+		span.innerText = game.i18n.localize("healthEstimate.core.estimationSettings.addTable");
+		a.append(span);
 
-	async activateListeners(html) {
-		super.activateListeners(html);
-		html.find("button[name=reset]").on("click", async (event) => {
-			this.estimations = foundry.utils.deepClone(game.settings.settings.get("healthEstimate.core.estimations").default);
-			this.render();
-		});
-
-		// Handle all changes to tables
-		html.find("a[data-action=add-table]").on("click", (event) => {
-			this.changeTabs = this.estimations.length;
-			this.estimations.push({
-				name: "",
-				rule: "",
-				estimates: [
-					{
-						label: t("core.estimates.worst"),
-						value: 0,
-					},
-					{
-						label: t("core.estimates.best"),
-						value: 100,
-					},
-				],
-			});
-			this.render();
-		});
-		html.find("button[data-action=table-delete]").on("click", (event) => {
-			const { idx } = event.target.dataset ?? {};
-			this.estimations.splice(Number(idx), 1);
-			this.changeTabs = Number(idx) - 1;
-			this.render();
-		});
-		html.find("button[data-action=change-prio]").on("click", (event) => {
-			const prio = event.target?.dataset.prio === "increase" ? -1 : 1;
-			const idx = Number(event.target?.dataset.idx);
-
-			const arraymove = (arr, fromIndex, toIndex) => {
-				const element = arr[fromIndex];
-				arr.splice(fromIndex, 1);
-				arr.splice(toIndex, 0, element);
-			};
-
-			arraymove(this.estimations, idx, idx + prio);
-			this.changeTabs = idx + prio;
-			this.render();
-		});
-		for (const input of html[0].querySelectorAll(".form-group input, .form-group textarea")) {
+		this.element.querySelector(".sheet-tabs").append(a);
+		for (const input of this.element.querySelectorAll(".form-group input, .form-group textarea")) {
 			input.addEventListener("change", (event) => {
 				// eslint-disable-next-line no-unused-vars
 				const [_, tableIndex, property] = event.target.name.split(".");
@@ -211,20 +211,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		}
 
 		// Handle all changes for estimations
-		html.find("[data-action=estimation-add]").on("click", (event) => {
-			// Fix for clicking either the A or I tag
-			const idx = Number(event.target?.dataset.idx ?? event.target?.children[0]?.dataset.idx);
-			this.estimations[idx].estimates.push({ label: "Custom", value: 100 });
-			this.render();
-		});
-		for (const element of html[0].querySelectorAll("[data-action=estimation-delete]")) {
-			element.addEventListener("click", async (event) => {
-				const { table, idx } = event.target?.dataset ?? {};
-				if (idx) this.estimations[table].estimates.splice(Number(idx), 1);
-				this.render();
-			});
-		}
-		for (const element of html[0].querySelectorAll(".estimation-types input")) {
+		for (const element of this.element.querySelectorAll(".estimation-types input")) {
 			element.addEventListener("change", async (event) => {
 				// eslint-disable-next-line no-unused-vars
 				const [_, table, tableIndex, estimateIndex, rule] = event.target?.name.split(".") ?? [];
@@ -236,17 +223,77 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		}
 	}
 
-	_getSubmitData(updateData) {
-		const original = super._getSubmitData(updateData);
-		const data = expandObject(original);
+	static #onSubmit(event, form, formData) {
+		const data = foundry.utils.expandObject(formData.object).estimations;
 		const estimations = [];
-		for (const key in data.estimations) {
-			const { name, rule, ignoreColor, estimates } = data.estimations[key];
+		for (const key in data) {
+			const { name, rule, ignoreColor, estimates } = data[key];
 			const sortedEstimates = Object.keys(estimates)
 				.sort((a, b) => estimates[a].value - estimates[b].value)
 				.map((innerKey) => estimates[innerKey]);
 			estimations.push({ name, rule, ignoreColor, estimates: sortedEstimates });
 		}
-		return { estimations };
+		sSet("core.estimations", estimations);
+	}
+
+	static addTable(event) {
+		event.preventDefault();
+		this.changeTabs = this.estimations.length;
+		this.estimations.push({
+			name: game.i18n.localize("healthEstimate.core.estimationSettings.newTable"),
+			rule: "",
+			estimates: [
+				{
+					label: t("core.estimates.worst"),
+					value: 0,
+				},
+				{
+					label: t("core.estimates.best"),
+					value: 100,
+				},
+			],
+		});
+		this.render();
+	}
+
+	static deleteTable(event) {
+		const { idx } = event.target.dataset ?? {};
+		this.estimations.splice(Number(idx), 1);
+		this.changeTabs = Number(idx) - 1;
+		this.render();
+	}
+
+	static changePrio(event) {
+		const prio = event.target?.dataset.prio === "increase" ? -1 : 1;
+		const idx = Number(event.target?.dataset.idx);
+
+		const arraymove = (arr, fromIndex, toIndex) => {
+			const element = arr[fromIndex];
+			arr.splice(fromIndex, 1);
+			arr.splice(toIndex, 0, element);
+		};
+
+		arraymove(this.estimations, idx, idx + prio);
+		this.changeTabs = idx + prio;
+		this.render();
+	}
+
+	static addEstimation(event) {
+		// Fix for clicking either the A or I tag
+		const idx = Number(event.target?.dataset.idx ?? event.target?.children[0]?.dataset.idx);
+		this.estimations[idx].estimates.push({ label: "Custom", value: 100 });
+		this.render();
+	}
+
+	static deleteEstimation(event) {
+		const { table, idx } = event.target?.dataset ?? {};
+		if (idx) this.estimations[table].estimates.splice(Number(idx), 1);
+		this.render();
+	}
+
+	static async reset(event, form, formData) {
+		this.estimations = foundry.utils.deepClone(game.settings.settings.get("healthEstimate.core.estimations").default);
+		this.changeTabs = 0;
+		this.render();
 	}
 }

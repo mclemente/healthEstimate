@@ -1,5 +1,11 @@
-<form autocomplete="off" onsubmit="event.preventDefault()">
-	<nav class="sheet-tabs tabs">
+<div>
+	{{#each tabs as |tab|}}
+    <section class="tab scrollable {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
+		{{formGroup @root.fields.type value=tab.data widget=@root.widget index=tab.id localize=true}}
+	</section>
+	{{/each}}
+
+	{{!-- <nav class="sheet-tabs tabs">
 		{{#each estimations as |estimation idx|}}
 			<a class="item" data-tab="{{idx}}">
 				{{#if (eq idx 0)}}{{localize "healthEstimate.core.estimationSettings.default"}}
@@ -15,15 +21,5 @@
 
 	<section class="content">
 		{{formGroup fields.type value=estimations widget=widget rootId=rootId localize=true}}
-	</section>
-	<footer class="sheet-footer flexrow">
-		<button type="submit" name="submit">
-			<i class="far fa-save"></i>
-			{{localize "SETTINGS.Save"}}
-		</button>
-		<button type="button" name="reset" data-action="reset">
-			<i class="fas fa-undo"></i>
-			{{localize "SETTINGS.Reset"}}
-		</button>
-	</footer>
-</form>
+	</section> --}}
+</div>>
