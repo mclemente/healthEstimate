@@ -13,10 +13,7 @@ export default class HealthEstimateBehaviorSettings extends HealthEstimateSettin
 	};
 
 	static PARTS = {
-		form: {
-			id: "health-estimate-behavior-form",
-			template: "./modules/healthEstimate/templates/behaviorSettings.hbs",
-		},
+		form: { template: "./modules/healthEstimate/templates/behaviorSettings.hbs" },
 		...HealthEstimateSettingsV2.PARTS,
 	};
 

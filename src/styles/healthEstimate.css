@@ -116,10 +116,6 @@
 .healthEstimate.deadColor input[type="color"][data-edit] {
 	flex: 1.4;
 }
-#health-estimate-style-form.form.healthEstimate section .standard-form {
-	overflow: hidden auto;
-	padding-inline-end: 0.25rem;
-}
 #health-estimate-estimation-form .window-content {
 	display: grid;
 	grid-template-columns: 1fr 3fr;
@@ -130,6 +126,13 @@
 }
 #health-estimate-estimation-form [data-application-part="form"] {
 	overflow: hidden auto;
+}
+.form.healthEstimate {
+	min-height: 600px;
+	min-width: 560px;
+}
+.form.healthEstimate .window-content {
+	padding-top: 0;
 }
 .form.healthEstimate .estimation-buttons button:disabled {
 	cursor: default;

@@ -1,6 +1,7 @@
 {
 	"healthEstimate": {
 		"core": {
+			"sample": "Sample",
 			"custom": {
 				"FractionHP": {
 					"name": "Hit Points Attribute Data Path",

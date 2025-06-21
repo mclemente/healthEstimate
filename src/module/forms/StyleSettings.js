@@ -17,14 +17,12 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		window: {
 			icon: "fas fa-palette",
 			title: "healthEstimate.core.menuSettings.styleSettings.plural",
+			resizable: true
 		},
 	};
 
 	static PARTS = {
-		form: {
-			id: "health-estimate-style-form",
-			template: "./modules/healthEstimate/templates/styleSettings.hbs",
-		},
+		form: { template: "./modules/healthEstimate/templates/styleSettings.hbs" },
 		...HealthEstimateSettingsV2.PARTS,
 	};
 
