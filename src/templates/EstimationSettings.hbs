@@ -1,7 +1,7 @@
 <div>
 	{{#each tabs as |tab|}}
     <section class="tab scrollable {{tab.cssClass}}" data-tab="{{tab.id}}" data-group="{{tab.group}}">
-		{{formGroup @root.fields.type value=tab.data widget=@root.widget index=tab.id localize=true}}
+		{{formGroup @root.fields value=tab.data widget=@root.widget index=tab.id localize=true}}
 	</section>
 	{{/each}}
 </div>>

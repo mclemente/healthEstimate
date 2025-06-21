@@ -77,15 +77,14 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			tabs: this.#prepareTabs(),
 			verticalTabs: true,
 			estimations: this.estimations,
-			fields: game.settings.settings.get("healthEstimate.core.estimations"),
+			fields: game.settings.settings.get("healthEstimate.core.estimations").type.element,
 			widget: this.#estimationWidget.bind(this),
 			buttons: this._getButtons(),
 		};
 	}
 
-	#estimationWidget(field, _groupConfig, inputConfig) {
+	#estimationWidget(fields, _groupConfig, inputConfig) {
 		const div = document.createElement("div");
-		const { fields } = field.element;
 		const { index, localize, value } = inputConfig;
 
 		function createInput(id) {
