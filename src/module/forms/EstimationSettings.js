@@ -76,7 +76,6 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		return {
 			tabs: this.#prepareTabs(),
 			verticalTabs: true,
-			estimations: this.estimations,
 			fields: game.settings.settings.get("healthEstimate.core.estimations").type.element,
 			widget: this.#estimationWidget.bind(this),
 			buttons: this._getButtons(),
