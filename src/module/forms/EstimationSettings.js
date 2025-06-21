@@ -9,9 +9,6 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 
 	static DEFAULT_OPTIONS = {
 		id: "health-estimate-estimation-form",
-		position: {
-			height: 600
-		},
 		actions: {
 			addTable: HealthEstimateEstimationSettings.addTable,
 			deleteTable: HealthEstimateEstimationSettings.deleteTable,
