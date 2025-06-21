@@ -10,6 +10,10 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 
 	static DEFAULT_OPTIONS = {
 		id: "health-estimate-estimation-form",
+		position: {
+			width: 560,
+			height: 540
+		},
 		actions: {
 			addTable: HealthEstimateEstimationSettings.addTable,
 			deleteTable: HealthEstimateEstimationSettings.deleteTable,
@@ -19,12 +23,13 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			reset: HealthEstimateEstimationSettings.reset,
 		},
 		form: {
-			handler: HealthEstimateEstimationSettings.#onSubmit,
+			handler: HealthEstimateEstimationSettings.#onSubmit
 		},
 		window: {
 			icon: "fas fa-scale-balanced",
 			contentClasses: ["standard-form", "healthEstimate", "estimationSettings"],
-			title: "healthEstimate.core.estimationSettings.title"
+			title: "healthEstimate.core.estimationSettings.title",
+			resizable: true
 		}
 	};
 
