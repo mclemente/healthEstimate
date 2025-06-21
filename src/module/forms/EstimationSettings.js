@@ -85,7 +85,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		function createInput(id) {
 			let inputValue = value[id];
 			if (id === "rule" && inputValue === "default") inputValue = "";
-			return fields[id].toFormGroup({ hidden: index === 0, localize }, { name: `estimations.${index}.${id}`, value: inputValue });
+			return fields[id].toFormGroup({ hidden: index === 0, localize }, { name: `${index}.${id}`, value: inputValue });
 		}
 
 		const estimatesTable = document.createElement("table");
@@ -103,14 +103,14 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			const labelCell = document.createElement("td");
 			labelCell.append(
 				foundry.applications.fields.createTextInput({
-					name: `estimations.${index}.estimates.${i}.label`,
+					name: `${index}.estimates.${i}.label`,
 					value: estimate.label
 				})
 			);
 			const valueCell = document.createElement("td");
 			valueCell.append(
 				foundry.applications.fields.createNumberInput({
-					name: `estimations.${index}.estimates.${i}.value`,
+					name: `${index}.estimates.${i}.value`,
 					value: estimate.value,
 					min: 0,
 					max: 100
@@ -200,41 +200,34 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	}
 
 	_onRender(context, options) {
-		const a = document.createElement("a");
-		a.dataset.action = "addTable";
-		a.dataset.tab = "";
-		const span = document.createElement("span");
-		const i = document.createElement("i");
-		i.className = "far fa-plus";
-		span.append(i);
-		span.innerText = game.i18n.localize("healthEstimate.core.estimationSettings.addTable");
-		a.append(span);
+		const anchor = document.createElement("a");
+		anchor.dataset.action = "addTable";
+		anchor.dataset.tab = "";
 
-		this.element.querySelector(".sheet-tabs").append(a);
-		for (const input of this.element.querySelectorAll(".form-group input, .form-group textarea")) {
-			input.addEventListener("change", (event) => {
-				// eslint-disable-next-line no-unused-vars
-				const [_, tableIndex, property] = event.target.name.split(".");
-				this.estimations[tableIndex][property] = event.target.value;
-				event.preventDefault();
-			});
-		}
+		const icon = document.createElement("i");
+		icon.className = "far fa-plus";
+
+		const label = document.createElement("span");
+		label.append(icon);
+		label.innerText = game.i18n.localize("healthEstimate.core.estimationSettings.addTable");
+
+		anchor.append(label);
+
+		this.element.querySelector(".sheet-tabs").append(anchor);
 
 		// Handle all changes for estimations
 		for (const element of this.element.querySelectorAll(".estimation-types input")) {
 			element.addEventListener("change", async (event) => {
-				// eslint-disable-next-line no-unused-vars
-				const [_, table, tableIndex, estimateIndex, rule] = event.target?.name.split(".") ?? [];
-				if (this.estimations[table]?.estimates?.[estimateIndex]?.[rule]) {
-					this.estimations[table].estimates[estimateIndex][rule] = event.target?.value;
-				}
 				event.preventDefault();
+				// eslint-disable-next-line no-unused-vars
+				const [table, _, estimateIndex, rule] = event.target?.name.split(".") ?? [];
+				this.estimations[table].estimates[estimateIndex][rule] = event.target?.value;
 			});
 		}
 	}
 
 	static #onSubmit(event, form, formData) {
-		const data = foundry.utils.expandObject(formData.object).estimations;
+		const data = foundry.utils.expandObject(formData.object);
 		const estimations = [];
 		for (const key in data) {
 			const { name, rule, ignoreColor, estimates } = data[key];
