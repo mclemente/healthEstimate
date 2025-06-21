@@ -5,7 +5,6 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	constructor(object, options = {}) {
 		super(object, options);
 		this.estimations = foundry.utils.deepClone(sGet("core.estimations"));
-		this.changeTabs = 0;
 	}
 
 	static DEFAULT_OPTIONS = {
@@ -50,7 +49,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	}
 
 	tabGroups = {
-		main: "default",
+		main: "0",
 		...this.estimations.reduce((types, _, index) => {
 			types[index] = "basics";
 			return types;
@@ -59,7 +58,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 
 	#prepareTabs() {
 		return this.estimations.reduce((tabs, tabData, index) => {
-			const active = index === this.changeTabs;
+			const active = this.tabGroups.main === String(index);
 			tabs[index] = {
 				id: index,
 				group: "main",
@@ -253,7 +252,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 
 	static addTable(event) {
 		event.preventDefault();
-		this.changeTabs = this.estimations.length;
+		this.tabGroups.main = String(this.estimations.length);
 		this.estimations.push({
 			name: game.i18n.localize("healthEstimate.core.estimationSettings.newTable"),
 			rule: "",
@@ -274,7 +273,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	static deleteTable(event) {
 		const { idx } = event.target.dataset ?? {};
 		this.estimations.splice(Number(idx), 1);
-		this.changeTabs = Number(idx) - 1;
+		this.tabGroups.main = String(Number(idx) - 1);
 		this.render();
 	}
 
@@ -289,7 +288,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		};
 
 		arraymove(this.estimations, idx, idx + prio);
-		this.changeTabs = idx + prio;
+		this.tabGroups.main = String(Number(idx) - 1);
 		this.render();
 	}
 
@@ -308,7 +307,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 
 	static async reset(event, form, formData) {
 		this.estimations = foundry.utils.deepClone(game.settings.settings.get("healthEstimate.core.estimations").default);
-		this.changeTabs = 0;
+		this.tabGroups.main = "0";
 		this.render();
 	}
 }
