@@ -58,7 +58,6 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	};
 
 	#prepareTabs() {
-		const fields = game.settings.settings.get("healthEstimate.core.estimations").type.element.fields;
 		return this.estimations.reduce((tabs, tabData, index) => {
 			const active = index === this.changeTabs;
 			tabs[index] = {
@@ -67,7 +66,6 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 				label: index === 0 ? game.i18n.localize("healthEstimate.core.estimationSettings.default") : tabData.name,
 				active,
 				cssClass: active ? "active" : "",
-				fields,
 				data: tabData
 			};
 			return tabs;
