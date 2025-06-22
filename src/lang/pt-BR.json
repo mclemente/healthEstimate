@@ -48,12 +48,12 @@
 				"default": "Padrão",
 				"deleteTable": "Deletar Tabela",
 				"estimate": "Estimativa",
-				"jsRule": "Regra JS",
+				"jsRule": "Regra JavaScript",
 				"prioDecrease": "Diminuir Prioridade",
 				"prioIncrease": "Aumentar Prioridade",
 				"ignoreColor": {
 					"name": "Ignorar Cor",
-					"hint": "Ignora a cor desta tabela e usa as cores da próxima tabela válida para o token. Esta opção é para condições que devem ter prioridade sobre uma estimativa, mas ainda devem usar as cores da estimativa."
+					"hint": "Ignora as cores desta tabela e usa as cores da próxima tabela válida para o token. Esta opção é para condições que devem ter prioridade sobre uma estimativa, mas ainda refletem o esquema de cores da estimativa."
 				},
 				"newTable": "Nova Tabela"
 			},
@@ -156,7 +156,7 @@
 				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra.\nEx.: Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Ocultar estimativas em tokens com 0 PV máximo",
+				"name": "Ocultar estimativas em tokens",
 				"hint": "Útil para tokens de objetos.",
 				"options": {
 					"none": "Não esconder estimativas",
