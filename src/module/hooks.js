@@ -166,6 +166,7 @@ export class HealthEstimateHooks {
 	 * @param {JQuery} html
 	 */
 	static renderSettingsConfigHandler(settingsConfig, html) {
+		if (!game.user.isGM) return;
 		// Chat Output setting changes
 		const outputChat = game.settings.get("healthEstimate", "core.outputChat");
 		const outputChatCheckbox = html.querySelector('input[name="healthEstimate.core.outputChat"]');
