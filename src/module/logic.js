@@ -114,13 +114,13 @@ export class HealthEstimate {
 			!token?.actor
 			|| this.breakOverlayRender(token)
 			|| (!game.user.isGM && this.hideEstimate(token))
-			|| (!token.isVisible && !this.alwaysShow)
 		) return;
 
 		// Create PIXI
 		try {
 			const estimate = this._cache[token.id];
-			if (hovered) {
+			const displayEstimate = token.isVisible && !token.document.isSecret && hovered;
+			if (displayEstimate) {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc !== undefined && color && stroke) {
 					const { width } = token.document.getSize();
@@ -353,8 +353,14 @@ export class HealthEstimate {
 				? Math.max(0, Math.ceil((this.colors.length - 1) * fraction))
 				: index;
 			estimate.label = isDead ? this.deathStateName : estimate.label;
-			color = isDead ? this.deadColor : this.colors[colorIndex];
-			stroke = isDead ? this.deadOutline : this.outline[colorIndex];
+			if (isDead) {
+				color = this.deadColor;
+				stroke = this.deadOutline;
+			} else {
+				color = this.colors[colorIndex];
+				stroke = this.outline[colorIndex];
+				if (token.document.disposition === -2) stroke = CONFIG.Canvas.dispositionColors.SECRET;
+			}
 			desc = this.hideEstimate(token) ? `${estimate.label}*` : estimate.label;
 			return { desc, color, stroke };
 		} catch(err) {
