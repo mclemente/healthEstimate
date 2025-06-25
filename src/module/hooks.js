@@ -1,5 +1,5 @@
 import { addCharacter, outputStageChange } from "./HealthMonitor.js";
-import { disableCheckbox, repositionTooltip, sGet, startCanvasInterface } from "./utils.js";
+import { disableCheckbox, repositionTooltip, sGet } from "./utils.js";
 
 export class HealthEstimateHooks {
 	static canvasInit(canvas) {
@@ -8,7 +8,6 @@ export class HealthEstimateHooks {
 	}
 
 	static onceCanvasReady() {
-		startCanvasInterface();
 		game.healthEstimate.combatOnly = sGet("core.combatOnly");
 		game.healthEstimate.alwaysShow = sGet("core.alwaysShow");
 		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
@@ -24,7 +23,13 @@ export class HealthEstimateHooks {
 	 * HP storing code for canvas load or token created
 	 */
 	static onCanvasReady() {
-		startCanvasInterface();
+		canvas.interface.healthEstimate = canvas.interface.addChild(new PIXI.Container());
+		const { width, height } = canvas.dimensions;
+		canvas.interface.healthEstimate.width = width;
+		canvas.interface.healthEstimate.height = height;
+		canvas.interface.healthEstimate.eventMode = "none";
+		canvas.interface.healthEstimate.interactiveChildren = false;
+		canvas.interface.healthEstimate.zIndex = CONFIG.Canvas.groups.interface.zIndexScrollingText;
 
 		/** @type {[Token]} */
 		const tokens = canvas.tokens?.placeables.filter((e) => e.actor) ?? [];

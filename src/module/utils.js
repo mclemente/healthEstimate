@@ -104,14 +104,3 @@ export function repositionTooltip(token, force = false) {
 	else if (force && tooltipPosition === "default") token.tooltip.x = width / 2;
 	else if (tooltipPosition === "right") token.tooltip.x = width * (1 + offset);
 }
-
-export function startCanvasInterface() {
-	if (canvas.interface.healthEstimate) return;
-	canvas.interface.healthEstimate = canvas.interface.addChild(new PIXI.Container());
-	const { width, height } = canvas.dimensions;
-	canvas.interface.healthEstimate.width = width;
-	canvas.interface.healthEstimate.height = height;
-	canvas.interface.healthEstimate.eventMode = "none";
-	canvas.interface.healthEstimate.interactiveChildren = false;
-	canvas.interface.healthEstimate.zIndex = CONFIG.Canvas.groups.interface.zIndexScrollingText;
-}
