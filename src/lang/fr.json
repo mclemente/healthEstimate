@@ -55,8 +55,14 @@
 				"hint": "Inclure les points de vie temporaires dans le calcul de la description à afficher.\nPar exemple, si l'option est activée, le token recevant les points de vie temporaire aura l'air en meilleure santé, à moins qu'il ne soit déjà au maximum de ses points de vie."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Ne pas afficher pour les tokens à 0 PV Max",
-				"hint": "Utile pour les objets ayant un token."
+				"name": "Cache l'estimation sur les jetons",
+				"hint": "Utile pour les objets ayant un token.",
+				"options": {
+					"none": "Ne cache pas l'estimation",
+					"zero": "Avec un max de 0 PV",
+					"one": "Avec un max de 1 PV",
+					"zeroOrOne": "Avec un max de 0 ou 1 PV"
+				}
 			},
 			"menuSettings": {
 				"fontSize": {
@@ -226,14 +232,15 @@
 				"default": "Défaut",
 				"deleteTable": "Supprimer le tableau",
 				"estimate": "Estimation",
-				"jsRule": "Règle JS",
+				"jsRule": "Règle JavaScript",
 				"prioDecrease": "Diminuer la priorité",
 				"ignoreColor": {
 					"name": "Ignorer la couleur",
-					"hint": "Ignore les couleurs de ce tableau et utilise les couleurs du prochain tableau valide pour le jeton. Cette fonction est destinée aux conditions qui doivent être prioritaires par rapport à une estimation, mais qui doivent tout de même utiliser la couleur de cette estimation."
+					"hint": "Ignore les couleurs de ce tableau et utilise les couleurs du prochain tableau valide pour le jeton. C'est destiné à régler les états qui devraient être prioritaires par rapport à une estimation, mais qui doivent tout de même utiliser le schéma de couleur de l'estimation."
 				},
 				"addTable": "Ajouter une table",
-				"prioIncrease": "Augmenter la priorité"
+				"prioIncrease": "Augmenter la priorité",
+				"newTable": "Nouveau tableau"
 			},
 			"tooltipPosition": {
 				"name": "Position d'élévation de l'infobulle",
