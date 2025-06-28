@@ -1,7 +1,7 @@
 import * as providers from "./providers/_module.js";
 import { providerKeys } from "./providers/_shared.js";
 import { registerSettings } from "./settings.js";
-import { addSetting, isEmpty, sGet, sSet } from "./utils.js";
+import { addSetting, isEmpty, sGet } from "./utils.js";
 
 export class HealthEstimate {
 	constructor() {
@@ -75,34 +75,6 @@ export class HealthEstimate {
 		}
 		this.updateBreakConditions();
 		this.updateSettings();
-	}
-
-	ready() {
-		// Setting change handling
-		if (!Number.isNumeric(this.fontSize)) {
-			if (!isNaN(this.fontSize) && this.fontSize.match(/[0-9]*\.?[0-9]+(px|%)+/i)) {
-				this.fontSize = Number(this.fontSize.replace(/(px|%)+/i, ""));
-			} else {
-				console.warn(
-					`Health Estimate | ${game.i18n.format("healthEstimate.notifications.invalidFontSize", {
-						fontSize: this.fontSize,
-					})}`
-				);
-				this.fontSize = 24;
-			}
-			sSet("core.menuSettings.fontSize", this.fontSize || 24);
-		}
-		if (!Number.isNumeric(this.height)) {
-			const heights = {
-				top: "a",
-				center: "b",
-				end: "c",
-			};
-			this.position = heights[this.height];
-			this.height = 0;
-			sSet("core.menuSettings.position", 0);
-			sSet("core.menuSettings.position2", this.position);
-		}
 	}
 
 	/**

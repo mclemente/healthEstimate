@@ -2,6 +2,12 @@ import { addCharacter, outputStageChange } from "./HealthMonitor.js";
 import { disableCheckbox, repositionTooltip, sGet } from "./utils.js";
 
 export class HealthEstimateHooks {
+	static ready() {
+		if (canvas.ready && game.healthEstimate.alwaysShow) {
+			canvas.tokens?.placeables.forEach((token) => game.healthEstimate._handleOverlay(token, true));
+		}
+	}
+
 	static canvasInit(canvas) {
 		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 		game.healthEstimate.lastZoom = null;
@@ -12,9 +18,6 @@ export class HealthEstimateHooks {
 		game.healthEstimate.alwaysShow = sGet("core.alwaysShow");
 		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 		Hooks.on("refreshToken", HealthEstimateHooks.refreshToken);
-		if (game.healthEstimate.alwaysShow) {
-			canvas.tokens?.placeables.forEach((token) => game.healthEstimate._handleOverlay(token, true));
-		}
 		if (game.healthEstimate.scaleToZoom) Hooks.on("canvasPan", HealthEstimateHooks.onCanvasPan);
 		Hooks.on("canvasInit", HealthEstimateHooks.canvasInit);
 	}

@@ -63,9 +63,6 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		this.smoothGradient = this.element.querySelector("#smoothGradient");
 		this.gradEx = this.element.querySelector("#gradientExampleHE");
 
-		this.fontSize.value = Number.isNumeric(this.fontSize.value) ? this.fontSize.value : 24;
-		this.textPosition.value = Number.isNumeric(this.textPosition.value) ? this.textPosition.value : 0;
-
 		const gradientForm = this.element.querySelector('div[class="form-group gradient"]');
 
 		this.hideForm(this.smoothGradient.closest(".form-group"), this.useColor);

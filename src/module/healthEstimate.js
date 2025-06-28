@@ -10,7 +10,7 @@ Hooks.once("i18nInit", function () {
 });
 
 Hooks.once("setup", () => game.healthEstimate.setup());
-Hooks.once("ready", () => game.healthEstimate.ready());
+Hooks.once("ready", HealthEstimateHooks.ready);
 
 // Canvas
 Hooks.once("canvasReady", HealthEstimateHooks.onceCanvasReady);
