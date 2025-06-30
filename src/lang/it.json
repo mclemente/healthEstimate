@@ -48,13 +48,14 @@
 				"default": "Predefinito",
 				"deleteTable": "Cancella Tabella",
 				"estimate": "Stima",
-				"jsRule": "Regola JS",
+				"jsRule": "Regola JavaScript",
 				"prioDecrease": "Diminuisci Priorità",
 				"prioIncrease": "Aumenta Priorità",
 				"ignoreColor": {
 					"name": "Ignora Colore",
-					"hint": "Ignora i colori di questa tabella e utilizza i colori della successiva tabella valida per il token. Questo è pensato per le condizioni che dovrebbero avere la priorità su una stima, ma dovrebbero comunque utilizzare il colore di quella stima."
-				}
+					"hint": "Ignora i colori di questa tabella e utilizza i colori della successiva tabella valida per il token. Questo è pensato per le condizioni che dovrebbero avere la priorità su una stima, ma che riflettono comunque lo schema di colori della stima."
+				},
+				"newTable": "Nuova Tabella"
 			},
 			"keybinds": {
 				"markDead": {
@@ -153,8 +154,14 @@
 				"hint": "Includi punti salute temporanei nel calcolo della descrizione da mostrare.\nEs. con l'impostazione attivata, il token che riceve gli HP temporanei sembrerà \"più sano\" a meno che non sia già al massimo della salute."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Nascondi le stime sui token con 0 PF massimi",
-				"hint": "Utile per oggetti con token."
+				"name": "Nascondi Stime sui Token",
+				"hint": "Utile per oggetti con token.",
+				"options": {
+					"none": "Non nascondere stime",
+					"zero": "con 0 PF Max",
+					"one": "con 1 PF Max",
+					"zeroOrOne": "con 0 o 1 PF Max"
+				}
 			},
 			"menuSettings": {
 				"behaviorSettings": {
@@ -212,7 +219,8 @@
 					"name": "Ridimensiona stime in base a zoom",
 					"hint": "Ridimensiona la stima in base alla distanza dello zoom."
 				}
-			}
+			},
+			"sample": "Esempio"
 		},
 		"notifications": {
 			"terms": {
