@@ -18,7 +18,7 @@ export class HealthEstimateHooks {
 		game.healthEstimate.alwaysShow = sGet("core.alwaysShow");
 		game.healthEstimate.combatRunning = game.healthEstimate.isCombatRunning();
 		Hooks.on("refreshToken", HealthEstimateHooks.refreshToken);
-		if (game.healthEstimate.scaleToZoom) Hooks.on("canvasPan", HealthEstimateHooks.onCanvasPan);
+		if (game.healthEstimate.scaleToZoom && CONFIG.Canvas.minZoom < 1) Hooks.on("canvasPan", HealthEstimateHooks.onCanvasPan);
 		Hooks.on("canvasInit", HealthEstimateHooks.canvasInit);
 	}
 
@@ -45,12 +45,12 @@ export class HealthEstimateHooks {
 		}
 	}
 
-	static onCanvasPan(canvas, constrained) {
+	static onCanvasPan(canvas, pan) {
 		const scale = () => {
-			const zoomLevel = Math.min(1, canvas.stage.scale.x);
+			const zoomLevel = Math.min(1, pan.scale);
 			if (game.healthEstimate.lastZoom !== zoomLevel) {
 				canvas.tokens?.placeables
-					.filter((t) => t.healthEstimate?.visible)
+					.filter((token) => game.healthEstimate._cache[token.id]?.visible)
 					.forEach((token) => {
 						const estimate = game.healthEstimate._cache[token.id];
 						if (estimate?._texture) {

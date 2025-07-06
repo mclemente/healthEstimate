@@ -28,6 +28,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 
 	_prepareContext(options) {
 		return {
+			config: CONFIG,
 			fontFamily: this.prepSelection("fontFamily"),
 			useColor: this.prepSetting("useColor"),
 			smoothGradient: this.prepSetting("smoothGradient"),
