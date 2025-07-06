@@ -210,7 +210,7 @@
 					"plural": "Configurações de Comportamento"
 				},
 				"scaleToZoom": {
-					"name": "Escalar para o nível de zoom",
+					"name": "Escalar com o Zoom",
 					"hint": "Escala a estimativa com base na distância de zoom."
 				},
 				"position2": {
