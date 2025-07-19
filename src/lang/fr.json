@@ -250,7 +250,8 @@
 					"default": "Défaut (pas de changement)",
 					"right": "Droite"
 				}
-			}
+			},
+			"sample": "Exemple"
 		},
 		"dnd5e": {
 			"vehicleNames": {
