@@ -46,4 +46,5 @@ export { default as wfrp4eEstimationProvider } from "./wfrp4e.js";
 export { default as worldbuildingEstimationProvider } from "./worldbuilding.js";
 export { default as wrathAndGloryEstimationProvider } from "./wrath-and-glory.js";
 export { default as yzecoriolisEstimationProvider } from "./yzecoriolis.js";
+export { default as cosmereRpgEstimationProvider } from "./cosmere-rpg.js";
 

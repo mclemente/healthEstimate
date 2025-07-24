@@ -11,4 +11,5 @@ export const providerKeys = {
 	"scum-and-villainy": "scumAndVillainy",
 	"uesrpg-d100": "uesrpg",
 	"wrath-and-glory": "wrathAndGlory",
+	"cosmere-rpg": "cosmereRpg",
 };
