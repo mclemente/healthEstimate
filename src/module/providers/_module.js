@@ -1,5 +1,3 @@
-export { default as CoC7EstimationProvider } from "./CoC7.js";
-export { default as D35EEstimationProvider } from "./D35E.js";
 export { default as a5eSystemEstimationProvider } from "./a5e.js";
 export { default as ageSystemEstimationProvider } from "./age-system.js";
 export { default as alienrpgEstimationProvider } from "./alienrpg.js";
@@ -7,9 +5,12 @@ export { default as archmageEstimationProvider } from "./archmage.js";
 export { default as bandOfBladesEstimationProvider } from "./band-of-blades.js";
 export { default as bladeRunnerEstimationProvider } from "./blade-runner.js";
 export { default as bladesInTheDarkEstimationProvider } from "./blades-in-the-dark.js";
+export { default as CoC7EstimationProvider } from "./CoC7.js";
+export { default as cosmereRpgEstimationProvider } from "./cosmere-rpg.js";
 export { default as CustomSystemBuilderEstimationProvider } from "./custom-system-builder.js";
 export { default as cyberpunkRedCoreEstimationProvider } from "./cyberpunk-red-core.js";
 export { default as cyphersystemEstimationProvider } from "./cyphersystem.js";
+export { default as D35EEstimationProvider } from "./D35E.js";
 export { default as dnd4eEstimationProvider } from "./dnd4e.js";
 export { default as dnd5eEstimationProvider } from "./dnd5e.js";
 export { default as ds4EstimationProvider } from "./ds4.js";
@@ -46,5 +47,4 @@ export { default as wfrp4eEstimationProvider } from "./wfrp4e.js";
 export { default as worldbuildingEstimationProvider } from "./worldbuilding.js";
 export { default as wrathAndGloryEstimationProvider } from "./wrath-and-glory.js";
 export { default as yzecoriolisEstimationProvider } from "./yzecoriolis.js";
-export { default as cosmereRpgEstimationProvider } from "./cosmere-rpg.js";
 
