@@ -5,8 +5,13 @@ import { f, t } from "./utils.js";
 Hooks.once("i18nInit", function () {
 	setKeybinds();
 	game.healthEstimate = new HealthEstimate();
-	addTokenConfigTab(foundry.applications.sheets.TokenConfig);
-	addTokenConfigTab(foundry.applications.sheets.PrototypeTokenConfig, "actor");
+	const tab = {
+		id: "healthEstimate",
+		label: game.i18n.localize("healthEstimate.core.estimates.plural"),
+		icon: "fas fa-scale-balanced"
+	};
+	foundry.applications.sheets.TokenConfig.TABS.sheet.tabs.push(tab);
+	foundry.applications.sheets.PrototypeTokenConfig.TABS.sheet.tabs.push(tab);
 });
 
 Hooks.once("setup", () => game.healthEstimate.setup());
@@ -30,6 +35,8 @@ Hooks.on("deleteActiveEffect", HealthEstimateHooks.deleteActiveEffect);
 // Rendering
 Hooks.on("renderChatMessage", HealthEstimateHooks.onRenderChatMessage);
 Hooks.on("renderSettingsConfig", HealthEstimateHooks.renderSettingsConfigHandler);
+Hooks.on("renderPrototypeTokenConfig", (_app, form, data, options) => HealthEstimateHooks.renderTokenConfigHandle(form, data, options, "source"));
+Hooks.on("renderTokenConfig", (_app, form, data, options) => HealthEstimateHooks.renderTokenConfigHandler(form, data, options));
 
 function setKeybinds() {
 	game.keybindings.register("healthEstimate", "markDead", {
@@ -127,27 +134,4 @@ function setKeybinds() {
 		restricted: true,
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
-}
-
-function addTokenConfigTab(cls, document = "document") {
-	// We need to make sure the Health Estimate tab renders before the footer
-	cls.TABS.sheet.tabs.push({ id: "healthEstimate", label: game.i18n.localize("healthEstimate.core.estimates.plural"), icon: "fas fa-scale-balanced" });
-	const footerPart = cls.PARTS.footer;
-	delete cls.PARTS.footer;
-	cls.PARTS.healthEstimate = {
-		template: "modules/healthEstimate/templates/token-config.html"
-	};
-	cls.PARTS.footer = footerPart;
-
-	cls.prototype._prepareHealthestimateTab = async function (partId, context, options) {
-		const tokenFlags = this[document].flags?.healthEstimate;
-		return {
-			hasPlayerOwner: this[document].hasPlayerOwner,
-			hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
-			hideName: tokenFlags?.hideName ? "checked" : "",
-			dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
-			dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
-			hideNameHint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
-		};
-	};
 }

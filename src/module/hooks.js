@@ -1,5 +1,5 @@
 import { addCharacter, outputStageChange } from "./HealthMonitor.js";
-import { disableCheckbox, repositionTooltip, sGet } from "./utils.js";
+import { disableCheckbox, f, repositionTooltip, sGet, t } from "./utils.js";
 
 export class HealthEstimateHooks {
 	static ready() {
@@ -203,5 +203,21 @@ export class HealthEstimateHooks {
 				disableCheckbox(workbenchMystifierCheckbox, event.target.checked);
 			});
 		}
+	}
+
+	static async renderTokenConfigHandler(form, data, options, docPath = "document") {
+		if (!options.isFirstRender) return;
+		const tokenFlags = data[docPath].flags?.healthEstimate ?? {};
+		const tabData = {
+			hasPlayerOwner: data[docPath].hasPlayerOwner,
+			hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
+			hideName: tokenFlags?.hideName ? "checked" : "",
+			dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
+			dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
+			hideNameHint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
+		};
+		const tab = await foundry.applications.handlebars.renderTemplate("modules/healthEstimate/templates/token-config.html", tabData);
+		const lastTab = [...form.querySelectorAll(".tab")].pop();
+		lastTab.insertAdjacentHTML("afterend", tab);
 	}
 }
