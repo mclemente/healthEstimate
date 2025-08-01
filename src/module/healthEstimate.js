@@ -35,7 +35,7 @@ Hooks.on("deleteActiveEffect", HealthEstimateHooks.deleteActiveEffect);
 // Rendering
 Hooks.on("renderChatMessage", HealthEstimateHooks.onRenderChatMessage);
 Hooks.on("renderSettingsConfig", HealthEstimateHooks.renderSettingsConfigHandler);
-Hooks.on("renderPrototypeTokenConfig", (_app, form, data, options) => HealthEstimateHooks.renderTokenConfigHandle(form, data, options, "source"));
+Hooks.on("renderPrototypeTokenConfig", (_app, form, data, options) => HealthEstimateHooks.renderTokenConfigHandler(form, data, options, "source"));
 Hooks.on("renderTokenConfig", (_app, form, data, options) => HealthEstimateHooks.renderTokenConfigHandler(form, data, options));
 
 function setKeybinds() {
