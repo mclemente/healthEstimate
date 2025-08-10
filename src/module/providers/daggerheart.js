@@ -9,7 +9,7 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "unconscious",
-				rule: "effects.values().some((x) => x.name === 'Unconscious') || effects.values().some((x) => x.name === 'Unconcious');",
+				rule: "effects.values().some((x) => x.name === 'Unconscious' || x.name === 'Unconcious');",
 				estimates: [{ value: 100, label: "Unconscious" }],
 			},
 			{
