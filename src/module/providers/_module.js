@@ -11,6 +11,7 @@ export { default as CustomSystemBuilderEstimationProvider } from "./custom-syste
 export { default as cyberpunkRedCoreEstimationProvider } from "./cyberpunk-red-core.js";
 export { default as cyphersystemEstimationProvider } from "./cyphersystem.js";
 export { default as D35EEstimationProvider } from "./D35E.js";
+export { default as daggerheartEstimationProvider } from "./daggerheart.js";
 export { default as dnd4eEstimationProvider } from "./dnd4e.js";
 export { default as dnd5eEstimationProvider } from "./dnd5e.js";
 export { default as ds4EstimationProvider } from "./ds4.js";
