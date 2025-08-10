@@ -1,13 +1,6 @@
 import EstimationProvider from "./templates/Base.js";
 
-// The object retrieved during actor.getRollData for a 'DhCharacter' has a 'class' property
-// so the provider isn't able to construct the method using "new Function" because that's a forbidden property
-// Character will fallback to the "Default" implementation which works fine, but doesn't support condition specific estimation
-// if they update the system at one point in the future then this will start working fine as we don't use that property
-// Adversary and Companion work fine because they don't have the class property
-// There's also a spelling mistake in the system for 'Unconscious' so I've covered both cases
 export default class daggerheartEstimationProvider extends EstimationProvider {
-
 	constructor() {
 		super();
 		this.organicTypes = ["character", "adversary", "companion"];
@@ -38,8 +31,6 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 			},
 		];
 	}
-
-	// ;
 
 	fraction(token) {
 		let resource = token.actor.type === "adversary" || token.actor.type === "character"

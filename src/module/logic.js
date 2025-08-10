@@ -282,6 +282,7 @@ export class HealthEstimate {
 					type: actor.type,
 					...actor.getRollData()
 				};
+				delete args.class;
 				const logic = `${customLogic}\nreturn ${rule}`;
 				// eslint-disable-next-line no-new-func
 				return new Function(...Object.keys(args), logic)(...Object.values(args));
