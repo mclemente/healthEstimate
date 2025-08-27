@@ -42,7 +42,6 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 		const maxHealth = token.actor.system.stamina.max;
 		const currentHealth = token.actor.system.stamina.value;
 
-		const fraction = (currentHealth - minHealth) / (maxHealth - minHealth);
-		return Math.max(0, Math.min(1, fraction)); // clamp between 0–1
+		return (currentHealth - minHealth) / (maxHealth - minHealth);
 	}
 }
