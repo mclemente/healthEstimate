@@ -9,7 +9,7 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 		classes: ["form", "healthEstimate"],
 		position: {
 			width: 560,
-			height: 600,
+			height: "auto",
 		},
 		form: {
 			handler: HealthEstimateSettingsV2.#onSubmit,
