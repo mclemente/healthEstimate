@@ -11,5 +11,6 @@ export const providerKeys = {
 	"foundryvtt-reve-de-dragon": "reveDeDragon",
 	"scum-and-villainy": "scumAndVillainy",
 	"uesrpg-d100": "uesrpg",
-	"wrath-and-glory": "wrathAndGlory"
+	"wrath-and-glory": "wrathAndGlory",
+	"draw-steel": "drawsteel",
 };
