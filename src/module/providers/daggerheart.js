@@ -9,13 +9,16 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "unconscious",
-				rule: "effects.values().some((x) => x.name === 'Unconscious' || x.name === 'Unconcious');",
-				estimates: [{ value: 100, label: "Unconscious" }],
+				rule: "effects.values().some((ef) => ef.statuses.has('unconscious'));",
+				estimates: [{ value: 100, label: game.i18n.localize("EFFECT.StatusUnconscious") }],
 			},
 			{
 				name: "dead",
 				ignoreColor: true,
-				rule: "effects.values().some((x) => x.name === 'Dead');",
+				rule: `
+					const { unconscious, defeated, dead } = CONFIG.DH.GENERAL.conditions;
+					const defeatedConditions = new Set([unconscious.id, defeated.id, dead.id]);
+					return actor?.statuses.intersection(defeatedConditions)?.size;`.trim(),
 				estimates: [{ value: 100, label: "Dead" }],
 			},
 			{
