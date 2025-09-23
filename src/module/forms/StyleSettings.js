@@ -246,6 +246,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		const paths = [
 			"menuSettings.useColor",
 			"menuSettings.smoothGradient",
+			"menuSettings.gradient",
 			"menuSettings.deadColor",
 			"menuSettings.fontSize",
 			"menuSettings.position",
