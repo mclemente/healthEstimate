@@ -32,7 +32,7 @@ export default class dnd5eEstimationProvider extends EstimationProvider {
 		if (token.actor.type === "character" && sGet("core.addTemp")) {
 			return Math.min(hp.pct/100, 1);
 		}
-		return Math.min(hp.value / hp.max, 1);
+		return Math.min(hp.value / hp.effectiveMax, 1);
 	}
 
 	get breakCondition() {
