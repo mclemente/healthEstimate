@@ -216,6 +216,10 @@
 					"name": "Scale Estimates to Grid Size",
 					"hint": "Scales the estimate based on the grid size, assuming 100px as the baseline."
 				},
+				"scaleToTokenSize": {
+					"name": "Scale to Token Size",
+					"hint": "Scales the estimates based on the token's width."
+				},
 				"scaleToZoom": {
 					"name": "Scale Estimates to Zoom",
 					"hint": "Scales the estimate based on the zoom distance."

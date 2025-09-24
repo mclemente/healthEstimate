@@ -150,12 +150,13 @@ export class HealthEstimate {
 	 * @param {EstimateConfig} config
 	 */
 	_createHealthEstimate(token, config = {}) {
+		const scale = this.scaleToTokenSize ? token.document.width : 1;
 		const { desc, color, stroke, width, x, y } = config;
 		const style = this._getUserTextStyle(color, stroke);
 		const estimate = canvas.interface.healthEstimate.addChild(new PIXI.Text(desc, style));
 		this._cache[token.id] = estimate;
 		estimate.alpha = token.mesh.alpha;
-		estimate.scale.set(0.25);
+		estimate.scale.set(scale * 0.25);
 		estimate.anchor.set(0.5, 1);
 		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
@@ -166,6 +167,7 @@ export class HealthEstimate {
 	 * @param {EstimateConfig} config
 	 */
 	_updateHealthEstimate(token, config = {}) {
+		const scale = this.scaleToTokenSize ? token.document.width : 1;
 		const { desc, color, stroke, width, x, y } = config;
 		const estimate = this._cache[token.id];
 		estimate.style.fontSize = this.scaledFontSize;
@@ -174,6 +176,7 @@ export class HealthEstimate {
 		estimate.style.stroke = stroke;
 		estimate.visible = true;
 		estimate.alpha = token.mesh.alpha;
+		estimate.scale.set(scale * 0.25);
 		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
 
@@ -517,6 +520,7 @@ export class HealthEstimate {
 		this.NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
 		this.scaleToGridSize = sGet("core.menuSettings.scaleToGridSize");
+		this.scaleToTokenSize = sGet("core.menuSettings.scaleToTokenSize");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 		this.outputChat = sGet("core.outputChat");
 

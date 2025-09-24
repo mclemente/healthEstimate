@@ -13,6 +13,13 @@
 		</div>
 		<p class="hint">{{scaleToGridSize.hint}}</p>
 	</div>
+	<div class="form-group">
+		<label>{{scaleToTokenSize.name}}</label>
+		<div class="form-fields">
+			<input type="checkbox" name="scaleToTokenSize" id="scaleToTokenSize" {{checked scaleToTokenSize.value}} />
+		</div>
+		<p class="hint">{{scaleToTokenSize.hint}}</p>
+	</div>
 	<div class="form-group" {{ifThen (lt config.Canvas.minZoom 1) "" "hidden"}}>
 		<label>{{scaleToZoom.name}}</label>
 		<div class="form-fields">

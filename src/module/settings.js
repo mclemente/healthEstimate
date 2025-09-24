@@ -166,8 +166,6 @@ export const registerSettings = function () {
 			game.healthEstimate.updateBreakConditions();
 		},
 	});
-
-	/* Settings for the death menu */
 	addMenuSetting("core.deathState", {
 		hint: game.healthEstimate.estimationProvider.deathMarker.config
 			? f("core.deathState.hint1", {
@@ -214,6 +212,13 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.scaleToGridSize = value;
+		},
+	});
+	addMenuSetting("core.menuSettings.scaleToTokenSize", {
+		type: Boolean,
+		default: true,
+		onChange: (value) => {
+			game.healthEstimate.scaleToTokenSize = value;
 		},
 	});
 	addMenuSetting("core.menuSettings.scaleToZoom", {
