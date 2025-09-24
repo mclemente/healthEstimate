@@ -1,3 +1,4 @@
+import { t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class drawsteelEstimationProvider extends EstimationProvider {
@@ -7,32 +8,32 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 		this.breakOnZeroMaxHP = true;
 		this.estimations = [
 			{
-				name: "unconscious",
-				ignoreColor: true,
-				rule: "effects.values().some((x) => x.name === 'Unconscious' || x.name === 'Asleep');",
-				estimates: [{ value: 100, label: "Unconscious" }],
-			},
-			{
-				name: "Heroes",
-				rule: "token.actor.type === 'hero'",
+				name: "",
+				rule: "",
 				estimates: [
-					{ value: 0, label: "Dead" },
+					{ value: 0, label: t("core.estimates.states.0") },
 					{ value: 33, label: "Dying" },
-					{ value: 66, label: "Winded" },
-					{ value: 99, label: "Injured" },
-					{ value: 100, label: "Unharmed" },
+					{ value: 66, label: game.i18n.localize("DRAW_STEEL.ActiveEffect.StaminaEffects.Winded") },
+					{ value: 99, label: t("core.estimates.states.4") },
+					{ value: 100, label: t("core.estimates.states.5") },
 				],
 			},
 			{
 				name: "NPCs",
-				rule: "token.actor.type === 'npc'",
+				rule: "type === \"npc\"",
 				estimates: [
-					{ value: 0, label: "Dead" },
-					{ value: 25, label: "Near Death" },
-					{ value: 50, label: "Winded" },
-					{ value: 99, label: "Injured" },
-					{ value: 100, label: "Unharmed" },
-				],
+					{ value: 0, label: t("core.estimates.states.0") },
+					{ value: 25, label: "Dying" },
+					{ value: 50, label: game.i18n.localize("DRAW_STEEL.ActiveEffect.StaminaEffects.Winded") },
+					{ value: 99, label: t("core.estimates.states.4") },
+					{ value: 100, label: t("core.estimates.states.5") },
+				]
+			},
+			{
+				name: "Unconscious",
+				ignoreColor: true,
+				rule: "effects.values().some((ef) => ef.statuses.has('sleep'));",
+				estimates: [{ value: 100, label: game.i18n.localize("EFFECT.StatusUnconscious") }],
 			},
 		];
 	}
