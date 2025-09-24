@@ -5,6 +5,8 @@
 	&.form {
 		min-height: 520px;
 		min-width: 560px;
+		max-width: 560px;
+		max-height: 680px;
 
 		.window-content { padding-top: 0; }
 
