@@ -155,6 +155,7 @@ export class HealthEstimate {
 		const style = this._getUserTextStyle(color, stroke);
 		const estimate = canvas.interface.healthEstimate.addChild(new PIXI.Text(desc, style));
 		this._cache[token.id] = estimate;
+		token.healthEstimate = estimate;
 		estimate.alpha = token.mesh.alpha;
 		estimate.scale.set(scale * 0.25);
 		estimate.anchor.set(0.5, 1);
@@ -254,10 +255,11 @@ export class HealthEstimate {
 			fontFamily: this.fontFamily,
 			fill: color,
 			stroke,
-			strokeThickness: 12,
+			strokeThickness: 3 * Math.clamp(4 * this.gridScale, 1, 4),
 			padding: 5,
 			dropShadow: true,
 			dropShadowColor,
+			dropShadowDistance: Math.clamp(5 * this.gridScale, 1, 5),
 			lineJoin: "round",
 		};
 	}
