@@ -52,9 +52,10 @@
 				"prioIncrease": "Zvýšení priority",
 				"ignoreColor": {
 					"name": "Ignorovat barvu",
-					"hint": "Ignoruje barvy z této tabulky a použije barvy z další platné tabulky pro token. Toto je určeno pro podmínky, které by měly mít přednost před odhadem, ale přesto by měly používat barvu tohoto odhadu."
+					"hint": "Ignoruje barvy z této tabulky a použije barvy z další platné tabulky pro token. Toto je určeno pro podmínky, které by měly mít přednost před odhadem, ale přesto by měly odrážet barvevné schéma tohoto odhadu."
 				},
-				"title": "Nastavení odhadů"
+				"title": "Nastavení odhadů",
+				"newTable": "Nová tabulka"
 			},
 			"keybinds": {
 				"markDead": {
@@ -144,8 +145,14 @@
 				"hint": "Zahrne dočasné body zdraví do kalkulace, jaký popis zobrazit.\nNapř. se zapnutým nastavením bude token, který obdržel dočasné body zdraví, jevit jako \"zdravější\", pokud již není na maximálním zdraví."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Skryje Odhady pro token s nulovou maximální kondicí",
-				"hint": "Užitečné pro objekty s tokeny."
+				"name": "Skryje Odhady pro token",
+				"hint": "Užitečné pro objekty s tokeny.",
+				"options": {
+					"one": "s 1 Max HP",
+					"zeroOrOne": "s 0 nebo 1 Max HP",
+					"none": "Neskrývat odhady",
+					"zero": "s 0 Max HP"
+				}
 			},
 			"menuSettings": {
 				"behaviorSettings": {
@@ -202,6 +209,10 @@
 				"scaleToGridSize": {
 					"name": "Měřítko Odhadů podle velikosti mřížky",
 					"hint": "Škáluje odhad na základě velikosti mřížky, přičemž předpokládá 100px jako základ."
+				},
+				"scaleToTokenSize": {
+					"hint": "Měřit odhady na základě šířky tokenu.",
+					"name": "Měřítko velikosti tokenu"
 				}
 			},
 			"tooltipPosition": {
@@ -212,7 +223,8 @@
 					"default": "Výchozí (beze změny)",
 					"right": "Vpravo"
 				}
-			}
+			},
+			"sample": "Vzorek"
 		},
 		"custom-system-builder": {
 			"FractionHP": {
