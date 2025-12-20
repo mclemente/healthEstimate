@@ -26,6 +26,9 @@ export class HealthEstimateHooks {
 	 * HP storing code for canvas load or token created
 	 */
 	static onCanvasReady() {
+		// Clear cache on scene change to remove stale references to destroyed PIXI objects
+		game.healthEstimate._cache = {};
+
 		canvas.interface.healthEstimate = canvas.interface.addChild(new PIXI.Container());
 		const { width, height } = canvas.dimensions;
 		canvas.interface.healthEstimate.width = width;
@@ -108,7 +111,12 @@ export class HealthEstimateHooks {
 		const estimate = game.healthEstimate._cache[tokenDocument.id];
 		if (!estimate) return;
 		delete game.healthEstimate._cache[tokenDocument.id];
-		canvas.interface.healthEstimate.removeChild(estimate);
+
+		// Remove from parent and destroy (for actual token deletions)
+		// Note: Scene changes are handled by onCanvasReady clearing the cache
+		if (estimate.parent) {
+			estimate.parent.removeChild(estimate);
+		}
 		estimate.destroy();
 	}
 
