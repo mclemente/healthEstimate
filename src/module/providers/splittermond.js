@@ -1,10 +1,20 @@
 import EstimationProvider from "./templates/Base.js";
 
+function l(key) {
+	return game.i18n.localize(`splittermond.woundMalusLevels.${key}`);
+}
+
 export default class splittermondEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
 		this.breakOnZeroMaxHP = true;
 		this._breakAttribute = "token.actor.system.health.max";
+
+		const notinjured = l("notinjured");
+		const battered = l("battered");
+		const injured = l("injured");
+		const badlyinjured = l("badlyinjured");
+		const doomed = l("doomed");
 
 		// Splittermond Gesundheitsstufen (GRW p.172)
 		// nbrLevels is modified by NPC features: Schwächlich (3) and Zerbrechlich (1)
@@ -18,12 +28,12 @@ export default class splittermondEstimationProvider extends EstimationProvider {
 				rule: "",
 				ignoreColor: false,
 				estimates: [
-					{ value: 0, label: "Todgeweiht" },
-					{ value: 19, label: "Todgeweiht" },
-					{ value: 39, label: "Schwer verletzt" },
-					{ value: 59, label: "Verletzt" },
-					{ value: 79, label: "Angeschlagen" },
-					{ value: 100, label: "Unverletzt" },
+					{ value: 0, label: doomed },
+					{ value: 19, label: doomed },
+					{ value: 39, label: badlyinjured },
+					{ value: 59, label: injured },
+					{ value: 79, label: battered },
+					{ value: 100, label: notinjured },
 				],
 			},
 			// Schwächlich: 3 Gesundheitsstufen
@@ -33,10 +43,10 @@ export default class splittermondEstimationProvider extends EstimationProvider {
 				rule: "_nbrLevels === 3",
 				ignoreColor: false,
 				estimates: [
-					{ value: 0, label: "Todgeweiht" },
-					{ value: 32, label: "Todgeweiht" },
-					{ value: 65, label: "Verletzt" },
-					{ value: 100, label: "Unverletzt" },
+					{ value: 0, label: doomed },
+					{ value: 32, label: doomed },
+					{ value: 65, label: injured },
+					{ value: 100, label: notinjured },
 				],
 			},
 			// Zerbrechlich: 1 Gesundheitsstufe (no wound penalties)
@@ -45,9 +55,9 @@ export default class splittermondEstimationProvider extends EstimationProvider {
 				rule: "_nbrLevels === 1",
 				ignoreColor: false,
 				estimates: [
-					{ value: 0, label: "Todgeweiht" },
-					{ value: 50, label: "Angeschlagen" },
-					{ value: 100, label: "Unverletzt" },
+					{ value: 0, label: doomed },
+					{ value: 50, label: battered },
+					{ value: 100, label: notinjured },
 				],
 			},
 		];
