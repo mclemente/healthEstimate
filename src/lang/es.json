@@ -49,7 +49,7 @@
 			},
 			"deathStateName": {
 				"name": "Nombre de Estado de Muerte",
-				"hint": "La descripción mostrada a los jugadores cuando el token está muerto. La sección Compendio tiene una macro para marcar un a token (o varios) como muerto.",
+				"hint": "La descripción mostrada cuando el token está muerto.",
 				"default": "Muerto"
 			},
 			"deathMarker": {
@@ -74,7 +74,13 @@
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Esconder en tokens con 0 PV máx.",
-				"hint": "Útil para objetos con tokens."
+				"hint": "Útil para objetos con tokens.",
+				"options": {
+					"none": "No ocultar estimaciones",
+					"zero": "con PV máximo igual a 0",
+					"one": "con PV máximo igual a 1",
+					"zeroOrOne": "con PV máximo igual a 0 ó 1"
+				}
 			},
 			"menuSettings": {
 				"fontSize": {
@@ -100,7 +106,7 @@
 				"position": {
 					"name": "Posición",
 					"top": "Encima",
-					"middle": "Medio",
+					"middle": "En medio",
 					"bottom": "Debajo",
 					"hint": "La posición está configurada relativa al borde del token. Los valores negativos la elevaran; los positivos la bajaran."
 				},
@@ -123,6 +129,18 @@
 				"styleSettings": {
 					"name": "Configuración de estilo",
 					"plural": "Configuraciones de estilo"
+				},
+				"scaleToTokenSize": {
+					"hint": "Escala la estimación basándose en el tamaño del token.",
+					"name": "Escalar al tamaño del Token"
+				},
+				"position2": {
+					"name": "Posición",
+					"hint": "La posición relativa al frame del token."
+				},
+				"scaleToGridSize": {
+					"name": "Escalar estimaciones al tamaño del grid",
+					"hint": "Escala las estimaciones basadas en el tamaño de la cuadrícula, asumiendo 100px como valor base."
 				}
 			},
 			"keybinds": {
@@ -202,8 +220,19 @@
 					"name": "Ignorar color",
 					"hint": "Ignora los colores de esta tabla y usa los colores de la siguiente tabla válida para el token. Esto está pensado para condiciones que deberían tener prioridad sobre un estimado, pero aún deberían usar los colores de ese estimado."
 				},
-				"jsRule": "Regla JS"
-			}
+				"jsRule": "Regla JS",
+				"newTable": "Nueva Tabla"
+			},
+			"tooltipPosition": {
+				"options": {
+					"left": "Izquierda",
+					"right": "Derecha",
+					"default": "Por defecto (sin cambios)"
+				},
+				"hint": "Mueve el Tooltip de elevación para evitar conflictos con el de estimación cuando se renderiza encima del token.",
+				"name": "Posición del Tooltip de elevación"
+			},
+			"sample": "Ejemplo"
 		},
 		"dnd5e": {
 			"vehicleNames": {
@@ -308,6 +337,27 @@
 			"hideHazardHP": {
 				"name": "Ocultar estimación de peligros",
 				"hint": "Oculta la estimación de peligros."
+			}
+		},
+		"cyberpunk-red-core": {
+			"unorganics": {
+				"3": "Operacional",
+				"0": "Deshabilitado",
+				"2": "Con fallos",
+				"4": "Intacto"
+			}
+		},
+		"notifications": {
+			"invalidFontSize": "Tu configuración de tamaño de fuente ha sido restablecida. Revisa los ajustes de estilo para cambiarla. Valor anterior: {fontSize}",
+			"terms": {
+				"shown": {
+					"singular": "mostrado",
+					"plural": "mostrados"
+				},
+				"hidden": {
+					"singular": "oculto",
+					"plural": "ocultos"
+				}
 			}
 		}
 	}
