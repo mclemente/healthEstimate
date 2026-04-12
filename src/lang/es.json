@@ -45,11 +45,13 @@
 			},
 			"deathState": {
 				"name": "Condición Estado de Muerte",
-				"hint": "Muestra el token como es definido por la configuración {setting} cuando ha sido afectado por cualquier condición que use el icono elegido en la configuración {configuración2}."
+				"hint": "Muestra el token como es definido por la configuración {setting} cuando ha sido afectado por cualquier condición que use el icono elegido en la configuración {configuración2}.",
+				"hint1": "Muestra el token según lo definido en la opción {setting} cuando esté afectado por cualquier condición que utilice el icono configurado en la opción {setting2}.",
+				"hint2": "Mostrar el token según lo definido en la opción {setting} cuando haya sido marcado como derrotado en combate."
 			},
 			"deathStateName": {
 				"name": "Nombre de Estado de Muerte",
-				"hint": "La descripción mostrada cuando el token está muerto.",
+				"hint": "La descripción mostrada a los jugadores cuando el token está muerto.",
 				"default": "Muerto"
 			},
 			"deathMarker": {
@@ -73,7 +75,7 @@
 				"hint": "Incluye puntos de vida temporales al calcular lo que muestra la descripción.\nP.ej. Con el ajuste activado el token que reciba PV temporales aparecerá como \"más sano\" salvo que ya tenga salud máxima."
 			},
 			"breakOnZeroMaxHP": {
-				"name": "Esconder en tokens con 0 PV máx.",
+				"name": "Esconder estimacion en tokens",
 				"hint": "Útil para objetos con tokens.",
 				"options": {
 					"none": "No ocultar estimaciones",
@@ -218,9 +220,9 @@
 				"prioIncrease": "Aumentar prioridad",
 				"ignoreColor": {
 					"name": "Ignorar color",
-					"hint": "Ignora los colores de esta tabla y usa los colores de la siguiente tabla válida para el token. Esto está pensado para condiciones que deberían tener prioridad sobre un estimado, pero aún deberían usar los colores de ese estimado."
+					"hint": "Ignora los colores de esta tabla y usa los colores de la siguiente tabla válida para el token. Está pensado para condiciones que deben tener prioridad sobre una estimación, pero que aún así reflejan el esquema de colores de la estimación."
 				},
-				"jsRule": "Regla JS",
+				"jsRule": "Regla JavaScript",
 				"newTable": "Nueva Tabla"
 			},
 			"tooltipPosition": {
@@ -294,7 +296,7 @@
 		},
 		"cyphersystem": {
 			"impaired": {
-				"name": "Nivel de salud para PCs dañados.",
+				"name": "Nivel de salud para PCs dañados",
 				"hint": "Configura el nivel de salud máximo (actual / máximo, fracción 0.0 - 1.0) que puede ser informado para un PC en el registro de muertes"
 			},
 			"debilitated": {
@@ -358,7 +360,10 @@
 					"singular": "oculto",
 					"plural": "ocultos"
 				}
-			}
+			},
+			"toggleEstimate": "La estimación de salud de {tokenName} está siendo {term} para los jugadores.",
+			"toggleName": "El nombre de {tokenName} está siendo {term} para los jugadores.",
+			"toggleEstimateName": "La estimación de salud y el nombre de {tokenName} están siendo {term} para los jugadores."
 		}
 	}
 }
