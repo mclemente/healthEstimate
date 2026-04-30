@@ -8,7 +8,6 @@ export default class splittermondEstimationProvider extends EstimationProvider {
 	constructor() {
 		super();
 		this.breakOnZeroMaxHP = true;
-		this._breakAttribute = "token.actor.system.health.max";
 
 		const notinjured = l("notinjured");
 		const battered = l("battered");
@@ -62,6 +61,8 @@ export default class splittermondEstimationProvider extends EstimationProvider {
 			},
 		];
 	}
+
+	_breakAttribute = "token.actor.system.health.max";
 
 	fraction(token) {
 		const hp = token.actor.system.health;
