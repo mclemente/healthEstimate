@@ -465,7 +465,7 @@ export class HealthEstimate {
 	tokenEffectsPath(token) {
 		const deadIcon = this.estimationProvider.deathMarker.config
 			? this.deathMarker
-			: CONFIG.statusEffects.find((x) => x.id === "dead")?.img ?? this.deathMarker;
+			: CONFIG.statusEffects["dead"]?.img ?? this.deathMarker;
 		return Array.from(token.actor.effects.values()).some((x) => x.img === deadIcon);
 	}
 

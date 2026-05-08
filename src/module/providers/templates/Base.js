@@ -33,11 +33,11 @@ export default class EstimationProvider {
 		this.deathMarker = {
 			/** Sets if the setting will be visible in the module's settings */
 			config:
-				!CONFIG.statusEffects.find((x) => x.id === "dead")
+				!CONFIG.statusEffects["dead"]
 				|| game.modules.get("combat-utility-belt")?.active
 				|| game.modules.get("condition-lab-triggler")?.active,
 			/** Sets the setting's default value */
-			default: CONFIG.statusEffects.find((x) => x.id === "dead")?.img || "icons/svg/skull.svg",
+			default: CONFIG.statusEffects["dead"]?.img || "icons/svg/skull.svg",
 		};
 
 		/**
