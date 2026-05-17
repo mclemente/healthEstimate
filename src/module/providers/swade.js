@@ -58,7 +58,7 @@ export default class swadeEstimationProvider extends EstimationProvider {
 	}
 
 	tokenEffects(token) {
-		const incapIcon = CONFIG.statusEffects.find((effect) => effect.id === "incapacitated").img;
+		const incapIcon = (Array.isArray(CONFIG.statusEffects) ? CONFIG.statusEffects : Object.values(CONFIG.statusEffects)).find((effect) => effect.id === "incapacitated").img;
 		return !!token.actor.effects.find((e) => e.img === incapIcon);
 	}
 
