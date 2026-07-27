@@ -9,22 +9,22 @@ on:
     - pull_request
 
 env:
-    node_version: 20
+    node_version: 24
 
 jobs:
     lint:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
-              uses: actions/checkout@v5
+              uses: actions/checkout@v7
 
             - name: Install node
-              uses: actions/setup-node@v5
+              uses: actions/setup-node@v7
               with:
                   node-version: ${{ env.node_version }}
 
             - name: Cache Node.js modules
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: .npm
                   key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -42,15 +42,15 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
-              uses: actions/checkout@v5
+              uses: actions/checkout@v7
 
             - name: Install node
-              uses: actions/setup-node@v5
+              uses: actions/setup-node@v7
               with:
                   node-version: ${{ env.node_version }}
 
             - name: Cache Node.js modules
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: .npm
                   key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
