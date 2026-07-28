@@ -49,6 +49,7 @@
 				"newTable": "New Table",
 				"default": "Default",
 				"deleteTable": "Delete Table",
+				"actorTypes": "Actor Types",
 				"estimate": "Estimate",
 				"jsRule": "JavaScript Rule",
 				"prioDecrease": "Decrease Priority",

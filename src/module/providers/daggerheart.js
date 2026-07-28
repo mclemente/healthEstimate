@@ -23,7 +23,6 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 			},
 			{
 				name: "companion",
-				rule: "actor.type === 'companion';",
 				estimates: [
 					{ value: 0, label: "Fleeing" },
 					{ value: 25, label: "Frightened" },
@@ -31,6 +30,7 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 					{ value: 99, label: "Winded" },
 					{ value: 100, label: "Energetic" },
 				],
+				actorTypes: ["companion"]
 			},
 		];
 	}

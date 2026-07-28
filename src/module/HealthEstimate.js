@@ -334,7 +334,8 @@ export class HealthEstimate {
 		};
 
 		for (const [iteration, estimation] of this.estimations.entries()) {
-			if (estimation.rule === "default" || estimation.rule === "") continue;
+			if (!estimation.actorTypes.size && (estimation.rule === "default" || estimation.rule === "")) continue;
+			if (!estimation.actorTypes.has(token.actor.type)) continue;
 			if (validateEstimation(iteration, token, estimation)) {
 				if (estimation.ignoreColor) {
 					special = estimation;

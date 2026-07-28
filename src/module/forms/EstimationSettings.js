@@ -141,7 +141,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		`;
 		estimatesTable.append(lastRow);
 
-		div.append(estimatesTable, ...["name", "rule", "ignoreColor"].map(createInput));
+		div.append(estimatesTable, ...["name", "actorTypes", "rule", "ignoreColor"].map(createInput));
 		if (index !== 0) {
 			const isLast = index === this.estimations.length - 1;
 			div.append(this.createEstimationButtons(index, isLast));

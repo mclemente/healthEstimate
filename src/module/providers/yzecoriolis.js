@@ -9,7 +9,6 @@ export default class yzecoriolisEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "Ships",
-				rule: "type === \"ship\"",
 				estimates: [
 					{ value: 0, label: t("core.estimates.vehicles.0") },
 					{ value: 20, label: t("core.estimates.vehicles.1") },
@@ -18,6 +17,7 @@ export default class yzecoriolisEstimationProvider extends EstimationProvider {
 					{ value: 80, label: t("core.estimates.vehicles.4") },
 					{ value: 100, label: t("core.estimates.vehicles.5") },
 				],
+				actorTypes: ["ship"]
 			},
 		];
 	}

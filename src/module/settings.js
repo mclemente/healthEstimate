@@ -1,7 +1,9 @@
 import * as forms from "./forms/_module.js";
 import { addMenuSetting, addSetting, f, repositionTooltip, t } from "./utils.js";
 
-const { ArrayField, BooleanField, JavaScriptField, NumberField, SchemaField, StringField } = foundry.data.fields;
+const {
+	ArrayField, BooleanField, JavaScriptField, NumberField, SchemaField, SetField, StringField
+} = foundry.data.fields;
 
 export const registerSettings = function () {
 	game.settings.registerMenu("healthEstimate", "behaviorSettings", {
@@ -64,7 +66,19 @@ export const registerSettings = function () {
 						value: new NumberField({ required: true, min: 0, max: 100, nullable: false }),
 						label: new StringField({ required: true })
 					})
-				)
+				),
+				actorTypes: new SetField(new StringField({
+					choices: Object.fromEntries(CONFIG.Actor.documentClass.TYPES
+						.filter((t) => t !== "base")
+						.map((t) => {
+							let label = CONFIG.Actor.typeLabels[t];
+							label = label && game.i18n.has(label) ? _loc(label) : t;
+							return [t, label];
+						})),
+					validationError: "must be a value in Actor.TYPES",
+				}), {
+					label: "healthEstimate.core.estimationSettings.actorTypes",
+				})
 			}),
 			{
 				empty: false,

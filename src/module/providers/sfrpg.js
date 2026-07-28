@@ -15,16 +15,16 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "Vehicle Threshold",
-				rule: "type === \"vehicle\" && game.settings.get(\"healthEstimate\", \"starfinder.useThreshold\")",
+				rule: "game.settings.get(\"healthEstimate\", \"starfinder.useThreshold\")",
 				estimates: [
 					{ value: 0, label: t("core.estimates.thresholds.0") },
 					{ value: 50, label: t("core.estimates.thresholds.1") },
 					{ value: 100, label: t("core.estimates.thresholds.2") },
 				],
+				actorTypes: ["vehicle"]
 			},
 			{
 				name: "Vehicles, Starships & Drones",
-				rule: "[\"starship\", \"vehicle\", \"drone\"].includes(type)",
 				estimates: [
 					{ value: 0, label: t("core.estimates.vehicles.0") },
 					{ value: 20, label: t("core.estimates.vehicles.1") },
@@ -33,6 +33,7 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 					{ value: 80, label: t("core.estimates.vehicles.4") },
 					{ value: 100, label: t("core.estimates.vehicles.5") },
 				],
+				actorTypes: ["starship", "vehicle", "drone"]
 			},
 		];
 	}

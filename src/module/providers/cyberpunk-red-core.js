@@ -10,8 +10,6 @@ export default class cyberpunkRedCoreEstimationProvider extends EstimationProvid
 		super();
 		this.estimations = [
 			{
-				name: "",
-				rule: "",
 				estimates: [
 					{ value: 0, label: game.i18n.localize("CPR.global.woundState.dead") },
 					{ value: 1, label: game.i18n.localize("CPR.global.woundState.mortallyWounded") },
@@ -22,13 +20,13 @@ export default class cyberpunkRedCoreEstimationProvider extends EstimationProvid
 			},
 			{
 				name: `${game.i18n.localize("TYPES.Actor.Blackice")}/${game.i18n.localize("TYPES.Actor.Demon")}`,
-				rule: "type === \"blackIce\" || type === \"demon\"",
 				estimates: [
 					{ value: 0, label: t("cyberpunk-red-core.unorganics.0") },
 					{ value: 50, label: t("cyberpunk-red-core.unorganics.2") },
 					{ value: 99, label: t("cyberpunk-red-core.unorganics.3") },
 					{ value: 100, label: t("cyberpunk-red-core.unorganics.4") },
 				],
+				actorTypes: ["blackIce", "demon"]
 			},
 		];
 	}

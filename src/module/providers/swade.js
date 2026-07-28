@@ -9,8 +9,6 @@ export default class swadeEstimationProvider extends EstimationProvider {
 		this.deathMarker.config = game.modules.get("condition-lab-triggler")?.active;
 		this.estimations = [
 			{
-				name: "",
-				rule: "",
 				estimates: [
 					{ value: 0, label: game.i18n.localize("SWADE.Incap") },
 					{ value: 25, label: t("core.estimates.states.1") },
@@ -21,7 +19,6 @@ export default class swadeEstimationProvider extends EstimationProvider {
 			},
 			{
 				name: "Vehicles",
-				rule: "type === \"vehicle\"",
 				estimates: [
 					{ value: 0, label: t("core.estimates.vehicles.0") },
 					{ value: 20, label: t("core.estimates.vehicles.1") },
@@ -30,6 +27,7 @@ export default class swadeEstimationProvider extends EstimationProvider {
 					{ value: 80, label: t("core.estimates.vehicles.4") },
 					{ value: 100, label: t("core.estimates.vehicles.5") },
 				],
+				actorTypes: ["vehicle"]
 			},
 		];
 	}
