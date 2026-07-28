@@ -112,22 +112,7 @@ export const registerSettings = function () {
 		},
 	});
 
-	addSetting("core.outputChat", {
-		hint: f("core.outputChat.hint", { setting: t("core.unknownEntity.name") }),
-		type: Boolean,
-		default: false,
-		onChange: (value) => {
-			game.healthEstimate.outputChat = value;
-		},
-	});
-	let warning = " ";
-	if (game.modules.get("combat-utility-belt")?.active) warning += t("core.unknownEntity.warningCUB");
-	else if (game.modules.get("xdy-pf2e-workbench")?.active) warning += t("core.unknownEntity.warningPF2eWorkbench");
-	addSetting("core.unknownEntity", {
-		type: String,
-		hint: f("core.unknownEntity.hint", { warning }),
-		default: game.i18n.localize("healthEstimate.core.unknownEntity.default"),
-	});
+
 	addSetting("core.addTemp", {
 		config: game.healthEstimate.estimationProvider.addTemp,
 		type: Boolean,

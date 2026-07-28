@@ -50,53 +50,6 @@ Hooks.once("i18nInit", function () {
 		restricted: true,
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
-	game.keybindings.register("healthEstimate", "hideNames", {
-		name: "healthEstimate.core.keybinds.hideNames.name",
-		hint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
-		onDown: () => {
-			if (!canvas.tokens?.controlled) return;
-			for (let e of canvas.tokens.controlled) {
-				let hidden = !e.document.getFlag("healthEstimate", "hideName");
-				e.document.setFlag("healthEstimate", "hideName", hidden);
-
-				const term = hidden
-					? game.i18n.localize("healthEstimate.notifications.hidden.singular")
-					: game.i18n.localize("healthEstimate.notifications.shown.singular");
-				const notification = game.i18n.format("healthEstimate.notifications.toggleName", {
-					tokenName: e.actor.name,
-					term,
-				});
-				ui.notifications.info(notification, { console: false });
-			}
-		},
-		restricted: true,
-		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
-	});
-	game.keybindings.register("healthEstimate", "hideEstimatesAndNames", {
-		name: "healthEstimate.core.keybinds.hideEstimatesAndNames.name",
-		hint: "healthEstimate.core.keybinds.hideEstimatesAndNames.hint",
-		onDown: () => {
-			if (!canvas.tokens?.controlled) return;
-			for (let e of canvas.tokens.controlled) {
-				let hidden =
-					!e.document.getFlag("healthEstimate", "hideHealthEstimate")
-					&& !e.document.getFlag("healthEstimate", "hideName");
-				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
-				e.document.setFlag("healthEstimate", "hideName", hidden);
-
-				const term = hidden
-					? game.i18n.localize("healthEstimate.notifications.hidden.plural")
-					: game.i18n.localize("healthEstimate.notifications.shown.plural");
-				const notification = game.i18n.format("healthEstimate.notifications.toggleEstimateName", {
-					tokenName: e.actor.name,
-					term,
-				});
-				ui.notifications.info(notification, { console: false });
-			}
-		},
-		restricted: true,
-		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
-	});
 	const tab = {
 		id: "healthEstimate",
 		label: game.i18n.localize("healthEstimate.core.estimates.plural"),

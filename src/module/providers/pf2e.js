@@ -1,4 +1,4 @@
-import { f, sGet, t } from "../utils.js";
+import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class pf2eEstimationProvider extends EstimationProvider {
@@ -62,13 +62,7 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 			"PF2E.hideVehicleHP": {
 				type: Boolean,
 				default: false,
-			},
-			"PF2E.workbenchMystifier": {
-				hint: f("PF2E.workbenchMystifier.hint", { setting: "core.unknownEntity.name" }),
-				config: game.modules.get("xdy-pf2e-workbench")?.active ?? false,
-				type: Boolean,
-				default: false,
-			},
+			}
 		};
 	}
 

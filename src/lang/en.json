@@ -86,19 +86,11 @@
 				},
 				"dontMarkDead": {
 					"name": "Don't Mark as Dead",
-					"hint": "Makes NPCs to not be shown as Dead when its HP reaches 0 (e.g. it'll show Unconscious). This is only useful if you're using the {setting} setting."
+					"hint": "Makes NPCs to not be shown as Dead when its estimate reaches 0. This is only useful if you're using the {setting} setting."
 				},
 				"hideEstimates": {
-					"name": "Hide Estimates",
-					"hint": "Hides the estimates of selected tokens from the players. Hidden estimates will not be output to chat if the setting is on, and will be shown with an asterisk (*) for the GM."
-				},
-				"hideNames": {
-					"name": "Hide Names",
-					"hint": "Hides the names of selected tokens when you're using the {setting} setting."
-				},
-				"hideEstimatesAndNames": {
-					"name": "Hide Estimates and Names",
-					"hint": "Hides both the estimates and names of selected tokens."
+					"name": "Hide Estimates from Players",
+					"hint": "Hidden estimates will be shown with an asterisk (*) for the GM."
 				}
 			},
 			"isNow": "{name} is now {desc}.",

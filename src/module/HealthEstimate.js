@@ -1,4 +1,3 @@
-import { addCharacter, outputStageChange } from "./HealthMonitor.js";
 import * as providers from "./providers/_module.js";
 import { providerKeys } from "./providers/_shared.js";
 import { registerSettings } from "./settings.js";
@@ -41,16 +40,13 @@ export class HealthEstimate {
 		const onCanvasReady = HealthEstimate.onCanvasReady.bind(this);
 		Hooks.on("canvasReady", onCanvasReady);
 		Hooks.on("3DCanvasSceneReady", () => setTimeout(onCanvasReady, 10));
-		Hooks.on("createToken", HealthEstimate.onCreateToken.bind(this));
 
 		// Actor
-		Hooks.on("updateActor", HealthEstimate.onUpdateActor.bind(this));
 		Hooks.on("deleteActor", HealthEstimate.deleteActor);
 		Hooks.on("deleteToken", HealthEstimate.deleteToken.bind(this));
 		Hooks.on("deleteActiveEffect", HealthEstimate.deleteActiveEffect.bind(this));
 
 		// Rendering
-		Hooks.on("renderChatMessage", HealthEstimate.onRenderChatMessage);
 		Hooks.on("renderSettingsConfig", HealthEstimate.renderSettingsConfigHandler);
 		Hooks.on(
 			"renderPrototypeTokenConfig",
@@ -80,7 +76,6 @@ export class HealthEstimate {
 
 	/**
 	 * @typedef {Object} ActorHP
-	 * @property {string} name              Name used for Health Monitor's outputStageChange.
 	 * @property {{estimate: string, index: number}} stage Estimate's label and index.
 	 * @property {boolean} dead             Whether the actor is dead.
 	 */
@@ -133,7 +128,7 @@ export class HealthEstimate {
 		if (
 			!token?.actor
 			|| this.breakOverlayRender(token)
-			|| (!game.user.isGM && this.hideEstimate(token))
+			|| this.hideEstimate(token)
 			|| this.settings.display === "disabled"
 		) return;
 
@@ -450,8 +445,9 @@ export class HealthEstimate {
 	 */
 	hideEstimate(token) {
 		return Boolean(
-			token.document.getFlag("healthEstimate", "hideHealthEstimate")
-				|| token.actor.getFlag("healthEstimate", "hideHealthEstimate")
+			!game.user.isGM
+			|| token.document.getFlag("healthEstimate", "hideHealthEstimate")
+			|| token.actor.getFlag("healthEstimate", "hideHealthEstimate")
 		);
 	}
 
@@ -564,7 +560,6 @@ export class HealthEstimate {
 		this.scaleToGridSize = sGet("core.menuSettings.scaleToGridSize");
 		this.scaleToTokenSize = sGet("core.menuSettings.scaleToTokenSize");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
-		this.outputChat = sGet("core.outputChat");
 
 		this.smoothGradient = sGet("core.menuSettings.smoothGradient");
 
@@ -600,10 +595,6 @@ export class HealthEstimate {
 		canvas.interface.healthEstimate.eventMode = "none";
 		canvas.interface.healthEstimate.interactiveChildren = false;
 		canvas.interface.healthEstimate.zIndex = 200;
-
-		/** @type {[Token]} */
-		const tokens = canvas.tokens?.placeables.filter((e) => e.actor) ?? [];
-		tokens.forEach(addCharacter);
 	}
 
 	static onCanvasPan(canvas, pan) {
@@ -627,38 +618,9 @@ export class HealthEstimate {
 		} else scale();
 	}
 
-	static onCreateToken(tokenDocument, options, userId) {
-		if (tokenDocument.object) addCharacter(tokenDocument.object);
-	}
-
 	// /////////
 	// ACTOR //
 	// /////////
-
-	static onUpdateActor(actor, data, options, userId) {
-		if (this.settings.display === "always") {
-			// Get all the tokens because there can be two tokens of the same linked actor.
-			const tokens = canvas.tokens?.placeables.filter((token) => token?.actor?.id === actor.id);
-			// Call the _handleOverlay method for each token.
-			tokens?.forEach((token) => this._handleOverlay(token, true));
-		}
-		if (this.outputChat && game.users.activeGM?.isSelf) {
-			// Find a single token associated with the updated actor.
-			const token = canvas.tokens?.placeables.find((token) => token?.actor?.id === actor.id);
-			if (token) {
-				const tokenId = token?.id;
-				const tokenHP = this.actorsCurrentHP?.[tokenId];
-				if (
-					tokenId
-					&& tokenHP
-					&& !this.breakOverlayRender(token)
-					&& !this.hideEstimate(token)
-				) {
-					outputStageChange(token);
-				}
-			}
-		}
-	}
 
 	static deleteActor(actorDocument, options, userId) {
 		let tokens = canvas.tokens?.placeables.filter((e) => e.document.actorId === actorDocument.id);
@@ -712,14 +674,6 @@ export class HealthEstimate {
 	// /////////////
 
 	/**
-	 * Chat Styling
-	 */
-	static onRenderChatMessage(app, html, data) {
-		if (html.find(".hm_messageheal").length) html.addClass("hm_message hm_messageheal");
-		else if (html.find(".hm_messagetaken").length) html.addClass("hm_message hm_messagetaken");
-	}
-
-	/**
 	 * Handler called when token configuration window is opened. Injects custom form html and deals
 	 * with updating token.
 	 * @category GMOnly
@@ -730,15 +684,6 @@ export class HealthEstimate {
 	 */
 	static renderSettingsConfigHandler(settingsConfig, html) {
 		if (!game.user.isGM) return;
-		// Chat Output setting changes
-		const outputChat = game.settings.get("healthEstimate", "core.outputChat");
-		const outputChatCheckbox = html.querySelector('input[name="healthEstimate.core.outputChat"]');
-		const unknownEntityInput = html.querySelector('input[name="healthEstimate.core.unknownEntity"]');
-		disableCheckbox(unknownEntityInput, outputChat);
-		outputChatCheckbox.addEventListener("change", (event) => {
-			disableCheckbox(unknownEntityInput, event.target.checked);
-		});
-
 		// Additional PF1 system settings
 		if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
 			const showExtra = game.settings.get("healthEstimate", "PF1.showExtra");
@@ -753,16 +698,6 @@ export class HealthEstimate {
 				disableCheckbox(dyingNameInput, event.target.checked);
 			});
 		}
-
-		// Additional PF2e system settings
-		if (game.settings.settings.has("healthEstimate.PF2E.workbenchMystifier")) {
-			const workbenchMystifierCheckbox = html.querySelector('input[name="healthEstimate.PF2E.workbenchMystifier"]');
-			disableCheckbox(workbenchMystifierCheckbox, outputChat);
-
-			outputChatCheckbox.addEventListener("change", (event) => {
-				disableCheckbox(workbenchMystifierCheckbox, event.target.checked);
-			});
-		}
 	}
 
 	static async renderTokenConfigHandler(form, data, options, docPath = "document") {
@@ -771,10 +706,8 @@ export class HealthEstimate {
 		const tabData = {
 			hasPlayerOwner: data[docPath].hasPlayerOwner,
 			hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
-			hideName: tokenFlags?.hideName ? "checked" : "",
 			dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
-			dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
-			hideNameHint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
+			dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") })
 		};
 		const tab = await foundry.applications.handlebars.renderTemplate("modules/healthEstimate/templates/token-config.html", tabData);
 		const lastTab = [...form.querySelectorAll(".tab")].pop();

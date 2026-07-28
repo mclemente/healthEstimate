@@ -13,13 +13,4 @@
 		</div>
 		<p class="hint">{{localize "healthEstimate.core.keybinds.hideEstimates.hint"}}</p>
 	</div>
-	{{#unless hasPlayerOwner}}
-	<div class="form-group">
-		<label for="{{rootId}}-hideName">{{localize "healthEstimate.core.keybinds.hideNames.name"}}</label>
-		<div class="form-fields">
-			<input id="{{rootId}}-hideName" type="checkbox" name="flags.healthEstimate.hideName" data-dtype="Boolean" {{hideName}} />
-		</div>
-		<p class="hint">{{hideNameHint}}</p>
-	</div>
-	{{/unless}}
 </div>
