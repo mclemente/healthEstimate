@@ -447,16 +447,6 @@ export class HealthEstimate {
 	}
 
 	/**
-	 * Checks if any combat, linked to the current scene or unlinked, is active.
-	 * @returns {Boolean}
-	 */
-	get combatRunning() {
-		return [...game.combats].some(
-			(combat) => combat.started && (combat._source.scene === canvas.scene._id || combat._source.scene == null)
-		);
-	}
-
-	/**
 	 * Returns if a token is dead.
 	 * A token is dead if:
 	 * (a) is a NPC at 0 HP and the NPCsJustDie setting is enabled
@@ -486,7 +476,10 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	showCondition(hovered) {
-		const combatTrigger = this.combatOnly && this.combatRunning;
+		const combatRunning = [...game.combats].some(
+			(combat) => combat.started && (combat._source.scene === canvas.scene._id || combat._source.scene === null)
+		);
+		const combatTrigger = this.combatOnly && combatRunning;
 		return (
 			(this.alwaysShow && (combatTrigger || !this.combatOnly)) || (hovered && (combatTrigger || !this.combatOnly))
 		);
