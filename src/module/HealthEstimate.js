@@ -45,7 +45,7 @@ export class HealthEstimate {
 
 		// Actor
 		Hooks.on("updateActor", HealthEstimate.onUpdateActor.bind(this));
-		Hooks.on("deleteActor", HealthEstimate.deleteActor.bind(this));
+		Hooks.on("deleteActor", HealthEstimate.deleteActor);
 		Hooks.on("deleteToken", HealthEstimate.deleteToken.bind(this));
 		Hooks.on("deleteActiveEffect", HealthEstimate.deleteActiveEffect.bind(this));
 
@@ -598,12 +598,6 @@ export class HealthEstimate {
 		/** @type {[Token]} */
 		const tokens = canvas.tokens?.placeables.filter((e) => e.actor) ?? [];
 		tokens.forEach(addCharacter);
-
-		if (canvas.ready && this.alwaysShow) {
-			canvas.tokens?.placeables.forEach((token) => {
-				this._handleOverlay(token, true);
-			});
-		}
 	}
 
 	static onCanvasPan(canvas, pan) {
