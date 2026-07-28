@@ -55,11 +55,11 @@ export class HealthEstimate {
 		Hooks.on("renderSettingsConfig", HealthEstimate.renderSettingsConfigHandler.bind(this));
 		Hooks.on(
 			"renderPrototypeTokenConfig",
-			(_app, form, data, options) => this.renderTokenConfigHandler(form, data, options, "source")
+			(_app, form, data, options) => HealthEstimate.renderTokenConfigHandler(form, data, options, "source")
 		);
 		Hooks.on(
 			"renderTokenConfig",
-			(_app, form, data, options) => this.renderTokenConfigHandler(form, data, options)
+			(_app, form, data, options) => HealthEstimate.renderTokenConfigHandler(form, data, options)
 		);
 	}
 
