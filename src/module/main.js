@@ -1,4 +1,4 @@
-import { HealthEstimate } from "./logic.js";
+import { HealthEstimate } from "./HealthEstimate.js";
 import { f, t } from "./utils.js";
 
 Hooks.once("i18nInit", function () {
