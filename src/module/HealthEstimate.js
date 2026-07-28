@@ -32,9 +32,8 @@ export class HealthEstimate {
 		this.updateBreakConditions();
 		this.updateSettings();
 
-		Hooks.once("ready", HealthEstimate.ready.bind(this));
-
 		// Canvas
+		Hooks.on("canvasInit", () => this.lastZoom = null);
 		Hooks.once("canvasReady", HealthEstimate.onceCanvasReady.bind(this));
 		Hooks.on("combatStart", HealthEstimate.onCombatStart.bind(this));
 		Hooks.on("updateCombat", HealthEstimate.onUpdateCombat.bind(this));
@@ -91,12 +90,11 @@ export class HealthEstimate {
 	 */
 	actorsCurrentHP = {};
 
-	lastZoom;
-
 	/**
 	 * @type {Number}
 	 */
 	get gridScale() {
+		// TODO replace 100 with a Grid Scale Number setting
 		return this.scaleToGridSize ? canvas.scene.dimensions.size / 100 : 1;
 	}
 
@@ -452,7 +450,7 @@ export class HealthEstimate {
 	 * Checks if any combat, linked to the current scene or unlinked, is active.
 	 * @returns {Boolean}
 	 */
-	isCombatRunning() {
+	get combatRunning() {
 		return [...game.combats].some(
 			(combat) => combat.started && (combat._source.scene === canvas.scene._id || combat._source.scene == null)
 		);
@@ -577,24 +575,11 @@ export class HealthEstimate {
 		this.tooltipPosition = game.modules.get("elevation-module")?.active ? null : sGet("core.tooltipPosition");
 	}
 
-	static ready() {
-		if (canvas.ready && this.alwaysShow) {
-			canvas.tokens?.placeables.forEach((token) => this._handleOverlay(token, true));
-		}
-	}
-
-	static canvasInit(canvas) {
-		this.combatRunning = this.isCombatRunning();
-		this.lastZoom = null;
-	}
-
 	static onceCanvasReady() {
 		this.combatOnly = sGet("core.combatOnly");
 		this.alwaysShow = sGet("core.alwaysShow");
-		this.combatRunning = this.isCombatRunning();
 		Hooks.on("refreshToken", HealthEstimate.refreshToken.bind(this));
 		if (this.scaleToZoom) Hooks.on("canvasPan", HealthEstimate.onCanvasPan.bind(this));
-		Hooks.on("canvasInit", HealthEstimate.canvasInit.bind(this));
 	}
 
 	/**
@@ -614,7 +599,7 @@ export class HealthEstimate {
 		const tokens = canvas.tokens?.placeables.filter((e) => e.actor) ?? [];
 		tokens.forEach(addCharacter);
 
-		if (this.alwaysShow) {
+		if (canvas.ready && this.alwaysShow) {
 			canvas.tokens?.placeables.forEach((token) => {
 				this._handleOverlay(token, true);
 			});
@@ -710,7 +695,6 @@ export class HealthEstimate {
 
 	static onCombatStart(combat, updateData) {
 		if (!this.combatOnly) return;
-		this.combatRunning = true;
 		canvas.tokens?.placeables.forEach((token) => {
 			this._handleOverlay(token, this.showCondition(token.hover));
 		});
@@ -718,7 +702,6 @@ export class HealthEstimate {
 
 	static onUpdateCombat(combat, options, userId) {
 		if (!this.combatOnly) return;
-		this.combatRunning = this.isCombatRunning();
 		canvas.tokens?.placeables.forEach((token) => {
 			this._handleOverlay(token, this.showCondition(token.hover));
 		});
