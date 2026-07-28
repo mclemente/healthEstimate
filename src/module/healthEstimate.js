@@ -1,44 +1,7 @@
-import { HealthEstimateHooks } from "./hooks.js";
 import { HealthEstimate } from "./logic.js";
 import { f, t } from "./utils.js";
 
 Hooks.once("i18nInit", function () {
-	setKeybinds();
-	game.healthEstimate = new HealthEstimate();
-	const tab = {
-		id: "healthEstimate",
-		label: game.i18n.localize("healthEstimate.core.estimates.plural"),
-		icon: "fas fa-scale-balanced"
-	};
-	foundry.applications.sheets.TokenConfig.TABS.sheet.tabs.push(tab);
-	foundry.applications.sheets.PrototypeTokenConfig.TABS.sheet.tabs.push(tab);
-});
-
-Hooks.once("setup", () => game.healthEstimate.setup());
-Hooks.once("ready", HealthEstimateHooks.ready);
-
-// Canvas
-Hooks.once("canvasReady", HealthEstimateHooks.onceCanvasReady);
-Hooks.on("combatStart", HealthEstimateHooks.onCombatStart);
-Hooks.on("updateCombat", HealthEstimateHooks.onUpdateCombat);
-Hooks.on("deleteCombat", HealthEstimateHooks.onUpdateCombat);
-Hooks.on("canvasReady", HealthEstimateHooks.onCanvasReady);
-Hooks.on("3DCanvasSceneReady", () => setTimeout(HealthEstimateHooks.onCanvasReady, 10));
-Hooks.on("createToken", HealthEstimateHooks.onCreateToken);
-
-// Actor
-Hooks.on("updateActor", HealthEstimateHooks.onUpdateActor);
-Hooks.on("deleteActor", HealthEstimateHooks.deleteActor);
-Hooks.on("deleteToken", HealthEstimateHooks.deleteToken);
-Hooks.on("deleteActiveEffect", HealthEstimateHooks.deleteActiveEffect);
-
-// Rendering
-Hooks.on("renderChatMessage", HealthEstimateHooks.onRenderChatMessage);
-Hooks.on("renderSettingsConfig", HealthEstimateHooks.renderSettingsConfigHandler);
-Hooks.on("renderPrototypeTokenConfig", (_app, form, data, options) => HealthEstimateHooks.renderTokenConfigHandler(form, data, options, "source"));
-Hooks.on("renderTokenConfig", (_app, form, data, options) => HealthEstimateHooks.renderTokenConfigHandler(form, data, options));
-
-function setKeybinds() {
 	game.keybindings.register("healthEstimate", "markDead", {
 		name: "healthEstimate.core.keybinds.markDead.name",
 		hint: "healthEstimate.core.keybinds.markDead.hint",
@@ -134,4 +97,14 @@ function setKeybinds() {
 		restricted: true,
 		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 	});
-}
+	const tab = {
+		id: "healthEstimate",
+		label: game.i18n.localize("healthEstimate.core.estimates.plural"),
+		icon: "fas fa-scale-balanced"
+	};
+	foundry.applications.sheets.TokenConfig.TABS.sheet.tabs.push(tab);
+	foundry.applications.sheets.PrototypeTokenConfig.TABS.sheet.tabs.push(tab);
+});
+
+Hooks.once("setup", () => new HealthEstimate());
+

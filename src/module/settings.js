@@ -1,5 +1,4 @@
 import * as forms from "./forms/_module.js";
-import { HealthEstimateHooks } from "./hooks.js";
 import { addMenuSetting, addSetting, f, repositionTooltip, t } from "./utils.js";
 
 const { ArrayField, BooleanField, JavaScriptField, NumberField, SchemaField, StringField } = foundry.data.fields;
@@ -227,8 +226,9 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.scaleToZoom = value;
-			if (value) Hooks.on("canvasPan", HealthEstimateHooks.onCanvasPan);
-			else Hooks.off("canvasPan", HealthEstimateHooks.onCanvasPan);
+			const { onCanvasPan } = game.healthEstimate.constructor;
+			if (value) Hooks.on("canvasPan", onCanvasPan.bind(game.healthEstimate));
+			else Hooks.off("canvasPan", onCanvasPan.bind(game.healthEstimate));
 		},
 	});
 	addMenuSetting("core.menuSettings.smoothGradient", {

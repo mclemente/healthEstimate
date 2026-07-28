@@ -1,17 +1,97 @@
+import { addCharacter, outputStageChange } from "./HealthMonitor.js";
 import * as providers from "./providers/_module.js";
 import { providerKeys } from "./providers/_shared.js";
 import { registerSettings } from "./settings.js";
-import { addSetting, isEmpty, sGet } from "./utils.js";
+import { addSetting, disableCheckbox, f, isEmpty, repositionTooltip, sGet, t } from "./utils.js";
 
 export class HealthEstimate {
 	constructor() {
-		/** Changes which users get to see the overlay. */
-		this.breakConditions = {
-			default: "false",
-		};
-		this.actorsCurrentHP = {};
-		this.lastZoom = null;
+		game.healthEstimate = this;
+		// Set the module's provider.
+		const providerArray = Object.keys(providers);
+		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
+		const systemsRegex = new RegExp(supportedSystems);
+		let providerString = "Generic";
+		if (game.system.id in providerKeys) {
+			providerString = providerKeys[game.system.id] || "Generic";
+		} else if (systemsRegex.test(game.system.id)) {
+			providerString = game.system.id;
+		}
+
+		/** @type {EstimateProvider} */
+		this.estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
+		registerSettings();
+
+		this.breakConditions.system = this.estimationProvider.breakCondition;
+		if (this.estimationProvider.tokenEffects !== undefined) {
+			this.tokenEffectsPath = this.estimationProvider.tokenEffects;
+		}
+		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
+			addSetting(key, data);
+		}
+		this.updateBreakConditions();
+		this.updateSettings();
+
+		Hooks.once("ready", HealthEstimate.ready.bind(this));
+
+		// Canvas
+		Hooks.once("canvasReady", HealthEstimate.onceCanvasReady.bind(this));
+		Hooks.on("combatStart", HealthEstimate.onCombatStart.bind(this));
+		Hooks.on("updateCombat", HealthEstimate.onUpdateCombat.bind(this));
+		Hooks.on("deleteCombat", HealthEstimate.onUpdateCombat.bind(this));
+		const onCanvasReady = HealthEstimate.onCanvasReady.bind(this);
+		Hooks.on("canvasReady", onCanvasReady);
+		Hooks.on("3DCanvasSceneReady", () => setTimeout(onCanvasReady, 10));
+		Hooks.on("createToken", HealthEstimate.onCreateToken.bind(this));
+
+		// Actor
+		Hooks.on("updateActor", HealthEstimate.onUpdateActor.bind(this));
+		Hooks.on("deleteActor", HealthEstimate.deleteActor.bind(this));
+		Hooks.on("deleteToken", HealthEstimate.deleteToken.bind(this));
+		Hooks.on("deleteActiveEffect", HealthEstimate.deleteActiveEffect.bind(this));
+
+		// Rendering
+		Hooks.on("renderChatMessage", HealthEstimate.onRenderChatMessage.bind(this));
+		Hooks.on("renderSettingsConfig", HealthEstimate.renderSettingsConfigHandler.bind(this));
+		Hooks.on(
+			"renderPrototypeTokenConfig",
+			(_app, form, data, options) => this.renderTokenConfigHandler(form, data, options, "source")
+		);
+		Hooks.on(
+			"renderTokenConfig",
+			(_app, form, data, options) => this.renderTokenConfigHandler(form, data, options)
+		);
 	}
+
+	/**
+	 * Caches estimates.
+	 * @type {{PIXI.Text}}
+	 */
+	_cache = {};
+
+	/**
+	 * Caches estimates for the 3D Canvas modules.
+	 * @type {{SpriteMaterial}}
+	 */
+	_3DCache = {};
+
+	breakConditions = {};
+
+	/**
+	 * @typedef {Object} ActorHP
+	 * @property {string} name              Name used for Health Monitor's outputStageChange.
+	 * @property {{estimate: string, index: number}} stage Estimate's label and index.
+	 * @property {boolean} dead             Whether the actor is dead.
+	 */
+
+	/**
+	 * Current HP estimation for each actor, keyed by actor ID.
+	 *
+	 * @type {Object<string, ActorHP>}
+	 */
+	actorsCurrentHP = {};
+
+	lastZoom;
 
 	/**
 	 * @type {Number}
@@ -43,38 +123,6 @@ export class HealthEstimate {
 	 */
 	get zoomLevel() {
 		return this.scaleToZoom ? Math.min(1, canvas.stage.scale.x) : 1;
-	}
-
-	// Hooks
-
-	/**
-	 * Sets the module's estimation provider, registers settings and updates break conditions.
-	 */
-	setup() {
-		// Set the module's provider.
-		const providerArray = Object.keys(providers);
-		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
-		const systemsRegex = new RegExp(supportedSystems);
-		let providerString = "Generic";
-		if (game.system.id in providerKeys) {
-			providerString = providerKeys[game.system.id] || "Generic";
-		} else if (systemsRegex.test(game.system.id)) {
-			providerString = game.system.id;
-		}
-
-		/** @type {EstimateProvider} */
-		this.estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
-		registerSettings();
-
-		this.breakConditions.system = this.estimationProvider.breakCondition;
-		if (this.estimationProvider.tokenEffects !== undefined) {
-			this.tokenEffectsPath = this.estimationProvider.tokenEffects;
-		}
-		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
-			addSetting(key, data);
-		}
-		this.updateBreakConditions();
-		this.updateSettings();
 	}
 
 	/**
@@ -180,18 +228,6 @@ export class HealthEstimate {
 		estimate.scale.set(scale * 0.25);
 		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
-
-	/**
-	 * Caches estimates.
-	 * @type {{PIXI.Text}}
-	 */
-	_cache = {};
-
-	/**
-	 * Caches estimates for the 3D Canvas modules.
-	 * @type {{SpriteMaterial}}
-	 */
-	_3DCache = {};
 
 	/**
 	 * Creates an estimate as a 3D object and adds it to the token3d.
@@ -489,7 +525,7 @@ export class HealthEstimate {
 				return new Function(
 					"token",
 					`return (
-						${prep("default")}
+						false
 						${prep("onlyGM")}
 						${prep("onlyNotGM")}
 						${prep("onlyNPCs")}
@@ -539,5 +575,226 @@ export class HealthEstimate {
 		this.deadOutline = sGet("core.variables.deadOutline");
 
 		this.tooltipPosition = game.modules.get("elevation-module")?.active ? null : sGet("core.tooltipPosition");
+	}
+
+	static ready() {
+		if (canvas.ready && this.alwaysShow) {
+			canvas.tokens?.placeables.forEach((token) => this._handleOverlay(token, true));
+		}
+	}
+
+	static canvasInit(canvas) {
+		this.combatRunning = this.isCombatRunning();
+		this.lastZoom = null;
+	}
+
+	static onceCanvasReady() {
+		this.combatOnly = sGet("core.combatOnly");
+		this.alwaysShow = sGet("core.alwaysShow");
+		this.combatRunning = this.isCombatRunning();
+		Hooks.on("refreshToken", HealthEstimate.refreshToken.bind(this));
+		if (this.scaleToZoom) Hooks.on("canvasPan", HealthEstimate.onCanvasPan.bind(this));
+		Hooks.on("canvasInit", HealthEstimate.canvasInit.bind(this));
+	}
+
+	/**
+	 * HP storing code for canvas load or token created
+	 */
+	static onCanvasReady() {
+		this._cache = {};
+		canvas.interface.healthEstimate = canvas.interface.addChild(new PIXI.Container());
+		const { width, height } = canvas.dimensions;
+		canvas.interface.healthEstimate.width = width;
+		canvas.interface.healthEstimate.height = height;
+		canvas.interface.healthEstimate.eventMode = "none";
+		canvas.interface.healthEstimate.interactiveChildren = false;
+		canvas.interface.healthEstimate.zIndex = 200;
+
+		/** @type {[Token]} */
+		const tokens = canvas.tokens?.placeables.filter((e) => e.actor) ?? [];
+		tokens.forEach(addCharacter);
+
+		if (this.alwaysShow) {
+			canvas.tokens?.placeables.forEach((token) => {
+				this._handleOverlay(token, true);
+			});
+		}
+	}
+
+	static onCanvasPan(canvas, pan) {
+		const scale = () => {
+			const zoomLevel = Math.min(1, pan.scale);
+			if (this.lastZoom !== zoomLevel) {
+				canvas.tokens?.placeables
+					.filter((token) => this._cache[token.id]?.visible)
+					.forEach((token) => {
+						const estimate = this._cache[token.id];
+						if (estimate?._texture) {
+							estimate.style.fontSize = this.scaledFontSize;
+						}
+					});
+			}
+			this.lastZoom = zoomLevel;
+		};
+		if (this.alwaysShow) {
+			if (this.timeout) clearTimeout(this.timeout);
+			this.timeout = setTimeout(scale, 10);
+		} else scale();
+	}
+
+	static onCreateToken(tokenDocument, options, userId) {
+		if (tokenDocument.object) addCharacter(tokenDocument.object);
+	}
+
+	// /////////
+	// ACTOR //
+	// /////////
+
+	static onUpdateActor(actor, data, options, userId) {
+		if (this.alwaysShow) {
+			// Get all the tokens because there can be two tokens of the same linked actor.
+			const tokens = canvas.tokens?.placeables.filter((token) => token?.actor?.id === actor.id);
+			// Call the _handleOverlay method for each token.
+			tokens?.forEach((token) => this._handleOverlay(token, true));
+		}
+		if (this.outputChat && game.users.activeGM?.isSelf) {
+			// Find a single token associated with the updated actor.
+			const token = canvas.tokens?.placeables.find((token) => token?.actor?.id === actor.id);
+			if (token) {
+				const tokenId = token?.id;
+				const tokenHP = this.actorsCurrentHP?.[tokenId];
+				if (
+					tokenId
+					&& tokenHP
+					&& !this.breakOverlayRender(token)
+					&& !this.hideEstimate(token)
+				) {
+					outputStageChange(token);
+				}
+			}
+		}
+	}
+
+	static deleteActor(actorDocument, options, userId) {
+		let tokens = canvas.tokens?.placeables.filter((e) => e.document.actorId === actorDocument.id);
+		tokens.forEach((token) => token.refresh());
+	}
+
+	static deleteToken(tokenDocument, options, userId) {
+		const estimate = this._cache[tokenDocument.id];
+		if (!estimate) return;
+		delete this._cache[tokenDocument.id];
+		estimate.parent?.removeChild(estimate);
+		estimate.destroy();
+	}
+
+	static deleteActiveEffect(activeEffect, options, userId) {
+		if (activeEffect.img === this.deathMarker) {
+			let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id === activeEffect.parent.id);
+			for (let token of tokens) {
+				if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");
+			}
+		}
+	}
+
+	// /////////
+	// TOKEN //
+	// /////////
+
+	static refreshToken(token, flags) {
+		const displayed = token.hover || canvas.tokens.highlightObjects;
+		this._handleOverlay(token, this.showCondition(displayed));
+		if (flags.refreshSize && this.tooltipPosition) repositionTooltip(token);
+		this.provider.refreshToken?.(token, flags);
+	}
+
+	static onCombatStart(combat, updateData) {
+		if (!this.combatOnly) return;
+		this.combatRunning = true;
+		canvas.tokens?.placeables.forEach((token) => {
+			this._handleOverlay(token, this.showCondition(token.hover));
+		});
+	}
+
+	static onUpdateCombat(combat, options, userId) {
+		if (!this.combatOnly) return;
+		this.combatRunning = this.isCombatRunning();
+		canvas.tokens?.placeables.forEach((token) => {
+			this._handleOverlay(token, this.showCondition(token.hover));
+		});
+	}
+
+	// /////////////
+	// RENDERING //
+	// /////////////
+
+	/**
+	 * Chat Styling
+	 */
+	static onRenderChatMessage(app, html, data) {
+		if (html.find(".hm_messageheal").length) html.addClass("hm_message hm_messageheal");
+		else if (html.find(".hm_messagetaken").length) html.addClass("hm_message hm_messagetaken");
+	}
+
+	/**
+	 * Handler called when token configuration window is opened. Injects custom form html and deals
+	 * with updating token.
+	 * @category GMOnly
+	 * @function
+	 * @async
+	 * @param {SettingsConfig} settingsConfig
+	 * @param {JQuery} html
+	 */
+	static renderSettingsConfigHandler(settingsConfig, html) {
+		if (!game.user.isGM) return;
+		// Chat Output setting changes
+		const outputChat = game.settings.get("healthEstimate", "core.outputChat");
+		const outputChatCheckbox = html.querySelector('input[name="healthEstimate.core.outputChat"]');
+		const unknownEntityInput = html.querySelector('input[name="healthEstimate.core.unknownEntity"]');
+		disableCheckbox(unknownEntityInput, outputChat);
+		outputChatCheckbox.addEventListener("change", (event) => {
+			disableCheckbox(unknownEntityInput, event.target.checked);
+		});
+
+		// Additional PF1 system settings
+		if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
+			const showExtra = game.settings.get("healthEstimate", "PF1.showExtra");
+			const showExtraCheckbox = html.querySelector('input[name="healthEstimate.PF1.showExtra"]');
+			const disabledNameInput = html.querySelector('input[name="healthEstimate.PF1.disabledName"]');
+			const dyingNameInput = html.querySelector('input[name="healthEstimate.PF1.dyingName"]');
+			disableCheckbox(disabledNameInput, showExtra);
+			disableCheckbox(dyingNameInput, showExtra);
+
+			showExtraCheckbox.addEventListener("change", (event) => {
+				disableCheckbox(disabledNameInput, event.target.checked);
+				disableCheckbox(dyingNameInput, event.target.checked);
+			});
+		}
+
+		// Additional PF2e system settings
+		if (game.settings.settings.has("healthEstimate.PF2E.workbenchMystifier")) {
+			const workbenchMystifierCheckbox = html.querySelector('input[name="healthEstimate.PF2E.workbenchMystifier"]');
+			disableCheckbox(workbenchMystifierCheckbox, outputChat);
+
+			outputChatCheckbox.addEventListener("change", (event) => {
+				disableCheckbox(workbenchMystifierCheckbox, event.target.checked);
+			});
+		}
+	}
+
+	static async renderTokenConfigHandler(form, data, options, docPath = "document") {
+		if (!options.isFirstRender) return;
+		const tokenFlags = data[docPath].flags?.healthEstimate ?? {};
+		const tabData = {
+			hasPlayerOwner: data[docPath].hasPlayerOwner,
+			hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
+			hideName: tokenFlags?.hideName ? "checked" : "",
+			dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
+			dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
+			hideNameHint: f("core.keybinds.hideNames.hint", { setting: t("core.outputChat.name") }),
+		};
+		const tab = await foundry.applications.handlebars.renderTemplate("modules/healthEstimate/templates/token-config.html", tabData);
+		const lastTab = [...form.querySelectorAll(".tab")].pop();
+		lastTab.insertAdjacentHTML("afterend", tab);
 	}
 }
