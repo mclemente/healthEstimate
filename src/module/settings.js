@@ -57,7 +57,7 @@ export const registerSettings = function () {
 	addMenuSetting("core.estimations", {
 		type: new ArrayField(
 			new SchemaField({
-				name: new StringField({ label: "Name", localize: true }),
+				name: new StringField({ label: "DOCUMENT.FIELDS.name.label", localize: true }),
 				ignoreColor: new BooleanField({
 					label: "healthEstimate.core.estimationSettings.ignoreColor.name",
 					hint: "healthEstimate.core.estimationSettings.ignoreColor.hint",
