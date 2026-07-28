@@ -112,7 +112,6 @@ export const registerSettings = function () {
 		},
 	});
 
-
 	addSetting("core.addTemp", {
 		config: game.healthEstimate.estimationProvider.addTemp,
 		type: Boolean,
