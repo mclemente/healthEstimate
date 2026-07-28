@@ -481,7 +481,7 @@ export class HealthEstimate {
 		);
 		const combatTrigger = this.combatOnly && combatRunning;
 		return (
-			(this.alwaysShow && (combatTrigger || !this.combatOnly)) || (hovered && (combatTrigger || !this.combatOnly))
+			(this.alwaysShow || hovered) && (combatTrigger || !this.combatOnly)
 		);
 	}
 
