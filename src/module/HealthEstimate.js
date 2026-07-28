@@ -51,8 +51,8 @@ export class HealthEstimate {
 		Hooks.on("deleteActiveEffect", HealthEstimate.deleteActiveEffect.bind(this));
 
 		// Rendering
-		Hooks.on("renderChatMessage", HealthEstimate.onRenderChatMessage.bind(this));
-		Hooks.on("renderSettingsConfig", HealthEstimate.renderSettingsConfigHandler.bind(this));
+		Hooks.on("renderChatMessage", HealthEstimate.onRenderChatMessage);
+		Hooks.on("renderSettingsConfig", HealthEstimate.renderSettingsConfigHandler);
 		Hooks.on(
 			"renderPrototypeTokenConfig",
 			(_app, form, data, options) => HealthEstimate.renderTokenConfigHandler(form, data, options, "source")
