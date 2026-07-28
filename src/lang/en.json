@@ -1,5 +1,17 @@
 {
 	"healthEstimate": {
+		"SETTINGS": {
+			"display": {
+				"name": "Display Estimates",
+				"hint": "",
+				"options": {
+					"default": "On Mouse Hover",
+					"always": "Always Display",
+					"nameplate": "Color Names",
+					"disabled": "Never Display"
+				}
+			}
+		},
 		"core": {
 			"sample": "Sample",
 			"custom": {
@@ -96,10 +108,6 @@
 				"default": "Unknown Entity",
 				"warningCUB": "If you are using CUB's feature to hide names, it will take priority over this setting.",
 				"warningPF2eWorkbench": "If you are using PF2e Workbench's feature to mystify names, it will take priority over this setting."
-			},
-			"alwaysShow": {
-				"name": "Always Show Estimates",
-				"hint": "Makes the estimates always visible instead of just when hovering over a token."
 			},
 			"combatOnly": {
 				"name": "Show Only on Combat",

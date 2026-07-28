@@ -28,20 +28,27 @@ export const registerSettings = function () {
 		restricted: true,
 	});
 
-	/* Settings for the main settings menu */
-	addSetting("core.alwaysShow", {
-		name: "healthEstimate.core.alwaysShow.name",
-		hint: "healthEstimate.core.alwaysShow.hint",
+	addSetting("display", {
+		name: "healthEstimate.SETTINGS.display.name",
+		hint: "healthEstimate.SETTINGS.display.hint",
 		scope: "user",
-		type: Boolean,
-		default: false,
+		type: String,
+		default: "default",
+		choices: {
+			default: "healthEstimate.SETTINGS.display.options.default",
+			always: "healthEstimate.SETTINGS.display.options.always",
+			nameplate: "healthEstimate.SETTINGS.display.options.nameplate",
+			disabled: "healthEstimate.SETTINGS.display.options.disabled",
+		},
 		onChange: (value) => {
-			game.healthEstimate.alwaysShow = value;
-			canvas.tokens?.placeables.forEach((token) =>
-				game.healthEstimate._handleOverlay(token, value || game.healthEstimate.showCondition(token.hover))
-			);
+			game.healthEstimate.settings.display = value;
+			canvas.tokens?.placeables.forEach((token) => {
+				if (["nameplate", "disabled"].includes(value)) game.healthEstimate._cache[token.document.id]?.destroy();
+				game.healthEstimate._handleOverlay(token, value || game.healthEstimate.showCondition(token.hover));
+			});
 		},
 	});
+	/* Settings for the main settings menu */
 	addSetting("core.stateNames", {
 		type: String,
 		default: "",

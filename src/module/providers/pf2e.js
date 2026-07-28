@@ -40,7 +40,8 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 	refreshToken(token, flags) {
 		const top = game.healthEstimate.position === "a";
 		const { distanceDisplay } = game.pf2e.settings;
-		if (top && distanceDisplay && token.healthEstimate && flags.refreshDistanceLabel) {
+		const hasEstimate = !!token.healthEstimate && !token.healthEstimate?.destroyed;
+		if (top && distanceDisplay && hasEstimate && flags.refreshDistanceLabel) {
 			const labelEl = document.getElementById("token-hover-distance");
 			let y = parseFloat(labelEl.style.getPropertyValue("--position-y"));
 			y -= token.healthEstimate.height;

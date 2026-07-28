@@ -76,6 +76,8 @@ export class HealthEstimate {
 
 	breakConditions = {};
 
+	settings = {};
+
 	/**
 	 * @typedef {Object} ActorHP
 	 * @property {string} name              Name used for Health Monitor's outputStageChange.
@@ -132,6 +134,7 @@ export class HealthEstimate {
 			!token?.actor
 			|| this.breakOverlayRender(token)
 			|| (!game.user.isGM && this.hideEstimate(token))
+			|| this.settings.display === "disabled"
 		) return;
 
 		// Create PIXI
@@ -141,6 +144,11 @@ export class HealthEstimate {
 			if (displayEstimate) {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc !== undefined && color && stroke) {
+					if (this.settings.display === "nameplate") {
+						token.nameplate.style.fill = color;
+						token.nameplate.style.stroke = color;
+						return;
+					}
 					const { width } = token.document.getSize();
 					const y = -2 + this.height;
 					const position = { a: 0, b: 1, c: 2 }[this.position];
@@ -482,7 +490,7 @@ export class HealthEstimate {
 		);
 		const combatTrigger = this.combatOnly && combatRunning;
 		return (
-			(this.alwaysShow || hovered) && (combatTrigger || !this.combatOnly)
+			(this.settings.display === "always" || hovered) && (combatTrigger || !this.combatOnly)
 		);
 	}
 
@@ -543,6 +551,10 @@ export class HealthEstimate {
 	 * Updates the variables if any setting was changed.
 	 */
 	updateSettings() {
+		this.settings = {
+			display: sGet("display"),
+		};
+
 		this.descriptions = sGet("core.stateNames").split(/[,;]\s*/);
 		this.estimations = sGet("core.estimations");
 		this.deathStateName = sGet("core.deathStateName");
@@ -571,7 +583,7 @@ export class HealthEstimate {
 
 	static onceCanvasReady() {
 		this.combatOnly = sGet("core.combatOnly");
-		this.alwaysShow = sGet("core.alwaysShow");
+		this.settings.display = sGet("display");
 		Hooks.on("refreshToken", HealthEstimate.refreshToken.bind(this));
 		if (this.scaleToZoom) Hooks.on("canvasPan", HealthEstimate.onCanvasPan.bind(this));
 	}
@@ -609,7 +621,7 @@ export class HealthEstimate {
 			}
 			this.lastZoom = zoomLevel;
 		};
-		if (this.alwaysShow) {
+		if (this.settings.display === "always") {
 			if (this.timeout) clearTimeout(this.timeout);
 			this.timeout = setTimeout(scale, 10);
 		} else scale();
@@ -624,7 +636,7 @@ export class HealthEstimate {
 	// /////////
 
 	static onUpdateActor(actor, data, options, userId) {
-		if (this.alwaysShow) {
+		if (this.settings.display === "always") {
 			// Get all the tokens because there can be two tokens of the same linked actor.
 			const tokens = canvas.tokens?.placeables.filter((token) => token?.actor?.id === actor.id);
 			// Call the _handleOverlay method for each token.
