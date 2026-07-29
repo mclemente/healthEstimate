@@ -89,7 +89,7 @@ export const registerSettings = function () {
 			}),
 			{
 				empty: false,
-				initial: game.healthEstimate.estimationProvider.estimations
+				initial: game.healthEstimate.provider.estimations
 			}
 		),
 		onChange: (value) => {
@@ -113,11 +113,11 @@ export const registerSettings = function () {
 	});
 
 	addSetting("core.addTemp", {
-		config: game.healthEstimate.estimationProvider.addTemp,
+		config: game.healthEstimate.provider.addTemp,
 		type: Boolean,
 		default: false,
 	});
-	const breakOnZeroMaxHP = game.healthEstimate.estimationProvider.breakOnZeroMaxHP;
+	const breakOnZeroMaxHP = game.healthEstimate.provider.breakOnZeroMaxHP;
 	addSetting("core.breakOnZeroMaxHP", {
 		config: breakOnZeroMaxHP !== false,
 		type: new StringField({
@@ -134,7 +134,7 @@ export const registerSettings = function () {
 	addSetting("core.hideVehicleHP", {
 		name: "healthEstimate.PF2E.hideVehicleHP.name",
 		hint: "healthEstimate.PF2E.hideVehicleHP.hint",
-		config: game.healthEstimate.estimationProvider.vehicleRules.config,
+		config: game.healthEstimate.provider.vehicleRules.config,
 		type: Boolean,
 		default: false,
 	});
@@ -172,21 +172,21 @@ export const registerSettings = function () {
 		},
 	});
 	addMenuSetting("core.deathState", {
-		hint: game.healthEstimate.estimationProvider.deathMarker.config
+		hint: game.healthEstimate.provider.deathMarker.config
 			? f("core.deathState.hint1", {
 				setting: t("core.deathStateName.name"),
 				setting2: t("core.deathMarker.name"),
 			})
 			: f("core.deathState.hint2", { setting: t("core.deathStateName.name") }),
 		type: Boolean,
-		default: game.healthEstimate.estimationProvider.deathState,
+		default: game.healthEstimate.provider.deathState,
 		onChange: (value) => {
 			game.healthEstimate.showDead = value;
 		},
 	});
 	addMenuSetting("core.deathStateName", {
 		type: String,
-		default: game.healthEstimate.estimationProvider.deathStateName,
+		default: game.healthEstimate.provider.deathStateName,
 		onChange: (value) => {
 			game.healthEstimate.deathStateName = value;
 		},
@@ -201,7 +201,7 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.deathMarker", {
 		type: String,
-		default: game.healthEstimate.estimationProvider.deathMarker.default,
+		default: game.healthEstimate.provider.deathMarker.default,
 		onChange: (value) => {
 			game.healthEstimate.deathMarker = value;
 		},

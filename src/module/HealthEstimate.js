@@ -18,14 +18,14 @@ export class HealthEstimate {
 		}
 
 		/** @type {EstimateProvider} */
-		this.estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
+		this.#estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
 		registerSettings();
 
-		this.breakConditions.system = this.estimationProvider.breakCondition;
-		if (this.estimationProvider.tokenEffects !== undefined) {
-			this.tokenEffectsPath = this.estimationProvider.tokenEffects;
+		this.breakConditions.system = this.provider.breakCondition;
+		if (this.provider.tokenEffects !== undefined) {
+			this.tokenEffectsPath = this.provider.tokenEffects;
 		}
-		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
+		for (let [key, data] of Object.entries(this.provider.settings)) {
 			addSetting(key, data);
 		}
 		this.updateBreakConditions();
@@ -57,6 +57,8 @@ export class HealthEstimate {
 			(_app, form, data, options) => HealthEstimate.renderTokenConfigHandler(form, data, options)
 		);
 	}
+
+	#estimationProvider;
 
 	/**
 	 * Caches estimates.
@@ -100,7 +102,7 @@ export class HealthEstimate {
 	 * @type {EstimationProvider}
 	 */
 	get provider() {
-		return this.estimationProvider;
+		return this.#estimationProvider;
 	}
 
 	/**
@@ -311,7 +313,7 @@ export class HealthEstimate {
 		const validateEstimation = (iteration, token, estimation) => {
 			const { name, rule } = estimation;
 			try {
-				const customLogic = this.estimationProvider.customLogic;
+				const customLogic = this.provider.customLogic;
 				const actor = token.actor;
 				const args = {
 					actor,
@@ -396,7 +398,7 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getFraction(token) {
-		const fraction = Math.max(0, Math.min(this.estimationProvider.fraction(token), 1));
+		const fraction = Math.max(0, Math.min(this.provider.fraction(token), 1));
 		if (CONFIG.debug.healthEstimate && !Number.isNumeric(fraction)) {
 			throw Error("Token's fraction is not valid, it probably doesn't have a numerical HP or Max HP value.");
 		}
@@ -462,7 +464,7 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	isDead(token, stage) {
-		const isOrganicType = this.estimationProvider.organicTypes.includes(token.actor.type);
+		const isOrganicType = this.provider.organicTypes.includes(token.actor.type);
 		const isNPCJustDie =
 			this.NPCsJustDie
 			&& !token.actor.hasPlayerOwner
@@ -495,7 +497,7 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	tokenEffectsPath(token) {
-		const deadIcon = this.estimationProvider.deathMarker.config
+		const deadIcon = this.provider.deathMarker.config
 			? this.deathMarker
 			: CONFIG.statusEffects.dead?.img ?? this.deathMarker;
 		return Array.from(token.actor.effects.values()).some((x) => x.img === deadIcon);
