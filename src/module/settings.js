@@ -43,8 +43,11 @@ export const registerSettings = function () {
 		onChange: (value) => {
 			game.healthEstimate.settings.display = value;
 			canvas.tokens?.placeables.forEach((token) => {
-				if (["nameplate", "disabled"].includes(value)) game.healthEstimate._cache[token.document.id]?.destroy();
-				game.healthEstimate._handleOverlay(token, value || game.healthEstimate.showCondition(token.hover));
+				const estimate = game.healthEstimate._cache[token.document.id];
+				if (["nameplate", "disabled"].includes(value)) {
+					if (estimate && !estimate.destroyed) estimate.destroy();
+				}
+				game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
 			});
 		},
 	});
