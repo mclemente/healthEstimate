@@ -9,8 +9,6 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 		this.vehicleRules.vehicles = ["object"];
 		this.estimations = [
 			{
-				name: "",
-				rule: "",
 				estimates: [
 					{ value: 0, label: t("core.estimates.states.0") },
 					{ value: 33, label: game.i18n.localize("DRAW_STEEL.ActiveEffect.StaminaEffects.Dying") },
@@ -21,18 +19,17 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 			},
 			{
 				name: "NPCs",
-				rule: "type === \"npc\"",
 				estimates: [
 					{ value: 0, label: t("core.estimates.states.0") },
 					{ value: 25, label: game.i18n.localize("DRAW_STEEL.ActiveEffect.StaminaEffects.Dying") },
 					{ value: 50, label: game.i18n.localize("DRAW_STEEL.ActiveEffect.StaminaEffects.Winded") },
 					{ value: 99, label: t("core.estimates.states.4") },
 					{ value: 100, label: t("core.estimates.states.5") },
-				]
+				],
+				actorTypes: ["npc"]
 			},
 			{
 				name: "Objects",
-				rule: "type === \"object\"",
 				estimates: [
 					{ value: 0, label: t("core.estimates.vehicles.0") },
 					{ value: 20, label: t("core.estimates.vehicles.1") },
@@ -41,6 +38,7 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 					{ value: 80, label: t("core.estimates.vehicles.4") },
 					{ value: 100, label: t("core.estimates.vehicles.5") },
 				],
+				actorTypes: ["object"]
 			},
 			{
 				name: "Unconscious",

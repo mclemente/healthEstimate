@@ -6,8 +6,6 @@ export default class weirdwizardEstimationProvider extends EstimationProvider {
 		this.deathStateName = game.i18n.localize("WW.Health.Estimation.Dead");
 		this.estimations = [
 			{
-				name: "",
-				rule: "",
 				estimates: [
 					{ value: 0, label: game.i18n.localize("WW.Health.Estimation.100") },
 					{ value: 25, label: game.i18n.localize("WW.Health.Estimation.75") },

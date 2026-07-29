@@ -1,8 +1,9 @@
 import * as forms from "./forms/_module.js";
-import { HealthEstimateHooks } from "./hooks.js";
 import { addMenuSetting, addSetting, f, repositionTooltip, t } from "./utils.js";
 
-const { ArrayField, BooleanField, JavaScriptField, NumberField, SchemaField, StringField } = foundry.data.fields;
+const {
+	ArrayField, BooleanField, JavaScriptField, NumberField, SchemaField, SetField, StringField
+} = foundry.data.fields;
 
 export const registerSettings = function () {
 	game.settings.registerMenu("healthEstimate", "behaviorSettings", {
@@ -27,20 +28,30 @@ export const registerSettings = function () {
 		restricted: true,
 	});
 
-	/* Settings for the main settings menu */
-	addSetting("core.alwaysShow", {
-		name: "healthEstimate.core.alwaysShow.name",
-		hint: "healthEstimate.core.alwaysShow.hint",
+	addSetting("display", {
+		name: "healthEstimate.SETTINGS.display.name",
+		hint: "healthEstimate.SETTINGS.display.hint",
 		scope: "user",
-		type: Boolean,
-		default: false,
+		type: String,
+		default: "default",
+		choices: {
+			default: "healthEstimate.SETTINGS.display.options.default",
+			always: "healthEstimate.SETTINGS.display.options.always",
+			nameplate: "healthEstimate.SETTINGS.display.options.nameplate",
+			disabled: "healthEstimate.SETTINGS.display.options.disabled",
+		},
 		onChange: (value) => {
-			game.healthEstimate.alwaysShow = value;
-			canvas.tokens?.placeables.forEach((token) =>
-				game.healthEstimate._handleOverlay(token, value || game.healthEstimate.showCondition(token.hover))
-			);
+			game.healthEstimate.settings.display = value;
+			canvas.tokens?.placeables.forEach((token) => {
+				const estimate = game.healthEstimate._cache[token.document.id];
+				if (["nameplate", "disabled"].includes(value)) {
+					if (estimate && !estimate.destroyed) estimate.destroy();
+				}
+				game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
+			});
 		},
 	});
+	/* Settings for the main settings menu */
 	addSetting("core.stateNames", {
 		type: String,
 		default: "",
@@ -49,7 +60,7 @@ export const registerSettings = function () {
 	addMenuSetting("core.estimations", {
 		type: new ArrayField(
 			new SchemaField({
-				name: new StringField({ label: "Name", localize: true }),
+				name: new StringField({ label: "DOCUMENT.FIELDS.name.label", localize: true }),
 				ignoreColor: new BooleanField({
 					label: "healthEstimate.core.estimationSettings.ignoreColor.name",
 					hint: "healthEstimate.core.estimationSettings.ignoreColor.hint",
@@ -65,11 +76,23 @@ export const registerSettings = function () {
 						value: new NumberField({ required: true, min: 0, max: 100, nullable: false }),
 						label: new StringField({ required: true })
 					})
-				)
+				),
+				actorTypes: new SetField(new StringField({
+					choices: Object.fromEntries(CONFIG.Actor.documentClass.TYPES
+						.filter((t) => t !== "base")
+						.map((t) => {
+							let label = CONFIG.Actor.typeLabels[t];
+							label = label && game.i18n.has(label) ? _loc(label) : t;
+							return [t, label];
+						})),
+					validationError: "must be a value in Actor.TYPES",
+				}), {
+					label: "healthEstimate.core.estimationSettings.actorTypes",
+				})
 			}),
 			{
 				empty: false,
-				initial: game.healthEstimate.estimationProvider.estimations
+				initial: game.healthEstimate.provider.estimations
 			}
 		),
 		onChange: (value) => {
@@ -92,28 +115,12 @@ export const registerSettings = function () {
 		},
 	});
 
-	addSetting("core.outputChat", {
-		hint: f("core.outputChat.hint", { setting: t("core.unknownEntity.name") }),
-		type: Boolean,
-		default: false,
-		onChange: (value) => {
-			game.healthEstimate.outputChat = value;
-		},
-	});
-	let warning = " ";
-	if (game.modules.get("combat-utility-belt")?.active) warning += t("core.unknownEntity.warningCUB");
-	else if (game.modules.get("xdy-pf2e-workbench")?.active) warning += t("core.unknownEntity.warningPF2eWorkbench");
-	addSetting("core.unknownEntity", {
-		type: String,
-		hint: f("core.unknownEntity.hint", { warning }),
-		default: game.i18n.localize("healthEstimate.core.unknownEntity.default"),
-	});
 	addSetting("core.addTemp", {
-		config: game.healthEstimate.estimationProvider.addTemp,
+		config: game.healthEstimate.provider.addTemp,
 		type: Boolean,
 		default: false,
 	});
-	const breakOnZeroMaxHP = game.healthEstimate.estimationProvider.breakOnZeroMaxHP;
+	const breakOnZeroMaxHP = game.healthEstimate.provider.breakOnZeroMaxHP;
 	addSetting("core.breakOnZeroMaxHP", {
 		config: breakOnZeroMaxHP !== false,
 		type: new StringField({
@@ -130,7 +137,7 @@ export const registerSettings = function () {
 	addSetting("core.hideVehicleHP", {
 		name: "healthEstimate.PF2E.hideVehicleHP.name",
 		hint: "healthEstimate.PF2E.hideVehicleHP.hint",
-		config: game.healthEstimate.estimationProvider.vehicleRules.config,
+		config: game.healthEstimate.provider.vehicleRules.config,
 		type: Boolean,
 		default: false,
 	});
@@ -168,21 +175,21 @@ export const registerSettings = function () {
 		},
 	});
 	addMenuSetting("core.deathState", {
-		hint: game.healthEstimate.estimationProvider.deathMarker.config
+		hint: game.healthEstimate.provider.deathMarker.config
 			? f("core.deathState.hint1", {
 				setting: t("core.deathStateName.name"),
 				setting2: t("core.deathMarker.name"),
 			})
 			: f("core.deathState.hint2", { setting: t("core.deathStateName.name") }),
 		type: Boolean,
-		default: game.healthEstimate.estimationProvider.deathState,
+		default: game.healthEstimate.provider.deathState,
 		onChange: (value) => {
 			game.healthEstimate.showDead = value;
 		},
 	});
 	addMenuSetting("core.deathStateName", {
 		type: String,
-		default: game.healthEstimate.estimationProvider.deathStateName,
+		default: game.healthEstimate.provider.deathStateName,
 		onChange: (value) => {
 			game.healthEstimate.deathStateName = value;
 		},
@@ -197,7 +204,7 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.deathMarker", {
 		type: String,
-		default: game.healthEstimate.estimationProvider.deathMarker.default,
+		default: game.healthEstimate.provider.deathMarker.default,
 		onChange: (value) => {
 			game.healthEstimate.deathMarker = value;
 		},
@@ -215,6 +222,13 @@ export const registerSettings = function () {
 			game.healthEstimate.scaleToGridSize = value;
 		},
 	});
+	addMenuSetting("core.menuSettings.gridSize", {
+		type: Number,
+		default: 100,
+		onChange: (value) => {
+			game.healthEstimate.gridSize = value;
+		},
+	});
 	addMenuSetting("core.menuSettings.scaleToTokenSize", {
 		type: Boolean,
 		default: true,
@@ -227,8 +241,9 @@ export const registerSettings = function () {
 		default: false,
 		onChange: (value) => {
 			game.healthEstimate.scaleToZoom = value;
-			if (value) Hooks.on("canvasPan", HealthEstimateHooks.onCanvasPan);
-			else Hooks.off("canvasPan", HealthEstimateHooks.onCanvasPan);
+			const { onCanvasPan } = game.healthEstimate.constructor;
+			if (value) Hooks.on("canvasPan", onCanvasPan.bind(game.healthEstimate));
+			else Hooks.off("canvasPan", onCanvasPan.bind(game.healthEstimate));
 		},
 	});
 	addMenuSetting("core.menuSettings.smoothGradient", {

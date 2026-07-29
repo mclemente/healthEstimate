@@ -1,23 +1,99 @@
 import * as providers from "./providers/_module.js";
 import { providerKeys } from "./providers/_shared.js";
 import { registerSettings } from "./settings.js";
-import { addSetting, isEmpty, sGet } from "./utils.js";
+import { addSetting, disableCheckbox, f, isEmpty, repositionTooltip, sGet, t } from "./utils.js";
 
 export class HealthEstimate {
 	constructor() {
-		/** Changes which users get to see the overlay. */
-		this.breakConditions = {
-			default: "false",
-		};
-		this.actorsCurrentHP = {};
-		this.lastZoom = null;
+		game.healthEstimate = this;
+		// Set the module's provider.
+		const providerArray = Object.keys(providers);
+		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
+		const systemsRegex = new RegExp(supportedSystems);
+		let providerString = "Generic";
+		if (game.system.id in providerKeys) {
+			providerString = providerKeys[game.system.id] || "Generic";
+		} else if (systemsRegex.test(game.system.id)) {
+			providerString = game.system.id;
+		}
+
+		/** @type {EstimateProvider} */
+		this.#estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
+		registerSettings();
+
+		this.breakConditions.system = this.provider.breakCondition;
+		if (this.provider.tokenEffects !== undefined) {
+			this.tokenEffectsPath = this.provider.tokenEffects;
+		}
+		for (let [key, data] of Object.entries(this.provider.settings)) {
+			addSetting(key, data);
+		}
+		this.updateBreakConditions();
+		this.updateSettings();
+
+		// Canvas
+		Hooks.on("canvasInit", () => this.lastZoom = null);
+		Hooks.once("canvasReady", HealthEstimate.onceCanvasReady.bind(this));
+		Hooks.on("combatStart", HealthEstimate.onCombatStart.bind(this));
+		Hooks.on("updateCombat", HealthEstimate.onUpdateCombat.bind(this));
+		Hooks.on("deleteCombat", HealthEstimate.onUpdateCombat.bind(this));
+		const onCanvasReady = HealthEstimate.onCanvasReady.bind(this);
+		Hooks.on("canvasReady", onCanvasReady);
+		Hooks.on("3DCanvasSceneReady", () => setTimeout(onCanvasReady, 10));
+
+		// Actor
+		Hooks.on("deleteActor", HealthEstimate.deleteActor);
+		Hooks.on("deleteToken", HealthEstimate.deleteToken.bind(this));
+		Hooks.on("deleteActiveEffect", HealthEstimate.deleteActiveEffect.bind(this));
+
+		// Rendering
+		Hooks.on("renderSettingsConfig", HealthEstimate.renderSettingsConfigHandler);
+		Hooks.on(
+			"renderPrototypeTokenConfig",
+			(_app, form, data, options) => HealthEstimate.renderTokenConfigHandler(form, data, options, "source")
+		);
+		Hooks.on(
+			"renderTokenConfig",
+			(_app, form, data, options) => HealthEstimate.renderTokenConfigHandler(form, data, options)
+		);
 	}
+
+	#estimationProvider;
+
+	/**
+	 * Caches estimates.
+	 * @type {{PIXI.Text}}
+	 */
+	_cache = {};
+
+	/**
+	 * Caches estimates for the 3D Canvas modules.
+	 * @type {{SpriteMaterial}}
+	 */
+	_3DCache = {};
+
+	breakConditions = {};
+
+	settings = {};
+
+	/**
+	 * @typedef {Object} ActorHP
+	 * @property {{estimate: string, index: number}} stage Estimate's label and index.
+	 * @property {boolean} dead             Whether the actor is dead.
+	 */
+
+	/**
+	 * Current HP estimation for each actor, keyed by actor ID.
+	 *
+	 * @type {Object<string, ActorHP>}
+	 */
+	actorsCurrentHP = {};
 
 	/**
 	 * @type {Number}
 	 */
 	get gridScale() {
-		return this.scaleToGridSize ? canvas.scene.dimensions.size / 100 : 1;
+		return this.scaleToGridSize ? canvas.scene.dimensions.size / this.gridSize : 1;
 	}
 
 	/**
@@ -25,7 +101,7 @@ export class HealthEstimate {
 	 * @type {EstimationProvider}
 	 */
 	get provider() {
-		return this.estimationProvider;
+		return this.#estimationProvider;
 	}
 
 	/**
@@ -45,38 +121,6 @@ export class HealthEstimate {
 		return this.scaleToZoom ? Math.min(1, canvas.stage.scale.x) : 1;
 	}
 
-	// Hooks
-
-	/**
-	 * Sets the module's estimation provider, registers settings and updates break conditions.
-	 */
-	setup() {
-		// Set the module's provider.
-		const providerArray = Object.keys(providers);
-		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
-		const systemsRegex = new RegExp(supportedSystems);
-		let providerString = "Generic";
-		if (game.system.id in providerKeys) {
-			providerString = providerKeys[game.system.id] || "Generic";
-		} else if (systemsRegex.test(game.system.id)) {
-			providerString = game.system.id;
-		}
-
-		/** @type {EstimateProvider} */
-		this.estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
-		registerSettings();
-
-		this.breakConditions.system = this.estimationProvider.breakCondition;
-		if (this.estimationProvider.tokenEffects !== undefined) {
-			this.tokenEffectsPath = this.estimationProvider.tokenEffects;
-		}
-		for (let [key, data] of Object.entries(this.estimationProvider.settings)) {
-			addSetting(key, data);
-		}
-		this.updateBreakConditions();
-		this.updateSettings();
-	}
-
 	/**
 	 * @param {Token} token
 	 * @param {Boolean} hovered
@@ -85,7 +129,8 @@ export class HealthEstimate {
 		if (
 			!token?.actor
 			|| this.breakOverlayRender(token)
-			|| (!game.user.isGM && this.hideEstimate(token))
+			|| this.hideEstimate(token)
+			|| this.settings.display === "disabled"
 		) return;
 
 		// Create PIXI
@@ -95,6 +140,11 @@ export class HealthEstimate {
 			if (displayEstimate) {
 				const { desc, color, stroke } = this.getEstimation(token);
 				if (desc !== undefined && color && stroke) {
+					if (this.settings.display === "nameplate") {
+						token.nameplate.style.fill = color;
+						token.nameplate.style.stroke = color;
+						return;
+					}
 					const { width } = token.document.getSize();
 					const y = -2 + this.height;
 					const position = { a: 0, b: 1, c: 2 }[this.position];
@@ -182,18 +232,6 @@ export class HealthEstimate {
 	}
 
 	/**
-	 * Caches estimates.
-	 * @type {{PIXI.Text}}
-	 */
-	_cache = {};
-
-	/**
-	 * Caches estimates for the 3D Canvas modules.
-	 * @type {{SpriteMaterial}}
-	 */
-	_3DCache = {};
-
-	/**
 	 * Creates an estimate as a 3D object and adds it to the token3d.
 	 * @param {Token} token
 	 * @param {Object} config
@@ -274,7 +312,7 @@ export class HealthEstimate {
 		const validateEstimation = (iteration, token, estimation) => {
 			const { name, rule } = estimation;
 			try {
-				const customLogic = this.estimationProvider.customLogic;
+				const customLogic = this.provider.customLogic;
 				const actor = token.actor;
 				const args = {
 					actor,
@@ -300,7 +338,8 @@ export class HealthEstimate {
 		};
 
 		for (const [iteration, estimation] of this.estimations.entries()) {
-			if (estimation.rule === "default" || estimation.rule === "") continue;
+			if (!estimation.actorTypes.size && (estimation.rule === "default" || estimation.rule === "")) continue;
+			if (!estimation.actorTypes.has(token.actor.type)) continue;
 			if (validateEstimation(iteration, token, estimation)) {
 				if (estimation.ignoreColor) {
 					special = estimation;
@@ -358,7 +397,7 @@ export class HealthEstimate {
 	 * @returns {Number}
 	 */
 	getFraction(token) {
-		const fraction = Math.max(0, Math.min(this.estimationProvider.fraction(token), 1));
+		const fraction = Math.max(0, Math.min(this.provider.fraction(token), 1));
 		if (CONFIG.debug.healthEstimate && !Number.isNumeric(fraction)) {
 			throw Error("Token's fraction is not valid, it probably doesn't have a numerical HP or Max HP value.");
 		}
@@ -407,18 +446,9 @@ export class HealthEstimate {
 	 */
 	hideEstimate(token) {
 		return Boolean(
-			token.document.getFlag("healthEstimate", "hideHealthEstimate")
-				|| token.actor.getFlag("healthEstimate", "hideHealthEstimate")
-		);
-	}
-
-	/**
-	 * Checks if any combat, linked to the current scene or unlinked, is active.
-	 * @returns {Boolean}
-	 */
-	isCombatRunning() {
-		return [...game.combats].some(
-			(combat) => combat.started && (combat._source.scene === canvas.scene._id || combat._source.scene == null)
+			!game.user.isGM
+			|| token.document.getFlag("healthEstimate", "hideHealthEstimate")
+			|| token.actor.getFlag("healthEstimate", "hideHealthEstimate")
 		);
 	}
 
@@ -433,7 +463,7 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	isDead(token, stage) {
-		const isOrganicType = this.estimationProvider.organicTypes.includes(token.actor.type);
+		const isOrganicType = this.provider.organicTypes.includes(token.actor.type);
 		const isNPCJustDie =
 			this.NPCsJustDie
 			&& !token.actor.hasPlayerOwner
@@ -452,9 +482,12 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	showCondition(hovered) {
-		const combatTrigger = this.combatOnly && this.combatRunning;
+		const combatRunning = [...game.combats].some(
+			(combat) => combat.started && (combat._source.scene === canvas.scene._id || combat._source.scene === null)
+		);
+		const combatTrigger = this.combatOnly && combatRunning;
 		return (
-			(this.alwaysShow && (combatTrigger || !this.combatOnly)) || (hovered && (combatTrigger || !this.combatOnly))
+			(this.settings.display === "always" || hovered) && (combatTrigger || !this.combatOnly)
 		);
 	}
 
@@ -463,7 +496,7 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	tokenEffectsPath(token) {
-		const deadIcon = this.estimationProvider.deathMarker.config
+		const deadIcon = this.provider.deathMarker.config
 			? this.deathMarker
 			: CONFIG.statusEffects.dead?.img ?? this.deathMarker;
 		return Array.from(token.actor.effects.values()).some((x) => x.img === deadIcon);
@@ -489,7 +522,7 @@ export class HealthEstimate {
 				return new Function(
 					"token",
 					`return (
-						${prep("default")}
+						false
 						${prep("onlyGM")}
 						${prep("onlyNotGM")}
 						${prep("onlyNPCs")}
@@ -515,6 +548,10 @@ export class HealthEstimate {
 	 * Updates the variables if any setting was changed.
 	 */
 	updateSettings() {
+		this.settings = {
+			display: sGet("display"),
+		};
+
 		this.descriptions = sGet("core.stateNames").split(/[,;]\s*/);
 		this.estimations = sGet("core.estimations");
 		this.deathStateName = sGet("core.deathStateName");
@@ -522,9 +559,9 @@ export class HealthEstimate {
 		this.NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
 		this.scaleToGridSize = sGet("core.menuSettings.scaleToGridSize");
+		this.gridSize = sGet("core.menuSettings.gridSize");
 		this.scaleToTokenSize = sGet("core.menuSettings.scaleToTokenSize");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
-		this.outputChat = sGet("core.outputChat");
 
 		this.smoothGradient = sGet("core.menuSettings.smoothGradient");
 
@@ -539,5 +576,143 @@ export class HealthEstimate {
 		this.deadOutline = sGet("core.variables.deadOutline");
 
 		this.tooltipPosition = game.modules.get("elevation-module")?.active ? null : sGet("core.tooltipPosition");
+	}
+
+	static onceCanvasReady() {
+		this.combatOnly = sGet("core.combatOnly");
+		this.settings.display = sGet("display");
+		Hooks.on("refreshToken", HealthEstimate.refreshToken.bind(this));
+		if (this.scaleToZoom) Hooks.on("canvasPan", HealthEstimate.onCanvasPan.bind(this));
+	}
+
+	/**
+	 * HP storing code for canvas load or token created
+	 */
+	static onCanvasReady() {
+		this._cache = {};
+		canvas.interface.healthEstimate = canvas.interface.addChild(new PIXI.Container());
+		const { width, height } = canvas.dimensions;
+		canvas.interface.healthEstimate.width = width;
+		canvas.interface.healthEstimate.height = height;
+		canvas.interface.healthEstimate.eventMode = "none";
+		canvas.interface.healthEstimate.interactiveChildren = false;
+		canvas.interface.healthEstimate.zIndex = 200;
+	}
+
+	static onCanvasPan(canvas, pan) {
+		const scale = () => {
+			const zoomLevel = Math.min(1, pan.scale);
+			if (this.lastZoom !== zoomLevel) {
+				canvas.tokens?.placeables
+					.filter((token) => this._cache[token.id]?.visible)
+					.forEach((token) => {
+						const estimate = this._cache[token.id];
+						if (estimate?._texture) {
+							estimate.style.fontSize = this.scaledFontSize;
+						}
+					});
+			}
+			this.lastZoom = zoomLevel;
+		};
+		if (this.settings.display === "always") {
+			if (this.timeout) clearTimeout(this.timeout);
+			this.timeout = setTimeout(scale, 10);
+		} else scale();
+	}
+
+	// /////////
+	// ACTOR //
+	// /////////
+
+	static deleteActor(actorDocument, options, userId) {
+		let tokens = canvas.tokens?.placeables.filter((e) => e.document.actorId === actorDocument.id);
+		tokens.forEach((token) => token.refresh());
+	}
+
+	static deleteToken(tokenDocument, options, userId) {
+		const estimate = this._cache[tokenDocument.id];
+		if (!estimate) return;
+		delete this._cache[tokenDocument.id];
+		estimate.parent?.removeChild(estimate);
+		estimate.destroy();
+	}
+
+	static deleteActiveEffect(activeEffect, options, userId) {
+		if (activeEffect.img === this.deathMarker) {
+			let tokens = canvas.tokens?.placeables.filter((e) => e.actor && e.actor.id === activeEffect.parent.id);
+			for (let token of tokens) {
+				if (token.document.flags?.healthEstimate?.dead) token.document.unsetFlag("healthEstimate", "dead");
+			}
+		}
+	}
+
+	// /////////
+	// TOKEN //
+	// /////////
+
+	static refreshToken(token, flags) {
+		const displayed = token.hover || canvas.tokens.highlightObjects;
+		this._handleOverlay(token, this.showCondition(displayed));
+		if (flags.refreshSize && this.tooltipPosition) repositionTooltip(token);
+		this.provider.refreshToken?.(token, flags);
+	}
+
+	static onCombatStart(combat, updateData) {
+		if (!this.combatOnly) return;
+		canvas.tokens?.placeables.forEach((token) => {
+			this._handleOverlay(token, this.showCondition(token.hover));
+		});
+	}
+
+	static onUpdateCombat(combat, options, userId) {
+		if (!this.combatOnly) return;
+		canvas.tokens?.placeables.forEach((token) => {
+			this._handleOverlay(token, this.showCondition(token.hover));
+		});
+	}
+
+	// /////////////
+	// RENDERING //
+	// /////////////
+
+	/**
+	 * Handler called when token configuration window is opened. Injects custom form html and deals
+	 * with updating token.
+	 * @category GMOnly
+	 * @function
+	 * @async
+	 * @param {SettingsConfig} settingsConfig
+	 * @param {JQuery} html
+	 */
+	static renderSettingsConfigHandler(settingsConfig, html) {
+		if (!game.user.isGM) return;
+		// Additional PF1 system settings
+		if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
+			const showExtra = game.settings.get("healthEstimate", "PF1.showExtra");
+			const showExtraCheckbox = html.querySelector('input[name="healthEstimate.PF1.showExtra"]');
+			const disabledNameInput = html.querySelector('input[name="healthEstimate.PF1.disabledName"]');
+			const dyingNameInput = html.querySelector('input[name="healthEstimate.PF1.dyingName"]');
+			disableCheckbox(disabledNameInput, showExtra);
+			disableCheckbox(dyingNameInput, showExtra);
+
+			showExtraCheckbox.addEventListener("change", (event) => {
+				disableCheckbox(disabledNameInput, event.target.checked);
+				disableCheckbox(dyingNameInput, event.target.checked);
+			});
+		}
+	}
+
+	static async renderTokenConfigHandler(form, data, options, docPath = "document") {
+		if (!options.isFirstRender) return;
+		const tokenFlags = data[docPath].flags?.healthEstimate ?? {};
+		const tabData = {
+			hasPlayerOwner: data[docPath].hasPlayerOwner,
+			hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
+			dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
+			dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") })
+		};
+		const tab = await foundry.applications.handlebars.renderTemplate("modules/healthEstimate/templates/token-config.html", tabData);
+		const lastTab = [...form.querySelectorAll(".tab")].pop();
+		lastTab.insertAdjacentHTML("afterend", tab);
 	}
 }

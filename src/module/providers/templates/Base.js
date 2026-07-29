@@ -80,6 +80,7 @@ export default class EstimationProvider {
 					{ value: 99, label: t("core.estimates.states.4") },
 					{ value: 100, label: t("core.estimates.states.5") },
 				],
+				actorTypes: []
 			},
 		];
 	}

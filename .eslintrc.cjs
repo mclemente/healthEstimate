@@ -174,6 +174,7 @@ module.exports = {
 	},
 
 	globals: {
+		_loc: false,
 		chroma: false,
 		Grapick: false,
 		PIXI: false,

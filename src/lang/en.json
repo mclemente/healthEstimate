@@ -1,5 +1,17 @@
 {
 	"healthEstimate": {
+		"SETTINGS": {
+			"display": {
+				"name": "Display Estimates",
+				"hint": "",
+				"options": {
+					"default": "On Mouse Hover",
+					"always": "Always Display",
+					"nameplate": "Color Names",
+					"disabled": "Never Display"
+				}
+			}
+		},
 		"core": {
 			"sample": "Sample",
 			"custom": {
@@ -49,6 +61,7 @@
 				"newTable": "New Table",
 				"default": "Default",
 				"deleteTable": "Delete Table",
+				"actorTypes": "Actor Types",
 				"estimate": "Estimate",
 				"jsRule": "JavaScript Rule",
 				"prioDecrease": "Decrease Priority",
@@ -73,32 +86,12 @@
 				},
 				"dontMarkDead": {
 					"name": "Don't Mark as Dead",
-					"hint": "Makes NPCs to not be shown as Dead when its HP reaches 0 (e.g. it'll show Unconscious). This is only useful if you're using the {setting} setting."
+					"hint": "Makes NPCs to not be shown as Dead when its estimate reaches 0. This is only useful if you're using the {setting} setting."
 				},
 				"hideEstimates": {
-					"name": "Hide Estimates",
-					"hint": "Hides the estimates of selected tokens from the players. Hidden estimates will not be output to chat if the setting is on, and will be shown with an asterisk (*) for the GM."
-				},
-				"hideNames": {
-					"name": "Hide Names",
-					"hint": "Hides the names of selected tokens when you're using the {setting} setting."
-				},
-				"hideEstimatesAndNames": {
-					"name": "Hide Estimates and Names",
-					"hint": "Hides both the estimates and names of selected tokens."
+					"name": "Hide Estimates from Players",
+					"hint": "Hidden estimates will be shown with an asterisk (*) for the GM."
 				}
-			},
-			"isNow": "{name} is now {desc}.",
-			"unknownEntity": {
-				"name": "Unknown Entity Name",
-				"hint": "Sets how a hidden character shall be called.{warning}",
-				"default": "Unknown Entity",
-				"warningCUB": "If you are using CUB's feature to hide names, it will take priority over this setting.",
-				"warningPF2eWorkbench": "If you are using PF2e Workbench's feature to mystify names, it will take priority over this setting."
-			},
-			"alwaysShow": {
-				"name": "Always Show Estimates",
-				"hint": "Makes the estimates always visible instead of just when hovering over a token."
 			},
 			"combatOnly": {
 				"name": "Show Only on Combat",
@@ -214,7 +207,11 @@
 				},
 				"scaleToGridSize": {
 					"name": "Scale Estimates to Grid Size",
-					"hint": "Scales the estimate based on the grid size, assuming 100px as the baseline."
+					"hint": "Scales the estimate based on the grid size."
+				},
+				"gridSize": {
+					"name": "Base Grid Size",
+					"hint": "The baseline grid size for the scaling. Useful for map packs that use different grid sizes."
 				},
 				"scaleToTokenSize": {
 					"name": "Scale to Token Size",

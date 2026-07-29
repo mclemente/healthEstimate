@@ -1,4 +1,4 @@
-import { f, sGet, t } from "../utils.js";
+import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class pf2eEstimationProvider extends EstimationProvider {
@@ -10,7 +10,6 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "Vehicles & Hazards",
-				rule: "type === \"vehicle\" || type === \"hazard\"",
 				estimates: [
 					{ value: 0, label: t("core.estimates.vehicles.0") },
 					{ value: 20, label: t("core.estimates.vehicles.1") },
@@ -19,6 +18,7 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 					{ value: 80, label: t("core.estimates.vehicles.4") },
 					{ value: 100, label: t("core.estimates.vehicles.5") },
 				],
+				actorTypes: ["vehicle", "hazard"]
 			},
 		];
 	}
@@ -40,7 +40,8 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 	refreshToken(token, flags) {
 		const top = game.healthEstimate.position === "a";
 		const { distanceDisplay } = game.pf2e.settings;
-		if (top && distanceDisplay && token.healthEstimate && flags.refreshDistanceLabel) {
+		const hasEstimate = !!token.healthEstimate && !token.healthEstimate?.destroyed;
+		if (top && distanceDisplay && hasEstimate && flags.refreshDistanceLabel) {
 			const labelEl = document.getElementById("token-hover-distance");
 			let y = parseFloat(labelEl.style.getPropertyValue("--position-y"));
 			y -= token.healthEstimate.height;
@@ -61,13 +62,7 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 			"PF2E.hideVehicleHP": {
 				type: Boolean,
 				default: false,
-			},
-			"PF2E.workbenchMystifier": {
-				hint: f("PF2E.workbenchMystifier.hint", { setting: "core.unknownEntity.name" }),
-				config: game.modules.get("xdy-pf2e-workbench")?.active ?? false,
-				type: Boolean,
-				default: false,
-			},
+			}
 		};
 	}
 

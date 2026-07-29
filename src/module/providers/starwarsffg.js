@@ -13,7 +13,6 @@ export default class starwarsffgEstimationProvider extends EstimationProvider {
 			...this.estimations,
 			{
 				name: "Vehicles",
-				rule: "type === \"vehicle\"",
 				estimates: [
 					{ value: 0, label: t("core.estimates.vehicles.0") },
 					{ value: 20, label: t("core.estimates.vehicles.1") },
@@ -22,6 +21,7 @@ export default class starwarsffgEstimationProvider extends EstimationProvider {
 					{ value: 80, label: t("core.estimates.vehicles.4") },
 					{ value: 100, label: t("core.estimates.vehicles.5") },
 				],
+				actorTypes: ["vehicle"]
 			},
 		];
 	}
