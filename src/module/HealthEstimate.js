@@ -419,15 +419,21 @@ export class HealthEstimate {
 	getStage(token, fraction) {
 		try {
 			const { estimation, special } = this.getTokenEstimate(token);
-			fraction *= 100;
-			// for cases where 1% > fraction > 0%
-			if (fraction !== 0 && Math.floor(fraction) === 0) fraction = 0.1;
-			else fraction = Math.trunc(fraction);
+			const est = estimation.estimates;
+			fraction = Math.round(fraction * 1000) / 10;
+			if (fraction > 99 && fraction < 100) {
+				const last = est.at(-1);
+				const previous = est.at(-2);
+				const hasExclusiveHundred = last.value === 100 && previous?.value >= 99;
+				if (hasExclusiveHundred) {
+					fraction = est[est.length - 2].value;
+				}
+			}
 			const logic = (e) => e.value >= fraction;
 			const estimate = special
 				? special.estimates.find(logic)
-				: estimation.estimates.find(logic) ?? { value: fraction, label: "" };
-			const index = estimation.estimates.findIndex(logic);
+				: est.find(logic) ?? { value: fraction, label: "" };
+			const index = est.findIndex(logic);
 			return { estimate, index };
 		} catch(err) {
 			console.error(
