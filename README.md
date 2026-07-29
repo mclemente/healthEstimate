@@ -19,5 +19,3 @@ This project is released under the the MIT License, and is a fork of the origina
 This project uses the [chroma.js](https://github.com/gka/chroma.js) library released under [BSD-3-Clause license](http://opensource.org/licenses/BSD-3-Clause).
 
 This project uses the [Grapick](https://www.npmjs.com/package/grapick) library licensed under MIT License.
-
-This project uses code of [Health Monitor](https://github.com/jessev14/health-monitor), released under the MIT License.
