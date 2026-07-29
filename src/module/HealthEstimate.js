@@ -93,8 +93,7 @@ export class HealthEstimate {
 	 * @type {Number}
 	 */
 	get gridScale() {
-		// TODO replace 100 with a Grid Scale Number setting
-		return this.scaleToGridSize ? canvas.scene.dimensions.size / 100 : 1;
+		return this.scaleToGridSize ? canvas.scene.dimensions.size / this.gridSize : 1;
 	}
 
 	/**
@@ -560,6 +559,7 @@ export class HealthEstimate {
 		this.NPCsJustDie = sGet("core.NPCsJustDie");
 		this.deathMarker = sGet("core.deathMarker");
 		this.scaleToGridSize = sGet("core.menuSettings.scaleToGridSize");
+		this.gridSize = sGet("core.menuSettings.gridSize");
 		this.scaleToTokenSize = sGet("core.menuSettings.scaleToTokenSize");
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 

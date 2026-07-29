@@ -207,7 +207,11 @@
 				},
 				"scaleToGridSize": {
 					"name": "Scale Estimates to Grid Size",
-					"hint": "Scales the estimate based on the grid size, assuming 100px as the baseline."
+					"hint": "Scales the estimate based on the grid size."
+				},
+				"gridSize": {
+					"name": "Base Grid Size",
+					"hint": "The baseline grid size for the scaling. Useful for map packs that use different grid sizes."
 				},
 				"scaleToTokenSize": {
 					"name": "Scale to Token Size",

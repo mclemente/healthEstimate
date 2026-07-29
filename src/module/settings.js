@@ -219,6 +219,13 @@ export const registerSettings = function () {
 			game.healthEstimate.scaleToGridSize = value;
 		},
 	});
+	addMenuSetting("core.menuSettings.gridSize", {
+		type: Number,
+		default: 100,
+		onChange: (value) => {
+			game.healthEstimate.gridSize = value;
+		},
+	});
 	addMenuSetting("core.menuSettings.scaleToTokenSize", {
 		type: Boolean,
 		default: true,

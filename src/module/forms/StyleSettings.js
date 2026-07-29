@@ -40,6 +40,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 			outline: this.prepSelection("outline"),
 			outlineIntensity: this.prepSetting("outlineIntensity"),
 			scaleToGridSize: this.prepSetting("scaleToGridSize"),
+			gridSize: this.prepSetting("gridSize"),
 			scaleToTokenSize: this.prepSetting("scaleToTokenSize"),
 			scaleToZoom: this.prepSetting("scaleToZoom"),
 			deadText: game.settings.get("healthEstimate", "core.deathStateName"),
@@ -73,6 +74,10 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		this.hideForm(this.outlineMode.closest(".form-group"), this.useColor);
 		this.hideForm(this.outlineMode.closest(".form-group"), this.useColor);
 		this.hideForm(this.element.querySelector("#healthEstimateSample").closest(".form-group"), this.useColor);
+
+		const scaleToGridSize = this.element.querySelector('input[name="scaleToGridSize"]');
+		const gridSize = this.element.querySelector('input[name="gridSize"]');
+		this.hideForm(gridSize.closest(".form-group"), scaleToGridSize.checked);
 
 		this.gp = new Grapick({
 			el: "#gradientControlsHE",
@@ -109,6 +114,9 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 			this.hideForm(this.deadColor.parentElement, ev.target.checked);
 			this.hideForm(this.outlineMode.parentElement.parentElement, ev.target.checked);
 			this.hideForm(this.element.querySelector("#healthEstimateSample").closest(".form-group"), this.useColor);
+		});
+		scaleToGridSize.addEventListener("change", (ev) => {
+			this.hideForm(gridSize.closest(".form-group"), scaleToGridSize.checked);
 		});
 
 		for (const range of this.element.querySelectorAll("input[type=range]")) {
@@ -256,6 +264,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 			"menuSettings.outline",
 			"menuSettings.outlineIntensity",
 			"menuSettings.scaleToGridSize",
+			"menuSettings.gridSize",
 			"menuSettings.scaleToTokenSize",
 			"menuSettings.scaleToZoom",
 			"variables.colors",
