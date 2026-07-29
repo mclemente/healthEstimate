@@ -17,7 +17,7 @@
 			"custom": {
 				"FractionHP": {
 					"name": "Hit Points Attribute Data Path",
-					"hint": "Your system might be using another data path. If the estimate isn't showing correctly, input the data path to the correct attribute (e.g. actor.system.health)."
+					"hint": "Your system might be using another data path. If the estimate isn't showing correctly, input the data path to the correct attribute."
 				},
 				"FractionMath": {
 					"name": "Fraction Equation",
@@ -76,14 +76,6 @@
 					"name": "Mark as Dead",
 					"hint": "Marks all the selected tokens as Dead. If all the selected tokens are already Dead, they'll be reset to alive."
 				},
-				"customEstimates": {
-					"name": "Custom Estimates",
-					"hint": "Sets custom estimates for the selected tokens. Leave it blank to reset it.",
-					"options": {
-						"1": "Tokens & Actors",
-						"2": "Only Tokens"
-					}
-				},
 				"dontMarkDead": {
 					"name": "Don't Mark as Dead",
 					"hint": "Makes NPCs to not be shown as Dead when its estimate reaches 0. This is only useful if you're using the {setting} setting."
@@ -118,7 +110,7 @@
 				"hint2": "Show token as defined on the {setting} setting when it has been marked as defeated on combat."
 			},
 			"deathStateName": {
-				"name": "Death State Name",
+				"name": "Dead State Name",
 				"hint": "The description shown when a token is dead.",
 				"default": "Dead"
 			},
@@ -136,16 +128,12 @@
 				}
 			},
 			"NPCsJustDie": {
-				"name": "NPCs die immediately",
-				"hint": "The last stage of tokens whose actors aren't selected by players is replaced by the {setting}. For more information on what \"selected by players\" means, read the User Configuration section in Foundry's \"Users and Permissions\" article."
-			},
-			"outputChat": {
-				"name": "Output Estimate to Chat",
-				"hint": "Output any estimate changes to chat. Characters flagged with the Hide Names token configuration will be shown as the description of the {setting} setting."
+				"name": "NPCs Just Die",
+				"hint": "NPCs are shown as Dead when they reach the last health stage."
 			},
 			"addTemp": {
 				"name": "Add Temporary Health",
-				"hint": "Include temporary health points in calculating what description to show.\nE.g. with the setting turned on the token receiving temp HP will look \"healthier\" unless it's already at max health."
+				"hint": "Include temporary health points in calculating what description to show."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Hide Estimates on Tokens",
@@ -161,10 +149,6 @@
 				"behaviorSettings": {
 					"name": "Behavior Setting",
 					"plural": "Behavior Settings"
-				},
-				"deathSettings": {
-					"name": "Death Setting",
-					"plural": "Death Settings"
 				},
 				"styleSettings": {
 					"name": "Style Setting",
@@ -234,10 +218,7 @@
 					"plural": "hidden"
 				}
 			},
-			"toggleEstimate": "{tokenName}'s health estimate is being {term} from players.",
-			"toggleName": "{tokenName}'s name is being {term} from players.",
-			"toggleEstimateName": "{tokenName}'s health estimate and name are being {term} from players.",
-			"invalidFontSize": "Your Font Size style setting has been reset. Check the Style Settings to change it. Previous value: {fontSize}"
+			"toggleEstimate": "{tokenName}'s health estimate is being {term} from players."
 		},
 		"custom-system-builder": {
 			"FractionHP": {
