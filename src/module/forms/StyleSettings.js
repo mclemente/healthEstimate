@@ -149,7 +149,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 
 	async setHandlers(positions) {
 		for (let [i, v] of positions.colors.entries()) {
-			this.gp.addHandler(positions.positions[i] * 100, v);
+			this.gp.addHandler(positions.positions[i] * 100, v, false);
 		}
 	}
 
