@@ -31,6 +31,10 @@ export class HealthEstimate {
 		this.updateBreakConditions();
 		this.updateSettings();
 
+		CONFIG.queries["health-estimate-refreshTokens"] = () => {
+			if (this.settings.display === "always") canvas.scene?.tokens.forEach((token) => token.object.refresh());
+		};
+
 		// Canvas
 		Hooks.on("canvasInit", () => this.lastZoom = null);
 		Hooks.once("canvasReady", HealthEstimate.onceCanvasReady.bind(this));

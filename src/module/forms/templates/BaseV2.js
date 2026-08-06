@@ -61,7 +61,6 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 		const path = `core.${key}`;
 		const defaultValue = game.settings.settings.get(`healthEstimate.${path}`).default;
 		await game.settings.set("healthEstimate", path, defaultValue);
-		if (game.healthEstimate.settings.display) canvas.scene?.tokens.forEach((token) => token.object.refresh());
 	}
 
 	/**
@@ -72,6 +71,10 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 	static async #onSubmit(event, form, formData) {
 		const settings = foundry.utils.expandObject(formData.object);
 		await Promise.all(Object.entries(settings).map(([key, value]) => sSet(`core.${key}`, value)));
-		if (game.healthEstimate.settings.display) canvas.scene?.tokens.forEach((token) => token.object.refresh());
+	}
+
+	async close(options={}) {
+		if (options.submitted) User.queryMany(game.users, "health-estimate-refreshTokens");
+		await super.close(options);
 	}
 }

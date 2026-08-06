@@ -273,7 +273,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 			"variables.deadOutline",
 		];
 		await Promise.all(paths.map(this.resetToDefault));
-		this.close();
+		if (this.options.form.closeOnSubmit) await this.close({ submitted: true });
 	}
 
 	async close(options = {}) {
@@ -308,6 +308,6 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		];
 		await Promise.all(variableUpdates);
 
-		if (game.healthEstimate.alwaysShow) canvas.scene?.tokens.forEach((token) => token.object.refresh());
+		User.queryMany(game.users, "health-estimate-refreshTokens");
 	}
 }

@@ -44,7 +44,6 @@ export default class HealthEstimateBehaviorSettings extends HealthEstimateSettin
 		];
 
 		await Promise.all(paths.map(this.resetToDefault));
-		canvas.scene?.tokens.forEach((token) => token.object.refresh());
-		this.close();
+		if (this.options.form.closeOnSubmit) await this.close({ submitted: true });
 	}
 }
