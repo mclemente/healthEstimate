@@ -129,7 +129,7 @@ export class HealthEstimate {
 		if (
 			!token?.actor
 			|| this.breakOverlayRender(token)
-			|| this.hideEstimate(token)
+			|| (!game.user.isGM && this.hideEstimate(token))
 			|| this.settings.display === "disabled"
 		) return;
 
