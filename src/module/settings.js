@@ -45,7 +45,10 @@ export const registerSettings = function () {
 			canvas.tokens?.placeables.forEach((token) => {
 				const estimate = game.healthEstimate._cache[token.document.id];
 				if (["nameplate", "disabled"].includes(value)) {
-					if (estimate && !estimate.destroyed) estimate.destroy();
+					if (estimate && !estimate.destroyed) {
+						estimate.parent?.removeChild(estimate);
+						estimate.destroy();
+					}
 				}
 				game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
 			});
