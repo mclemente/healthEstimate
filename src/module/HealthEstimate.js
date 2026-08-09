@@ -7,18 +7,14 @@ export class HealthEstimate {
 	constructor() {
 		game.healthEstimate = this;
 		// Set the module's provider.
-		const providerArray = Object.keys(providers);
-		const supportedSystems = providerArray.join("|").replace(/EstimationProvider/g, "");
-		const systemsRegex = new RegExp(supportedSystems);
-		let providerString = "Generic";
-		if (game.system.id in providerKeys) {
-			providerString = providerKeys[game.system.id] || "Generic";
-		} else if (systemsRegex.test(game.system.id)) {
-			providerString = game.system.id;
-		}
+		const providerString = providerKeys[game.system.id]
+			?? Object.keys(providers)
+				.map((key) => key.replace(/EstimationProvider$/, ""))
+				.find((provider) => provider === game.system.id)
+			?? "Generic";
 
 		/** @type {EstimateProvider} */
-		this.#estimationProvider = new providers[`${providerString}EstimationProvider`](`native.${providerString}`);
+		this.#estimationProvider = new providers[`${providerString}EstimationProvider`]();
 		registerSettings();
 
 		this.breakConditions.system = this.provider.breakCondition;
