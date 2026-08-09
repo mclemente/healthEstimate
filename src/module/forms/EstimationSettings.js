@@ -230,11 +230,11 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		const data = foundry.utils.expandObject(formData.object);
 		const estimations = [];
 		for (const key in data) {
-			const { name, rule, ignoreColor, estimates } = data[key];
+			const { name, actorTypes, rule, ignoreColor, estimates } = data[key];
 			const sortedEstimates = Object.keys(estimates)
 				.sort((a, b) => estimates[a].value - estimates[b].value)
 				.map((innerKey) => estimates[innerKey]);
-			estimations.push({ name, rule, ignoreColor, estimates: sortedEstimates });
+			estimations.push({ name, actorTypes, rule, ignoreColor, estimates: sortedEstimates });
 		}
 		sSet("core.estimations", estimations);
 	}
