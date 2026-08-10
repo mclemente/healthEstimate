@@ -2,11 +2,9 @@ import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class tormenta20EstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-	}
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
 
 	_breakAttribute = "token.actor.system.attributes.pv.max";
 

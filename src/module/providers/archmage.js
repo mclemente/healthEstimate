@@ -2,11 +2,9 @@ import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class archmageEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-	}
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
 
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;

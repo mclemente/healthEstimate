@@ -2,29 +2,28 @@ import { t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class alienrpgEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.vehicleRules = {
-			config: true,
-			vehicles: ["vehicles", "spacecraft"],
-		};
-		this.breakOnZeroMaxHP = "zero";
-		this.estimations = [
-			...this.estimations,
-			{
-				name: "Vehicles & Spaceships",
-				estimates: [
-					{ value: 0, label: t("core.estimates.vehicles.0") },
-					{ value: 20, label: t("core.estimates.vehicles.1") },
-					{ value: 40, label: t("core.estimates.vehicles.2") },
-					{ value: 60, label: t("core.estimates.vehicles.3") },
-					{ value: 80, label: t("core.estimates.vehicles.4") },
-					{ value: 100, label: t("core.estimates.vehicles.5") },
-				],
-				actorTypes: ["vehicle", "spacecraft"]
-			},
-		];
-	}
+	breakOnZeroMaxHP = "zero";
+
+	estimations = [
+		...this.estimations,
+		{
+			name: "Vehicles & Spaceships",
+			estimates: [
+				{ value: 0, label: t("core.estimates.vehicles.0") },
+				{ value: 20, label: t("core.estimates.vehicles.1") },
+				{ value: 40, label: t("core.estimates.vehicles.2") },
+				{ value: 60, label: t("core.estimates.vehicles.3") },
+				{ value: 80, label: t("core.estimates.vehicles.4") },
+				{ value: 100, label: t("core.estimates.vehicles.5") },
+			],
+			actorTypes: ["vehicle", "spacecraft"]
+		},
+	];
+
+	vehicleRules = {
+		config: true,
+		vehicles: ["vehicles", "spacecraft"],
+	};
 
 	fraction(token) {
 		if (token.actor.type === "vehicles") {

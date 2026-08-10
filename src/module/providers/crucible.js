@@ -16,31 +16,29 @@ function poolFraction(active, reserve, usesReserveResources) {
 }
 
 export default class crucibleEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		// Only Heroes and Adversaries track Health/Wounds & Morale/Madness. Group actors have no resources at all.
-		this.organicTypes = ["hero", "adversary"];
-		this.breakOnZeroMaxHP = "zero";
+	breakOnZeroMaxHP = "zero";
 
-		this.estimations = [
-			...this.estimations,
-			{
-				// Overrides the label (but not the color) whenever the Actor has gone Insane, since Madness
-				// filling up is just as incapacitating as Health/Wounds running out, but uses a separate pool.
-				name: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Insane"),
-				ignoreColor: true,
-				rule: "system.isInsane",
-				estimates: [{ value: 100, label: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Insane") }],
-			},
-			{
-				// Same idea for Broken (Morale at 0), unless the Actor is already Insane.
-				name: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Broken"),
-				ignoreColor: true,
-				rule: "system.isBroken && !system.isInsane",
-				estimates: [{ value: 100, label: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Broken") }],
-			},
-		];
-	}
+	estimations = [
+		...this.estimations,
+		{
+			// Overrides the label (but not the color) whenever the Actor has gone Insane, since Madness
+			// filling up is just as incapacitating as Health/Wounds running out, but uses a separate pool.
+			name: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Insane"),
+			ignoreColor: true,
+			rule: "system.isInsane",
+			estimates: [{ value: 100, label: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Insane") }],
+		},
+		{
+			// Same idea for Broken (Morale at 0), unless the Actor is already Insane.
+			name: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Broken"),
+			ignoreColor: true,
+			rule: "system.isBroken && !system.isInsane",
+			estimates: [{ value: 100, label: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Broken") }],
+		},
+	];
+
+	// Only Heroes and Adversaries track Health/Wounds & Morale/Madness. Group actors have no resources at all.
+	organicTypes = ["hero", "adversary"];
 
 	_breakAttribute = "token.actor.system.resources.health.max";
 

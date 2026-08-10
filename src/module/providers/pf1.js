@@ -2,37 +2,37 @@ import { f, sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class pf1EstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-		this.customLogic = `
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
+
+	customLogic = `
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
 		if (game.settings.get("healthEstimate", "core.addTemp")) {
 			addTemp = hp.temp;
 		}
 		const totalHp = hp.value + addTemp;`;
-		this.estimations = [
-			...this.estimations,
-			{
-				name: game.i18n.localize("PF1.CondStaggered"),
-				ignoreColor: true,
-				rule: `
-					game.settings.get("healthEstimate", "PF1.showExtra") &&
-					(totalHp === 0 ||
-						(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
-						Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("PF1.CondStaggered")))`,
-				estimates: [{ value: 100, label: game.i18n.localize("PF1.CondStaggered") }],
-			},
-			{
-				name: t("PF1.dyingName.name"),
-				ignoreColor: true,
-				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && hp.nonlethal > totalHp",
-				estimates: [{ value: 100, label: t("PF1.dyingName.default") }],
-			},
-		];
-	}
+
+	estimations = [
+		...this.estimations,
+		{
+			name: game.i18n.localize("PF1.CondStaggered"),
+			ignoreColor: true,
+			rule: `
+				game.settings.get("healthEstimate", "PF1.showExtra") &&
+				(totalHp === 0 ||
+					(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
+					Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("PF1.CondStaggered")))`,
+			estimates: [{ value: 100, label: game.i18n.localize("PF1.CondStaggered") }],
+		},
+		{
+			name: t("PF1.dyingName.name"),
+			ignoreColor: true,
+			rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && hp.nonlethal > totalHp",
+			estimates: [{ value: 100, label: t("PF1.dyingName.default") }],
+		},
+	];
 
 	fraction(token) {
 		const { variants } = game.settings.get("pf1", "healthConfig");

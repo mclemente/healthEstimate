@@ -1,10 +1,7 @@
 import EstimationProvider from "./templates/Base.js";
 
 export default class forbiddenLandsEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.breakOnZeroMaxHP = "zero";
-	}
+	breakOnZeroMaxHP = "zero";
 
 	_breakAttribute = "token.actor.system.attribute.strength.max";
 

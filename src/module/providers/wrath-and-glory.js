@@ -2,12 +2,11 @@ import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class wrathAndGloryEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-		this.organicTypes = ["agent", "threat"];
-	}
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
+
+	organicTypes = ["agent", "threat"];
 
 	_breakAttribute = "token.actor.system.combat.wounds.max";
 

@@ -1,89 +1,84 @@
 import { t } from "../../utils.js";
 
 export default class EstimationProvider {
-	constructor() {
-		/**
-		 * Non-exhaustive list of possible character-types that should use the DeathStateName. This is way to avoid vehicles being "Dead"
-		 * @type {string[]}
-		 */
-		this.organicTypes = ["character", "pc", "monster", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
+	/**
+	 * Sets if the "Add Temporary Health" setting is enabled.
+	 * @type {Boolean}
+	 */
+	addTemp = false;
 
-		/**
-		 * Code that will be run during HealthEstimate.getTokenEstimate()
-		 * @type {string}
-		 */
-		this.customLogic = "";
+	/**
+	 * Sets the default value for the "Hide on tokens with 0 max HP" setting. Hidden if set to false.
+	 * @type {false|String}
+	 */
+	breakOnZeroMaxHP = false;
 
-		/**
-		 * Default value of the Death State setting.
-		 * @type {Boolean}
-		 * */
-		this.deathState = false;
+	/**
+	 * Code that will be run during HealthEstimate.getTokenEstimate()
+	 * @type {string}
+	 */
+	customLogic = "";
 
-		/**
-		 * Default value of the Death State Name setting.
-		 * @type {String}
-		 */
-		this.deathStateName = t("core.deathStateName.default");
+	/**
+	 * Default value of the Death State setting.
+	 * @type {Boolean}
+	 * */
+	deathState = false;
 
-		/**
-		 * Configuration for the Death Marker setting.
-		 * @type {Object}
-		 */
-		this.deathMarker = {
-			/** Sets if the setting will be visible in the module's settings */
-			config:
-				!CONFIG.statusEffects.dead
-				|| game.modules.get("combat-utility-belt")?.active
-				|| game.modules.get("condition-lab-triggler")?.active,
-			/** Sets the setting's default value */
-			default: CONFIG.statusEffects.dead?.img || "icons/svg/skull.svg",
-		};
+	/**
+	 * Default value of the Death State Name setting.
+	 * @type {String}
+	 */
+	deathStateName = t("core.deathStateName.default");
 
-		/**
-		 *
-		 * @type {Object}
-		 */
-		this.vehicleRules = {
-			/** Sets if the setting will be visible in the module's settings */
-			config: false,
-			/** List with actor types that are considered vehicles (e.g. spacecraft, drone, etc) */
-			vehicles: ["vehicle"],
-		};
+	/**
+	 * Configuration for the Death Marker setting.
+	 * @param {Boolean} config	Sets if the setting will be visible in the module's settings
+	 * @param {Boolean} default	Sets the setting's default value
+	 * @type {Object}
+	 */
+	deathMarker = {
+		config: !CONFIG.statusEffects.dead,
+		default: CONFIG.statusEffects.dead?.img || "icons/svg/skull.svg",
+	};
 
-		/**
-		 * Sets if the "Add Temporary Health" setting is enabled.
-		 * @type {Boolean}
-		 */
-		this.addTemp = false;
+	/**
+	 * Default value of the Estimations setting.
+	 * @type {{Array}}
+	 */
+	estimations = [
+		{
+			name: "",
+			ignoreColor: false,
+			rule: "",
+			estimates: [
+				{ value: 0, label: t("core.estimates.states.0") },
+				{ value: 25, label: t("core.estimates.states.1") },
+				{ value: 50, label: t("core.estimates.states.2") },
+				{ value: 75, label: t("core.estimates.states.3") },
+				{ value: 99, label: t("core.estimates.states.4") },
+				{ value: 100, label: t("core.estimates.states.5") },
+			],
+			actorTypes: []
+		},
+	];
 
-		/**
-		 * Sets the default value for the "Hide on tokens with 0 max HP" setting. Hidden if set to false.
-		 * @type {false|String}
-		 */
-		this.breakOnZeroMaxHP = false;
+	/**
+	 * Non-exhaustive list of possible character-types that should use the DeathStateName. This is way to avoid vehicles being "Dead"
+	 * @type {string[]}
+	 */
+	organicTypes = ["character", "pc", "monster", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
 
-		/**
-		 * Default value of the Estimations setting.
-		 * @type {{Array}}
-		 */
-		this.estimations = [
-			{
-				name: "",
-				ignoreColor: false,
-				rule: "",
-				estimates: [
-					{ value: 0, label: t("core.estimates.states.0") },
-					{ value: 25, label: t("core.estimates.states.1") },
-					{ value: 50, label: t("core.estimates.states.2") },
-					{ value: 75, label: t("core.estimates.states.3") },
-					{ value: 99, label: t("core.estimates.states.4") },
-					{ value: 100, label: t("core.estimates.states.5") },
-				],
-				actorTypes: []
-			},
-		];
-	}
+	/**
+	 *
+	 * @param {Boolean} config	Sets if the setting will be visible in the module's settings
+	 * @param {String[]} vehicles	List with actor types that are considered vehicles (e.g. spacecraft, drone, etc)
+	 * @type {Object}
+	 */
+	vehicleRules = {
+		config: false,
+		vehicles: ["vehicle"],
+	};
 
 	_breakAttribute = "token.actor.system.attributes.hp.max";
 

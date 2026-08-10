@@ -6,30 +6,27 @@ export default class cyberpunkRedCoreEstimationProvider extends EstimationProvid
 	// The issue is that this data is only broadcast to GMs, not other users.
 	// See https://github.com/mclemente/healthEstimate/issues/119
 	// and https://gitlab.com/cyberpunk-red-team/fvtt-cyberpunk-red-core/-/issues/680
-	constructor() {
-		super();
-		this.estimations = [
-			{
-				estimates: [
-					{ value: 0, label: game.i18n.localize("CPR.global.woundState.dead") },
-					{ value: 1, label: game.i18n.localize("CPR.global.woundState.mortallyWounded") },
-					{ value: 50, label: game.i18n.localize("CPR.global.woundState.seriouslyWounded") },
-					{ value: 99, label: game.i18n.localize("CPR.global.woundState.lightlyWounded") },
-					{ value: 100, label: game.i18n.localize("CPR.global.woundState.notWounded") },
-				],
-			},
-			{
-				name: `${game.i18n.localize("TYPES.Actor.Blackice")}/${game.i18n.localize("TYPES.Actor.Demon")}`,
-				estimates: [
-					{ value: 0, label: t("cyberpunk-red-core.unorganics.0") },
-					{ value: 50, label: t("cyberpunk-red-core.unorganics.2") },
-					{ value: 99, label: t("cyberpunk-red-core.unorganics.3") },
-					{ value: 100, label: t("cyberpunk-red-core.unorganics.4") },
-				],
-				actorTypes: ["blackIce", "demon"]
-			},
-		];
-	}
+	estimations = [
+		{
+			estimates: [
+				{ value: 0, label: game.i18n.localize("CPR.global.woundState.dead") },
+				{ value: 1, label: game.i18n.localize("CPR.global.woundState.mortallyWounded") },
+				{ value: 50, label: game.i18n.localize("CPR.global.woundState.seriouslyWounded") },
+				{ value: 99, label: game.i18n.localize("CPR.global.woundState.lightlyWounded") },
+				{ value: 100, label: game.i18n.localize("CPR.global.woundState.notWounded") },
+			],
+		},
+		{
+			name: `${game.i18n.localize("TYPES.Actor.Blackice")}/${game.i18n.localize("TYPES.Actor.Demon")}`,
+			estimates: [
+				{ value: 0, label: t("cyberpunk-red-core.unorganics.0") },
+				{ value: 50, label: t("cyberpunk-red-core.unorganics.2") },
+				{ value: 99, label: t("cyberpunk-red-core.unorganics.3") },
+				{ value: 100, label: t("cyberpunk-red-core.unorganics.4") },
+			],
+			actorTypes: ["blackIce", "demon"]
+		},
+	];
 
 	fraction(token) {
 		let hp;
