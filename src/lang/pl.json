@@ -1,0 +1,108 @@
+{
+	"healthEstimate": {
+		"SETTINGS": {
+			"display": {
+				"name": "Wyświetl Szacunki",
+				"options": {
+					"default": "Po najechaniu myszką",
+					"nameplate": "Koloruj nazwy",
+					"disabled": "Nigdy nie pokazuj",
+					"always": "Zawsze pokazuj"
+				}
+			}
+		},
+		"core": {
+			"sample": "Przykład",
+			"custom": {
+				"FractionHP": {
+					"name": "Ścieżka do atrybutu Punktów Życia",
+					"hint": "Twój system może używać innej ścieżki do danych. Jeżeli Szacunki nie wyświetlają się poprawnie, wpisz ścieżkę do poprawnej wartości."
+				},
+				"FractionMath": {
+					"name": "Równanie ułamkowe",
+					"choices": {
+						"0": "(Obecne PŻ)/(Maks. PŻ)",
+						"1": "(Maks. PŻ - Obecne PŻ)/(Maks. PŻ)"
+					},
+					"hint": "Równanie PŻ twojego systemu może być inne niż domyślne, wybierz równanie używane celem oszacowania części życia."
+				}
+			},
+			"estimates": {
+				"plural": "Przybliżenia",
+				"worst": "Najgorsze",
+				"best": "Najlepsze",
+				"states": {
+					"0": "Nieprzytomny",
+					"1": "Bliski Śmierci",
+					"2": "Ciężko Ranny",
+					"3": "Ranny",
+					"4": "Ledwo Draśnięty",
+					"5": "Nietknięty"
+				},
+				"vehicles": {
+					"0": "Zniszczony",
+					"1": "W Płomieniach",
+					"2": "Kopcący się",
+					"3": "Obity",
+					"4": "Porysowany",
+					"5": "Nieskazitelny"
+				},
+				"thresholds": {
+					"0": "Zniszczony",
+					"1": "Popsuty",
+					"2": "W pełni funkcjonalny"
+				}
+			},
+			"estimationSettings": {
+				"AddEstimate": "Dodaj szacowanie",
+				"addTable": "Dodaj tabelę",
+				"newTable": "Nowa tabela",
+				"default": "Domyślne",
+				"deleteTable": "Usuń tabelę",
+				"actorTypes": "Typy aktorów",
+				"estimate": "Oszacowanie",
+				"jsRule": "Zasada w JavaScript",
+				"prioDecrease": "Obniż priorytet",
+				"prioIncrease": "Zwiększ priorytet",
+				"ignoreColor": {
+					"hint": "Ignoruje kolory z tej tabeli i używa kolory z następnej poprawnej tabeli dla Tokenu. Jest to zamierzone dla warunków, które powinny brać pierwszeństwo nad oszacowaniem, ale nadam ma odzwierciedlać schemat kolorów dla oszacowania.",
+					"name": "Zignoruj kolor"
+				},
+				"title": "Ustawienia Szacowań"
+			},
+			"keybinds": {
+				"markDead": {
+					"name": "Oznacz jako Martwy",
+					"hint": "Oznacza wszystkie zaznaczone tokeny jako Martwe. Jeżeli wszystkie są martwe, zostaną przywrócone do życia."
+				},
+				"hideEstimates": {
+					"name": "Ukryj Oszacowania przed Graczami",
+					"hint": "Ukryte oszacowania będą pokazywane z symbolem gwiazdki (*) Mistrzowi Gry."
+				},
+				"dontMarkDead": {
+					"name": "Nie oznaczaj jako Martwe",
+					"hint": "Powoduje, że NPC nie są pokazywani jako Martwi, kiedy oszacowanie osiąga wartość 0. Jest to przydatne tylko gdy korzystasz z ustawienia \"{setting}\"."
+				}
+			},
+			"combatOnly": {
+				"name": "Pokazuj tylko w trakcie walki",
+				"hint": "Pokazuj oszacowania tylko w trakcie trwania aktywnej walki."
+			},
+			"showDescription": {
+				"name": "Pokazuj Oszacowania: Użytkownicy",
+				"hint": "Pokazuje szacunki poniższym użytkownikom.",
+				"choices": {
+					"all": "Wszyscy",
+					"GM": "Mistrzowie Gry",
+					"Players": "Gracze",
+					"NPC": "NPC",
+					"PC": "PC"
+				}
+			},
+			"showDescriptionTokenType": {
+				"name": "Pokazuj Szacowania: Tokeny",
+				"hint": "Pokazuje szacowania następującym tokenom."
+			}
+		}
+	}
+}
