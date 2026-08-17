@@ -24,7 +24,7 @@
 		"rollup": "^2.79.2",
 		"vinyl-buffer": "^1.0.1",
 		"vinyl-source-stream": "^2.0.0",
-		"yargs": "^18.0.0"
+		"yargs": "^18.1.0"
 	},
 	"lint-staged": {
 		"*.(js|cjs|mjs)": "eslint --fix",
