@@ -2,6 +2,8 @@ import { isEmpty } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class bandOfBladesEstimationProvider extends EstimationProvider {
+	filteredTypes = ["role", "chosen", "minion", "\uD83D\uDD5B clock"];
+
 	fraction(token) {
 		const hp = token.actor.system.harm;
 		let harmLevel = 0;
@@ -26,13 +28,5 @@ export default class bandOfBladesEstimationProvider extends EstimationProvider {
 			}
 		}
 		return 1 - (harmLevel / 18);
-	}
-
-	get breakCondition() {
-		return `
-		|| token.actor.type === "role"
-		|| token.actor.type === "chosen"
-		|| token.actor.type === "minion"
-		|| token.actor.type === "\uD83D\uDD5B clock"`;
 	}
 }

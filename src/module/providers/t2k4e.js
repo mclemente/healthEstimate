@@ -2,27 +2,32 @@ import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class t2k4eEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.vehicleRules.config = true;
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-		this.estimations = [
-			...this.estimations,
-			{
-				name: "Vehicles",
-				estimates: [
-					{ value: 0, label: t("core.estimates.vehicles.0") },
-					{ value: 20, label: t("core.estimates.vehicles.1") },
-					{ value: 40, label: t("core.estimates.vehicles.2") },
-					{ value: 60, label: t("core.estimates.vehicles.3") },
-					{ value: 80, label: t("core.estimates.vehicles.4") },
-					{ value: 100, label: t("core.estimates.vehicles.5") },
-				],
-				actorTypes: ["vehicle"]
-			},
-		];
-	}
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
+
+	estimations = [
+		...this.estimations,
+		{
+			name: "Vehicles",
+			estimates: [
+				{ value: 0, label: t("core.estimates.vehicles.0") },
+				{ value: 20, label: t("core.estimates.vehicles.1") },
+				{ value: 40, label: t("core.estimates.vehicles.2") },
+				{ value: 60, label: t("core.estimates.vehicles.3") },
+				{ value: 80, label: t("core.estimates.vehicles.4") },
+				{ value: 100, label: t("core.estimates.vehicles.5") },
+			],
+			actorTypes: ["vehicle"]
+		},
+	];
+
+	filteredTypes = ["party", "unit"];
+
+	vehicleRules = {
+		config: true,
+		vehicles: ["vehicle"],
+	};
 
 	fraction(token) {
 		const type = token.actor.type;
@@ -39,18 +44,9 @@ export default class t2k4eEstimationProvider extends EstimationProvider {
 		return Math.min((temp + hp.value) / hp.max, 1);
 	}
 
-	get breakCondition() {
-		let str = "false";
-		if (!["false", "none"].includes(game.settings.get("healthEstimate", "core.breakOnZeroMaxHP"))) {
-			str = `
-				(${this.isVehicle} && token.actor.system.reliability.max ${this.breakMaxHPValue})
-				|| (!${this.isVehicle} && token.actor.system.health.max ${this.breakMaxHPValue})
-			`;
-		}
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		|| token.actor.type == "unit"
-		|| token.actor.type == "party"
-		|| ${str}`;
+	breakAttribute(token) {
+		return this.isVehicle(token)
+			? token.actor.system.reliability.max
+			: token.actor.system.health.max;
 	}
 }

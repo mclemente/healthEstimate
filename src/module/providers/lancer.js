@@ -1,15 +1,14 @@
 import EstimationProvider from "./templates/Base.js";
 
 export default class lancerEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.breakOnZeroMaxHP = "zero";
-	}
-
-	_breakAttribute = "token.actor.system?.hp?.max";
+	breakOnZeroMaxHP = "zero";
 
 	fraction(token) {
 		const hp = token.actor.system.hp;
 		return hp.value / hp.max;
+	}
+
+	breakAttribute(token) {
+		return token.actor.system?.hp?.max;
 	}
 }

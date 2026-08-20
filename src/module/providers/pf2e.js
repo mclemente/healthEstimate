@@ -2,26 +2,27 @@ import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class pf2eEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-		this.estimations = [
-			...this.estimations,
-			{
-				name: "Vehicles & Hazards",
-				estimates: [
-					{ value: 0, label: t("core.estimates.vehicles.0") },
-					{ value: 20, label: t("core.estimates.vehicles.1") },
-					{ value: 40, label: t("core.estimates.vehicles.2") },
-					{ value: 60, label: t("core.estimates.vehicles.3") },
-					{ value: 80, label: t("core.estimates.vehicles.4") },
-					{ value: 100, label: t("core.estimates.vehicles.5") },
-				],
-				actorTypes: ["vehicle", "hazard"]
-			},
-		];
-	}
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
+
+	estimations = [
+		...this.estimations,
+		{
+			name: "Vehicles & Hazards",
+			estimates: [
+				{ value: 0, label: t("core.estimates.vehicles.0") },
+				{ value: 20, label: t("core.estimates.vehicles.1") },
+				{ value: 40, label: t("core.estimates.vehicles.2") },
+				{ value: 60, label: t("core.estimates.vehicles.3") },
+				{ value: 80, label: t("core.estimates.vehicles.4") },
+				{ value: 100, label: t("core.estimates.vehicles.5") },
+			],
+			actorTypes: ["vehicle", "hazard"]
+		},
+	];
+
+	filteredTypes = ["loot", "party"];
 
 	fraction(token) {
 		const data = foundry.utils.deepClone(token.actor.system.attributes);
@@ -66,12 +67,9 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 		};
 	}
 
-	get breakCondition() {
-		return `
-        || token.actor.type === 'vehicle' && game.settings.get('healthEstimate', 'PF2E.hideVehicleHP')
-        || token.actor.type === 'hazard' && game.settings.get('healthEstimate', 'PF2E.hideHazardHP')
-        || token.actor.type === 'loot'
-        || token.actor.type === 'party'
-        ${super.breakCondition}`;
+	breakCondition(token) {
+		return (token.actor.type === "vehicle" && game.settings.get("healthEstimate", "PF2E.hideVehicleHP"))
+			|| (token.actor.type === "hazard" && game.settings.get("healthEstimate", "PF2E.hideHazardHP"))
+			|| super.breakCondition(token);
 	}
 }

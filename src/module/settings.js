@@ -42,16 +42,7 @@ export const registerSettings = function () {
 		},
 		onChange: (value) => {
 			game.healthEstimate.settings.display = value;
-			canvas.tokens?.placeables.forEach((token) => {
-				const estimate = game.healthEstimate._cache[token.document.id];
-				if (["nameplate", "disabled"].includes(value)) {
-					if (estimate && !estimate.destroyed) {
-						estimate.parent?.removeChild(estimate);
-						estimate.destroy();
-					}
-				}
-				game.healthEstimate._handleOverlay(token, game.healthEstimate.showCondition(token.hover));
-			});
+			if (["nameplate", "disabled"].includes(value)) game.healthEstimate.clearOverlays();
 		},
 	});
 	/* Settings for the main settings menu */
@@ -82,7 +73,7 @@ export const registerSettings = function () {
 				),
 				actorTypes: new SetField(new StringField({
 					choices: Object.fromEntries(CONFIG.Actor.documentClass.TYPES
-						.filter((t) => t !== "base")
+						.filter((t) => t !== "base" && !game.healthEstimate.provider.filteredTypes.includes(t))
 						.map((t) => {
 							let label = CONFIG.Actor.typeLabels[t];
 							label = label && game.i18n.has(label) ? _loc(label) : t;
@@ -133,8 +124,8 @@ export const registerSettings = function () {
 				one: "healthEstimate.core.breakOnZeroMaxHP.options.one",
 				zeroOrOne: "healthEstimate.core.breakOnZeroMaxHP.options.zeroOrOne"
 			}}),
-		onChange: () => {
-			game.healthEstimate.updateBreakConditions();
+		onChange: (value) => {
+			game.healthEstimate.settings.breakOnZeroMaxHP = value;
 		}
 	});
 	addSetting("core.hideVehicleHP", {
@@ -161,8 +152,10 @@ export const registerSettings = function () {
 			1: t("core.showDescription.choices.GM"),
 			2: t("core.showDescription.choices.Players"),
 		},
-		onChange: () => {
-			game.healthEstimate.updateBreakConditions();
+		onChange: (value) => {
+			game.healthEstimate.settings.showDescription = value;
+			if (!value) canvas.scene?.tokens.forEach((token) => token.object.refresh());
+			else if (game.user.isGM === (value === 2)) game.healthEstimate.clearOverlays();
 		},
 	});
 	addMenuSetting("core.showDescriptionTokenType", {
@@ -173,8 +166,10 @@ export const registerSettings = function () {
 			1: t("core.showDescription.choices.PC"),
 			2: t("core.showDescription.choices.NPC"),
 		},
-		onChange: () => {
-			game.healthEstimate.updateBreakConditions();
+		onChange: (value) => {
+			game.healthEstimate.settings.showDescriptionTokenType = value;
+			if (!value) canvas.scene?.tokens.forEach((token) => token.object.refresh());
+			else game.healthEstimate.clearOverlays();
 		},
 	});
 	addMenuSetting("core.deathState", {

@@ -1,6 +1,8 @@
 import EstimationProvider from "./templates/Base.js";
 
 export default class reveDeDragonEstimationProvider extends EstimationProvider {
+	filteredTypes = ["vehicule"];
+
 	fraction(token) {
 		function ratio(node) {
 			return Math.clamped(node.value / node.max, 0, 1);
@@ -53,9 +55,5 @@ export default class reveDeDragonEstimationProvider extends EstimationProvider {
 		const ratioBlessure = 1 - ratio(estimationBlessures(token));
 
 		return Math.min(ratioBlessure, ratioEndurance, ratioFatigue, ratioVie);
-	}
-
-	get breakCondition() {
-		return "||token.actor.type === \"vehicule\"";
 	}
 }

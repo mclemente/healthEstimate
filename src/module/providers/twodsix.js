@@ -2,29 +2,30 @@ import { t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class twodsixEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.vehicleRules = {
-			config: true,
-			vehicles: ["vehicle", "ship"],
-		};
-		this.breakOnZeroMaxHP = "zero";
-		this.estimations = [
-			...this.estimations,
-			{
-				name: "Vehicles",
-				estimates: [
-					{ value: 0, label: t("core.estimates.vehicles.0") },
-					{ value: 20, label: t("core.estimates.vehicles.1") },
-					{ value: 40, label: t("core.estimates.vehicles.2") },
-					{ value: 60, label: t("core.estimates.vehicles.3") },
-					{ value: 80, label: t("core.estimates.vehicles.4") },
-					{ value: 100, label: t("core.estimates.vehicles.5") },
-				],
-				actorTypes: ["vehicle", "ship"]
-			},
-		];
-	}
+	breakOnZeroMaxHP = "zero";
+
+	estimations = [
+		...this.estimations,
+		{
+			name: "Vehicles",
+			estimates: [
+				{ value: 0, label: t("core.estimates.vehicles.0") },
+				{ value: 20, label: t("core.estimates.vehicles.1") },
+				{ value: 40, label: t("core.estimates.vehicles.2") },
+				{ value: 60, label: t("core.estimates.vehicles.3") },
+				{ value: 80, label: t("core.estimates.vehicles.4") },
+				{ value: 100, label: t("core.estimates.vehicles.5") },
+			],
+			actorTypes: ["vehicle", "ship"]
+		},
+	];
+
+	filteredTypes = ["world"];
+
+	vehicleRules = {
+		config: true,
+		vehicles: ["vehicle", "ship"],
+	};
 
 	fraction(token) {
 		switch (token.actor.type) {
@@ -72,16 +73,9 @@ export default class twodsixEstimationProvider extends EstimationProvider {
 		}
 	}
 
-	get breakCondition() {
-		let str = "false";
-		if (!["false", "none"].includes(game.settings.get("healthEstimate", "core.breakOnZeroMaxHP"))) {
-			str = `
-			(token.actor.system?.hits?.max ${this.breakMaxHPValue}
-			|| token.actor.system?.shipStats?.hull.max${this.breakMaxHPValue})
-			|| token.actor.system?.count?.max ${this.breakMaxHPValue}`;
-		}
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		|| token.actor.type !== "vehicle" && ${str}`;
+	breakAttribute(token) {
+		return token.actor.system?.hits?.max
+			?? token.actor.system?.shipStats?.hull.max
+			?? token.actor.system?.count?.max;
 	}
 }

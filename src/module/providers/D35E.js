@@ -2,39 +2,39 @@ import { f, sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class D35EEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.customLogic = `
+	customLogic = `
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
 		if (game.settings.get("healthEstimate", "core.addTemp")) {
 			addTemp = hp.temp;
 		}
 		const totalHp = hp.value + addTemp;`;
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-		this.estimations = [
-			...this.estimations,
-			{
-				name: game.i18n.localize("D35E.Disabled"),
-				ignoreColor: true,
-				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (totalHp === 0 || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Disabled\")))",
-				estimates: [{ value: 100, label: game.i18n.localize("D35E.Disabled") }],
-			},
-			{
-				name: game.i18n.localize("D35E.Staggered"),
-				ignoreColor: true,
-				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (hp.nonlethal > 0 && totalHp == hp.nonlethal) || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Staggered\"))",
-				estimates: [{ value: 100, label: game.i18n.localize("D35E.Staggered") }],
-			},
-			{
-				name: game.i18n.localize("D35E.Unconscious"),
-				ignoreColor: true,
-				rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (hp.nonlethal > totalHp || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Unconscious\")))",
-				estimates: [{ value: 100, label: game.i18n.localize("D35E.Unconscious") }],
-			},
-		];
-	}
+
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
+
+	estimations = [
+		...this.estimations,
+		{
+			name: game.i18n.localize("D35E.Disabled"),
+			ignoreColor: true,
+			rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (totalHp === 0 || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Disabled\")))",
+			estimates: [{ value: 100, label: game.i18n.localize("D35E.Disabled") }],
+		},
+		{
+			name: game.i18n.localize("D35E.Staggered"),
+			ignoreColor: true,
+			rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (hp.nonlethal > 0 && totalHp == hp.nonlethal) || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Staggered\"))",
+			estimates: [{ value: 100, label: game.i18n.localize("D35E.Staggered") }],
+		},
+		{
+			name: game.i18n.localize("D35E.Unconscious"),
+			ignoreColor: true,
+			rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && (hp.nonlethal > totalHp || Array.from(token.actor.effects.values()).some((x) => x.name === game.i18n.localize(\"D35E.Unconscious\")))",
+			estimates: [{ value: 100, label: game.i18n.localize("D35E.Unconscious") }],
+		},
+	];
 
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;

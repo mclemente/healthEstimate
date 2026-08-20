@@ -2,41 +2,44 @@ import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class sfrpgEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.organicTypes.push("npc2");
-		this.vehicleRules = {
-			config: true,
-			vehicles: ["starship", "vehicle"],
-		};
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-		this.estimations = [
-			...this.estimations,
-			{
-				name: "Vehicle Threshold",
-				rule: "game.settings.get(\"healthEstimate\", \"starfinder.useThreshold\")",
-				estimates: [
-					{ value: 0, label: t("core.estimates.thresholds.0") },
-					{ value: 50, label: t("core.estimates.thresholds.1") },
-					{ value: 100, label: t("core.estimates.thresholds.2") },
-				],
-				actorTypes: ["vehicle"]
-			},
-			{
-				name: "Vehicles, Starships & Drones",
-				estimates: [
-					{ value: 0, label: t("core.estimates.vehicles.0") },
-					{ value: 20, label: t("core.estimates.vehicles.1") },
-					{ value: 40, label: t("core.estimates.vehicles.2") },
-					{ value: 60, label: t("core.estimates.vehicles.3") },
-					{ value: 80, label: t("core.estimates.vehicles.4") },
-					{ value: 100, label: t("core.estimates.vehicles.5") },
-				],
-				actorTypes: ["starship", "vehicle", "drone"]
-			},
-		];
-	}
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
+
+	estimations = [
+		...this.estimations,
+		{
+			name: "Vehicle Threshold",
+			rule: "game.settings.get(\"healthEstimate\", \"starfinder.useThreshold\")",
+			estimates: [
+				{ value: 0, label: t("core.estimates.thresholds.0") },
+				{ value: 50, label: t("core.estimates.thresholds.1") },
+				{ value: 100, label: t("core.estimates.thresholds.2") },
+			],
+			actorTypes: ["vehicle"]
+		},
+		{
+			name: "Vehicles, Starships & Drones",
+			estimates: [
+				{ value: 0, label: t("core.estimates.vehicles.0") },
+				{ value: 20, label: t("core.estimates.vehicles.1") },
+				{ value: 40, label: t("core.estimates.vehicles.2") },
+				{ value: 60, label: t("core.estimates.vehicles.3") },
+				{ value: 80, label: t("core.estimates.vehicles.4") },
+				{ value: 100, label: t("core.estimates.vehicles.5") },
+			],
+			actorTypes: ["starship", "vehicle", "drone"]
+		},
+	];
+
+	organicTypes = [...this.organicTypes, "npc2"];
+
+	filteredTypes = ["hazard"];
+
+	vehicleRules = {
+		config: true,
+		vehicles: ["starship", "vehicle"],
+	};
 
 	fraction(token) {
 		const type = token.actor.type;
@@ -77,12 +80,5 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 				default: false,
 			},
 		};
-	}
-
-	get breakCondition() {
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-        || token.actor.type === 'hazard'
-        ${super.breakCondition}`;
 	}
 }

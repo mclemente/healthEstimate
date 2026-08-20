@@ -2,10 +2,7 @@ import { sGet, t } from "../../utils.js";
 import EstimationProvider from "./Base.js";
 
 export default class GenericEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.addTemp = true;
-	}
+	addTemp = true;
 
 	fraction(token) {
 		const hpPath = sGet("core.custom.FractionHP");

@@ -2,6 +2,8 @@ import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class cyphersystemEstimationProvider extends EstimationProvider {
+	filteredTypes = ["marker"];
+
 	fraction(token) {
 		const actor = token.actor;
 		if (actor.type === "pc") {
@@ -41,9 +43,5 @@ export default class cyphersystemEstimationProvider extends EstimationProvider {
 				default: 0.1,
 			},
 		};
-	}
-
-	get breakCondition() {
-		return "|| ![ 'pc', 'npc', 'companion','community' ].includes(token.actor.type)";
 	}
 }
