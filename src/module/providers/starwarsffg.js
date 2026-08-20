@@ -20,6 +20,8 @@ export default class starwarsffgEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	filteredTypes = ["hazard"];
+
 	vehicleRules = {
 		config: true,
 		vehicles: ["vehicle"],
@@ -33,17 +35,9 @@ export default class starwarsffgEstimationProvider extends EstimationProvider {
 		return Math.min((hp.max - hp.value) / hp.max, 1);
 	}
 
-	get breakCondition() {
-		let str = "false";
-		if (!["false", "none"].includes(game.settings.get("healthEstimate", "core.breakOnZeroMaxHP"))) {
-			str = `
-				(token.actor.type === 'vehicle' && token.actor.system.stats.hullTrauma.max ${this.breakMaxHPValue})
-				|| (token.actor.type !== 'vehicle' && token.actor.system.stats.wounds.max ${this.breakMaxHPValue})
-			`;
-		}
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-        || token.actor.type === 'hazard'
-        || ${str}`;
+	breakAttribute(token) {
+		return this.isVehicle(token)
+			? token.actor.system.attributes.hullTrauma.max
+			: token.actor.system.stats.wounds.max;
 	}
 }

@@ -34,6 +34,8 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 
 	organicTypes = [...this.organicTypes, "npc2"];
 
+	filteredTypes = ["hazard"];
+
 	vehicleRules = {
 		config: true,
 		vehicles: ["starship", "vehicle"],
@@ -78,12 +80,5 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 				default: false,
 			},
 		};
-	}
-
-	get breakCondition() {
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-        || token.actor.type === 'hazard'
-        ${super.breakCondition}`;
 	}
 }

@@ -37,10 +37,14 @@ export default class crucibleEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	filteredTypes = ["group"];
+
 	// Only Heroes and Adversaries track Health/Wounds & Morale/Madness. Group actors have no resources at all.
 	organicTypes = ["hero", "adversary"];
 
-	_breakAttribute = "token.actor.system.resources.health.max";
+	breakAttribute(token) {
+		return token.actor.system.resources.health.max;
+	}
 
 	/**
 	 * Combines Health and Wounds into a single smooth fraction. Health depletes first, then further damage
@@ -50,11 +54,5 @@ export default class crucibleEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const { resources, usesReserveResources } = token.actor.system;
 		return poolFraction(resources.health, resources.wounds, usesReserveResources);
-	}
-
-	get breakCondition() {
-		return `
-		|| token.actor.type === "group"
-		${super.breakCondition}`;
 	}
 }

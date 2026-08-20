@@ -3,7 +3,7 @@ import EstimationProvider from "./templates/Base.js";
 export default class forbiddenLandsEstimationProvider extends EstimationProvider {
 	breakOnZeroMaxHP = "zero";
 
-	_breakAttribute = "token.actor.system.attribute.strength.max";
+	filteredTypes = ["party", "stronghold"];
 
 	fraction(token) {
 		switch (token.actor.type) {
@@ -17,10 +17,7 @@ export default class forbiddenLandsEstimationProvider extends EstimationProvider
 		}
 	}
 
-	get breakCondition() {
-		return `
-        || token.actor.type === "party"
-        || token.actor.type === "stronghold"
-        ${super.breakCondition}`;
+	breakAttribute(token) {
+		return token.actor.system.attribute.strength.max;
 	}
 }

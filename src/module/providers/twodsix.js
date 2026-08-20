@@ -20,6 +20,8 @@ export default class twodsixEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	filteredTypes = ["world"];
+
 	vehicleRules = {
 		config: true,
 		vehicles: ["vehicle", "ship"],
@@ -71,16 +73,9 @@ export default class twodsixEstimationProvider extends EstimationProvider {
 		}
 	}
 
-	get breakCondition() {
-		let str = "false";
-		if (!["false", "none"].includes(game.settings.get("healthEstimate", "core.breakOnZeroMaxHP"))) {
-			str = `
-			(token.actor.system?.hits?.max ${this.breakMaxHPValue}
-			|| token.actor.system?.shipStats?.hull.max${this.breakMaxHPValue})
-			|| token.actor.system?.count?.max ${this.breakMaxHPValue}`;
-		}
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		|| token.actor.type !== "vehicle" && ${str}`;
+	breakAttribute(token) {
+		return token.actor.system?.hits?.max
+			?? token.actor.system?.shipStats?.hull.max
+			?? token.actor.system?.count?.max;
 	}
 }

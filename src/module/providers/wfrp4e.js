@@ -25,16 +25,12 @@ export default class wfrp4eEstimationProvider extends EstimationProvider {
 		vehicles: ["vehicle"],
 	};
 
-	_breakAttribute = "token.actor.system.status.wounds";
-
 	fraction(token) {
 		const hp = token.actor.system.status.wounds;
 		return hp.value / hp.max;
 	}
 
-	get breakCondition() {
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		${super.breakCondition}`;
+	breakAttribute(token) {
+		return token.actor.system.status.wounds;
 	}
 }

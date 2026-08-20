@@ -59,8 +59,4 @@ export default class swadeEstimationProvider extends EstimationProvider {
 	tokenEffects(token) {
 		return !!token.actor.effects.find((e) => e.img === CONFIG.statusEffects.incapacitated.img);
 	}
-
-	get breakCondition() {
-		return `|| ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')`;
-	}
 }

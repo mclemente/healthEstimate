@@ -18,6 +18,8 @@ export default class od6sEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	filteredTypes = ["container"];
+
 	vehicleRules = {
 		config: true,
 		vehicles: ["vehicle", "starship"],
@@ -58,11 +60,5 @@ export default class od6sEstimationProvider extends EstimationProvider {
 				return 1 - (od6sdamage / 5);
 			}
 		}
-	}
-
-	get breakCondition() {
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		|| token.actor.type === "container"`;
 	}
 }

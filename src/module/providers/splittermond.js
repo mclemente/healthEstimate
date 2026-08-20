@@ -57,10 +57,12 @@ export default class splittermondEstimationProvider extends EstimationProvider {
 		},
 	];
 
-	_breakAttribute = "token.actor.system.health.max";
-
 	fraction(token) {
 		const hp = token.actor.system.health;
 		return hp.total.value / hp.max;
+	}
+
+	breakAttribute(token) {
+		return token.actor.system.health.max;
 	}
 }

@@ -52,8 +52,6 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 		vehicles: ["object"],
 	};
 
-	_breakAttribute = "token.actor.system.stamina.max";
-
 	fraction(token) {
 		const stamina = token.actor.system.stamina;
 		return (stamina.value - stamina.min) / (stamina.max - stamina.min);
@@ -68,9 +66,11 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 		};
 	}
 
-	get breakCondition() {
-		return `|| ${this.isVehicle} && game.settings.get('healthEstimate', 'draw-steel.hideObjectHP')
-		|| ${this._breakAttribute} === null
-		${super.breakCondition}`;
+	breakCondition(token) {
+		return super.breakCondition(token) || this.breakAttribute(token) === null;
+	}
+
+	breakAttribute(token) {
+		return token.actor.system.stamina.max;
 	}
 }

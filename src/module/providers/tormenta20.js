@@ -6,8 +6,6 @@ export default class tormenta20EstimationProvider extends EstimationProvider {
 
 	breakOnZeroMaxHP = "zero";
 
-	_breakAttribute = "token.actor.system.attributes.pv.max";
-
 	fraction(token) {
 		const hp = token.actor.system.attributes.pv;
 		let temp = 0;
@@ -15,5 +13,9 @@ export default class tormenta20EstimationProvider extends EstimationProvider {
 			temp = hp.temp;
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);
+	}
+
+	breakAttribute(token) {
+		return token.actor.system.attributes.pv.max;
 	}
 }

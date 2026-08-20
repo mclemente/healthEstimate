@@ -64,7 +64,14 @@ export default class EstimationProvider {
 	];
 
 	/**
-	 * Non-exhaustive list of possible character-types that should use the DeathStateName. This is way to avoid vehicles being "Dead"
+	 * Actor types that are skipped.
+	 * @type {string[]}
+	 */
+	filteredTypes = [];
+
+	/**
+	 * Actor types that should use the DeathStateName.
+	 * This is to avoid vehicles being labeled as "Dead".
 	 * @type {string[]}
 	 */
 	organicTypes = ["character", "pc", "monster", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
@@ -79,8 +86,6 @@ export default class EstimationProvider {
 		config: false,
 		vehicles: ["vehicle"],
 	};
-
-	_breakAttribute = "token.actor.system.attributes.hp.max";
 
 	/**
 	 * Calculates the fraction of the current health divided by the maximum health.
@@ -120,37 +125,40 @@ export default class EstimationProvider {
 	 *
 	 * @see alienrpgEstimationProvider
 	 */
-	get isVehicle() {
-		return `['${this.vehicleRules.vehicles.join("','")}'].includes(token.actor.type)`;
+	isVehicle(token) {
+		return this.vehicleRules.vehicles.join("','").includes(token.actor.type);
 	}
 
 	/**
 	 * A set of conditionals written as a string that will stop the rendering of the estimate.
+	 * @param {Token} token
 	 * @returns {String}
 	 *
 	 * @see dnd5eEstimationProvider
 	 * @see pf2eEstimationProvider
 	 */
-	get breakCondition() {
-		const breakOnZeroMaxHP = game.settings.get("healthEstimate", "core.breakOnZeroMaxHP");
+	breakCondition(token) {
+		const breakOnZeroMaxHP = game.healthEstimate.settings.breakOnZeroMaxHP;
+
+		if (
+			this.vehicleRules.config
+			&& this.isVehicle(token)
+			&& game.healthEstimate.settings.hideVehicleHP
+		) return true;
+
 		// "false" was the original value of "none" for when the setting was a Boolean
 		if (this.breakOnZeroMaxHP && !["false", "none"].includes(breakOnZeroMaxHP)) {
-			return `|| ${this.breakAttribute} ${this.breakMaxHPValue}`;
+			// "true" was the original value of 0 for when the setting was a Boolean
+			if (breakOnZeroMaxHP === "zero" || breakOnZeroMaxHP === "true") return this.breakAttribute(token) === 0;
+			if (breakOnZeroMaxHP === "one") return this.breakAttribute(token) === 1;
+			if (breakOnZeroMaxHP === "zeroOrOne") return this.breakAttribute(token) <= 1;
 		}
-		return "|| false";
+
+		return false;
 	}
 
-	get breakAttribute() {
-		return this._breakAttribute;
-	}
-
-	// eslint-disable-next-line getter-return
-	get breakMaxHPValue() {
-		const breakOnZeroMaxHP = game.settings.get("healthEstimate", "core.breakOnZeroMaxHP");
-		// "true" was the original value of 0 for when the setting was a Boolean
-		if (breakOnZeroMaxHP === "zero" || breakOnZeroMaxHP === "true") return "=== 0";
-		if (breakOnZeroMaxHP === "one") return "=== 1";
-		if (breakOnZeroMaxHP === "zeroOrOne") return "<= 1";
+	breakAttribute(token) {
+		return token.actor?.system?.attributes?.hp?.max;
 	}
 
 	/**

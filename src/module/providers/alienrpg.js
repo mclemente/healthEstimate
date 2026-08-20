@@ -38,14 +38,9 @@ export default class alienrpgEstimationProvider extends EstimationProvider {
 		return hp.value / hp.max;
 	}
 
-	get breakCondition() {
-		return `
-		|| ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		|| (game.settings.get('healthEstimate', 'core.breakOnZeroMaxHP')
-			&& (
-				(${this.isVehicle} && token.actor.system.attributes.hull.max === 0)
-				|| (!${this.isVehicle} && token.actor.system.header.health.max === 0)
-			)
-		)`;
+	breakAttribute(token) {
+		return this.isVehicle(token)
+			? token.actor.system.attributes.hull.max
+			: token.actor.system.header.health.max;
 	}
 }

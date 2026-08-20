@@ -22,6 +22,8 @@ export default class dnd5eEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	filteredTypes = ["group"];
+
 	vehicleRules = {
 		config: true,
 		vehicles: ["vehicle"],
@@ -35,11 +37,7 @@ export default class dnd5eEstimationProvider extends EstimationProvider {
 		return Math.min(hp.value / hp.effectiveMax, 1);
 	}
 
-	get breakCondition() {
-		return `
-        || ${this.isVehicle} && game.settings.get('healthEstimate', 'core.hideVehicleHP')
-		|| token.actor.type == 'group'
-		|| ${this._breakAttribute} === null
-		${super.breakCondition}`;
+	breakCondition(token) {
+		return super.breakCondition(token) || this.breakAttribute(token) === null;
 	}
 }

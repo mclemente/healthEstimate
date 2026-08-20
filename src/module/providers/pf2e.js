@@ -22,6 +22,8 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	filteredTypes = ["loot", "party"];
+
 	fraction(token) {
 		const data = foundry.utils.deepClone(token.actor.system.attributes);
 		const hp = data.hp;
@@ -65,12 +67,9 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 		};
 	}
 
-	get breakCondition() {
-		return `
-        || token.actor.type === 'vehicle' && game.settings.get('healthEstimate', 'PF2E.hideVehicleHP')
-        || token.actor.type === 'hazard' && game.settings.get('healthEstimate', 'PF2E.hideHazardHP')
-        || token.actor.type === 'loot'
-        || token.actor.type === 'party'
-        ${super.breakCondition}`;
+	breakCondition(token) {
+		return (token.actor.type === "vehicle" && game.settings.get("healthEstimate", "PF2E.hideVehicleHP"))
+			|| (token.actor.type === "hazard" && game.settings.get("healthEstimate", "PF2E.hideHazardHP"))
+			|| super.breakCondition(token);
 	}
 }

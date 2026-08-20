@@ -8,12 +8,14 @@ export default class wrathAndGloryEstimationProvider extends EstimationProvider 
 
 	organicTypes = ["agent", "threat"];
 
-	_breakAttribute = "token.actor.system.combat.wounds.max";
-
 	fraction(token) {
 		const hp = token.actor.system.combat.wounds;
 		let temp = 0;
 		if (sGet("core.addTemp")) temp = Number(hp.bonus);
 		return (Number(hp.max) + temp - Number(hp.value)) / (Number(hp.max) + temp);
+	}
+
+	breakAttribute(token) {
+		return token.actor.system.combat.wounds.max;
 	}
 }

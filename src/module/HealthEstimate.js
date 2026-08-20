@@ -1,7 +1,7 @@
 import * as providers from "./providers/_module.js";
 import { providerKeys } from "./providers/_shared.js";
 import { registerSettings } from "./settings.js";
-import { addSetting, disableCheckbox, f, isEmpty, repositionTooltip, sGet, t } from "./utils.js";
+import { addSetting, disableCheckbox, f, repositionTooltip, sGet, t } from "./utils.js";
 
 export class HealthEstimate {
 	constructor() {
@@ -14,17 +14,15 @@ export class HealthEstimate {
 			?? "Generic";
 
 		/** @type {EstimateProvider} */
-		this.#estimationProvider = new providers[`${providerString}EstimationProvider`]();
+		this.provider = new providers[`${providerString}EstimationProvider`]();
 		registerSettings();
 
-		this.breakConditions.system = this.provider.breakCondition;
 		if (this.provider.tokenEffects !== undefined) {
 			this.tokenEffectsPath = this.provider.tokenEffects;
 		}
 		for (let [key, data] of Object.entries(this.provider.settings)) {
 			addSetting(key, data);
 		}
-		this.updateBreakConditions();
 		this.updateSettings();
 
 		CONFIG.queries["health-estimate-refreshTokens"] = () => {
@@ -58,8 +56,6 @@ export class HealthEstimate {
 		);
 	}
 
-	#estimationProvider;
-
 	/**
 	 * Caches estimates.
 	 * @type {{PIXI.Text}}
@@ -71,8 +67,6 @@ export class HealthEstimate {
 	 * @type {{SpriteMaterial}}
 	 */
 	_3DCache = {};
-
-	breakConditions = {};
 
 	settings = {};
 
@@ -94,14 +88,6 @@ export class HealthEstimate {
 	 */
 	get gridScale() {
 		return this.scaleToGridSize ? canvas.scene.dimensions.size / this.gridSize : 1;
-	}
-
-	/**
-	 * The module's Estimate Provider.
-	 * @type {EstimationProvider}
-	 */
-	get provider() {
-		return this.#estimationProvider;
 	}
 
 	/**
@@ -128,9 +114,14 @@ export class HealthEstimate {
 	_handleOverlay(token, hovered) {
 		if (
 			!token?.actor
-			|| this.breakOverlayRender(token)
-			|| (!game.user.isGM && this.hideEstimate(token))
 			|| this.settings.display === "disabled"
+			|| (!game.user.isGM && this.hideEstimate(token))
+			|| (this.settings.showDescription === 1 && !game.user.isGM)
+			|| (this.settings.showDescription === 2 && game.user.isGM)
+			|| (this.settings.showDescriptionTokenType === 1 && !token.actor?.hasPlayerOwner)
+			|| (this.settings.showDescriptionTokenType === 2 && token.actor?.hasPlayerOwner)
+			|| this.provider.filteredTypes.includes(token.actor.type)
+			|| this.provider.breakCondition(token)
 		) return;
 
 		// Create PIXI
@@ -171,6 +162,20 @@ export class HealthEstimate {
 				err
 			);
 		}
+	}
+
+	clearOverlay(token) {
+		const estimate = this._cache[token.document.id];
+		if (estimate && !estimate.destroyed) {
+			estimate.parent?.removeChild(estimate);
+			estimate.destroy();
+			delete this._cache[token.document.id];
+		}
+		this._handleOverlay(token, this.showCondition(token.hover));
+	}
+
+	clearOverlays() {
+		canvas.tokens?.placeables.forEach((token) => this.clearOverlay(token));
 	}
 
 	/**
@@ -338,10 +343,11 @@ export class HealthEstimate {
 		};
 
 		for (const [iteration, estimation] of this.estimations.entries()) {
-			if (!estimation.actorTypes.size && (estimation.rule === "default" || estimation.rule === "")) continue;
-			if (estimation.actorTypes.size && !estimation.actorTypes.has(token.actor.type)) continue;
-			if (validateEstimation(iteration, token, estimation)) {
-				if (estimation.ignoreColor) {
+			const { actorTypes, ignoreColor, rule } = estimation;
+			if (!actorTypes.size && ["default", ""].includes(rule)) continue;
+			if (actorTypes.size && !actorTypes.has(token.actor.type)) continue;
+			if ((actorTypes.has(token.actor.type) && !rule) || validateEstimation(iteration, token, estimation)) {
+				if (ignoreColor) {
 					special = estimation;
 				} else {
 					return {
@@ -508,53 +514,16 @@ export class HealthEstimate {
 	}
 
 	/**
-	 * Updates the Break Conditions and the Overlay Render's Break Condition method.
-	 * @returns {Boolean}
-	 */
-	updateBreakConditions() {
-		this.breakConditions.onlyGM = sGet("core.showDescription") === 1 ? "|| !game.user.isGM" : "";
-		this.breakConditions.onlyNotGM = sGet("core.showDescription") === 2 ? "|| game.user.isGM" : "";
-		this.breakConditions.onlyPCs =
-			sGet("core.showDescriptionTokenType") === 1 ? "|| !token.actor?.hasPlayerOwner" : "";
-		this.breakConditions.onlyNPCs =
-			sGet("core.showDescriptionTokenType") === 2 ? "|| token.actor?.hasPlayerOwner" : "";
-
-		const prep = (key) => (isEmpty(this.breakConditions[key]) ? "" : this.breakConditions[key]);
-
-		this.breakOverlayRender = (token) => {
-			try {
-				// eslint-disable-next-line no-new-func
-				return new Function(
-					"token",
-					`return (
-						false
-						${prep("onlyGM")}
-						${prep("onlyNotGM")}
-						${prep("onlyNPCs")}
-						${prep("onlyPCs")}
-						${prep("system")}
-					)`
-				)(token);
-			} catch(err) {
-				if (err.name === "TypeError") {
-					console.warn(
-						`Health Estimate | Error on breakOverlayRender(), skipping. Token Name: "${token.name}". Type: "${token.document.actor.type}".`,
-						err
-					);
-					return true;
-				}
-				console.error(err);
-			}
-		};
-	}
-
-	/**
 	 * Variables for settings to avoid multiple system calls for them, since the estimate can be called really often.
 	 * Updates the variables if any setting was changed.
 	 */
 	updateSettings() {
 		this.settings = {
 			display: sGet("display"),
+			showDescription: sGet("core.showDescription"),
+			showDescriptionTokenType: sGet("core.showDescriptionTokenType"),
+			breakOnZeroMaxHP: sGet("core.breakOnZeroMaxHP"),
+			hideVehicleHP: sGet("core.hideVehicleHP"),
 		};
 
 		this.descriptions = sGet("core.stateNames").split(/[,;]\s*/);

@@ -28,6 +28,8 @@ export default class cyberpunkRedCoreEstimationProvider extends EstimationProvid
 		},
 	];
 
+	filteredTypes = ["container"];
+
 	fraction(token) {
 		let hp;
 		if (token.actor.system.derivedStats) {
@@ -36,9 +38,5 @@ export default class cyberpunkRedCoreEstimationProvider extends EstimationProvid
 			hp = token.actor.system.stats.rez;
 		}
 		return hp.value / hp.max;
-	}
-
-	get breakCondition() {
-		return "|| token.actor.type === 'container'";
 	}
 }
