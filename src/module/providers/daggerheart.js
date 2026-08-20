@@ -6,12 +6,12 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 	estimations = [
 		...this.estimations,
 		{
-			name: "unconscious",
+			name: _loc("DAGGERHEART.CONFIG.Condition.unconscious.name"),
 			rule: "effects.values().some((ef) => ef.statuses.has('unconscious'));",
 			estimates: [{ value: 100, label: game.i18n.localize("EFFECT.StatusUnconscious") }],
 		},
 		{
-			name: "dead",
+			name: _loc("DAGGERHEART.CONFIG.Condition.dead.name"),
 			ignoreColor: true,
 			rule: `
 				const { unconscious, defeated, dead } = CONFIG.DH.GENERAL.conditions;
@@ -20,7 +20,7 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 			estimates: [{ value: 100, label: "Dead" }],
 		},
 		{
-			name: "companion",
+			name: _loc("TYPES.Actor.companion"),
 			estimates: [
 				{ value: 0, label: "Fleeing" },
 				{ value: 25, label: "Frightened" },
