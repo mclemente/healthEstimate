@@ -33,6 +33,8 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	filteredTypes = ["environment", "npc", "party"];
+
 	organicTypes = ["character", "adversary", "companion"];
 
 	fraction(token) {
