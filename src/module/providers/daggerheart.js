@@ -3,6 +3,10 @@ import EstimationProvider from "./templates/Base.js";
 export default class daggerheartEstimationProvider extends EstimationProvider {
 	breakOnZeroMaxHP = "zero";
 
+	customLogic = `
+		const { unconscious, defeated, dead } = CONFIG.DH.GENERAL.conditions();
+		const defeatedConditions = new Set([unconscious.id, defeated.id, dead.id]);`;
+
 	estimations = [
 		...this.estimations,
 		{
@@ -13,10 +17,7 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 		{
 			name: _loc("DAGGERHEART.CONFIG.Condition.dead.name"),
 			ignoreColor: true,
-			rule: `
-				const { unconscious, defeated, dead } = CONFIG.DH.GENERAL.conditions;
-				const defeatedConditions = new Set([unconscious.id, defeated.id, dead.id]);
-				return actor?.statuses.intersection(defeatedConditions)?.size;`.trim(),
+			rule: "actor?.statuses.intersection(defeatedConditions)?.size;",
 			estimates: [{ value: 100, label: "Dead" }],
 		},
 		{
