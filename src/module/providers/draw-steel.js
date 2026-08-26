@@ -45,6 +45,8 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	filteredTypes = ["party"];
+
 	organicTypes = ["hero", "npc"];
 
 	vehicleRules = {
