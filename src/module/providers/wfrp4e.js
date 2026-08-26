@@ -20,10 +20,7 @@ export default class wfrp4eEstimationProvider extends EstimationProvider {
 		},
 	];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["vehicle"],
-	};
+	vehicleConfig = true;
 
 	fraction(token) {
 		const hp = token.actor.system.status.wounds;

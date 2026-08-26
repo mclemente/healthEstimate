@@ -36,10 +36,9 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 
 	filteredTypes = ["hazard"];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["starship", "vehicle"],
-	};
+	vehicleConfig = true;
+
+	vehicleTypes = ["starship", "vehicle"];
 
 	fraction(token) {
 		const type = token.actor.type;

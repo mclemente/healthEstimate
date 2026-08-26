@@ -24,10 +24,7 @@ export default class t2k4eEstimationProvider extends EstimationProvider {
 
 	filteredTypes = ["party", "unit"];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["vehicle"],
-	};
+	vehicleConfig = true;
 
 	fraction(token) {
 		const type = token.actor.type;

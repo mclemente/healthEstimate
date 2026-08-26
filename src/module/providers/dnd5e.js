@@ -24,10 +24,7 @@ export default class dnd5eEstimationProvider extends EstimationProvider {
 
 	filteredTypes = ["group"];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["vehicle"],
-	};
+	vehicleConfig = true;
 
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;

@@ -22,10 +22,9 @@ export default class twodsixEstimationProvider extends EstimationProvider {
 
 	filteredTypes = ["world"];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["vehicle", "ship"],
-	};
+	vehicleConfig = true;
+
+	vehicleTypes = ["ship", "vehicle"];
 
 	fraction(token) {
 		switch (token.actor.type) {

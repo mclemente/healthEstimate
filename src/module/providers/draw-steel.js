@@ -49,10 +49,7 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 
 	organicTypes = ["hero", "npc"];
 
-	vehicleRules = {
-		config: false,
-		vehicles: ["object"],
-	};
+	vehicleTypes = ["object"];
 
 	fraction(token) {
 		const stamina = token.actor.system.stamina;

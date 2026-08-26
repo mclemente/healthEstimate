@@ -77,15 +77,16 @@ export default class EstimationProvider {
 	organicTypes = ["character", "pc", "monster", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
 
 	/**
-	 *
-	 * @param {Boolean} config	Sets if the setting will be visible in the module's settings
-	 * @param {String[]} vehicles	List with actor types that are considered vehicles (e.g. spacecraft, drone, etc)
-	 * @type {Object}
+	 * Sets if the setting will be visible in the module's settings
+	 * @type {Boolean}
 	 */
-	vehicleRules = {
-		config: false,
-		vehicles: ["vehicle"],
-	};
+	vehicleConfig = false;
+
+	/**
+	 * List with actor types that are considered vehicles (e.g. spacecraft, drone, etc)
+	 * @type {string[]}
+	 */
+	vehicleTypes = ["vehicle"];
 
 	/**
 	 * Calculates the fraction of the current health divided by the maximum health.
@@ -126,7 +127,7 @@ export default class EstimationProvider {
 	 * @see alienrpgEstimationProvider
 	 */
 	isVehicle(token) {
-		return this.vehicleRules.vehicles.join("','").includes(token.actor.type);
+		return this.vehicleTypes.join("','").includes(token.actor.type);
 	}
 
 	/**
@@ -140,11 +141,7 @@ export default class EstimationProvider {
 	breakCondition(token) {
 		const breakOnZeroMaxHP = game.healthEstimate.settings.breakOnZeroMaxHP;
 
-		if (
-			this.vehicleRules.config
-			&& this.isVehicle(token)
-			&& game.healthEstimate.settings.hideVehicleHP
-		) return true;
+		if (this.vehicleConfig && this.isVehicle(token) && game.healthEstimate.settings.hideVehicleHP) return true;
 
 		// "false" was the original value of "none" for when the setting was a Boolean
 		if (this.breakOnZeroMaxHP && !["false", "none"].includes(breakOnZeroMaxHP)) {

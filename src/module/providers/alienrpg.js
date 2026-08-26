@@ -20,10 +20,9 @@ export default class alienrpgEstimationProvider extends EstimationProvider {
 		},
 	];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["vehicles", "spacecraft"],
-	};
+	vehicleConfig = true;
+
+	vehicleTypes = ["vehicles", "spacecraft"];
 
 	fraction(token) {
 		if (token.actor.type === "vehicles") {

@@ -28,10 +28,7 @@ export default class swadeEstimationProvider extends EstimationProvider {
 		},
 	];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["vehicle"],
-	};
+	vehicleConfig = true;
 
 	fraction(token) {
 		const hp = token.actor.system.wounds;

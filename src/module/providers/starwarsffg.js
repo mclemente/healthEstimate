@@ -22,10 +22,7 @@ export default class starwarsffgEstimationProvider extends EstimationProvider {
 
 	filteredTypes = ["hazard"];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["vehicle"],
-	};
+	vehicleConfig = true;
 
 	fraction(token) {
 		let hp = token.actor.system.stats.wounds;

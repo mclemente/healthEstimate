@@ -20,10 +20,9 @@ export default class od6sEstimationProvider extends EstimationProvider {
 
 	filteredTypes = ["container"];
 
-	vehicleRules = {
-		config: true,
-		vehicles: ["vehicle", "starship"],
-	};
+	vehicleConfig = true;
+
+	vehicleTypes = ["starship", "vehicle"];
 
 	fraction(token) {
 		const type = token.actor.type;
