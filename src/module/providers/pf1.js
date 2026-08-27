@@ -1,4 +1,4 @@
-import { sGet, t } from "../utils.js";
+import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class pf1EstimationProvider extends EstimationProvider {
@@ -9,15 +9,15 @@ export default class pf1EstimationProvider extends EstimationProvider {
 	estimations = [
 		...this.estimations,
 		{
-			name: game.i18n.localize("PF1.CondStaggered"),
+			name: _loc("PF1.Condition.staggered"),
 			ignoreColor: true,
-			estimates: [{ value: 100, label: game.i18n.localize("PF1.CondStaggered") }],
+			estimates: [{ value: 100, label: _loc("PF1.Condition.staggered") }],
 			statusEffects: ["staggered"]
 		},
 		{
-			name: t("PF1.dyingName.name"),
+			name: _loc("PF1.Condition.dying"),
 			ignoreColor: true,
-			estimates: [{ value: 100, label: t("PF1.dyingName.default") }],
+			estimates: [{ value: 100, label: _loc("PF1.Condition.dying") }],
 			statusEffects: ["dying"]
 		},
 	];
