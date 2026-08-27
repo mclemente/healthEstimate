@@ -257,18 +257,6 @@
 			"addNonlethal": {
 				"name": "Use Nonlethal Damage",
 				"hint": "If enabled nonlethal damage will be substracted from current health for estimation."
-			},
-			"showExtra": {
-				"name": "Show {condition1} & {condition2}",
-				"hint": "Shows the {condition1} and {condition2} descriptions when their prerequisites are fulfilled."
-			},
-			"disabledName": {
-				"name": "Staggered Stage",
-				"default": "Staggered"
-			},
-			"dyingName": {
-				"name": "Unconscious Stage",
-				"default": "Unconscious"
 			}
 		},
 		"PF2E": {
@@ -283,10 +271,6 @@
 			"hideVehicleHP": {
 				"name": "Hide Vehicle's Estimate",
 				"hint": "Hides the estimate from Vehicles."
-			},
-			"workbenchMystifier": {
-				"name": "(EXPERIMENTAL) PF2e Workbench's Mystifier Support",
-				"hint": "If the NPC Mystification settings are enabled, Chat Outputs will ignore the {setting} setting's name and use the token's name if it is different from its actor's Prototype Token's name."
 			}
 		},
 		"numenera": {
@@ -296,10 +280,6 @@
 			}
 		},
 		"starfinder": {
-			"useThreshold": {
-				"name": "Use Vehicle Threshold",
-				"hint": "Defines which estimation table will be used when calculating a Vehicle's estimatives."
-			},
 			"addStamina": {
 				"name": "Account for Stamina",
 				"hint": "With this setting on, Stamina will be added to HP for calculations."
@@ -315,10 +295,6 @@
 			"defaultWildCardMaxWounds": {
 				"name": "Default Wild Card's Max Wounds",
 				"hint": "This is used to calculate the max wounds a Wild Card NPC should have by default for estimations."
-			},
-			"showIncap": {
-				"name": "{incap} Status Effect",
-				"hint": "Tokens with the {incap} Status Effect will be shown as {incap} instead of their current estimates. Doesn't work for tokens that are vehicles or dead."
 			}
 		}
 	}
