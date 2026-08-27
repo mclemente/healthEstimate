@@ -4,8 +4,9 @@ import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 const { createNumberInput, createTextInput } = foundry.applications.fields;
 
 function createInput(id, fields, { index, localize, value }) {
-	let inputValue = value[id];
-	return fields[id].toFormGroup({ hidden: index === 0, localize }, { name: `${index}.${id}`, value: inputValue });
+	const groupConfig = { hidden: index === 0, localize, stacked: ["actorTypes", "statusEffects"].includes(id) };
+	const inputConfig = { name: `${index}.${id}`, value: value[id] };
+	return fields[id].toFormGroup(groupConfig, inputConfig);
 }
 
 export default class HealthEstimateEstimationSettings extends HealthEstimateSettingsV2 {
@@ -145,9 +146,11 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		`;
 		estimatesTable.append(lastRow);
 
-		div.append(estimatesTable, ...["name", "actorTypes", "statusEffects", "ignoreColor"].map((id) =>
-			createInput(id, field.element.fields, inputConfig)
-		));
+		div.append(
+			createInput("name", field.element.fields, inputConfig),
+			estimatesTable,
+			...["actorTypes", "statusEffects", "ignoreColor"].map((id) => createInput(id, field.element.fields, inputConfig))
+		);
 		if (index !== 0) {
 			const isLast = index === this.estimations.length - 1;
 			div.append(this.createEstimationButtons(index, isLast));
