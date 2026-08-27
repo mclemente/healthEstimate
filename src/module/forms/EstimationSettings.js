@@ -1,6 +1,14 @@
 import { sGet, sSet, t } from "../utils.js";
 import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 
+const { createNumberInput, createTextInput } = foundry.applications.fields;
+
+function createInput(id, fields, { index, localize, value }) {
+	const groupConfig = { hidden: index === 0, localize, stacked: ["actorTypes", "statusEffects"].includes(id) };
+	const inputConfig = { name: `${index}.${id}`, value: value[id] };
+	return fields[id].toFormGroup(groupConfig, inputConfig);
+}
+
 export default class HealthEstimateEstimationSettings extends HealthEstimateSettingsV2 {
 	constructor(object, options = {}) {
 		super(object, options);
@@ -16,6 +24,10 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			addEstimation: HealthEstimateEstimationSettings.addEstimation,
 			deleteEstimation: HealthEstimateEstimationSettings.deleteEstimation,
 			reset: HealthEstimateEstimationSettings.reset,
+		},
+		position: {
+			width: 780,
+			height: 680
 		},
 		form: {
 			handler: HealthEstimateEstimationSettings.#onSubmit
@@ -79,14 +91,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 
 	#estimationWidget(field, _groupConfig, inputConfig) {
 		const div = document.createElement("div");
-		const { fields } = field.element;
-		const { index, localize, value } = inputConfig;
-
-		function createInput(id) {
-			let inputValue = value[id];
-			if (id === "rule" && inputValue === "default") inputValue = "";
-			return fields[id].toFormGroup({ hidden: index === 0, localize }, { name: `${index}.${id}`, value: inputValue });
-		}
+		const { index, value } = inputConfig;
 
 		const estimatesTable = document.createElement("table");
 		estimatesTable.className = "estimation-types";
@@ -98,18 +103,18 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		`;
 		estimatesTable.append(tableHeader);
 
-		value.estimates.forEach((estimate, i) => {
+		value.estimates.sort((a, b) => a.value - b.value).forEach((estimate, i) => {
 			const row = document.createElement("tr");
 			const labelCell = document.createElement("td");
 			labelCell.append(
-				foundry.applications.fields.createTextInput({
+				createTextInput({
 					name: `${index}.estimates.${i}.label`,
 					value: estimate.label
 				})
 			);
 			const valueCell = document.createElement("td");
 			valueCell.append(
-				foundry.applications.fields.createNumberInput({
+				createNumberInput({
 					name: `${index}.estimates.${i}.value`,
 					value: estimate.value,
 					min: 0,
@@ -141,7 +146,11 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		`;
 		estimatesTable.append(lastRow);
 
-		div.append(estimatesTable, ...["name", "actorTypes", "rule", "ignoreColor"].map(createInput));
+		div.append(
+			createInput("name", field.element.fields, inputConfig),
+			estimatesTable,
+			...["actorTypes", "statusEffects", "ignoreColor"].map((id) => createInput(id, field.element.fields, inputConfig))
+		);
 		if (index !== 0) {
 			const isLast = index === this.estimations.length - 1;
 			div.append(this.createEstimationButtons(index, isLast));
@@ -230,11 +239,11 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		const data = foundry.utils.expandObject(formData.object);
 		const estimations = [];
 		for (const key in data) {
-			const { name, actorTypes, rule, ignoreColor, estimates } = data[key];
+			const { name, actorTypes, statusEffects, ignoreColor, estimates } = data[key];
 			const sortedEstimates = Object.keys(estimates)
 				.sort((a, b) => estimates[a].value - estimates[b].value)
 				.map((innerKey) => estimates[innerKey]);
-			estimations.push({ name, actorTypes, rule, ignoreColor, estimates: sortedEstimates });
+			estimations.push({ name, actorTypes, statusEffects, ignoreColor, estimates: sortedEstimates });
 		}
 		sSet("core.estimations", estimations);
 	}
@@ -244,7 +253,6 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		this.tabGroups.main = String(this.estimations.length);
 		this.estimations.push({
 			name: game.i18n.localize("healthEstimate.core.estimationSettings.newTable"),
-			rule: "",
 			estimates: [
 				{
 					label: t("core.estimates.worst"),

@@ -1,4 +1,4 @@
-import { f, sGet, t } from "../utils.js";
+import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class pf1EstimationProvider extends EstimationProvider {
@@ -6,31 +6,19 @@ export default class pf1EstimationProvider extends EstimationProvider {
 
 	breakOnZeroMaxHP = "zero";
 
-	customLogic = `
-		const hp = token.actor.system.attributes.hp;
-		let addTemp = 0;
-		if (game.settings.get("healthEstimate", "core.addTemp")) {
-			addTemp = hp.temp;
-		}
-		const totalHp = hp.value + addTemp;`;
-
 	estimations = [
 		...this.estimations,
 		{
 			name: game.i18n.localize("PF1.CondStaggered"),
 			ignoreColor: true,
-			rule: `
-				game.settings.get("healthEstimate", "PF1.showExtra") &&
-				(totalHp === 0 ||
-					(hp.nonlethal > 0 && totalHp == hp.nonlethal) ||
-					Array.from(token.actor.effects.values()).some((x) => x.label === game.i18n.localize("PF1.CondStaggered")))`,
 			estimates: [{ value: 100, label: game.i18n.localize("PF1.CondStaggered") }],
+			statusEffects: ["staggered"]
 		},
 		{
 			name: t("PF1.dyingName.name"),
 			ignoreColor: true,
-			rule: "game.settings.get(\"healthEstimate\", \"PF1.showExtra\") && hp.nonlethal > totalHp",
 			estimates: [{ value: 100, label: t("PF1.dyingName.default") }],
+			statusEffects: ["dying"]
 		},
 	];
 
@@ -63,28 +51,6 @@ export default class pf1EstimationProvider extends EstimationProvider {
 			"PF1.addNonlethal": {
 				type: Boolean,
 				default: true,
-			},
-			"PF1.showExtra": {
-				name: f("PF1.showExtra.name", {
-					condition1: t("PF1.disabledName.default"),
-					condition2: t("PF1.dyingName.default"),
-				}),
-				hint: f("PF1.showExtra.hint", {
-					condition1: t("PF1.disabledName.default"),
-					condition2: t("PF1.dyingName.default"),
-				}),
-				type: Boolean,
-				default: true,
-			},
-			"PF1.disabledName": {
-				type: String,
-				default: t("PF1.disabledName.default"),
-				config: false,
-			},
-			"PF1.dyingName": {
-				type: String,
-				default: t("PF1.dyingName.default"),
-				config: false,
 			},
 		};
 	}

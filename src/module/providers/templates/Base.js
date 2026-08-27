@@ -14,12 +14,6 @@ export default class EstimationProvider {
 	breakOnZeroMaxHP = false;
 
 	/**
-	 * Code that will be run during HealthEstimate.getTokenEstimate()
-	 * @type {string}
-	 */
-	customLogic = "";
-
-	/**
 	 * Default value of the Death State setting.
 	 * @type {Boolean}
 	 * */
@@ -50,7 +44,7 @@ export default class EstimationProvider {
 		{
 			name: "",
 			ignoreColor: false,
-			rule: "",
+			// Doesn't need to be ordered, it gets sorted out when displayed and saved.
 			estimates: [
 				{ value: 0, label: t("core.estimates.states.0") },
 				{ value: 25, label: t("core.estimates.states.1") },
@@ -59,7 +53,8 @@ export default class EstimationProvider {
 				{ value: 99, label: t("core.estimates.states.4") },
 				{ value: 100, label: t("core.estimates.states.5") },
 			],
-			actorTypes: []
+			actorTypes: [],
+			statusEffects: [],
 		},
 	];
 
@@ -163,12 +158,10 @@ export default class EstimationProvider {
 	 * Only use this if your system doesn't add the marker as an effect.
 	 * @returns {Boolean}
 	 *
-	 * @see dsa5EstimationProvider
-	 * @see pf2eEstimationProvider
 	 * @see swadeEstimationProvider
 	 */
-	static tokenEffects(token) {
-		return undefined;
+	tokenEffects(token) {
+		return token.actor.statuses.has(CONFIG.specialStatusEffects.DEFEATED);
 	}
 
 	/**

@@ -40,8 +40,8 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 		{
 			name: "Unconscious",
 			ignoreColor: true,
-			rule: "effects.values().some((ef) => ef.statuses.has('sleep'));",
 			estimates: [{ value: 100, label: game.i18n.localize("EFFECT.StatusUnconscious") }],
+			statusEffects: ["sleep"]
 		},
 	];
 
