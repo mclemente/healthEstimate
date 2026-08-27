@@ -17,9 +17,6 @@ export class HealthEstimate {
 		this.provider = new providers[`${providerString}EstimationProvider`]();
 		registerSettings();
 
-		if (this.provider.tokenEffects !== undefined) {
-			this.tokenEffectsPath = this.provider.tokenEffects;
-		}
 		for (let [key, data] of Object.entries(this.provider.settings)) {
 			addSetting(key, data);
 		}
@@ -456,17 +453,16 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	isDead(token, stage) {
-		const isOrganicType = this.provider.organicTypes.includes(token.actor.type);
+		if (!this.provider.organicTypes.includes(token.actor.type)) return false;
 		const isNPCJustDie =
 			this.NPCsJustDie
 			&& !token.actor.hasPlayerOwner
 			&& stage === 0
 			&& !token.document.getFlag("healthEstimate", "dontMarkDead");
-		const isShowDead = this.showDead && this.tokenEffectsPath(token);
-		const isDefeated = this.showDead && token.combatant?.defeated;
+		const isDefeated = this.showDead && (token.combatant?.defeated || this.provider.tokenEffects(token));
 		const isFlaggedDead = token.document.getFlag("healthEstimate", "dead") || false;
 
-		return isOrganicType && (isNPCJustDie || isShowDead || isDefeated || isFlaggedDead);
+		return isNPCJustDie || isDefeated || isFlaggedDead;
 	}
 
 	/**
@@ -482,17 +478,6 @@ export class HealthEstimate {
 		return (
 			(this.settings.display === "always" || hovered) && (combatTrigger || !this.combatOnly)
 		);
-	}
-
-	/**
-	 * Path of the token's effects. Useful for systems that change how it is handled (e.g. PF2e, DSA5, SWADE).
-	 * @returns {Boolean}
-	 */
-	tokenEffectsPath(token) {
-		const deadIcon = this.provider.deathMarker.config
-			? this.deathMarker
-			: CONFIG.statusEffects.dead?.img ?? this.deathMarker;
-		return Array.from(token.actor.effects.values()).some((x) => x.img === deadIcon);
 	}
 
 	/**

@@ -54,6 +54,6 @@ export default class swadeEstimationProvider extends EstimationProvider {
 	}
 
 	tokenEffects(token) {
-		return !!token.actor.effects.find((e) => e.img === CONFIG.statusEffects.incapacitated.img);
+		return token.actor.statuses.intersects(new Set(["incapacitated", "dead"]));
 	}
 }

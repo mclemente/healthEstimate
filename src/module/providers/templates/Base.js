@@ -158,12 +158,10 @@ export default class EstimationProvider {
 	 * Only use this if your system doesn't add the marker as an effect.
 	 * @returns {Boolean}
 	 *
-	 * @see dsa5EstimationProvider
-	 * @see pf2eEstimationProvider
 	 * @see swadeEstimationProvider
 	 */
-	static tokenEffects(token) {
-		return undefined;
+	tokenEffects(token) {
+		return token.actor.statuses.has(CONFIG.specialStatusEffects.DEFEATED);
 	}
 
 	/**
