@@ -2,7 +2,7 @@ import * as forms from "./forms/_module.js";
 import { addMenuSetting, addSetting, f, repositionTooltip, t } from "./utils.js";
 
 const {
-	ArrayField, BooleanField, JavaScriptField, NumberField, SchemaField, SetField, StringField
+	ArrayField, BooleanField, NumberField, SchemaField, SetField, StringField
 } = foundry.data.fields;
 
 export const registerSettings = function () {
@@ -60,11 +60,6 @@ export const registerSettings = function () {
 					hint: "healthEstimate.core.estimationSettings.ignoreColor.hint",
 					localize: true
 				}),
-				rule: new JavaScriptField({
-					initial: "",
-					label: "healthEstimate.core.estimationSettings.jsRule",
-					localize: true
-				}),
 				estimates: new ArrayField(
 					new SchemaField({
 						value: new NumberField({ required: true, min: 0, max: 100, nullable: false }),
@@ -82,7 +77,19 @@ export const registerSettings = function () {
 					validationError: "must be a value in Actor.TYPES",
 				}), {
 					label: "healthEstimate.core.estimationSettings.actorTypes",
-				})
+				}),
+				statusEffects: new SetField(new StringField({
+					choices: Object.fromEntries(
+						Object.entries(CONFIG.statusEffects)
+							.map(([key, data]) => {
+								let label = CONFIG.statusEffects[key].name;
+								if (game.i18n.has(label)) label = _loc(label);
+								return [key, { ...data, label }];
+							})),
+					validationError: "must be a value in CONFIG.statusEffects",
+				}), {
+					label: "healthEstimate.core.estimationSettings.statusEffects",
+				}),
 			}),
 			{
 				empty: false,

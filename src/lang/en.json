@@ -64,6 +64,7 @@
 				"actorTypes": "Actor Types",
 				"estimate": "Estimate",
 				"jsRule": "JavaScript Rule",
+				"statusEffects": "Status Effects",
 				"prioDecrease": "Decrease Priority",
 				"prioIncrease": "Increase Priority",
 				"ignoreColor": {

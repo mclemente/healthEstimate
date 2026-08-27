@@ -10,7 +10,6 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 		...this.estimations,
 		{
 			name: "Vehicle Threshold",
-			rule: "game.settings.get(\"healthEstimate\", \"starfinder.useThreshold\")",
 			estimates: [
 				{ value: 0, label: t("core.estimates.thresholds.0") },
 				{ value: 50, label: t("core.estimates.thresholds.1") },
@@ -19,7 +18,7 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 			actorTypes: ["vehicle"]
 		},
 		{
-			name: "Vehicles, Starships & Drones",
+			name: "Starships & Drones",
 			estimates: [
 				{ value: 0, label: t("core.estimates.vehicles.0") },
 				{ value: 20, label: t("core.estimates.vehicles.1") },
@@ -28,7 +27,7 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 				{ value: 80, label: t("core.estimates.vehicles.4") },
 				{ value: 100, label: t("core.estimates.vehicles.5") },
 			],
-			actorTypes: ["starship", "vehicle", "drone"]
+			actorTypes: ["starship", "drone"]
 		},
 	];
 
@@ -56,14 +55,7 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 				const temp = sGet("core.addTemp") ? hp.temp ?? 0 : 0;
 				return Math.min((hp.value + (sp.value * addStamina) + temp) / (hp.max + (sp.max * addStamina)), 1);
 			}
-			case "vehicle":
-				if (sGet("starfinder.useThreshold")) {
-					if (hp.value > hp.threshold) return 1;
-					else if (hp.value > 0) return 0.5;
-					return 0;
-				}
-			// eslint-disable-next-line no-fallthrough
-			case "starship":
+			default:
 				return hp.value / hp.max;
 		}
 	}
@@ -73,10 +65,6 @@ export default class sfrpgEstimationProvider extends EstimationProvider {
 			"starfinder.addStamina": {
 				type: Boolean,
 				default: true,
-			},
-			"starfinder.useThreshold": {
-				type: Boolean,
-				default: false,
 			},
 		};
 	}

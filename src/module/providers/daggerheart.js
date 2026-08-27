@@ -3,22 +3,18 @@ import EstimationProvider from "./templates/Base.js";
 export default class daggerheartEstimationProvider extends EstimationProvider {
 	breakOnZeroMaxHP = "zero";
 
-	customLogic = `
-		const { unconscious, defeated, dead } = CONFIG.DH.GENERAL.conditions();
-		const defeatedConditions = new Set([unconscious.id, defeated.id, dead.id]);`;
-
 	estimations = [
 		...this.estimations,
 		{
 			name: _loc("DAGGERHEART.CONFIG.Condition.unconscious.name"),
-			rule: "effects.values().some((ef) => ef.statuses.has('unconscious'));",
 			estimates: [{ value: 100, label: game.i18n.localize("EFFECT.StatusUnconscious") }],
+			statusEffect: ["unconscious"]
 		},
 		{
 			name: _loc("DAGGERHEART.CONFIG.Condition.dead.name"),
 			ignoreColor: true,
-			rule: "actor?.statuses.intersection(defeatedConditions)?.size;",
 			estimates: [{ value: 100, label: "Dead" }],
+			statusEffect: ["unconscious", "defeated", "dead"]
 		},
 		{
 			name: _loc("TYPES.Actor.companion"),
