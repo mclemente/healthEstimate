@@ -99,6 +99,11 @@ export class HealthEstimate {
 		return ((this.fontSize * this.gridScale) / this.zoomLevel) * 4;
 	}
 
+	get scaleMultiplier() {
+		if (game.system.id === "crucible") return 0.25 / 4;
+		return 0.25;
+	}
+
 	/**
 	 * The current zoom level. If the Scale to Zoom setting is disabled, always returns 1.
 	 * @type {Number}
@@ -212,7 +217,7 @@ export class HealthEstimate {
 		this._cache[token.id] = estimate;
 		token.healthEstimate = estimate;
 		estimate.alpha = token.mesh.alpha;
-		estimate.scale.set(scale * 0.25);
+		estimate.scale.set(scale * this.scaleMultiplier);
 		estimate.anchor.set(0.5, 1);
 		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
@@ -232,7 +237,7 @@ export class HealthEstimate {
 		estimate.style.stroke = stroke;
 		estimate.visible = true;
 		estimate.alpha = token.mesh.alpha;
-		estimate.scale.set(scale * 0.25);
+		estimate.scale.set(scale * this.scaleMultiplier);
 		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
 
