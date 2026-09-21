@@ -351,19 +351,25 @@ export class HealthEstimate {
 		let stroke = "";
 		try {
 			const fraction = Number(this.getFraction(token));
-			const { estimate, index } = this.getStage(token, fraction);
+			const stage = this.getStage(token, fraction);
+			const { estimate } = stage;
 			const isDead = this.isDead(token, estimate.value);
 
-			const colorIndex = this.smoothGradient
-				? Math.max(0, Math.ceil((this.colors.length - 1) * fraction))
-				: index;
+			let { index } = stage;
+
+			if (!this.useColor) {
+				index = 0;
+			} else if (this.smoothGradient) {
+				index = Math.max(0, Math.ceil((this.colors.length - 1) * fraction));
+			}
+
 			estimate.label = isDead ? this.deathStateName : estimate.label;
 			if (isDead) {
 				color = this.deadColor;
 				stroke = this.deadOutline;
 			} else {
-				color = this.colors[colorIndex];
-				stroke = this.outline[colorIndex];
+				color = this.colors[index];
+				stroke = this.outline[index];
 				if (token.document.disposition === -2) stroke = CONFIG.Canvas.dispositionColors.SECRET;
 			}
 			desc = this.hideEstimate(token) ? `${estimate.label}*` : estimate.label;
@@ -505,6 +511,7 @@ export class HealthEstimate {
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 
 		this.smoothGradient = sGet("core.menuSettings.smoothGradient");
+		this.useColor = sGet("core.menuSettings.useColor");
 
 		this.height = sGet("core.menuSettings.position");
 		this.position = sGet("core.menuSettings.position2");
