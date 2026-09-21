@@ -43,6 +43,10 @@ export const registerSettings = function () {
 		onChange: (value) => {
 			game.healthEstimate.settings.display = value;
 			if (["nameplate", "disabled"].includes(value)) game.healthEstimate.clearOverlays();
+			else {
+				canvas.scene?.tokens.forEach((token) => token.object.refresh());
+				User.queryMany(game.users, "health-estimate-refreshTokens");
+			}
 		},
 	});
 	/* Settings for the main settings menu */
