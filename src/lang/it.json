@@ -4,7 +4,7 @@
 			"custom": {
 				"FractionHP": {
 					"name": "Percorso Dati Attributo Punti Ferita",
-					"hint": "Il tuo sistema potrebbe utilizzare un altro percorso dati. Se la stima non viene visualizzata correttamente, inserisci il percorso dei dati nell'attributo corretto (es. actor.system.health)."
+					"hint": "Il tuo sistema potrebbe utilizzare un altro percorso dati. Se la stima non viene visualizzata correttamente, inserisci il percorso dei dati nell'attributo corretto."
 				},
 				"FractionMath": {
 					"name": "Equazione Frazione PF",
@@ -55,7 +55,8 @@
 					"name": "Ignora Colore",
 					"hint": "Ignora i colori di questa tabella e utilizza i colori della successiva tabella valida per il token. Questo è pensato per le condizioni che dovrebbero avere la priorità su una stima, ma che riflettono comunque lo schema di colori della stima."
 				},
-				"newTable": "Nuova Tabella"
+				"newTable": "Nuova Tabella",
+				"actorTypes": "Tipi Personaggio"
 			},
 			"keybinds": {
 				"markDead": {
@@ -72,11 +73,11 @@
 				},
 				"dontMarkDead": {
 					"name": "Non contrassegnare come Morto",
-					"hint": "Gli NPC non vengano mostrati come Morti quando i loro PF raggiungono 0 (es mostrerà Privo di Sensi). Ciò è utile solo se utilizzi l'impostazione {setting}."
+					"hint": "Gli NPC non vengano mostrati come Morti quando la loro stima raggiunge 0. Ciò è utile solo se utilizzi l'impostazione {setting}."
 				},
 				"hideEstimates": {
-					"name": "Nascondi Stime",
-					"hint": "Nasconde ai giocatori le stime dei token selezionati. Le stime nascoste non verranno visualizzate nella chat se l'impostazione è attiva e verranno mostrate con un asterisco (*) per il DM."
+					"name": "Nascondi Stime ai Giocatori",
+					"hint": "Le stime nascoste verranno mostrate con un asterisco (*) per il DM."
 				},
 				"hideNames": {
 					"name": "Nascondi Nomi",
@@ -124,7 +125,7 @@
 				"hint2": "Mostra il token come definito nell'impostazione {setting} quando è stato contrassegnato come sconfitto in combattimento."
 			},
 			"deathStateName": {
-				"name": "Nome Stato Morte",
+				"name": "Nome Stato Morto",
 				"hint": "La descrizione mostrata quando un token è morto.",
 				"default": "Morto"
 			},
@@ -142,8 +143,8 @@
 				}
 			},
 			"NPCsJustDie": {
-				"name": "PNG muoiono immediatamente",
-				"hint": "L'ultima fase dei token i cui attori non sono selezionati dai giocatori è sostituita dall'{impostazione}. Per ulteriori informazioni su cosa significa \"selezionato dai giocatori\", leggere la sezione Configurazione utente nell'articolo \"Utenti e permessi\" di Foundry."
+				"name": "PNG muoiono",
+				"hint": "Gli NPC vengono visualizzati come Morti quando raggiungono l'ultimo stadio di salute."
 			},
 			"outputChat": {
 				"name": "Stima Output in chat",
@@ -151,7 +152,7 @@
 			},
 			"addTemp": {
 				"name": "Aggiungi Salute Temporanea",
-				"hint": "Includi punti salute temporanei nel calcolo della descrizione da mostrare.\nEs. con l'impostazione attivata, il token che riceve gli HP temporanei sembrerà \"più sano\" a meno che non sia già al massimo della salute."
+				"hint": "Includi punti salute temporanei nel calcolo della descrizione da mostrare."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Nascondi Stime sui Token",
@@ -213,7 +214,7 @@
 				},
 				"scaleToGridSize": {
 					"name": "Ridimensiona stime in base a dimensioni griglia",
-					"hint": "Ridimensiona la stima in base alla dimensione della griglia, assumendo 100 px come base."
+					"hint": "Ridimensiona la stima in base alla dimensione della griglia."
 				},
 				"scaleToZoom": {
 					"name": "Ridimensiona stime in base a zoom",
@@ -222,6 +223,10 @@
 				"scaleToTokenSize": {
 					"name": "Adatta a Dimensione Token",
 					"hint": "Adatta le stime in base alla larghezza del token."
+				},
+				"gridSize": {
+					"name": "Dimensione Griglia Base",
+					"hint": "La dimensione della griglia di base per il ridimensionamento. Utile per i pacchetti di mappe che utilizzano dimensioni della griglia differenti."
 				}
 			},
 			"sample": "Esempio"
@@ -335,6 +340,24 @@
 			"showIncap": {
 				"name": "Effetto di Stato {incap}",
 				"hint": "I token con l'effetto di stato {incap} verranno mostrati come {incap} invece delle loro stime attuali. Non funziona con i token che sono veicoli o morti."
+			}
+		},
+		"SETTINGS": {
+			"display": {
+				"name": "Mostra Stime",
+				"options": {
+					"default": "Al passaggio del mouse",
+					"always": "Mostra Sempre",
+					"nameplate": "Nomi Colore",
+					"disabled": "Non Mostrare Mai"
+				},
+				"hint": " "
+			}
+		},
+		"draw-steel": {
+			"hideObjectHP": {
+				"name": "Nascondi Stima Oggetto",
+				"hint": "Nasconde stima agli Oggetti."
 			}
 		}
 	}
