@@ -1,7 +1,7 @@
 import * as providers from "./providers/_module.js";
 import { providerKeys } from "./providers/_shared.js";
 import { registerSettings } from "./settings.js";
-import { addSetting, disableCheckbox, f, isEmpty, repositionTooltip, sGet, t } from "./utils.js";
+import { addSetting, f, repositionTooltip, sGet, t } from "./utils.js";
 
 export class HealthEstimate {
 	constructor() {
@@ -14,17 +14,12 @@ export class HealthEstimate {
 			?? "Generic";
 
 		/** @type {EstimateProvider} */
-		this.#estimationProvider = new providers[`${providerString}EstimationProvider`]();
+		this.provider = new providers[`${providerString}EstimationProvider`]();
 		registerSettings();
 
-		this.breakConditions.system = this.provider.breakCondition;
-		if (this.provider.tokenEffects !== undefined) {
-			this.tokenEffectsPath = this.provider.tokenEffects;
-		}
 		for (let [key, data] of Object.entries(this.provider.settings)) {
 			addSetting(key, data);
 		}
-		this.updateBreakConditions();
 		this.updateSettings();
 
 		CONFIG.queries["health-estimate-refreshTokens"] = () => {
@@ -47,7 +42,6 @@ export class HealthEstimate {
 		Hooks.on("deleteActiveEffect", HealthEstimate.deleteActiveEffect.bind(this));
 
 		// Rendering
-		Hooks.on("renderSettingsConfig", HealthEstimate.renderSettingsConfigHandler);
 		Hooks.on(
 			"renderPrototypeTokenConfig",
 			(_app, form, data, options) => HealthEstimate.renderTokenConfigHandler(form, data, options, "source")
@@ -57,8 +51,6 @@ export class HealthEstimate {
 			(_app, form, data, options) => HealthEstimate.renderTokenConfigHandler(form, data, options)
 		);
 	}
-
-	#estimationProvider;
 
 	/**
 	 * Caches estimates.
@@ -71,8 +63,6 @@ export class HealthEstimate {
 	 * @type {{SpriteMaterial}}
 	 */
 	_3DCache = {};
-
-	breakConditions = {};
 
 	settings = {};
 
@@ -97,20 +87,17 @@ export class HealthEstimate {
 	}
 
 	/**
-	 * The module's Estimate Provider.
-	 * @type {EstimationProvider}
-	 */
-	get provider() {
-		return this.#estimationProvider;
-	}
-
-	/**
 	 * The Font Size scaled to the current grid scale and zoom level.
 	 * Multiplies by 4 to increase the resolution.
 	 * @type {Number}
 	 */
 	get scaledFontSize() {
 		return ((this.fontSize * this.gridScale) / this.zoomLevel) * 4;
+	}
+
+	get scaleMultiplier() {
+		if (game.system.id === "crucible") return 0.25 / 4;
+		return 0.25;
 	}
 
 	/**
@@ -128,9 +115,14 @@ export class HealthEstimate {
 	_handleOverlay(token, hovered) {
 		if (
 			!token?.actor
-			|| this.breakOverlayRender(token)
-			|| (!game.user.isGM && this.hideEstimate(token))
 			|| this.settings.display === "disabled"
+			|| (!game.user.isGM && this.hideEstimate(token))
+			|| (this.settings.showDescription === 1 && !game.user.isGM)
+			|| (this.settings.showDescription === 2 && game.user.isGM)
+			|| (this.settings.showDescriptionTokenType === 1 && !token.actor?.hasPlayerOwner)
+			|| (this.settings.showDescriptionTokenType === 2 && token.actor?.hasPlayerOwner)
+			|| this.provider.filteredTypes.includes(token.actor.type)
+			|| this.provider.breakCondition(token)
 		) return;
 
 		// Create PIXI
@@ -173,6 +165,20 @@ export class HealthEstimate {
 		}
 	}
 
+	clearOverlay(token) {
+		const estimate = this._cache[token.document.id];
+		if (estimate && !estimate.destroyed) {
+			estimate.parent?.removeChild(estimate);
+			estimate.destroy();
+			delete this._cache[token.document.id];
+		}
+		this._handleOverlay(token, this.showCondition(token.hover));
+	}
+
+	clearOverlays() {
+		canvas.tokens?.placeables.forEach((token) => this.clearOverlay(token));
+	}
+
 	/**
 	 * @typedef {Object} TextStyle
 	 * @property {Number} fontSize
@@ -207,7 +213,7 @@ export class HealthEstimate {
 		this._cache[token.id] = estimate;
 		token.healthEstimate = estimate;
 		estimate.alpha = token.mesh.alpha;
-		estimate.scale.set(scale * 0.25);
+		estimate.scale.set(scale * this.scaleMultiplier);
 		estimate.anchor.set(0.5, 1);
 		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
@@ -227,7 +233,7 @@ export class HealthEstimate {
 		estimate.style.stroke = stroke;
 		estimate.visible = true;
 		estimate.alpha = token.mesh.alpha;
-		estimate.scale.set(scale * 0.25);
+		estimate.scale.set(scale * this.scaleMultiplier);
 		estimate.position.set(token.x + (width / 2), token.y + x + y);
 	}
 
@@ -308,50 +314,30 @@ export class HealthEstimate {
 	 * @param {TokenDocument} token
 	 */
 	getTokenEstimate(token) {
-		let special;
-		const validateEstimation = (iteration, token, estimation) => {
-			const { name, rule } = estimation;
-			try {
-				const customLogic = this.provider.customLogic;
-				const actor = token.actor;
-				const args = {
-					actor,
-					items: actor.items,
-					effects: actor.effects,
-					flags: actor.flags,
-					name: actor.name,
-					system: actor.system,
-					token,
-					type: actor.type,
-					...actor.getRollData()
-				};
-				delete args.class;
-				const logic = `${customLogic}\nreturn ${rule}`;
-				// eslint-disable-next-line no-new-func
-				return new Function(...Object.keys(args), logic)(...Object.values(args));
-			} catch(err) {
-				console.warn(
-					`Health Estimate | Estimation Table "${name || iteration}" has an invalid JS Rule and has been skipped. ${err.name}: ${err.message}`
-				);
-				return false;
-			}
-		};
+		let estimates = null;
+		let special = null;
 
-		for (const [iteration, estimation] of this.estimations.entries()) {
-			if (!estimation.actorTypes.size && (estimation.rule === "default" || estimation.rule === "")) continue;
-			if (estimation.actorTypes.size && !estimation.actorTypes.has(token.actor.type)) continue;
-			if (validateEstimation(iteration, token, estimation)) {
-				if (estimation.ignoreColor) {
-					special = estimation;
+		for (const estimation of this.estimations.values()) {
+			const { actorTypes, statusEffects, ignoreColor } = estimation;
+			if (!actorTypes.size && !statusEffects.size) continue;
+			if (actorTypes.size && !actorTypes.has(token.actor.type)) continue;
+			if (statusEffects.size && !statusEffects.intersects(token.actor.statuses)) continue;
+			if (
+				(!actorTypes.size || actorTypes.has(token.actor.type))
+				&& (!statusEffects.size || statusEffects.intersects(token.actor.statuses))
+			) {
+				if (ignoreColor) {
+					special = estimation.estimates;
 				} else {
-					return {
-						estimation: foundry.utils.deepClone(estimation),
-						special: foundry.utils.deepClone(special)
-					};
+					estimates = foundry.utils.deepClone(estimation.estimates);
+					special = special ? foundry.utils.deepClone(special) : null;
 				}
 			}
 		}
-		return { estimation: foundry.utils.deepClone(this.estimations[0]), special: foundry.utils.deepClone(special) };
+		return {
+			estimates: estimates ?? foundry.utils.deepClone(this.estimations[0].estimates),
+			special
+		};
 	}
 
 	/**
@@ -365,19 +351,25 @@ export class HealthEstimate {
 		let stroke = "";
 		try {
 			const fraction = Number(this.getFraction(token));
-			const { estimate, index } = this.getStage(token, fraction);
+			const stage = this.getStage(token, fraction);
+			const { estimate } = stage;
 			const isDead = this.isDead(token, estimate.value);
 
-			const colorIndex = this.smoothGradient
-				? Math.max(0, Math.ceil((this.colors.length - 1) * fraction))
-				: index;
+			let { index } = stage;
+
+			if (!this.useColor) {
+				index = 0;
+			} else if (this.smoothGradient) {
+				index = Math.max(0, Math.ceil((this.colors.length - 1) * fraction));
+			}
+
 			estimate.label = isDead ? this.deathStateName : estimate.label;
 			if (isDead) {
 				color = this.deadColor;
 				stroke = this.deadOutline;
 			} else {
-				color = this.colors[colorIndex];
-				stroke = this.outline[colorIndex];
+				color = this.colors[index];
+				stroke = this.outline[index];
 				if (token.document.disposition === -2) stroke = CONFIG.Canvas.dispositionColors.SECRET;
 			}
 			desc = this.hideEstimate(token) ? `${estimate.label}*` : estimate.label;
@@ -418,22 +410,21 @@ export class HealthEstimate {
 	 */
 	getStage(token, fraction) {
 		try {
-			const { estimation, special } = this.getTokenEstimate(token);
-			const est = estimation.estimates;
+			const { estimates, special } = this.getTokenEstimate(token);
 			fraction = Math.round(fraction * 1000) / 10;
 			if (fraction > 99 && fraction < 100) {
-				const last = est.at(-1);
-				const previous = est.at(-2);
+				const last = estimates.at(-1);
+				const previous = estimates.at(-2);
 				const hasExclusiveHundred = last.value === 100 && previous?.value >= 99;
 				if (hasExclusiveHundred) {
-					fraction = est[est.length - 2].value;
+					fraction = estimates[estimates.length - 2].value;
 				}
 			}
 			const logic = (e) => e.value >= fraction;
-			const estimate = special
-				? special.estimates.find(logic)
-				: est.find(logic) ?? { value: fraction, label: "" };
-			const index = est.findIndex(logic);
+			const estimate = special?.find(logic)
+				?? estimates.find(logic)
+				?? { value: fraction, label: "" };
+			const index = estimates.findIndex(logic);
 			return { estimate, index };
 		} catch(err) {
 			console.error(
@@ -468,17 +459,16 @@ export class HealthEstimate {
 	 * @returns {Boolean}
 	 */
 	isDead(token, stage) {
-		const isOrganicType = this.provider.organicTypes.includes(token.actor.type);
+		if (!this.provider.organicTypes.includes(token.actor.type)) return false;
 		const isNPCJustDie =
 			this.NPCsJustDie
 			&& !token.actor.hasPlayerOwner
 			&& stage === 0
 			&& !token.document.getFlag("healthEstimate", "dontMarkDead");
-		const isShowDead = this.showDead && this.tokenEffectsPath(token);
-		const isDefeated = this.showDead && token.combatant?.defeated;
+		const isDefeated = this.showDead && (token.combatant?.defeated || this.provider.tokenEffects(token));
 		const isFlaggedDead = token.document.getFlag("healthEstimate", "dead") || false;
 
-		return isOrganicType && (isNPCJustDie || isShowDead || isDefeated || isFlaggedDead);
+		return isNPCJustDie || isDefeated || isFlaggedDead;
 	}
 
 	/**
@@ -497,64 +487,16 @@ export class HealthEstimate {
 	}
 
 	/**
-	 * Path of the token's effects. Useful for systems that change how it is handled (e.g. PF2e, DSA5, SWADE).
-	 * @returns {Boolean}
-	 */
-	tokenEffectsPath(token) {
-		const deadIcon = this.provider.deathMarker.config
-			? this.deathMarker
-			: CONFIG.statusEffects.dead?.img ?? this.deathMarker;
-		return Array.from(token.actor.effects.values()).some((x) => x.img === deadIcon);
-	}
-
-	/**
-	 * Updates the Break Conditions and the Overlay Render's Break Condition method.
-	 * @returns {Boolean}
-	 */
-	updateBreakConditions() {
-		this.breakConditions.onlyGM = sGet("core.showDescription") === 1 ? "|| !game.user.isGM" : "";
-		this.breakConditions.onlyNotGM = sGet("core.showDescription") === 2 ? "|| game.user.isGM" : "";
-		this.breakConditions.onlyPCs =
-			sGet("core.showDescriptionTokenType") === 1 ? "|| !token.actor?.hasPlayerOwner" : "";
-		this.breakConditions.onlyNPCs =
-			sGet("core.showDescriptionTokenType") === 2 ? "|| token.actor?.hasPlayerOwner" : "";
-
-		const prep = (key) => (isEmpty(this.breakConditions[key]) ? "" : this.breakConditions[key]);
-
-		this.breakOverlayRender = (token) => {
-			try {
-				// eslint-disable-next-line no-new-func
-				return new Function(
-					"token",
-					`return (
-						false
-						${prep("onlyGM")}
-						${prep("onlyNotGM")}
-						${prep("onlyNPCs")}
-						${prep("onlyPCs")}
-						${prep("system")}
-					)`
-				)(token);
-			} catch(err) {
-				if (err.name === "TypeError") {
-					console.warn(
-						`Health Estimate | Error on breakOverlayRender(), skipping. Token Name: "${token.name}". Type: "${token.document.actor.type}".`,
-						err
-					);
-					return true;
-				}
-				console.error(err);
-			}
-		};
-	}
-
-	/**
 	 * Variables for settings to avoid multiple system calls for them, since the estimate can be called really often.
 	 * Updates the variables if any setting was changed.
 	 */
 	updateSettings() {
 		this.settings = {
 			display: sGet("display"),
+			showDescription: sGet("core.showDescription"),
+			showDescriptionTokenType: sGet("core.showDescriptionTokenType"),
+			breakOnZeroMaxHP: sGet("core.breakOnZeroMaxHP"),
+			hideVehicleHP: sGet("core.hideVehicleHP"),
 		};
 
 		this.descriptions = sGet("core.stateNames").split(/[,;]\s*/);
@@ -569,6 +511,7 @@ export class HealthEstimate {
 		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
 
 		this.smoothGradient = sGet("core.menuSettings.smoothGradient");
+		this.useColor = sGet("core.menuSettings.useColor");
 
 		this.height = sGet("core.menuSettings.position");
 		this.position = sGet("core.menuSettings.position2");
@@ -679,33 +622,6 @@ export class HealthEstimate {
 	// /////////////
 	// RENDERING //
 	// /////////////
-
-	/**
-	 * Handler called when token configuration window is opened. Injects custom form html and deals
-	 * with updating token.
-	 * @category GMOnly
-	 * @function
-	 * @async
-	 * @param {SettingsConfig} settingsConfig
-	 * @param {JQuery} html
-	 */
-	static renderSettingsConfigHandler(settingsConfig, html) {
-		if (!game.user.isGM) return;
-		// Additional PF1 system settings
-		if (game.settings.settings.has("healthEstimate.PF1.showExtra")) {
-			const showExtra = game.settings.get("healthEstimate", "PF1.showExtra");
-			const showExtraCheckbox = html.querySelector('input[name="healthEstimate.PF1.showExtra"]');
-			const disabledNameInput = html.querySelector('input[name="healthEstimate.PF1.disabledName"]');
-			const dyingNameInput = html.querySelector('input[name="healthEstimate.PF1.dyingName"]');
-			disableCheckbox(disabledNameInput, showExtra);
-			disableCheckbox(dyingNameInput, showExtra);
-
-			showExtraCheckbox.addEventListener("change", (event) => {
-				disableCheckbox(disabledNameInput, event.target.checked);
-				disableCheckbox(dyingNameInput, event.target.checked);
-			});
-		}
-	}
 
 	static async renderTokenConfigHandler(form, data, options, docPath = "document") {
 		if (!options.isFirstRender) return;

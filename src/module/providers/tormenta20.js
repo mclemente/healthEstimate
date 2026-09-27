@@ -2,13 +2,9 @@ import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class tormenta20EstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-	}
+	addTemp = true;
 
-	_breakAttribute = "token.actor.system.attributes.pv.max";
+	breakOnZeroMaxHP = "zero";
 
 	fraction(token) {
 		const hp = token.actor.system.attributes.pv;
@@ -17,5 +13,9 @@ export default class tormenta20EstimationProvider extends EstimationProvider {
 			temp = hp.temp;
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);
+	}
+
+	breakAttribute(token) {
+		return token.actor.system.attributes.pv.max;
 	}
 }

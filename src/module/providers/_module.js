@@ -7,6 +7,7 @@ export { default as bladeRunnerEstimationProvider } from "./blade-runner.js";
 export { default as bladesInTheDarkEstimationProvider } from "./blades-in-the-dark.js";
 export { default as CoC7EstimationProvider } from "./CoC7.js";
 export { default as cosmereRpgEstimationProvider } from "./cosmere-rpg.js";
+export { default as crucibleEstimationProvider } from "./crucible.js";
 export { default as CustomSystemBuilderEstimationProvider } from "./custom-system-builder.js";
 export { default as cyberpunkRedCoreEstimationProvider } from "./cyberpunk-red-core.js";
 export { default as cyphersystemEstimationProvider } from "./cyphersystem.js";

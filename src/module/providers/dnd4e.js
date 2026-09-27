@@ -2,12 +2,11 @@ import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class dnd4eEstimationProvider extends EstimationProvider {
-	constructor() {
-		super();
-		this.organicTypes = ["Player Character", "NPC"];
-		this.addTemp = true;
-		this.breakOnZeroMaxHP = "zero";
-	}
+	addTemp = true;
+
+	breakOnZeroMaxHP = "zero";
+
+	organicTypes = ["Player Character", "NPC"];
 
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;

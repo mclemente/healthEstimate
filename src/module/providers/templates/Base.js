@@ -1,91 +1,87 @@
 import { t } from "../../utils.js";
 
 export default class EstimationProvider {
-	constructor() {
-		/**
-		 * Non-exhaustive list of possible character-types that should use the DeathStateName. This is way to avoid vehicles being "Dead"
-		 * @type {string[]}
-		 */
-		this.organicTypes = ["character", "pc", "monster", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
+	/**
+	 * Sets if the "Add Temporary Health" setting is enabled.
+	 * @type {Boolean}
+	 */
+	addTemp = false;
 
-		/**
-		 * Code that will be run during HealthEstimate.getTokenEstimate()
-		 * @type {string}
-		 */
-		this.customLogic = "";
+	/**
+	 * Sets the default value for the "Hide on tokens with 0 max HP" setting. Hidden if set to false.
+	 * @type {false|String}
+	 */
+	breakOnZeroMaxHP = false;
 
-		/**
-		 * Default value of the Death State setting.
-		 * @type {Boolean}
-		 * */
-		this.deathState = false;
+	/**
+	 * Default value of the Death State setting.
+	 * @type {Boolean}
+	 * */
+	deathState = false;
 
-		/**
-		 * Default value of the Death State Name setting.
-		 * @type {String}
-		 */
-		this.deathStateName = t("core.deathStateName.default");
+	/**
+	 * Default value of the Death State Name setting.
+	 * @type {String}
+	 */
+	deathStateName = t("core.deathStateName.default");
 
-		/**
-		 * Configuration for the Death Marker setting.
-		 * @type {Object}
-		 */
-		this.deathMarker = {
-			/** Sets if the setting will be visible in the module's settings */
-			config:
-				!CONFIG.statusEffects.dead
-				|| game.modules.get("combat-utility-belt")?.active
-				|| game.modules.get("condition-lab-triggler")?.active,
-			/** Sets the setting's default value */
-			default: CONFIG.statusEffects.dead?.img || "icons/svg/skull.svg",
-		};
+	/**
+	 * Configuration for the Death Marker setting.
+	 * @param {Boolean} config	Sets if the setting will be visible in the module's settings
+	 * @param {Boolean} default	Sets the setting's default value
+	 * @type {Object}
+	 */
+	deathMarker = {
+		config: !CONFIG.statusEffects.dead,
+		default: CONFIG.statusEffects.dead?.img || "icons/svg/skull.svg",
+	};
 
-		/**
-		 *
-		 * @type {Object}
-		 */
-		this.vehicleRules = {
-			/** Sets if the setting will be visible in the module's settings */
-			config: false,
-			/** List with actor types that are considered vehicles (e.g. spacecraft, drone, etc) */
-			vehicles: ["vehicle"],
-		};
+	/**
+	 * Default value of the Estimations setting.
+	 * @type {{Array}}
+	 */
+	estimations = [
+		{
+			name: "",
+			ignoreColor: false,
+			// Doesn't need to be ordered, it gets sorted out when displayed and saved.
+			estimates: [
+				{ value: 0, label: t("core.estimates.states.0") },
+				{ value: 25, label: t("core.estimates.states.1") },
+				{ value: 50, label: t("core.estimates.states.2") },
+				{ value: 75, label: t("core.estimates.states.3") },
+				{ value: 99, label: t("core.estimates.states.4") },
+				{ value: 100, label: t("core.estimates.states.5") },
+			],
+			actorTypes: [],
+			statusEffects: [],
+		},
+	];
 
-		/**
-		 * Sets if the "Add Temporary Health" setting is enabled.
-		 * @type {Boolean}
-		 */
-		this.addTemp = false;
+	/**
+	 * Actor types that are skipped.
+	 * @type {string[]}
+	 */
+	filteredTypes = [];
 
-		/**
-		 * Sets the default value for the "Hide on tokens with 0 max HP" setting. Hidden if set to false.
-		 * @type {false|String}
-		 */
-		this.breakOnZeroMaxHP = false;
+	/**
+	 * Actor types that should use the DeathStateName.
+	 * This is to avoid vehicles being labeled as "Dead".
+	 * @type {string[]}
+	 */
+	organicTypes = ["character", "pc", "monster", "mook", "npc", "familiar", "traveller", "animal"]; // There must be a better way
 
-		/**
-		 * Default value of the Estimations setting.
-		 * @type {{Array}}
-		 */
-		this.estimations = [
-			{
-				name: "",
-				ignoreColor: false,
-				rule: "",
-				estimates: [
-					{ value: 0, label: t("core.estimates.states.0") },
-					{ value: 25, label: t("core.estimates.states.1") },
-					{ value: 50, label: t("core.estimates.states.2") },
-					{ value: 75, label: t("core.estimates.states.3") },
-					{ value: 99, label: t("core.estimates.states.4") },
-					{ value: 100, label: t("core.estimates.states.5") },
-				],
-				actorTypes: []
-			},
-		];
-	}
+	/**
+	 * Sets if the setting will be visible in the module's settings
+	 * @type {Boolean}
+	 */
+	vehicleConfig = false;
 
-	_breakAttribute = "token.actor.system.attributes.hp.max";
+	/**
+	 * List with actor types that are considered vehicles (e.g. spacecraft, drone, etc)
+	 * @type {string[]}
+	 */
+	vehicleTypes = ["vehicle"];
 
 	/**
 	 * Calculates the fraction of the current health divided by the maximum health.
@@ -125,37 +121,36 @@ export default class EstimationProvider {
 	 *
 	 * @see alienrpgEstimationProvider
 	 */
-	get isVehicle() {
-		return `['${this.vehicleRules.vehicles.join("','")}'].includes(token.actor.type)`;
+	isVehicle(token) {
+		return this.vehicleTypes.join("','").includes(token.actor.type);
 	}
 
 	/**
 	 * A set of conditionals written as a string that will stop the rendering of the estimate.
+	 * @param {Token} token
 	 * @returns {String}
 	 *
 	 * @see dnd5eEstimationProvider
 	 * @see pf2eEstimationProvider
 	 */
-	get breakCondition() {
-		const breakOnZeroMaxHP = game.settings.get("healthEstimate", "core.breakOnZeroMaxHP");
+	breakCondition(token) {
+		const breakOnZeroMaxHP = game.healthEstimate.settings.breakOnZeroMaxHP;
+
+		if (this.vehicleConfig && this.isVehicle(token) && game.healthEstimate.settings.hideVehicleHP) return true;
+
 		// "false" was the original value of "none" for when the setting was a Boolean
 		if (this.breakOnZeroMaxHP && !["false", "none"].includes(breakOnZeroMaxHP)) {
-			return `|| ${this.breakAttribute} ${this.breakMaxHPValue}`;
+			// "true" was the original value of 0 for when the setting was a Boolean
+			if (breakOnZeroMaxHP === "zero" || breakOnZeroMaxHP === "true") return this.breakAttribute(token) === 0;
+			if (breakOnZeroMaxHP === "one") return this.breakAttribute(token) === 1;
+			if (breakOnZeroMaxHP === "zeroOrOne") return this.breakAttribute(token) <= 1;
 		}
-		return "|| false";
+
+		return false;
 	}
 
-	get breakAttribute() {
-		return this._breakAttribute;
-	}
-
-	// eslint-disable-next-line getter-return
-	get breakMaxHPValue() {
-		const breakOnZeroMaxHP = game.settings.get("healthEstimate", "core.breakOnZeroMaxHP");
-		// "true" was the original value of 0 for when the setting was a Boolean
-		if (breakOnZeroMaxHP === "zero" || breakOnZeroMaxHP === "true") return "=== 0";
-		if (breakOnZeroMaxHP === "one") return "=== 1";
-		if (breakOnZeroMaxHP === "zeroOrOne") return "<= 1";
+	breakAttribute(token) {
+		return token.actor?.system?.attributes?.hp?.max;
 	}
 
 	/**
@@ -163,12 +158,10 @@ export default class EstimationProvider {
 	 * Only use this if your system doesn't add the marker as an effect.
 	 * @returns {Boolean}
 	 *
-	 * @see dsa5EstimationProvider
-	 * @see pf2eEstimationProvider
 	 * @see swadeEstimationProvider
 	 */
-	static tokenEffects(token) {
-		return undefined;
+	tokenEffects(token) {
+		return token.actor.statuses.has(CONFIG.specialStatusEffects.DEFEATED);
 	}
 
 	/**
