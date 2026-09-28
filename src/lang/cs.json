@@ -12,7 +12,7 @@
 				},
 				"FractionHP": {
 					"name": "Datová cesta k atributu Kondice",
-					"hint": "Váš systém může používat jinou datovou cestu. Pokud se odhad nezobrazuje správně, vložte cestu ke správnému atributu (např. actor.system.health)."
+					"hint": "Váš systém může používat jinou datovou cestu. Pokud se odhad nezobrazuje správně, vložte cestu ke správnému atributu."
 				}
 			},
 			"estimates": {
@@ -55,7 +55,9 @@
 					"hint": "Ignoruje barvy z této tabulky a použije barvy z další platné tabulky pro token. Toto je určeno pro podmínky, které by měly mít přednost před odhadem, ale přesto by měly odrážet barvevné schéma tohoto odhadu."
 				},
 				"title": "Nastavení odhadů",
-				"newTable": "Nová tabulka"
+				"newTable": "Nová tabulka",
+				"statusEffects": "Efekty statusu",
+				"actorTypes": "Typy postav"
 			},
 			"keybinds": {
 				"markDead": {
@@ -72,11 +74,11 @@
 				},
 				"dontMarkDead": {
 					"name": "Neoznačovat za mrtvého",
-					"hint": "Umožňuje, aby se NPC nezobrazovala jako mrtvá, když její kondice dosáhne 0 (např. se zobrazí V bezvědomí). To je užitečné pouze v případě, že používáte nastavení {nastavení}."
+					"hint": "Umožňuje, aby se NPC nezobrazovala jako mrtvá, když její odhad dosáhne 0. To je užitečné pouze v případě, že používáte nastavení {setting}."
 				},
 				"hideEstimates": {
-					"name": "Skryj Odhady",
-					"hint": "Skryje před hráči odhady vybraných tokenů. Skryté odhady nebudou vypsány do chatu, pokud je nastavení zapnuto, a budou zobrazeny s hvězdičkou (*) pro GM."
+					"name": "Skryj Odhady před hráči",
+					"hint": "Skryté odhady budou zobrazeny s hvězdičkou (*) pro GM."
 				},
 				"hideNames": {
 					"name": "Skrytí jmen",
@@ -133,8 +135,8 @@
 				"hint": "Cesta ke stavové ikoně, která označí mrtvý token."
 			},
 			"NPCsJustDie": {
-				"name": "NPC zemřou ihned",
-				"hint": "Poslední stádium tokenů jejichž postavy nejsou vybrány hráči je nahrazena {setting}. Pro více informací co znamená \"vybrány hráči\", si přečtěte sekci Uživatelská konfigurace ve Foundry v článku \"Uživatelé a oprávnění\"."
+				"name": "NPC prostě zemřou",
+				"hint": "NPS se zobrazí jako Mrtvé, když dosáhnou svého posledního stádia zdraví."
 			},
 			"outputChat": {
 				"name": "Zobrazí Odhad v chatu",
@@ -142,7 +144,7 @@
 			},
 			"addTemp": {
 				"name": "Přidá Dočasné zdraví",
-				"hint": "Zahrne dočasné body zdraví do kalkulace, jaký popis zobrazit.\nNapř. se zapnutým nastavením bude token, který obdržel dočasné body zdraví, jevit jako \"zdravější\", pokud již není na maximálním zdraví."
+				"hint": "Zahrne dočasné body zdraví do kalkulace, jaký popis zobrazit."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Skryje Odhady pro token",
@@ -208,11 +210,15 @@
 				},
 				"scaleToGridSize": {
 					"name": "Měřítko Odhadů podle velikosti mřížky",
-					"hint": "Škáluje odhad na základě velikosti mřížky, přičemž předpokládá 100px jako základ."
+					"hint": "Škáluje odhad na základě velikosti mřížky."
 				},
 				"scaleToTokenSize": {
 					"hint": "Měřit odhady na základě šířky tokenu.",
 					"name": "Měřítko velikosti tokenu"
+				},
+				"gridSize": {
+					"name": "Velikost základní mřížky",
+					"hint": "Výchozí velikost mřížky pro změnu měřítka. Hodí se pro balíčky map, které používají různé velikosti mřížky."
 				}
 			},
 			"tooltipPosition": {
@@ -336,6 +342,23 @@
 			"toggleName": "Jméno {tokenName} je {term} od hráčů.",
 			"toggleEstimateName": "Odhad zdraví a jméno {tokenName} jsou {term} od hráčů.",
 			"invalidFontSize": "Nastavení stylu Velikost písma bylo resetováno. Chcete-li jej změnit, podívejte se do Nastavení stylu. Předchozí hodnota: Předchozí hodnota: {fontSize}"
+		},
+		"SETTINGS": {
+			"display": {
+				"name": "Zobrazit odhady",
+				"options": {
+					"default": "Při najetí myší",
+					"always": "Vždy zobrazit",
+					"nameplate": "Barevná jména",
+					"disabled": "Nikdy nezobrazovat"
+				}
+			}
+		},
+		"draw-steel": {
+			"hideObjectHP": {
+				"name": "Skrýt odhady objektů",
+				"hint": "Skryje odhady u objektů."
+			}
 		}
 	}
 }
