@@ -56,7 +56,8 @@
 					"hint": "Ignora i colori di questa tabella e utilizza i colori della successiva tabella valida per il token. Questo è pensato per le condizioni che dovrebbero avere la priorità su una stima, ma che riflettono comunque lo schema di colori della stima."
 				},
 				"newTable": "Nuova Tabella",
-				"actorTypes": "Tipi Personaggio"
+				"actorTypes": "Tipi Personaggio",
+				"statusEffects": "Effetti di Stato"
 			},
 			"keybinds": {
 				"markDead": {
