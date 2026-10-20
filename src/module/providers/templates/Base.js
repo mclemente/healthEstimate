@@ -59,6 +59,14 @@ export default class EstimationProvider {
 	];
 
 	/**
+	 * Additional data fields for the Estimation setting.
+	 * @type {{DataField}}
+	 *
+	 * @see dnd5eEstimationProvider
+	 */
+	extraEstimationFields;
+
+	/**
 	 * Actor types that are skipped.
 	 * @type {string[]}
 	 */

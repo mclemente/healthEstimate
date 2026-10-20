@@ -4,7 +4,7 @@ import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 const { createNumberInput, createTextInput } = foundry.applications.fields;
 
 function createInput(id, fields, { index, localize, value }) {
-	const groupConfig = { hidden: index === 0, localize, stacked: ["actorTypes", "statusEffects"].includes(id) };
+	const groupConfig = { hidden: index === 0, localize, stacked: fields[id].options?.stacked };
 	const inputConfig = { name: `${index}.${id}`, value: value[id] };
 	return fields[id].toFormGroup(groupConfig, inputConfig);
 }
@@ -92,6 +92,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	#estimationWidget(field, _groupConfig, inputConfig) {
 		const div = document.createElement("div");
 		const { index, value } = inputConfig;
+		const extraKeys = Object.keys(game.healthEstimate.provider.extraEstimationFields ?? {});
 
 		const estimatesTable = document.createElement("table");
 		estimatesTable.className = "estimation-types";
@@ -149,7 +150,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		div.append(
 			createInput("name", field.element.fields, inputConfig),
 			estimatesTable,
-			...["actorTypes", "statusEffects", "ignoreColor"].map((id) => createInput(id, field.element.fields, inputConfig))
+			...["actorTypes", ...extraKeys, "statusEffects", "ignoreColor"].map((id) => createInput(id, field.element.fields, inputConfig))
 		);
 		if (index !== 0) {
 			const isLast = index === this.estimations.length - 1;
@@ -239,11 +240,11 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		const data = foundry.utils.expandObject(formData.object);
 		const estimations = [];
 		for (const key in data) {
-			const { name, actorTypes, statusEffects, ignoreColor, estimates } = data[key];
+			const { estimates, ...args } = data[key];
 			const sortedEstimates = Object.keys(estimates)
 				.sort((a, b) => estimates[a].value - estimates[b].value)
 				.map((innerKey) => estimates[innerKey]);
-			estimations.push({ name, actorTypes, statusEffects, ignoreColor, estimates: sortedEstimates });
+			estimations.push({ estimates: sortedEstimates, ...args });
 		}
 		sSet("core.estimations", estimations);
 	}

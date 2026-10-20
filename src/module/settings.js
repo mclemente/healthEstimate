@@ -55,46 +55,53 @@ export const registerSettings = function () {
 		default: "",
 		config: false,
 	});
+
+	const estimationFields = {
+		name: new StringField({ label: "DOCUMENT.FIELDS.name.label", localize: true }),
+		ignoreColor: new BooleanField({
+			label: "healthEstimate.core.estimationSettings.ignoreColor.name",
+			hint: "healthEstimate.core.estimationSettings.ignoreColor.hint",
+			localize: true
+		}),
+		estimates: new ArrayField(
+			new SchemaField({
+				value: new NumberField({ required: true, min: 0, max: 100, nullable: false }),
+				label: new StringField({ required: true })
+			})
+		),
+		actorTypes: new SetField(new StringField({
+			choices: Object.fromEntries(CONFIG.Actor.documentClass.TYPES
+				.filter((t) => t !== "base" && !game.healthEstimate.provider.filteredTypes.includes(t))
+				.map((t) => {
+					let label = CONFIG.Actor.typeLabels[t];
+					label = label && game.i18n.has(label) ? _loc(label) : t;
+					return [t, label];
+				})),
+			validationError: "must be a value in Actor.TYPES",
+		}), {
+			label: "healthEstimate.core.estimationSettings.actorTypes",
+			stacked: true
+		}),
+		statusEffects: new SetField(new StringField({
+			choices: Object.fromEntries(
+				Object.entries(CONFIG.statusEffects)
+					.map(([key, data]) => {
+						let label = CONFIG.statusEffects[key].name;
+						if (game.i18n.has(label)) label = _loc(label);
+						return [key, { ...data, label }];
+					})),
+			validationError: "must be a value in CONFIG.statusEffects",
+		}), {
+			label: "healthEstimate.core.estimationSettings.statusEffects",
+			stacked: true
+		})
+	};
+	if (game.healthEstimate.provider.extraEstimationFields) {
+		Object.assign(estimationFields, game.healthEstimate.provider.extraEstimationFields);
+	}
 	addMenuSetting("core.estimations", {
 		type: new ArrayField(
-			new SchemaField({
-				name: new StringField({ label: "DOCUMENT.FIELDS.name.label", localize: true }),
-				ignoreColor: new BooleanField({
-					label: "healthEstimate.core.estimationSettings.ignoreColor.name",
-					hint: "healthEstimate.core.estimationSettings.ignoreColor.hint",
-					localize: true
-				}),
-				estimates: new ArrayField(
-					new SchemaField({
-						value: new NumberField({ required: true, min: 0, max: 100, nullable: false }),
-						label: new StringField({ required: true })
-					})
-				),
-				actorTypes: new SetField(new StringField({
-					choices: Object.fromEntries(CONFIG.Actor.documentClass.TYPES
-						.filter((t) => t !== "base" && !game.healthEstimate.provider.filteredTypes.includes(t))
-						.map((t) => {
-							let label = CONFIG.Actor.typeLabels[t];
-							label = label && game.i18n.has(label) ? _loc(label) : t;
-							return [t, label];
-						})),
-					validationError: "must be a value in Actor.TYPES",
-				}), {
-					label: "healthEstimate.core.estimationSettings.actorTypes",
-				}),
-				statusEffects: new SetField(new StringField({
-					choices: Object.fromEntries(
-						Object.entries(CONFIG.statusEffects)
-							.map(([key, data]) => {
-								let label = CONFIG.statusEffects[key].name;
-								if (game.i18n.has(label)) label = _loc(label);
-								return [key, { ...data, label }];
-							})),
-					validationError: "must be a value in CONFIG.statusEffects",
-				}), {
-					label: "healthEstimate.core.estimationSettings.statusEffects",
-				}),
-			}),
+			new SchemaField(estimationFields),
 			{
 				empty: false,
 				initial: game.healthEstimate.provider.estimations
