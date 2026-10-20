@@ -6,8 +6,7 @@
 		"clean": "gulp clean",
 		"clean:link": "gulp link --clean",
 		"lint": "eslint --ext .js,.cjs,.mjs .",
-		"lint:fix": "eslint --ext .js,.cjs,.mjs --fix .",
-		"postinstall": "husky install"
+		"lint:fix": "eslint --ext .js,.cjs,.mjs --fix ."
 	},
 	"devDependencies": {
 		"@rollup/plugin-node-resolve": "^16.0.3",
@@ -19,7 +18,6 @@
 		"gulp-autoprefixer": "^10.0.0",
 		"gulp-dart-sass": "^1.1.0",
 		"gulp-sourcemaps": "^3.0.0",
-		"husky": "^9.1.7",
 		"lint-staged": "^16.2.7",
 		"rollup": "^2.79.2",
 		"vinyl-buffer": "^1.0.1",
