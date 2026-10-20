@@ -59,6 +59,14 @@ export default class EstimationProvider {
 	];
 
 	/**
+	 * Additional data fields for the Estimation setting.
+	 * @type {{DataField}}
+	 *
+	 * @see dnd5eEstimationProvider
+	 */
+	extraEstimationFields;
+
+	/**
 	 * Actor types that are skipped.
 	 * @type {string[]}
 	 */
@@ -134,9 +142,9 @@ export default class EstimationProvider {
 	 * @see pf2eEstimationProvider
 	 */
 	breakCondition(token) {
-		const breakOnZeroMaxHP = game.healthEstimate.settings.breakOnZeroMaxHP;
+		const breakOnZeroMaxHP = this.parent.settings.breakOnZeroMaxHP;
 
-		if (this.vehicleConfig && this.isVehicle(token) && game.healthEstimate.settings.hideVehicleHP) return true;
+		if (this.vehicleConfig && this.isVehicle(token) && this.parent.settings.hideVehicleHP) return true;
 
 		// "false" was the original value of "none" for when the setting was a Boolean
 		if (this.breakOnZeroMaxHP && !["false", "none"].includes(breakOnZeroMaxHP)) {
@@ -151,6 +159,23 @@ export default class EstimationProvider {
 
 	breakAttribute(token) {
 		return token.actor?.system?.attributes?.hp?.max;
+	}
+
+	/**
+	 * Bespoke logic to filter valid estimations for the token.
+	 * @param {Token} token
+	 * @param {Object} estimation
+	 * @returns {Boolean}
+	 *
+	 * @see HealthEstimate.getTokenEstimate
+	 */
+	getTokenEstimate(token, estimation) {
+		const { actorTypes, statusEffects } = estimation;
+		if (!actorTypes.size && !statusEffects.size) return false;
+		if (actorTypes.size && !actorTypes.has(token.actor.type)) return false;
+		if (statusEffects.size && !statusEffects.intersects(token.actor.statuses)) return false;
+
+		return true;
 	}
 
 	/**

@@ -15,6 +15,7 @@ export class HealthEstimate {
 
 		/** @type {EstimateProvider} */
 		this.provider = new providers[`${providerString}EstimationProvider`]();
+		this.provider.parent = this;
 		registerSettings();
 
 		for (let [key, data] of Object.entries(this.provider.settings)) {
@@ -318,20 +319,13 @@ export class HealthEstimate {
 		let special = null;
 
 		for (const estimation of this.estimations.values()) {
-			const { actorTypes, statusEffects, ignoreColor } = estimation;
-			if (!actorTypes.size && !statusEffects.size) continue;
-			if (actorTypes.size && !actorTypes.has(token.actor.type)) continue;
-			if (statusEffects.size && !statusEffects.intersects(token.actor.statuses)) continue;
-			if (
-				(!actorTypes.size || actorTypes.has(token.actor.type))
-				&& (!statusEffects.size || statusEffects.intersects(token.actor.statuses))
-			) {
-				if (ignoreColor) {
-					special = estimation.estimates;
-				} else {
-					estimates = foundry.utils.deepClone(estimation.estimates);
-					special = special ? foundry.utils.deepClone(special) : null;
-				}
+			if (!this.provider.getTokenEstimate(token, estimation)) continue;
+
+			if (estimation.ignoreColor) {
+				special = estimation.estimates;
+			} else {
+				estimates = foundry.utils.deepClone(estimation.estimates);
+				special = special ? foundry.utils.deepClone(special) : null;
 			}
 		}
 		return {

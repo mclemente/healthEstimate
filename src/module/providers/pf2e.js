@@ -1,6 +1,8 @@
 import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
+const { SetField, StringField } = foundry.data.fields;
+
 export default class pf2eEstimationProvider extends EstimationProvider {
 	addTemp = true;
 
@@ -22,6 +24,19 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	extraEstimationFields = {
+		creatureTraits: new SetField(new StringField({
+			choices: Object.fromEntries(
+				Object.entries(CONFIG.PF2E.creatureTraits)
+					.map(([key, label]) => [key, _loc(label)])
+			),
+			validationError: "must be a value in CONFIG.PF2E.creatureTraits",
+		}), {
+			label: "PF2E.SETTINGS.Homebrew.CreatureTraits.Name",
+			stacked: true
+		}),
+	};
+
 	filteredTypes = ["loot", "party"];
 
 	fraction(token) {
@@ -39,7 +54,7 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 	}
 
 	refreshToken(token, flags) {
-		const top = game.healthEstimate.position === "a";
+		const top = this.parent.position === "a";
 		const { distanceDisplay } = game.pf2e.settings;
 		const hasEstimate = !!token.healthEstimate && !token.healthEstimate?.destroyed;
 		if (top && distanceDisplay && hasEstimate && flags.refreshDistanceLabel) {
@@ -71,5 +86,13 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 		return (token.actor.type === "vehicle" && game.settings.get("healthEstimate", "PF2E.hideVehicleHP"))
 			|| (token.actor.type === "hazard" && game.settings.get("healthEstimate", "PF2E.hideHazardHP"))
 			|| super.breakCondition(token);
+	}
+
+	getTokenEstimate(token, estimation) {
+		const { creatureTraits } = estimation;
+		const { traits } = token.actor;
+
+		if (creatureTraits.size && creatureTraits.intersects(traits)) return true;
+		return super.getTokenEstimate(token, estimation);
 	}
 }
