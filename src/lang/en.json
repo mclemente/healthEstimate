@@ -253,6 +253,10 @@
 				"hint": "Hides the estimate from Objects."
 			}
 		},
+		"DND5E": {
+			"creatureTypes": "Creature Types",
+			"customCreatureTypes": "Custom Creature Types"
+		},
 		"PF1": {
 			"addNonlethal": {
 				"name": "Use Nonlethal Damage",
