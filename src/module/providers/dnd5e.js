@@ -22,7 +22,7 @@ export default class dnd5eEstimationProvider extends EstimationProvider {
 		},
 	];
 
-	filteredTypes = ["group"];
+	filteredTypes = ["encounter", "group"];
 
 	vehicleConfig = true;
 
