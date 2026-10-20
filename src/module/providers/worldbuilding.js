@@ -6,14 +6,16 @@ export default class worldbuildingEstimationProvider extends EstimationProvider 
 		/* Can't think of a different way to do it that doesn't involve FS manipulation, which is its own can of worms */
 		const setting = sGet("worldbuilding.simpleRule");
 		// eslint-disable-next-line no-new-func
-		return Function("token", setting)(token);
+		return new foundry.utils.AsyncFunction("token", setting)(token);
 	}
 
 	get settings() {
 		return {
 			"worldbuilding.simpleRule": {
-				type: String,
-				default: "const hp = token.actor.system.health; return hp.value / hp.max",
+				type: new foundry.data.fields.JavaScriptField({
+					async: true,
+					initial: "const hp = token.actor.system.health; return hp.value / hp.max"
+				}),
 			},
 		};
 	}
