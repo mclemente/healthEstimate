@@ -154,6 +154,23 @@ export default class EstimationProvider {
 	}
 
 	/**
+	 * Bespoke logic to filter valid estimations for the token.
+	 * @param {Token} token
+	 * @param {Object} estimation
+	 * @returns {Boolean}
+	 *
+	 * @see HealthEstimate.getTokenEstimate
+	 */
+	getTokenEstimate(token, estimation) {
+		const { actorTypes, statusEffects } = estimation;
+		if (!actorTypes.size && !statusEffects.size) return false;
+		if (actorTypes.size && !actorTypes.has(token.actor.type)) return false;
+		if (statusEffects.size && !statusEffects.intersects(token.actor.statuses)) return false;
+
+		return true;
+	}
+
+	/**
 	 * This is for the big marker shown on defeated tokens (the skull marker by default).
 	 * Only use this if your system doesn't add the marker as an effect.
 	 * @returns {Boolean}
