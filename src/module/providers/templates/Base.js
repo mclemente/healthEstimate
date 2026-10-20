@@ -134,9 +134,9 @@ export default class EstimationProvider {
 	 * @see pf2eEstimationProvider
 	 */
 	breakCondition(token) {
-		const breakOnZeroMaxHP = game.healthEstimate.settings.breakOnZeroMaxHP;
+		const breakOnZeroMaxHP = this.parent.settings.breakOnZeroMaxHP;
 
-		if (this.vehicleConfig && this.isVehicle(token) && game.healthEstimate.settings.hideVehicleHP) return true;
+		if (this.vehicleConfig && this.isVehicle(token) && this.parent.settings.hideVehicleHP) return true;
 
 		// "false" was the original value of "none" for when the setting was a Boolean
 		if (this.breakOnZeroMaxHP && !["false", "none"].includes(breakOnZeroMaxHP)) {

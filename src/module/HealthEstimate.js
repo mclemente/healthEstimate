@@ -15,6 +15,7 @@ export class HealthEstimate {
 
 		/** @type {EstimateProvider} */
 		this.provider = new providers[`${providerString}EstimationProvider`]();
+		this.provider.parent = this;
 		registerSettings();
 
 		for (let [key, data] of Object.entries(this.provider.settings)) {

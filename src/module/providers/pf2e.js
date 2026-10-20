@@ -39,7 +39,7 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 	}
 
 	refreshToken(token, flags) {
-		const top = game.healthEstimate.position === "a";
+		const top = this.parent.position === "a";
 		const { distanceDisplay } = game.pf2e.settings;
 		const hasEstimate = !!token.healthEstimate && !token.healthEstimate?.destroyed;
 		if (top && distanceDisplay && hasEstimate && flags.refreshDistanceLabel) {
