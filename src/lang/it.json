@@ -360,6 +360,10 @@
 				"name": "Nascondi Stima Oggetto",
 				"hint": "Nasconde stima agli Oggetti."
 			}
+		},
+		"DND5E": {
+			"creatureTypes": "Tipi Creature",
+			"customCreatureTypes": "Tipi Creature Personalizzate"
 		}
 	}
 }
