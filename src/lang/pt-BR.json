@@ -414,8 +414,13 @@
 		},
 		"draw-steel": {
 			"hideObjectHP": {
-				"name": "Ocultar estimativas de objetos"
+				"name": "Ocultar estimativas de objetos",
+				"hint": "Oculta a estimativa dos objetos."
 			}
+		},
+		"DND5E": {
+			"creatureTypes": "Tipos de Criatura",
+			"customCreatureTypes": "Tipos de Criatura Personalizados"
 		}
 	}
 }
