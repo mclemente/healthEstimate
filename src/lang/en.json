@@ -129,7 +129,7 @@
 			},
 			"NPCsJustDie": {
 				"name": "NPCs Just Die",
-				"hint": "NPCs are shown as Dead when they reach the last health stage."
+				"hint": "NPCs are shown as Dead when they reach their last health stage."
 			},
 			"addTemp": {
 				"name": "Add Temporary Health",
