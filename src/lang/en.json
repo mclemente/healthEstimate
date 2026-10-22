@@ -3,6 +3,7 @@
 		"SETTINGS": {
 			"display": {
 				"name": "Display Estimates",
+				"hint": "",
 				"options": {
 					"default": "On Mouse Hover",
 					"always": "Always Display",
