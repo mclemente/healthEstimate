@@ -4,7 +4,7 @@
 			"custom": {
 				"FractionHP": {
 					"name": "Caminho de Dados do Atributo de Pontos de Vida",
-					"hint": "Seu sistema pode estar usando um outro caminho de dados. Se a estimativa não estiver aparecendo corretamente, informe o caminho de dados para o atributo correto (ex.: actor.system.health)."
+					"hint": "Seu sistema pode estar usando um outro caminho de dados. Se a estimativa não estiver aparecendo corretamente, informe o caminho de dados para o atributo correto."
 				},
 				"FractionMath": {
 					"name": "Equação da Fração",
@@ -55,7 +55,9 @@
 					"name": "Ignorar Cor",
 					"hint": "Ignora as cores desta tabela e usa as cores da próxima tabela válida para o token. Esta opção é para condições que devem ter prioridade sobre uma estimativa, mas ainda refletem o esquema de cores da estimativa."
 				},
-				"newTable": "Nova Tabela"
+				"newTable": "Nova Tabela",
+				"actorTypes": "Tipos de atores",
+				"statusEffects": "Efeitos de Status"
 			},
 			"keybinds": {
 				"markDead": {
@@ -72,11 +74,11 @@
 				},
 				"dontMarkDead": {
 					"name": "Não Marcar como Morto",
-					"hint": "Faz com que PNJs não sejam mostrados como Morto quando seus PV chegarem a 0 (por exemplo, ele mostrará Inconsciente). Isso só é útil se você usar a configuração {setting}."
+					"hint": "Faz com que PNJs não apareçam como Mortos quando sua estimativa chegar 0. Isso só é útil se você usar a configuração {setting}."
 				},
 				"hideEstimates": {
-					"name": "Ocultar Estimativas",
-					"hint": "Oculta as estimativas de tokens selecionados para os jogadores. Estimativas ocultas não serão exibidas no chat se a configuração estiver ativa e aparecerão com um asterisco (*) para o MJ."
+					"name": "Ocultar estimativas dos jogadores",
+					"hint": "Estimativas ocultas serão exibidas com um asterisco (*) para o MJ."
 				},
 				"hideNames": {
 					"name": "Ocultar Nomes",
@@ -135,8 +137,8 @@
 				"hint": "O caminho para o ícone que marca os tokens com a Condição Morto."
 			},
 			"NPCsJustDie": {
-				"name": "PNJs morrem imediatamente",
-				"hint": "O último estágio de tokens cujos atores não foram selecionados por jogadores será substituído pela configuração {setting}. Para mais informações sobre o que \"selecionados por jogadores\" significa, leia a seção \"User Configuration\" no artigo \"Users and Permissions\" no site do Foundry (em inglês)."
+				"name": "PNJs simplesmente morrem",
+				"hint": "PNJs são exibidos como “Mortos” quando atingem seu último nível de vida."
 			},
 			"perfectionism": {
 				"name": "Exibir melhor estágio",
@@ -153,7 +155,7 @@
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
-				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra.\nEx.: Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
+				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Ocultar estimativas em tokens",
@@ -219,11 +221,15 @@
 				},
 				"scaleToGridSize": {
 					"name": "Dimensionar Estimativas com o Tamanho da Grade",
-					"hint": "Dimensiona as estimativas com o tamanho da grade, assumindo 100px como o padrão."
+					"hint": "Dimensiona as estimativas com o tamanho da grade."
 				},
 				"scaleToTokenSize": {
 					"name": "Escalar com Tamanho do Token",
 					"hint": "Escala o tamanho das estimativas baseado na largura do token."
+				},
+				"gridSize": {
+					"name": "Tamanho base da grade",
+					"hint": "O tamanho de referência da grade para o redimensionamento. Útil para pacotes de mapas que utilizam tamanhos de grade diferentes."
 				}
 			},
 			"combatOnly": {
@@ -394,6 +400,27 @@
 			"toggleName": "O nome de {tokenName} está sendo {term} dos jogadores.",
 			"toggleEstimateName": "A estimativa de saúde e o nome de {tokenName} estão sendo {term} dos jogadores.",
 			"invalidFontSize": "A configuração de estilo do tamanho da fonte foi redefinida. Verifique as configurações de estilo para alterá-lo. Valor anterior: {fontSize}"
+		},
+		"SETTINGS": {
+			"display": {
+				"name": "Exibir estimativas",
+				"options": {
+					"default": "Ao passar o mouse",
+					"always": "Sempre exibir",
+					"nameplate": "Colorir nome dos tokens",
+					"disabled": "Nunca exibir"
+				}
+			}
+		},
+		"draw-steel": {
+			"hideObjectHP": {
+				"name": "Ocultar estimativas de objetos",
+				"hint": "Oculta a estimativa dos objetos."
+			}
+		},
+		"DND5E": {
+			"creatureTypes": "Tipos de Criatura",
+			"customCreatureTypes": "Tipos de Criatura Personalizados"
 		}
 	}
 }
