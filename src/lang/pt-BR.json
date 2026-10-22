@@ -394,6 +394,11 @@
 			"toggleName": "O nome de {tokenName} está sendo {term} dos jogadores.",
 			"toggleEstimateName": "A estimativa de saúde e o nome de {tokenName} estão sendo {term} dos jogadores.",
 			"invalidFontSize": "A configuração de estilo do tamanho da fonte foi redefinida. Verifique as configurações de estilo para alterá-lo. Valor anterior: {fontSize}"
+		},
+		"SETTINGS": {
+			"display": {
+				"name": "Exibir estimativas"
+			}
 		}
 	}
 }
