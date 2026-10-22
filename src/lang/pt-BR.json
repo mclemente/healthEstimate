@@ -155,7 +155,7 @@
 			},
 			"addTemp": {
 				"name": "Adicionar Pontos de Vida Temporários",
-				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra.\nEx.: Com essa configuração ativa, o token mostra o recebimento de PVs da seguinte forma \"Mais Saudável\" a menos que já esteja com vitalidade máxima."
+				"hint": "Inclui pontos de vida temporários no cálculo que o descritor mostra."
 			},
 			"breakOnZeroMaxHP": {
 				"name": "Ocultar estimativas em tokens",
@@ -221,11 +221,15 @@
 				},
 				"scaleToGridSize": {
 					"name": "Dimensionar Estimativas com o Tamanho da Grade",
-					"hint": "Dimensiona as estimativas com o tamanho da grade, assumindo 100px como o padrão."
+					"hint": "Dimensiona as estimativas com o tamanho da grade."
 				},
 				"scaleToTokenSize": {
 					"name": "Escalar com Tamanho do Token",
 					"hint": "Escala o tamanho das estimativas baseado na largura do token."
+				},
+				"gridSize": {
+					"name": "Tamanho base da grade",
+					"hint": "O tamanho de referência da grade para o redimensionamento. Útil para pacotes de mapas que utilizam tamanhos de grade diferentes."
 				}
 			},
 			"combatOnly": {
@@ -406,6 +410,11 @@
 					"nameplate": "Colorir nome dos tokens",
 					"disabled": "Nunca exibir"
 				}
+			}
+		},
+		"draw-steel": {
+			"hideObjectHP": {
+				"name": "Ocultar estimativas de objetos"
 			}
 		}
 	}
