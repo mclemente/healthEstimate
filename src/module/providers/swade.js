@@ -1,6 +1,8 @@
 import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
+const { SetField, StringField } = foundry.data.fields;
+
 export default class swadeEstimationProvider extends EstimationProvider {
 	deathStateName = game.i18n.localize("SWADE.Incap");
 
@@ -28,6 +30,13 @@ export default class swadeEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	extraEstimationFields = {
+		swid: new SetField(new StringField(), {
+			label: "SWADE.SWID.Long",
+			stacked: true
+		}),
+	};
+
 	vehicleConfig = true;
 
 	fraction(token) {
@@ -51,6 +60,13 @@ export default class swadeEstimationProvider extends EstimationProvider {
 				},
 			},
 		};
+	}
+
+	getTokenEstimate(token, estimation) {
+		const { swid } = estimation;
+
+		if (swid.size && token.actor.items.some((i) => swid.has(i.system.swid))) return true;
+		return super.getTokenEstimate(token, estimation);
 	}
 
 	tokenEffects(token) {
