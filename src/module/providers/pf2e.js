@@ -89,9 +89,10 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 	}
 
 	getTokenEstimate(token, estimation) {
-		const { creatureTraits } = estimation;
+		const { creatureTraits, statusEffects } = estimation;
 		const { traits } = token.actor;
 
+        if (statusEffects.size && token.actor.hasCondition(...statusEffects)) return true;
 		if (creatureTraits.size && creatureTraits.intersects(traits)) return true;
 		return super.getTokenEstimate(token, estimation);
 	}
