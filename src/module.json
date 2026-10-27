@@ -76,6 +76,11 @@
 			"lang": "cs",
 			"name": "Čeština",
 			"path": "lang/cs.json"
+		},
+		{
+			"lang": "pl",
+			"name": "polski",
+			"path": "lang/pl.json"
 		}
 	],
 	"compatibility": {
