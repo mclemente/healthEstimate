@@ -7,8 +7,8 @@
  */
 export function addSetting(key, data) {
 	const commonData = {
-		name: `healthEstimate.${key}.name`,
-		hint: `healthEstimate.${key}.hint`,
+		name: _loc(`healthEstimate.${key}.name`),
+		hint: _loc(`healthEstimate.${key}.hint`),
 		scope: "world",
 		config: true,
 	};
@@ -24,8 +24,8 @@ export function addSetting(key, data) {
  */
 export function addMenuSetting(key, data) {
 	const commonData = {
-		name: `healthEstimate.${key}.name`,
-		hint: `healthEstimate.${key}.hint`,
+		name: _loc(`healthEstimate.${key}.name`),
+		hint: _loc(`healthEstimate.${key}.hint`),
 		scope: "world",
 		config: false,
 	};
