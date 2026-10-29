@@ -20,6 +20,7 @@ npm-debug.log
 .pnp.*
 
 # Local configuration
+foundry
 foundryconfig.json
 
 # Distribution files
