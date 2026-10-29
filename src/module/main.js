@@ -1,5 +1,4 @@
 import { HealthEstimate } from "./HealthEstimate.js";
-import { f, t } from "./utils.js";
 
 Hooks.once("i18nInit", function () {
 	game.keybindings.register("healthEstimate", "markDead", {
@@ -17,7 +16,7 @@ Hooks.once("i18nInit", function () {
 	});
 	game.keybindings.register("healthEstimate", "dontMarkDead", {
 		name: "healthEstimate.core.keybinds.dontMarkDead.name",
-		hint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") }),
+		hint: _loc("healthEstimate.core.keybinds.dontMarkDead.hint", { setting: _loc("healthEstimate.core.NPCsJustDie.name") }),
 		onDown: () => {
 			if (!canvas.tokens?.controlled) return;
 			for (let e of canvas.tokens.controlled) {
@@ -38,8 +37,8 @@ Hooks.once("i18nInit", function () {
 				e.document.setFlag("healthEstimate", "hideHealthEstimate", hidden);
 
 				const term = hidden
-					? game.i18n.localize("healthEstimate.notifications.hidden.singular")
-					: game.i18n.localize("healthEstimate.notifications.shown.singular");
+					? _loc("healthEstimate.notifications.hidden.singular")
+					: _loc("healthEstimate.notifications.shown.singular");
 				const notification = game.i18n.format("healthEstimate.notifications.toggleEstimate", {
 					tokenName: e.actor.name,
 					term,
@@ -52,7 +51,7 @@ Hooks.once("i18nInit", function () {
 	});
 	const tab = {
 		id: "healthEstimate",
-		label: game.i18n.localize("healthEstimate.core.estimates.plural"),
+		label: _loc("healthEstimate.core.estimates.plural"),
 		icon: "fas fa-scale-balanced"
 	};
 	foundry.applications.sheets.TokenConfig.TABS.sheet.tabs.push(tab);

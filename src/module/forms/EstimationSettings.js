@@ -1,4 +1,3 @@
-import { sGet, sSet, t } from "../utils.js";
 import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 
 const { createNumberInput, createTextInput } = foundry.applications.fields;
@@ -12,7 +11,7 @@ function createInput(id, fields, { index, localize, value }) {
 export default class HealthEstimateEstimationSettings extends HealthEstimateSettingsV2 {
 	constructor(object, options = {}) {
 		super(object, options);
-		this.estimations = foundry.utils.deepClone(sGet("core.estimations"));
+		this.estimations = foundry.utils.deepClone(game.settings.get("healthEstimate", "core.estimations"));
 	}
 
 	static DEFAULT_OPTIONS = {
@@ -49,7 +48,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 	_estimations;
 
 	get estimations() {
-		return this._estimations ??= foundry.utils.deepClone(sGet("core.estimations"));
+		return this._estimations ??= foundry.utils.deepClone(game.settings.get("healthEstimate", "core.estimations"));
 	}
 
 	set estimations(value) {
@@ -70,7 +69,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			tabs[index] = {
 				id: index,
 				group: "main",
-				label: index === 0 ? game.i18n.localize("healthEstimate.core.estimationSettings.default") : tabData.name,
+				label: index === 0 ? _loc("healthEstimate.core.estimationSettings.default") : tabData.name,
 				active,
 				cssClass: active ? "active" : "",
 				data: tabData
@@ -98,7 +97,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		estimatesTable.className = "estimation-types";
 		const tableHeader = document.createElement("tr");
 		tableHeader.innerHTML = `
-			<th>${game.i18n.localize("healthEstimate.core.estimationSettings.estimate")}</th>
+			<th>${_loc("healthEstimate.core.estimationSettings.estimate")}</th>
 			<th>%</th>
 			<th class="delete-cell"></th>
 		`;
@@ -141,7 +140,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 			<td colspan="3" class="add-cell">
 				<a data-action="addEstimation">
 					<i class="fas fa-plus" data-idx="${index}"></i>
-					${game.i18n.localize("healthEstimate.core.estimationSettings.AddEstimate")}
+					${_loc("healthEstimate.core.estimationSettings.AddEstimate")}
 				</a>
 			</td>
 		`;
@@ -169,7 +168,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		if (idx === 1) {
 			leftBtn.disabled = true;
 		} else {
-			leftBtn.dataset.tooltip = game.i18n.localize("healthEstimate.core.estimationSettings.prioIncrease");
+			leftBtn.dataset.tooltip = _loc("healthEstimate.core.estimationSettings.prioIncrease");
 			leftBtn.dataset.action = "changePrio";
 			leftBtn.dataset.prio = "increase";
 			leftBtn.dataset.idx = idx;
@@ -187,7 +186,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		const trashIcon = document.createElement("i");
 		trashIcon.classList.add("fas", "fa-trash");
 		deleteBtn.appendChild(trashIcon);
-		deleteBtn.append(" ", game.i18n.localize("healthEstimate.core.estimationSettings.deleteTable"));
+		deleteBtn.append(" ", _loc("healthEstimate.core.estimationSettings.deleteTable"));
 		container.appendChild(deleteBtn);
 
 		// Right button
@@ -196,7 +195,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		if (isLast) {
 			rightBtn.disabled = true;
 		} else {
-			rightBtn.dataset.tooltip = game.i18n.localize("healthEstimate.core.estimationSettings.prioDecrease");
+			rightBtn.dataset.tooltip = _loc("healthEstimate.core.estimationSettings.prioDecrease");
 			rightBtn.dataset.action = "changePrio";
 			rightBtn.dataset.prio = "reduce";
 			rightBtn.dataset.idx = idx;
@@ -219,7 +218,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 
 		const label = document.createElement("span");
 		label.append(icon);
-		label.innerText = game.i18n.localize("healthEstimate.core.estimationSettings.addTable");
+		label.innerText = _loc("healthEstimate.core.estimationSettings.addTable");
 
 		anchor.append(label);
 
@@ -246,21 +245,21 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 				.map((innerKey) => estimates[innerKey]);
 			estimations.push({ estimates: sortedEstimates, ...args });
 		}
-		sSet("core.estimations", estimations);
+		game.settings.set("healthEstimate.core.estimations", estimations);
 	}
 
 	static addTable(event) {
 		event.preventDefault();
 		this.tabGroups.main = String(this.estimations.length);
 		this.estimations.push({
-			name: game.i18n.localize("healthEstimate.core.estimationSettings.newTable"),
+			name: _loc("healthEstimate.core.estimationSettings.newTable"),
 			estimates: [
 				{
-					label: t("core.estimates.worst"),
+					label: _loc("healthEstimate.core.estimates.worst"),
 					value: 0,
 				},
 				{
-					label: t("core.estimates.best"),
+					label: _loc("healthEstimate.core.estimates.best"),
 					value: 100,
 				},
 			],

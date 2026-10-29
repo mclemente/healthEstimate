@@ -1,4 +1,3 @@
-import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class numeneraEstimationProvider extends EstimationProvider {
@@ -7,7 +6,7 @@ export default class numeneraEstimationProvider extends EstimationProvider {
 			const might = token.actor.system.stats.might;
 			const speed = token.actor.system.stats.speed;
 			const intellect = token.actor.system.stats.intellect;
-			if (sGet("numenera.countPools")) {
+			if (game.settings.get("healthEstimate", "numenera.countPools")) {
 				let fullPools = 3;
 				for (let pool of [might, speed, intellect]) {
 					if (pool.pool.current === 0) {

@@ -1,4 +1,3 @@
-import { sGet, sSet } from "../utils.js";
 import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 
 export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV2 {
@@ -54,10 +53,10 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 		const useColorCheckbox = this.element.querySelector('input[name="useColor"]');
 
 		this.fontFamily = this.element.querySelector("#fontFamily");
-		this.useColor = sGet("core.menuSettings.useColor");
+		this.useColor = game.settings.get("healthEstimate", "core.menuSettings.useColor");
 
 		this.deadColor = this.element.querySelector("color-picker[name=deadColor]");
-		this.deadOutline = sGet("core.variables.deadOutline");
+		this.deadOutline = game.settings.get("healthEstimate", "core.variables.deadOutline");
 
 		this.outlineMode = this.element.querySelector("#outlineMode");
 		this.outlineIntensity = this.element.querySelector("range-picker[name=outlineIntensity]");
@@ -186,7 +185,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 	}
 
 	updateGradient() {
-		this.gradLength = this.smoothGradient.checked ? 100 : sGet("core.estimations")[0].estimates.length;
+		this.gradLength = this.smoothGradient.checked ? 100 : game.settings.get("healthEstimate", "core.estimations")[0].estimates.length;
 		const width = 100 / this.gradLength;
 		const colors = this.gp.handlers.map((a) => a.color);
 		const colorPositions = this.gp.handlers.map((a) => Math.round(a.position) / 100);
@@ -285,7 +284,7 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 	static async #onSubmit(event, form, formData) {
 		const settings = foundry.utils.expandObject(formData.object);
 		const menuSettingsKeys = Object.keys(settings).filter((key) => key.indexOf("outline") === -1);
-		const updates = menuSettingsKeys.map((key) => sSet(`core.menuSettings.${key}`, settings[key]));
+		const updates = menuSettingsKeys.map((key) => game.settings.set("healthEstimate", `core.menuSettings.${key}`, settings[key]));
 		await Promise.all(updates);
 
 		if (!settings.useColor) {
@@ -295,16 +294,16 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 			settings.deadColor = "#FFF";
 		}
 		const variableUpdates = [
-			sSet("core.menuSettings.gradient", {
+			game.settings.set("healthEstimate.core.menuSettings.gradient", {
 				colors: this.gp.handlers.map((a) => a.color),
 				positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
 			}),
-			sSet("core.menuSettings.outline", settings.outlineMode),
-			sSet("core.menuSettings.outlineIntensity", settings.outlineIntensity),
-			sSet("core.variables.colors", this.gradColors),
-			sSet("core.variables.outline", this.outlColors),
-			sSet("core.variables.deadColor", settings.deadColor),
-			sSet("core.variables.deadOutline", this.deadOutline),
+			game.settings.set("healthEstimate.core.menuSettings.outline", settings.outlineMode),
+			game.settings.set("healthEstimate.core.menuSettings.outlineIntensity", settings.outlineIntensity),
+			game.settings.set("healthEstimate.core.variables.colors", this.gradColors),
+			game.settings.set("healthEstimate.core.variables.outline", this.outlColors),
+			game.settings.set("healthEstimate.core.variables.deadColor", settings.deadColor),
+			game.settings.set("healthEstimate.core.variables.deadOutline", this.deadOutline),
 		];
 		await Promise.all(variableUpdates);
 

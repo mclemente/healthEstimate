@@ -1,4 +1,3 @@
-import { t } from "../../utils.js";
 
 export default class EstimationProvider {
 	/**
@@ -23,7 +22,7 @@ export default class EstimationProvider {
 	 * Default value of the Death State Name setting.
 	 * @type {String}
 	 */
-	deathStateName = t("core.deathStateName.default");
+	deathStateName = _loc("healthEstimate.core.deathStateName.default");
 
 	/**
 	 * Configuration for the Death Marker setting.
@@ -46,12 +45,12 @@ export default class EstimationProvider {
 			ignoreColor: false,
 			// Doesn't need to be ordered, it gets sorted out when displayed and saved.
 			estimates: [
-				{ value: 0, label: t("core.estimates.states.0") },
-				{ value: 25, label: t("core.estimates.states.1") },
-				{ value: 50, label: t("core.estimates.states.2") },
-				{ value: 75, label: t("core.estimates.states.3") },
-				{ value: 99, label: t("core.estimates.states.4") },
-				{ value: 100, label: t("core.estimates.states.5") },
+				{ value: 0, label: _loc("healthEstimate.core.estimates.states.0") },
+				{ value: 25, label: _loc("healthEstimate.core.estimates.states.1") },
+				{ value: 50, label: _loc("healthEstimate.core.estimates.states.2") },
+				{ value: 75, label: _loc("healthEstimate.core.estimates.states.3") },
+				{ value: 99, label: _loc("healthEstimate.core.estimates.states.4") },
+				{ value: 100, label: _loc("healthEstimate.core.estimates.states.5") },
 			],
 			actorTypes: [],
 			statusEffects: [],
@@ -199,13 +198,13 @@ export default class EstimationProvider {
 		if (hp === undefined || hp === null) {
 			if (hpPath === "") {
 				throw new Error(
-					`The HP is undefined, try using the ${game.i18n.localize(
+					`The HP is undefined, try using the ${_loc(
 						"healthEstimate.core.custom.FractionHP.name"
 					)} setting.`
 				);
 			} else {
 				throw new Error(
-					`The ${game.i18n.localize(
+					`The ${_loc(
 						"healthEstimate.core.custom.FractionHP.name"
 					)} setting ("${hpPath}") is wrong.`
 				);

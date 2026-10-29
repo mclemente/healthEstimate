@@ -1,4 +1,3 @@
-import { settingData, sGet, sSet } from "../../utils.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -35,23 +34,23 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 	}
 
 	get title() {
-		return `Health Estimate: ${game.i18n.localize(this.options.window.title)}`;
+		return `Health Estimate: ${_loc(this.options.window.title)}`;
 	}
 
 	prepSelection(key) {
 		const path = `${this.path}.${key}`;
-		const data = settingData(path);
+		const data = game.settings.settings.get(`healthEstimate.${path}`);
 		const { name, hint } = data;
-		const selected = sGet(path);
+		const selected = game.settings.get("healthEstimate", path);
 		const select = Object.entries(data.choices).map(([key, value]) => ({ key, value }));
 		return { select, name, hint, selected };
 	}
 
 	prepSetting(key) {
 		const path = `${this.path}.${key}`;
-		const { name, hint } = settingData(path);
+		const { name, hint } = game.settings.settings.get(`healthEstimate.${path}`);
 		return {
-			value: sGet(path),
+			value: game.settings.get("healthEstimate", path),
 			name,
 			hint,
 		};
@@ -70,7 +69,7 @@ export class HealthEstimateSettingsV2 extends HandlebarsApplicationMixin(Applica
 	 */
 	static async #onSubmit(event, form, formData) {
 		const settings = foundry.utils.expandObject(formData.object);
-		await Promise.all(Object.entries(settings).map(([key, value]) => sSet(`core.${key}`, value)));
+		await Promise.all(Object.entries(settings).map(([key, value]) => game.settings.set("healthEstimate", `core.${key}`, value)));
 	}
 
 	async close(options={}) {

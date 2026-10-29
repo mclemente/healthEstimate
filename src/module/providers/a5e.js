@@ -1,4 +1,3 @@
-import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class a5eEstimationProvider extends EstimationProvider {
@@ -10,7 +9,7 @@ export default class a5eEstimationProvider extends EstimationProvider {
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;
 		let temp = 0;
-		if (sGet("core.addTemp")) {
+		if (game.settings.get("healthEstimate", "core.addTemp")) {
 			temp = hp.temp;
 		}
 		return Math.min((temp + hp.value) / hp.max, 1);

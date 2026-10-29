@@ -1,30 +1,29 @@
-import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 const { SetField, StringField } = foundry.data.fields;
 
 export default class swadeEstimationProvider extends EstimationProvider {
-	deathStateName = game.i18n.localize("SWADE.Incap");
+	deathStateName = _loc("SWADE.Incap");
 
 	estimations = [
 		{
 			estimates: [
-				{ value: 0, label: game.i18n.localize("SWADE.Incap") },
-				{ value: 25, label: t("core.estimates.states.1") },
-				{ value: 50, label: t("core.estimates.states.2") },
-				{ value: 99, label: t("core.estimates.states.3") },
-				{ value: 100, label: t("core.estimates.states.5") },
+				{ value: 0, label: _loc("SWADE.Incap") },
+				{ value: 25, label: _loc("healthEstimate.core.estimates.states.1") },
+				{ value: 50, label: _loc("healthEstimate.core.estimates.states.2") },
+				{ value: 99, label: _loc("healthEstimate.core.estimates.states.3") },
+				{ value: 100, label: _loc("healthEstimate.core.estimates.states.5") },
 			],
 		},
 		{
 			name: "Vehicles",
 			estimates: [
-				{ value: 0, label: t("core.estimates.vehicles.0") },
-				{ value: 20, label: t("core.estimates.vehicles.1") },
-				{ value: 40, label: t("core.estimates.vehicles.2") },
-				{ value: 60, label: t("core.estimates.vehicles.3") },
-				{ value: 80, label: t("core.estimates.vehicles.4") },
-				{ value: 100, label: t("core.estimates.vehicles.5") },
+				{ value: 0, label: _loc("healthEstimate.core.estimates.vehicles.0") },
+				{ value: 20, label: _loc("healthEstimate.core.estimates.vehicles.1") },
+				{ value: 40, label: _loc("healthEstimate.core.estimates.vehicles.2") },
+				{ value: 60, label: _loc("healthEstimate.core.estimates.vehicles.3") },
+				{ value: 80, label: _loc("healthEstimate.core.estimates.vehicles.4") },
+				{ value: 100, label: _loc("healthEstimate.core.estimates.vehicles.5") },
 			],
 			actorTypes: ["vehicle"]
 		},
@@ -43,7 +42,7 @@ export default class swadeEstimationProvider extends EstimationProvider {
 		const hp = token.actor.system.wounds;
 		let maxHP = Math.max(hp.max, 1);
 		if (hp.max || token.actor.system.wildcard) {
-			const defaultWildCardMaxWounds = sGet("swade.defaultWildCardMaxWounds");
+			const defaultWildCardMaxWounds = game.settings.get("healthEstimate", "swade.defaultWildCardMaxWounds");
 			maxHP = 1 + (hp.max || defaultWildCardMaxWounds);
 		}
 		return (maxHP - hp.value) / maxHP;

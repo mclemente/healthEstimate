@@ -7,17 +7,17 @@ export default class crucibleEstimationProvider extends EstimationProvider {
 		...this.estimations,
 		{
 			// Same idea for Broken (Morale at 0), unless the Actor is already Insane.
-			name: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Broken"),
+			name: _loc("ACTIVE_EFFECT.STATUSES.Broken"),
 			ignoreColor: true,
-			estimates: [{ value: 100, label: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Broken") }],
+			estimates: [{ value: 100, label: _loc("ACTIVE_EFFECT.STATUSES.Broken") }],
 			statusEffects: ["broken"]
 		},
 		{
 			// Overrides the label (but not the color) whenever the Actor has gone Insane, since Madness
 			// filling up is just as incapacitating as Health/Wounds running out, but uses a separate pool.
-			name: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Insane"),
+			name: _loc("ACTIVE_EFFECT.STATUSES.Insane"),
 			ignoreColor: true,
-			estimates: [{ value: 100, label: game.i18n.localize("ACTIVE_EFFECT.STATUSES.Insane") }],
+			estimates: [{ value: 100, label: _loc("ACTIVE_EFFECT.STATUSES.Insane") }],
 			statusEffects: ["insane"]
 		}
 	];

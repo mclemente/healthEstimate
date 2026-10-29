@@ -1,4 +1,3 @@
-import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 const { SetField, StringField } = foundry.data.fields;
@@ -13,12 +12,12 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 		{
 			name: "Vehicles & Hazards",
 			estimates: [
-				{ value: 0, label: t("core.estimates.vehicles.0") },
-				{ value: 20, label: t("core.estimates.vehicles.1") },
-				{ value: 40, label: t("core.estimates.vehicles.2") },
-				{ value: 60, label: t("core.estimates.vehicles.3") },
-				{ value: 80, label: t("core.estimates.vehicles.4") },
-				{ value: 100, label: t("core.estimates.vehicles.5") },
+				{ value: 0, label: _loc("healthEstimate.core.estimates.vehicles.0") },
+				{ value: 20, label: _loc("healthEstimate.core.estimates.vehicles.1") },
+				{ value: 40, label: _loc("healthEstimate.core.estimates.vehicles.2") },
+				{ value: 60, label: _loc("healthEstimate.core.estimates.vehicles.3") },
+				{ value: 80, label: _loc("healthEstimate.core.estimates.vehicles.4") },
+				{ value: 100, label: _loc("healthEstimate.core.estimates.vehicles.5") },
 			],
 			actorTypes: ["vehicle", "hazard"]
 		},
@@ -46,8 +45,8 @@ export default class pf2eEstimationProvider extends EstimationProvider {
 			const master = token.actor.system.master;
 			hp.max = token.actor.hitPoints.max ?? 5 * game.actors.get(master.id).system.details.level.value;
 		}
-		let temp = sGet("core.addTemp") && hp.temp ? hp.temp : 0;
-		let sp = game.settings.get("pf2e", "staminaVariant") && sGet("PF2E.staminaToHp") && hp.sp
+		let temp = game.settings.get("healthEstimate", "core.addTemp") && hp.temp ? hp.temp : 0;
+		let sp = game.settings.get("pf2e", "staminaVariant") && game.settings.get("healthEstimate", "PF2E.staminaToHp") && hp.sp
 			? hp.sp
 			: { value: 0, max: 0 };
 		return Math.min((hp.value + sp.value + temp) / (hp.max + sp.max), 1);

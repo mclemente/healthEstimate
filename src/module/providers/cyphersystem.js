@@ -1,4 +1,3 @@
-import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class cyphersystemEstimationProvider extends EstimationProvider {
@@ -19,10 +18,10 @@ export default class cyphersystemEstimationProvider extends EstimationProvider {
 
 			switch (actor.system.combat.damageTrack.state) {
 				case "Impaired":
-					limit = sGet("cyphersystem.impaired");
+					limit = game.settings.get("healthEstimate", "cyphersystem.impaired");
 					break;
 				case "Debilitated":
-					limit = sGet("cyphersystem.debilitated");
+					limit = game.settings.get("healthEstimate", "cyphersystem.debilitated");
 					break;
 			}
 			return Math.min(result, limit);

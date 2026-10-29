@@ -1,4 +1,3 @@
-import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class pf1EstimationProvider extends EstimationProvider {
@@ -32,15 +31,15 @@ export default class pf1EstimationProvider extends EstimationProvider {
 			|| (token.actor.type === "npc" && variants.npc.useWoundsAndVigor)) {
 			const vigor = token.actor.system.attributes.vigor;
 			const wounds = token.actor.system.attributes.wounds;
-			if (sGet("core.addTemp")) {
+			if (game.settings.get("healthEstimate", "core.addTemp")) {
 				addTemp = vigor.temp;
 			}
 			return (vigor.value + wounds.value + addTemp) / (vigor.max + wounds.max);
 		}
-		if (sGet("core.addTemp")) {
+		if (game.settings.get("healthEstimate", "core.addTemp")) {
 			addTemp = hp.temp;
 		}
-		if (sGet("PF1.addNonlethal")) {
+		if (game.settings.get("healthEstimate", "PF1.addNonlethal")) {
 			addNonlethal = hp.nonlethal;
 		}
 		return (hp.value - addNonlethal + addTemp) / hp.max;

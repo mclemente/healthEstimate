@@ -1,16 +1,15 @@
-import { f, sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class CustomSystemBuilderEstimationProvider extends EstimationProvider {
 	fraction(token) {
-		const hpPath = sGet("core.custom.FractionHP");
+		const hpPath = game.settings.get("healthEstimate", "core.custom.FractionHP");
 		const hp =
 			foundry.utils.getProperty(token, hpPath) || token.actor.system.attributes?.hp || token.actor.system.hp;
-		const thpPath = sGet("custom-system-builder.tempHP");
+		const thpPath = game.settings.get("healthEstimate", "custom-system-builder.tempHP");
 		const temp = thpPath && token.actor.type === "character" ? Number(foundry.utils.getProperty(token, thpPath).temp) : 0;
 
 		this._checkValidHP(token, hp, hpPath);
-		const FractionMath = sGet("core.custom.FractionMath");
+		const FractionMath = game.settings.get("healthEstimate", "core.custom.FractionMath");
 		switch (FractionMath) {
 			case 0:
 				return Math.min((Number(hp.value) + temp) / Number(hp.max), 1);
@@ -23,7 +22,7 @@ export default class CustomSystemBuilderEstimationProvider extends EstimationPro
 	get settings() {
 		return {
 			"core.custom.FractionHP": {
-				hint: f("custom-system-builder.FractionHP.hint", {
+				hint: _loc("healthEstimate.custom-system-builder.FractionHP.hint", {
 					dataPath1: '"actor.system.attributeBar.hp"',
 					dataPath2: '"actor.system.attributeBar.health"',
 				}),
@@ -31,7 +30,7 @@ export default class CustomSystemBuilderEstimationProvider extends EstimationPro
 				default: "",
 			},
 			"custom-system-builder.tempHP": {
-				hint: f("custom-system-builder.tempHP.hint", { setting: t("core.custom.FractionHP.name") }),
+				hint: _loc("healthEstimate.custom-system-builder.tempHP.hint", { setting: _loc("healthEstimate.core.custom.FractionHP.name") }),
 				type: String,
 				default: "",
 			},
@@ -39,8 +38,8 @@ export default class CustomSystemBuilderEstimationProvider extends EstimationPro
 				type: Number,
 				default: 0,
 				choices: {
-					0: t("core.custom.FractionMath.choices.0"),
-					1: t("core.custom.FractionMath.choices.1"),
+					0: _loc("healthEstimate.core.custom.FractionMath.choices.0"),
+					1: _loc("healthEstimate.core.custom.FractionMath.choices.1"),
 				},
 			},
 		};

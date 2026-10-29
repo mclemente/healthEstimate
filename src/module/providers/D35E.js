@@ -1,4 +1,3 @@
-import { sGet } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 export default class D35EEstimationProvider extends EstimationProvider {
@@ -9,21 +8,21 @@ export default class D35EEstimationProvider extends EstimationProvider {
 	estimations = [
 		...this.estimations,
 		{
-			name: game.i18n.localize("D35E.Disabled"),
+			name: _loc("D35E.Disabled"),
 			ignoreColor: true,
-			estimates: [{ value: 100, label: game.i18n.localize("D35E.Disabled") }],
+			estimates: [{ value: 100, label: _loc("D35E.Disabled") }],
 			statusEffects: ["disabled"]
 		},
 		{
-			name: game.i18n.localize("D35E.Staggered"),
+			name: _loc("D35E.Staggered"),
 			ignoreColor: true,
-			estimates: [{ value: 100, label: game.i18n.localize("D35E.Staggered") }],
+			estimates: [{ value: 100, label: _loc("D35E.Staggered") }],
 			statusEffects: ["staggered"]
 		},
 		{
-			name: game.i18n.localize("D35E.Unconscious"),
+			name: _loc("D35E.Unconscious"),
 			ignoreColor: true,
-			estimates: [{ value: 100, label: game.i18n.localize("D35E.Unconscious") }],
+			estimates: [{ value: 100, label: _loc("D35E.Unconscious") }],
 			statusEffects: ["unconscious"]
 		},
 	];
@@ -32,10 +31,10 @@ export default class D35EEstimationProvider extends EstimationProvider {
 		const hp = token.actor.system.attributes.hp;
 		let addTemp = 0;
 		let addNonlethal = 0;
-		if (sGet("core.addTemp")) {
+		if (game.settings.get("healthEstimate", "core.addTemp")) {
 			addTemp = hp.temp;
 		}
-		if (sGet("PF1.addNonlethal")) {
+		if (game.settings.get("healthEstimate", "PF1.addNonlethal")) {
 			addNonlethal = hp.nonlethal;
 		}
 		return (hp.value - addNonlethal + addTemp) / hp.max;

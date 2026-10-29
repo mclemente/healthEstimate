@@ -1,7 +1,7 @@
 import * as providers from "./providers/_module.js";
 import { providerKeys } from "./providers/_shared.js";
 import { registerSettings } from "./settings.js";
-import { addSetting, f, repositionTooltip, sGet, t } from "./utils.js";
+import { addSetting, repositionTooltip } from "./utils.js";
 
 export class HealthEstimate {
 	constructor() {
@@ -293,7 +293,7 @@ export class HealthEstimate {
 	 * @returns {TextStyle}
 	 */
 	_getUserTextStyle(color, stroke) {
-		const dropShadowColor = sGet("core.menuSettings.outline") === "brighten" ? "white" : "black";
+		const dropShadowColor = game.settings.get("healthEstimate", "core.menuSettings.outline") === "brighten" ? "white" : "black";
 		return {
 			// Multiply font size to increase resolution quality
 			fontSize: this.scaledFontSize,
@@ -486,43 +486,43 @@ export class HealthEstimate {
 	 */
 	updateSettings() {
 		this.settings = {
-			display: sGet("display"),
-			showDescription: sGet("core.showDescription"),
-			showDescriptionTokenType: sGet("core.showDescriptionTokenType"),
-			breakOnZeroMaxHP: sGet("core.breakOnZeroMaxHP"),
-			hideVehicleHP: sGet("core.hideVehicleHP"),
+			display: game.settings.get("healthEstimate", "display"),
+			showDescription: game.settings.get("healthEstimate", "core.showDescription"),
+			showDescriptionTokenType: game.settings.get("healthEstimate", "core.showDescriptionTokenType"),
+			breakOnZeroMaxHP: game.settings.get("healthEstimate", "core.breakOnZeroMaxHP"),
+			hideVehicleHP: game.settings.get("healthEstimate", "core.hideVehicleHP"),
 		};
 
-		this.descriptions = sGet("core.stateNames").split(/[,;]\s*/);
-		this.estimations = sGet("core.estimations");
-		this.deathStateName = sGet("core.deathStateName");
-		this.showDead = sGet("core.deathState");
-		this.NPCsJustDie = sGet("core.NPCsJustDie");
-		this.deathMarker = sGet("core.deathMarker");
-		this.scaleToGridSize = sGet("core.menuSettings.scaleToGridSize");
-		this.gridSize = sGet("core.menuSettings.gridSize");
-		this.scaleToTokenSize = sGet("core.menuSettings.scaleToTokenSize");
-		this.scaleToZoom = sGet("core.menuSettings.scaleToZoom");
+		this.descriptions = game.settings.get("healthEstimate", "core.stateNames").split(/[,;]\s*/);
+		this.estimations = game.settings.get("healthEstimate", "core.estimations");
+		this.deathStateName = game.settings.get("healthEstimate", "core.deathStateName");
+		this.showDead = game.settings.get("healthEstimate", "core.deathState");
+		this.NPCsJustDie = game.settings.get("healthEstimate", "core.NPCsJustDie");
+		this.deathMarker = game.settings.get("healthEstimate", "core.deathMarker");
+		this.scaleToGridSize = game.settings.get("healthEstimate", "core.menuSettings.scaleToGridSize");
+		this.gridSize = game.settings.get("healthEstimate", "core.menuSettings.gridSize");
+		this.scaleToTokenSize = game.settings.get("healthEstimate", "core.menuSettings.scaleToTokenSize");
+		this.scaleToZoom = game.settings.get("healthEstimate", "core.menuSettings.scaleToZoom");
 
-		this.smoothGradient = sGet("core.menuSettings.smoothGradient");
-		this.useColor = sGet("core.menuSettings.useColor");
+		this.smoothGradient = game.settings.get("healthEstimate", "core.menuSettings.smoothGradient");
+		this.useColor = game.settings.get("healthEstimate", "core.menuSettings.useColor");
 
-		this.height = sGet("core.menuSettings.position");
-		this.position = sGet("core.menuSettings.position2");
-		this.fontFamily = sGet("core.menuSettings.fontFamily");
-		this.fontSize = sGet("core.menuSettings.fontSize");
+		this.height = game.settings.get("healthEstimate", "core.menuSettings.position");
+		this.position = game.settings.get("healthEstimate", "core.menuSettings.position2");
+		this.fontFamily = game.settings.get("healthEstimate", "core.menuSettings.fontFamily");
+		this.fontSize = game.settings.get("healthEstimate", "core.menuSettings.fontSize");
 
-		this.colors = sGet("core.variables.colors");
-		this.outline = sGet("core.variables.outline");
-		this.deadColor = sGet("core.variables.deadColor");
-		this.deadOutline = sGet("core.variables.deadOutline");
+		this.colors = game.settings.get("healthEstimate", "core.variables.colors");
+		this.outline = game.settings.get("healthEstimate", "core.variables.outline");
+		this.deadColor = game.settings.get("healthEstimate", "core.variables.deadColor");
+		this.deadOutline = game.settings.get("healthEstimate", "core.variables.deadOutline");
 
-		this.tooltipPosition = game.modules.get("elevation-module")?.active ? null : sGet("core.tooltipPosition");
+		this.tooltipPosition = game.modules.get("elevation-module")?.active ? null : game.settings.get("healthEstimate", "core.tooltipPosition");
 	}
 
 	static onceCanvasReady() {
-		this.combatOnly = sGet("core.combatOnly");
-		this.settings.display = sGet("display");
+		this.combatOnly = game.settings.get("healthEstimate", "core.combatOnly");
+		this.settings.display = game.settings.get("healthEstimate", "display");
 		Hooks.on("refreshToken", HealthEstimate.refreshToken.bind(this));
 		if (this.scaleToZoom) Hooks.on("canvasPan", HealthEstimate.onCanvasPan.bind(this));
 	}
@@ -624,7 +624,7 @@ export class HealthEstimate {
 			hasPlayerOwner: data[docPath].hasPlayerOwner,
 			hideHealthEstimate: tokenFlags?.hideHealthEstimate ? "checked" : "",
 			dontMarkDead: tokenFlags?.dontMarkDead ? "checked" : "",
-			dontMarkDeadHint: f("core.keybinds.dontMarkDead.hint", { setting: t("core.NPCsJustDie.name") })
+			dontMarkDeadHint: _loc("healthEstimate.core.keybinds.dontMarkDead.hint", { setting: _loc("healthEstimate.core.NPCsJustDie.name") })
 		};
 		const tab = await foundry.applications.handlebars.renderTemplate("modules/healthEstimate/templates/token-config.html", tabData);
 		const lastTab = [...form.querySelectorAll(".tab")].pop();

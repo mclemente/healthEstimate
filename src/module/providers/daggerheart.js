@@ -7,7 +7,7 @@ export default class daggerheartEstimationProvider extends EstimationProvider {
 		...this.estimations,
 		{
 			name: _loc("DAGGERHEART.CONFIG.Condition.unconscious.name"),
-			estimates: [{ value: 100, label: game.i18n.localize("EFFECT.StatusUnconscious") }],
+			estimates: [{ value: 100, label: _loc("EFFECT.StatusUnconscious") }],
 			statusEffect: ["unconscious"]
 		},
 		{

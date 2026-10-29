@@ -1,11 +1,10 @@
-import { sGet, t } from "../../utils.js";
 import EstimationProvider from "./Base.js";
 
 export default class GenericEstimationProvider extends EstimationProvider {
 	addTemp = true;
 
 	fraction(token) {
-		const hpPath = sGet("core.custom.FractionHP");
+		const hpPath = game.settings.get("healthEstimate", "core.custom.FractionHP");
 		let hp;
 		if (hpPath) {
 			hp = foundry.utils.getProperty(token, hpPath);
@@ -17,10 +16,10 @@ export default class GenericEstimationProvider extends EstimationProvider {
 				: token.actor.system?.attributes?.hp || token.actor.system?.hp;
 		}
 		let temp = 0;
-		if (sGet("core.addTemp")) temp = Number(hp?.temp) || 0;
+		if (game.settings.get("healthEstimate", "core.addTemp")) temp = Number(hp?.temp) || 0;
 
 		this._checkValidHP(token, hp, hpPath);
-		const FractionMath = sGet("core.custom.FractionMath");
+		const FractionMath = game.settings.get("healthEstimate", "core.custom.FractionMath");
 		switch (FractionMath) {
 			case 0:
 				return Math.min((Number(hp.value) + temp) / Number(hp.max), 1);
@@ -40,8 +39,8 @@ export default class GenericEstimationProvider extends EstimationProvider {
 				type: Number,
 				default: 0,
 				choices: {
-					0: t("core.custom.FractionMath.choices.0"),
-					1: t("core.custom.FractionMath.choices.1"),
+					0: _loc("healthEstimate.core.custom.FractionMath.choices.0"),
+					1: _loc("healthEstimate.core.custom.FractionMath.choices.1"),
 				},
 			},
 		};

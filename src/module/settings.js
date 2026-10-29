@@ -1,5 +1,5 @@
 import * as forms from "./forms/_module.js";
-import { addMenuSetting, addSetting, f, repositionTooltip, t } from "./utils.js";
+import { addMenuSetting, addSetting, repositionTooltip } from "./utils.js";
 
 const {
 	ArrayField, BooleanField, NumberField, SchemaField, SetField, StringField
@@ -7,22 +7,22 @@ const {
 
 export const registerSettings = function () {
 	game.settings.registerMenu("healthEstimate", "behaviorSettings", {
-		name: t("core.menuSettings.behaviorSettings.plural"),
-		label: t("core.menuSettings.behaviorSettings.plural"),
+		name: "healthEstimate.core.menuSettings.behaviorSettings.plural",
+		label: "healthEstimate.core.menuSettings.behaviorSettings.plural",
 		icon: "fas fa-gear",
 		type: forms.BehaviorSettings,
 		restricted: true,
 	});
 	game.settings.registerMenu("healthEstimate", "estimationSettings", {
-		name: t("core.estimationSettings.title"),
-		label: t("core.estimationSettings.title"),
+		name: "healthEstimate.core.estimationSettings.title",
+		label: "healthEstimate.core.estimationSettings.title",
 		icon: "fas fa-scale-balanced",
 		type: forms.EstimationSettings,
 		restricted: true,
 	});
 	game.settings.registerMenu("healthEstimate", "styleSettings", {
-		name: t("core.menuSettings.styleSettings.plural"),
-		label: t("core.menuSettings.styleSettings.plural"),
+		name: "healthEstimate.core.menuSettings.styleSettings.plural",
+		label: "healthEstimate.core.menuSettings.styleSettings.plural",
 		icon: "fas fa-palette",
 		type: forms.StyleSettings,
 		restricted: true,
@@ -166,9 +166,9 @@ export const registerSettings = function () {
 		type: Number,
 		default: 0,
 		choices: {
-			0: t("core.showDescription.choices.all"),
-			1: t("core.showDescription.choices.GM"),
-			2: t("core.showDescription.choices.Players"),
+			0: _loc("healthEstimate.core.showDescription.choices.all"),
+			1: _loc("healthEstimate.core.showDescription.choices.GM"),
+			2: _loc("healthEstimate.core.showDescription.choices.Players"),
 		},
 		onChange: (value) => {
 			game.healthEstimate.settings.showDescription = value;
@@ -180,9 +180,9 @@ export const registerSettings = function () {
 		type: Number,
 		default: 0,
 		choices: {
-			0: t("core.showDescription.choices.all"),
-			1: t("core.showDescription.choices.PC"),
-			2: t("core.showDescription.choices.NPC"),
+			0: _loc("healthEstimate.core.showDescription.choices.all"),
+			1: _loc("healthEstimate.core.showDescription.choices.PC"),
+			2: _loc("healthEstimate.core.showDescription.choices.NPC"),
 		},
 		onChange: (value) => {
 			game.healthEstimate.settings.showDescriptionTokenType = value;
@@ -192,11 +192,11 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.deathState", {
 		hint: game.healthEstimate.provider.deathMarker.config
-			? f("core.deathState.hint1", {
-				setting: t("core.deathStateName.name"),
-				setting2: t("core.deathMarker.name"),
+			? _loc("healthEstimate.core.deathState.hint1", {
+				setting: _loc("healthEstimate.core.deathStateName.name"),
+				setting2: _loc("healthEstimate.core.deathMarker.name"),
 			})
-			: f("core.deathState.hint2", { setting: t("core.deathStateName.name") }),
+			: _loc("healthEstimate.core.deathState.hint2", { setting: _loc("healthEstimate.core.deathStateName.name") }),
 		type: Boolean,
 		default: game.healthEstimate.provider.deathState,
 		onChange: (value) => {
@@ -212,7 +212,7 @@ export const registerSettings = function () {
 	});
 	addMenuSetting("core.NPCsJustDie", {
 		type: Boolean,
-		hint: f("core.NPCsJustDie.hint", { setting: t("core.deathStateName.name") }),
+		hint: _loc("healthEstimate.core.NPCsJustDie.hint", { setting: _loc("healthEstimate.core.deathStateName.name") }),
 		default: true,
 		onChange: (value) => {
 			game.healthEstimate.NPCsJustDie = value;
@@ -294,8 +294,8 @@ export const registerSettings = function () {
 		type: String,
 		default: "darken",
 		choices: {
-			darken: t("core.menuSettings.outline.darken"),
-			brighten: t("core.menuSettings.outline.brighten"),
+			darken: _loc("healthEstimate.core.menuSettings.outline.darken"),
+			brighten: _loc("healthEstimate.core.menuSettings.outline.brighten"),
 		},
 		onChange: (s) => {
 			const color = s === "darken" ? "black" : "white";
@@ -312,9 +312,9 @@ export const registerSettings = function () {
 		type: String,
 		default: "a",
 		choices: {
-			a: t("core.menuSettings.position.top"),
-			b: t("core.menuSettings.position.middle"),
-			c: t("core.menuSettings.position.bottom"),
+			a: _loc("healthEstimate.core.menuSettings.position.top"),
+			b: _loc("healthEstimate.core.menuSettings.position.middle"),
+			c: _loc("healthEstimate.core.menuSettings.position.bottom"),
 		},
 		onChange: (value) => {
 			game.healthEstimate.position = value;
@@ -346,7 +346,7 @@ export const registerSettings = function () {
 		return fonts;
 	};
 	addMenuSetting("core.menuSettings.fontFamily", {
-		name: game.i18n.localize("EDITOR.Font.Title"),
+		name: _loc("EDITOR.Font.Title"),
 		type: String,
 		default: CONFIG.canvasTextStyle.fontFamily,
 		choices: getFonts(),

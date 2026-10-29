@@ -1,4 +1,3 @@
-import { sGet, t } from "../utils.js";
 import EstimationProvider from "./templates/Base.js";
 
 const { SetField, StringField } = foundry.data.fields;
@@ -13,12 +12,12 @@ export default class dnd5eEstimationProvider extends EstimationProvider {
 		{
 			name: "Vehicles",
 			estimates: [
-				{ value: 0, label: t("core.estimates.vehicles.0") },
-				{ value: 20, label: t("core.estimates.vehicles.1") },
-				{ value: 40, label: t("core.estimates.vehicles.2") },
-				{ value: 60, label: t("core.estimates.vehicles.3") },
-				{ value: 80, label: t("core.estimates.vehicles.4") },
-				{ value: 100, label: t("core.estimates.vehicles.5") },
+				{ value: 0, label: _loc("healthEstimate.core.estimates.vehicles.0") },
+				{ value: 20, label: _loc("healthEstimate.core.estimates.vehicles.1") },
+				{ value: 40, label: _loc("healthEstimate.core.estimates.vehicles.2") },
+				{ value: 60, label: _loc("healthEstimate.core.estimates.vehicles.3") },
+				{ value: 80, label: _loc("healthEstimate.core.estimates.vehicles.4") },
+				{ value: 100, label: _loc("healthEstimate.core.estimates.vehicles.5") },
 			],
 			actorTypes: ["vehicle"]
 		},
@@ -46,7 +45,7 @@ export default class dnd5eEstimationProvider extends EstimationProvider {
 
 	fraction(token) {
 		const hp = token.actor.system.attributes.hp;
-		if (token.actor.type === "character" && sGet("core.addTemp")) {
+		if (token.actor.type === "character" && game.settings.get("healthEstimate", "core.addTemp")) {
 			return Math.min(hp.pct/100, 1);
 		}
 		return Math.min(hp.value / hp.effectiveMax, 1);
