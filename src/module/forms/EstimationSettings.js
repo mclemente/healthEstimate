@@ -245,7 +245,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 				.map((innerKey) => estimates[innerKey]);
 			estimations.push({ estimates: sortedEstimates, ...args });
 		}
-		game.settings.set("healthEstimate.core.estimations", estimations);
+		game.settings.set("healthEstimate", "core.estimations", estimations);
 	}
 
 	static addTable(event) {

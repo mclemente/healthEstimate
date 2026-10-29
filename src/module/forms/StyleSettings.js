@@ -294,16 +294,16 @@ export default class HealthEstimateStyleSettings extends HealthEstimateSettingsV
 			settings.deadColor = "#FFF";
 		}
 		const variableUpdates = [
-			game.settings.set("healthEstimate.core.menuSettings.gradient", {
+			game.settings.set("healthEstimate", "core.menuSettings.gradient", {
 				colors: this.gp.handlers.map((a) => a.color),
 				positions: this.gp.handlers.map((a) => Math.round(a.position) / 100),
 			}),
-			game.settings.set("healthEstimate.core.menuSettings.outline", settings.outlineMode),
-			game.settings.set("healthEstimate.core.menuSettings.outlineIntensity", settings.outlineIntensity),
-			game.settings.set("healthEstimate.core.variables.colors", this.gradColors),
-			game.settings.set("healthEstimate.core.variables.outline", this.outlColors),
-			game.settings.set("healthEstimate.core.variables.deadColor", settings.deadColor),
-			game.settings.set("healthEstimate.core.variables.deadOutline", this.deadOutline),
+			game.settings.set("healthEstimate", "core.menuSettings.outline", settings.outlineMode),
+			game.settings.set("healthEstimate", "core.menuSettings.outlineIntensity", settings.outlineIntensity),
+			game.settings.set("healthEstimate", "core.variables.colors", this.gradColors),
+			game.settings.set("healthEstimate", "core.variables.outline", this.outlColors),
+			game.settings.set("healthEstimate", "core.variables.deadColor", settings.deadColor),
+			game.settings.set("healthEstimate", "core.variables.deadOutline", this.deadOutline),
 		];
 		await Promise.all(variableUpdates);
 
