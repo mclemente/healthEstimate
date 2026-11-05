@@ -1,5 +1,7 @@
 import EstimationProvider from "./templates/Base.js";
 
+const { SetField, StringField } = foundry.data.fields;
+
 export default class drawsteelEstimationProvider extends EstimationProvider {
 	breakOnZeroMaxHP = "zero";
 
@@ -44,6 +46,16 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	extraEstimationFields = {
+		keywords: new SetField(new StringField({
+			choices: CONFIG.DRAW_STEEL.monsters.keywords,
+			validationError: "must be a value in CONFIG.DRAW_STEEL.monsters.keywords",
+		}), {
+			label: "DRAW_STEEL.Actor.npc.FIELDS.monster.keywords.label",
+			stacked: true
+		})
+	};
+
 	filteredTypes = ["party"];
 
 	organicTypes = ["hero", "npc", "retainer"];
@@ -70,5 +82,14 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 
 	breakAttribute(token) {
 		return token.actor.system.stamina.max;
+	}
+
+	getTokenEstimate(token, estimation) {
+		const { keywords } = estimation;
+		const { type } = token.actor;
+		const { keywords: kw } = token.actor.system[type === "npc" ? "monster" : type];
+
+		if (kw && keywords.size && keywords.intersects(kw)) return true;
+		return super.getTokenEstimate(token, estimation);
 	}
 }
