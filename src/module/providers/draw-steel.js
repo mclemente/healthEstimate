@@ -22,7 +22,7 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 				{ value: 99, label: _loc("healthEstimate.core.estimates.states.4") },
 				{ value: 100, label: _loc("healthEstimate.core.estimates.states.5") },
 			],
-			actorTypes: ["npc"]
+			actorTypes: ["npc", "retainer"]
 		},
 		{
 			name: "Objects",
@@ -46,7 +46,7 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 
 	filteredTypes = ["party"];
 
-	organicTypes = ["hero", "npc"];
+	organicTypes = ["hero", "npc", "retainer"];
 
 	vehicleTypes = ["object"];
 
