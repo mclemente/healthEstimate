@@ -1,5 +1,7 @@
 import EstimationProvider from "./templates/Base.js";
 
+const { SetField, StringField } = foundry.data.fields;
+
 export default class D35EEstimationProvider extends EstimationProvider {
 	addTemp = true;
 
@@ -39,6 +41,20 @@ export default class D35EEstimationProvider extends EstimationProvider {
 		},
 	];
 
+	extraEstimationFields = {
+		creatureTypes: new SetField(new StringField({
+			choices: Object.values(CONFIG.D35E.creatureTypes),
+			validationError: "must be a value in CONFIG.D35E.creatureTypes",
+		}), {
+			label: "healthEstimate.DND5E.creatureTypes",
+			stacked: true
+		}),
+		customCreatureTypes: new SetField(new StringField(), {
+			label: "healthEstimate.DND5E.customCreatureTypes",
+			stacked: true
+		}),
+	};
+
 	filteredTypes = ["trap"];
 
 	organicTypes = ["character", "npc"];
@@ -65,5 +81,15 @@ export default class D35EEstimationProvider extends EstimationProvider {
 				default: true,
 			},
 		};
+	}
+
+	getTokenEstimate(token, estimation) {
+		const { creatureTypes, customCreatureTypes } = estimation;
+		const { type } = token.actor.system.details;
+		const types = new Set(type ? type.split(",").map((type) => type.trim()) : "");
+
+		if (creatureTypes.size && creatureTypes.intersects(types)) return true;
+		if (customCreatureTypes.size && customCreatureTypes.intersects(types)) return true;
+		return super.getTokenEstimate(token, estimation);
 	}
 }
