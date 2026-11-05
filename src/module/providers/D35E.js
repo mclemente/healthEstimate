@@ -88,8 +88,8 @@ export default class D35EEstimationProvider extends EstimationProvider {
 		const { type } = token.actor.system.details;
 		const types = new Set(type ? type.split(",").map((type) => type.trim()) : "");
 
-		if (type && creatureTypes.size && creatureTypes.intersects(types)) return true;
-		if (type && customCreatureTypes.size && customCreatureTypes.intersects(types)) return true;
+		if (creatureTypes.size && creatureTypes.intersects(types)) return true;
+		if (customCreatureTypes.size && customCreatureTypes.intersects(types)) return true;
 		return super.getTokenEstimate(token, estimation);
 	}
 }
