@@ -86,8 +86,7 @@ export default class drawsteelEstimationProvider extends EstimationProvider {
 
 	getTokenEstimate(token, estimation) {
 		const { keywords } = estimation;
-		const { type } = token.actor;
-		const { keywords: kw } = token.actor.system[type === "npc" ? "monster" : type];
+		const { keywords: kw } = token.actor.system;
 
 		if (kw && keywords.size && keywords.intersects(kw)) return true;
 		return super.getTokenEstimate(token, estimation);
