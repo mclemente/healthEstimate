@@ -68,7 +68,8 @@
 					"hint": "Ignoruje kolory z tej tabeli i używa kolory z następnej poprawnej tabeli dla Tokenu. Jest to zamierzone dla warunków, które powinny brać pierwszeństwo nad oszacowaniem, ale nadam ma odzwierciedlać schemat kolorów dla oszacowania.",
 					"name": "Zignoruj kolor"
 				},
-				"title": "Ustawienia Szacowań"
+				"title": "Ustawienia Szacowań",
+				"statusEffects": "Efekty statusu"
 			},
 			"keybinds": {
 				"markDead": {
@@ -102,6 +103,86 @@
 			"showDescriptionTokenType": {
 				"name": "Pokazuj Szacowania: Tokeny",
 				"hint": "Pokazuje szacowania następującym tokenom."
+			},
+			"deathStateName": {
+				"name": "Nazwa stanu śmierci",
+				"hint": "Pokazywany opis, kiedy token jest martwy.",
+				"default": "Martwy"
+			},
+			"deathMarker": {
+				"name": "Znacznik śmierci",
+				"hint": "Ścieżka do ikony stanu, która oznacza martwy token."
+			},
+			"tooltipPosition": {
+				"name": "Pozycja dymku z wysokością",
+				"hint": "Przemieszcza dymek z wysokością, żeby uniknąć konfliktów z Szacunkami, kiedy jest pokazywane na górze tokenu.",
+				"options": {
+					"left": "Lewo",
+					"default": "Domyślnie (bez zmian)",
+					"right": "Prawo"
+				}
+			},
+			"NPCsJustDie": {
+				"name": "NPC po prostu umierają",
+				"hint": "NPC są pokazywani jako Martwy, kiedy osiągają ich ostatnią wartość punktów życia."
+			},
+			"addTemp": {
+				"name": "Dodaj tymczasowe Punkty Życia",
+				"hint": "Wliczaj tymczasowe Punkty Życia, podczas obliczeń jaki opis pokazywać."
+			},
+			"breakOnZeroMaxHP": {
+				"name": "Ukryj Szacunki na Tokenach",
+				"hint": "Użyteczne dla obiektów z tokenami.",
+				"options": {
+					"none": "Nie ukrywaj szacunków",
+					"zero": "z 0 maks PŻ",
+					"one": "z 1 maks PŻ",
+					"zeroOrOne": "z 0 lub 1 maks PŻ"
+				}
+			},
+			"menuSettings": {
+				"behaviorSettings": {
+					"name": "Ustawienie zachowań",
+					"plural": "Ustawienia zachowań"
+				},
+				"styleSettings": {
+					"name": "Ustawienie stylu",
+					"plural": "Ustawienia stylu"
+				},
+				"fontSize": {
+					"name": "Rozmiar czcionki",
+					"hint": "Akceptuje każdą prawidłową wartość dla typu CSS font-size"
+				},
+				"useColor": {
+					"name": "Używaj koloru",
+					"hint": "Szacunki będą pokazywane w czerni i bieli."
+				},
+				"smoothGradient": {
+					"name": "Płynny gradient",
+					"hint": "Z tym ustawieniem jako wyłączonym, kolor zostanie zmieniony tylko wtedy, kiedy następny opis zostanie osiągnięty, kiedy jest włączony, będzie odzwierciedlać wartości procentowe."
+				},
+				"deadColor": {
+					"name": "Kolor martwych tokenów"
+				},
+				"outline": {
+					"name": "Obwódka",
+					"darken": "Przyciemnij",
+					"brighten": "Rozjaśnij"
+				},
+				"position": {
+					"name": "Wysokość",
+					"hint": "Wysokość jest ustawiana względnie do ramki tokenu. Negatywne wartości przesuwają je wyżej; pozytywne niżej.",
+					"top": "Na górze",
+					"middle": "Środek",
+					"bottom": "Na dole"
+				},
+				"position2": {
+					"name": "Pozycja",
+					"hint": "Pozycja względem ramki tokenu."
+				},
+				"positionAdjustment": {
+					"name": "Ustawienie marginesów"
+				}
 			}
 		}
 	}
