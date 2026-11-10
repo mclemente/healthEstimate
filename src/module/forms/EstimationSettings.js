@@ -2,10 +2,11 @@ import { HealthEstimateSettingsV2 } from "./templates/BaseV2.js";
 
 const { createNumberInput, createTextInput } = foundry.applications.fields;
 
-function createInput(id, fields, { index, localize, value }) {
-	const groupConfig = { hidden: index === 0, localize, stacked: fields[id].options?.stacked };
-	const inputConfig = { name: `${index}.${id}`, value: value[id] };
-	return fields[id].toFormGroup(groupConfig, inputConfig);
+function createInput(field, { index, localize, value }) {
+	const { name, options } = field;
+	const groupConfig = { hidden: index === 0, localize, stacked: options?.stacked };
+	const inputConfig = { name: `${index}.${name}`, value: value[name] };
+	return field.toFormGroup(groupConfig, inputConfig);
 }
 
 export default class HealthEstimateEstimationSettings extends HealthEstimateSettingsV2 {
@@ -92,6 +93,7 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		const div = document.createElement("div");
 		const { index, value } = inputConfig;
 		const extraKeys = Object.keys(game.healthEstimate.provider.extraEstimationFields ?? {});
+		const { fields } = field.element;
 
 		const estimatesTable = document.createElement("table");
 		estimatesTable.className = "estimation-types";
@@ -147,9 +149,9 @@ export default class HealthEstimateEstimationSettings extends HealthEstimateSett
 		estimatesTable.append(lastRow);
 
 		div.append(
-			createInput("name", field.element.fields, inputConfig),
+			createInput(fields.name, inputConfig),
 			estimatesTable,
-			...["actorTypes", ...extraKeys, "statusEffects", "ignoreColor"].map((id) => createInput(id, field.element.fields, inputConfig))
+			...["actorTypes", ...extraKeys, "statusEffects", "ignoreColor"].map((id) => createInput(fields[id], inputConfig))
 		);
 		if (index !== 0) {
 			const isLast = index === this.estimations.length - 1;
