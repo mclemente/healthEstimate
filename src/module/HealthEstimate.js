@@ -438,7 +438,7 @@ export class HealthEstimate {
 	hideEstimate(token) {
 		return Boolean(
 			token.document.getFlag("healthEstimate", "hideHealthEstimate")
-				|| token.actor.getFlag("healthEstimate", "hideHealthEstimate")
+			|| token.actor.getFlag("healthEstimate", "hideHealthEstimate")
 		);
 	}
 
