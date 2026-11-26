@@ -4,7 +4,8 @@ export default class GenericEstimationProvider extends EstimationProvider {
 	addTemp = true;
 
 	fraction(token) {
-		const hpPath = game.settings.get("healthEstimate", "core.custom.FractionHP");
+		const FractionHP = game.settings.get("healthEstimate", "core.custom.FractionHP");
+		const hpPath = `actor.system.${FractionHP.replace(/^(actor\.)?(system\.)?/, "")}`;
 		let hp;
 		if (hpPath) {
 			hp = foundry.utils.getProperty(token, hpPath);
